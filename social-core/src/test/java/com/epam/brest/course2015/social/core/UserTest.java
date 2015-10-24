@@ -35,8 +35,6 @@ public class UserTest {
         assertEquals(lastName, user.getLastName());
     }
 
-
-
 /*
     @Test
     public void testGetFriends() throws Exception {
