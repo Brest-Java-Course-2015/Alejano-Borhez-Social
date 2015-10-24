@@ -15,9 +15,6 @@ public class UserTest {
     private static final String firstName = "FirstName";
     private static final String lastName = "LastName";
     private User user;
-    private List<User> friends;
-
-
 
     @Before
     public void setUp() {
