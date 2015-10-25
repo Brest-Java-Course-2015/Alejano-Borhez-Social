@@ -14,6 +14,8 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="social-core" />
+    <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-core:2.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-api:2.1" level="project" />
     <orderEntry type="module" module-name="social-test" scope="TEST" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework:spring-jdbc:4.2.1.RELEASE" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework:spring-beans:4.2.1.RELEASE" level="project" />

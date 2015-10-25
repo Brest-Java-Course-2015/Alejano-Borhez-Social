@@ -6,12 +6,14 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import static org.junit.Assert.*;
 /**
  * Created by alexander on 25.10.15.
  */
 public class UserTest {
+    private static final Logger LOGGER = LogManager.getLogger();
     private static final String firstName = "FirstName";
     private static final String lastName = "LastName";
     private static final Integer age = 38;
@@ -27,6 +29,7 @@ public class UserTest {
 
     @Test
     public void testGetFirstName() throws Exception {
+        LOGGER.debug("core-test: getFirstName");
         user.setFirstName(firstName);
         assertNotNull(user.getFirstName());
         assertEquals(firstName, user.getFirstName());
@@ -34,6 +37,7 @@ public class UserTest {
 
     @Test
     public void testGetLastName() throws Exception {
+        LOGGER.debug("core-test: getLastName");
         user.setLastName(lastName);
         assertNotNull(user.getLastName());
         assertEquals(lastName, user.getLastName());
@@ -41,6 +45,7 @@ public class UserTest {
 
     @Test
     public void testGetAge() throws Exception {
+        LOGGER.debug("core-test: getAge");
         user.setAge(age);
         assertNotNull(user.getAge());
         assertEquals(age, user.getAge());
@@ -48,6 +53,7 @@ public class UserTest {
 
     @Test
     public void testGetLogin() throws Exception {
+        LOGGER.debug("core-test: getLogin");
         user.setLogin(login);
         assertNotNull(user.getLogin());
         assertEquals(login, user.getLogin());
@@ -55,13 +61,15 @@ public class UserTest {
 
     @Test
     public void testGetPassword() throws Exception {
+        LOGGER.debug("core-test: getPassword");
         user.setPassword(password);
         assertNotNull(user.getPassword());
         assertEquals(password, user.getPassword());
     }
 
     @Test
-    public void testGetId() throws Exception {
+    public void testGetUserId() throws Exception {
+        LOGGER.debug("core-test: getUserId");
         user.setUserId(userId);
         assertNotNull(user.getUserId());
         assertEquals(userId, user.getUserId());
@@ -69,8 +77,8 @@ public class UserTest {
 
     @Test
     public void testGetFriends() throws Exception {
-        List<User> friends = new ArrayList<User>() {
-        };
+        LOGGER.debug("core-test: getFriends");
+        List<User> friends = new ArrayList<User>() {};
         friends.add(user);
         user.setFriends(friends);
         assertNotNull(user.getFriends());
@@ -80,6 +88,7 @@ public class UserTest {
 
     @Test
     public void testGetCreatedDate() throws Exception {
+        LOGGER.debug("core-test: getCreatedDate");
         user.setCreatedDate(new Date());
         assertNotNull(user.getCreatedDate());
         assertEquals(Date.class, user.getCreatedDate().getClass());
@@ -87,6 +96,7 @@ public class UserTest {
 
     @Test
     public void testGetUpdatedDate() throws Exception {
+        LOGGER.debug("core-test: getUpdatedDate");
         user.setUpdatedDate(new Date());
         assertNotNull(user.getUpdatedDate());
         assertEquals(Date.class, user.getUpdatedDate().getClass());
@@ -94,6 +104,7 @@ public class UserTest {
 
     @Test
     public void testBaseConstructor() throws Exception {
+        LOGGER.debug("core-test: baseConstructor user");
         User testUser = new User(login, password, firstName, lastName, age);
         assertNotNull(testUser);
         assertEquals(login, testUser.getLogin());
