@@ -11,6 +11,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>social-core</module>
+        <module>social-dao-api</module>
     </modules>
     <properties>
         <project.build.surceEncoding>UTF-8</project.build.surceEncoding>
