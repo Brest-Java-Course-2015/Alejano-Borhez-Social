@@ -9,11 +9,9 @@
     <version>1.0-SNAPSHOT</version>
     <name>Simple Social Network</name>
     <packaging>pom</packaging>
-
     <modules>
         <module>social-core</module>
     </modules>
-
     <properties>
         <project.build.surceEncoding>UTF-8</project.build.surceEncoding>
         <spring.version>4.2.1.RELEASE</spring.version>
