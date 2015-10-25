@@ -17,7 +17,7 @@ public class UserTest {
     private static final Integer age = 38;
     private static final String login = "Login";
     private static final String password = "Password";
-    private static final Integer id = 1;
+    private static final Integer userId = 1;
     private User user;
 
     @Before
@@ -62,9 +62,9 @@ public class UserTest {
 
     @Test
     public void testGetId() throws Exception {
-        user.setId(id);
-        assertNotNull(user.getId());
-        assertEquals(id, user.getId());
+        user.setUserId(userId);
+        assertNotNull(user.getUserId());
+        assertEquals(userId, user.getUserId());
     }
 
     @Test
@@ -106,7 +106,7 @@ public class UserTest {
         assertEquals(String.class, testUser.getLastName().getClass());
         assertEquals(age, testUser.getAge());
         assertEquals(Integer.class, testUser.getAge().getClass());
-        assertNull(testUser.getId());
+        assertNull(testUser.getUserId());
         assertEquals(Date.class, testUser.getCreatedDate().getClass());
         assertEquals(Date.class, testUser.getUpdatedDate().getClass());
     }

@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class User {
     //Объявление переменных
-    private Integer id;
+    private Integer userId;
     private String firstName;
     private String lastName;
     private Integer age;
@@ -48,11 +48,11 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-    public Integer getId() {
-        return id;
+    public Integer getUserId() {
+        return userId;
     }
-    public void setId(Integer id) {
-        this.id = id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
     public List<User> getFriends() {
         return friends;
@@ -85,4 +85,6 @@ public class User {
     }
     //Пустой конструктор - используется в основном для тестов
     public User() {}
+
+
 }
