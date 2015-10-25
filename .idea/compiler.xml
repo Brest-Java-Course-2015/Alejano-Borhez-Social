@@ -24,10 +24,34 @@
         <processorPath useClasspath="true" />
         <module name="social-core" />
       </profile>
+      <profile default="false" name="Annotation profile for social-dao-api" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="social-dao-api" />
+      </profile>
+      <profile default="false" name="Annotation profile for social-test" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="social-test" />
+      </profile>
+      <profile default="false" name="Annotation profile for social-dao" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="social-dao" />
+      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="Social" target="1.8" />
       <module name="social-core" target="1.8" />
+      <module name="social-dao" target="1.8" />
+      <module name="social-dao-api" target="1.8" />
+      <module name="social-test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

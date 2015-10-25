@@ -8,12 +8,12 @@ import java.util.List;
  */
 public class User {
     //Объявление переменных
+    private Integer id;
     private String firstName;
     private String lastName;
     private Integer age;
     private String login;
     private String password;
-    private Integer id;
     private List<User> friends;
     private Date createdDate;
     private Date updatedDate;

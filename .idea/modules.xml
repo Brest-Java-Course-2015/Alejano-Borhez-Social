@@ -4,7 +4,9 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Social.iml" filepath="$PROJECT_DIR$/Social.iml" />
       <module fileurl="file://$PROJECT_DIR$/social-core/social-core.iml" filepath="$PROJECT_DIR$/social-core/social-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/social-dao/social-dao.iml" filepath="$PROJECT_DIR$/social-dao/social-dao.iml" />
       <module fileurl="file://$PROJECT_DIR$/social-dao-api/social-dao-api.iml" filepath="$PROJECT_DIR$/social-dao-api/social-dao-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/social-test/social-test.iml" filepath="$PROJECT_DIR$/social-test/social-test.iml" />
     </modules>
   </component>
 </project>
