@@ -7,11 +7,13 @@
     <groupId>com.epam.brest.course2015.social</groupId>
     <artifactId>Social</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <name>Simple Social Network</name>
+    <packaging>pom</packaging>
+
     <modules>
         <module>social-core</module>
     </modules>
-    <name>Simple Social Network</name>
-    <packaging>pom</packaging>
+
 
     <properties>
         <project.build.surceEncoding>UTF-8</project.build.surceEncoding>
