@@ -19,5 +19,6 @@
     </bean>
 
     <bean id="userDao" class="com.epam.brest.course2015.social.dao.UserDaoImpl"/>
+    <bean id="friendshipDao" class="com.epam.brest.course2015.social.dao.FriendshipDaoImpl"/>
 
 </beans>

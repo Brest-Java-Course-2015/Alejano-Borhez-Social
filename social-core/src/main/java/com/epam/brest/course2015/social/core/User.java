@@ -85,6 +85,10 @@ public class User {
     }
     //Пустой конструктор - используется в основном для тестов
     public User() {}
+//    Конструкторы для тестов
+    public User(Integer userId) {
+        this.userId = userId;
+    }
 
 
 }
