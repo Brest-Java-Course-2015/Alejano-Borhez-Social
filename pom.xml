@@ -15,6 +15,7 @@
         <module>social-test</module>
         <module>social-dao</module>
         <module>social-service-api</module>
+        <module>social-service</module>
     </modules>
     <properties>
         <project.build.surceEncoding>UTF-8</project.build.surceEncoding>
