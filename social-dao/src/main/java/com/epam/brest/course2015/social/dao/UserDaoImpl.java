@@ -33,8 +33,8 @@ public class UserDaoImpl implements UserDao {
     String addUser;
     @Value("${user.updateUser}")
     String updateUser;
-    @Value("${friend.findFriendship}")
-    String selectFrienship;
+    @Value("${friend.findFriends}")
+    String selectFriendship;
 
     private RowMapper<User> userMapper = new BeanPropertyRowMapper<>(User.class);
 
@@ -67,7 +67,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> getFriends(Integer id) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource("userId", id);
-        return namedParameterJdbcTemplate.query(selectFrienship, parameterSource, userMapper);
+        return namedParameterJdbcTemplate.query(selectFriendship, parameterSource, userMapper);
     }
 
     @Override

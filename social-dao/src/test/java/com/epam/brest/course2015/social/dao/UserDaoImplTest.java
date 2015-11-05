@@ -22,7 +22,12 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations = {"classpath*:test-spring-dao.xml"})
 @Transactional
 public class UserDaoImplTest {
+    //Универсальный Логгер, который показывает имя тестового класса и имя тестового метода
     public static final Logger LOGGER = LogManager.getLogger();
+    private static void LOGGERDO() {
+        StackTraceElement[] elements = Thread.currentThread().getStackTrace();
+        LOGGER.debug("Test Class: " + elements[2].getClassName() + ", started test: " + elements[2].getMethodName());
+    }
     public static final Integer testId = 1;
     public static final String testLogin = "julia_borohova";
     public static final String testPassword = "newPassword";
@@ -31,7 +36,7 @@ public class UserDaoImplTest {
 
     @Test
     public void testGetAllUsers() throws Exception {
-        LOGGER.debug("dao-test: getAllUsers");
+        LOGGERDO();
         List<User> users = userDao.getAllUsers();
         assertNotNull(users);
         assertTrue(users.size() == 4);
@@ -39,7 +44,7 @@ public class UserDaoImplTest {
 
     @Test
     public void testGetUserById() throws Exception {
-        LOGGER.debug("dao-test: getUserById");
+        LOGGERDO();
         User user = userDao.getUserById(testId);
         assertNotNull(user);
         assertEquals(User.class, user.getClass());
@@ -48,7 +53,7 @@ public class UserDaoImplTest {
 
     @Test
     public void testGetUserByLogin() throws Exception {
-        LOGGER.debug("dao-test: getUserById");
+        LOGGERDO();
         User user = userDao.getUserByLogin(testLogin);
         assertNotNull(user);
         assertEquals(User.class, user.getClass());
@@ -57,7 +62,7 @@ public class UserDaoImplTest {
 
     @Test (expected = EmptyResultDataAccessException.class)
     public void testDeleteUser() throws Exception {
-        LOGGER.debug("dao-test: deleteUser");
+        LOGGERDO();
         Integer sizeBefore = userDao.getAllUsers().size();
         userDao.deleteUser(testId);
         Integer sizeAfter = userDao.getAllUsers().size();
@@ -67,7 +72,7 @@ public class UserDaoImplTest {
 
     @Test
     public void testAddUser() throws Exception {
-        LOGGER.debug("dao-test: addUser");
+        LOGGERDO();
         User user = new User("login", "password", "Petr", "Petrov", 30);
         Integer sizeBefore = userDao.getAllUsers().size();
         Integer newUserId = userDao.addUser(user);
@@ -79,18 +84,19 @@ public class UserDaoImplTest {
 
     @Test
     public void testUpdateUser() throws Exception {
-        LOGGER.debug("dao-test: updateUser");
+        LOGGERDO();
         userDao.updateUser(testId, testPassword);
         assertEquals(testPassword, userDao.getUserById(testId).getPassword());
     }
 
     @Test
     public void testGetFriends() throws Exception {
-        LOGGER.debug("dao-test: getFriends");
+        LOGGERDO();
         List<User> friends = userDao.getFriends(testId);
         assertNotNull(friends);
         assertTrue(friends.size() == 3);
         assertEquals(User.class, friends.get(0).getClass());
+//        LOGGER.debug(friends.get(1).getFirstName());
 
     }
 

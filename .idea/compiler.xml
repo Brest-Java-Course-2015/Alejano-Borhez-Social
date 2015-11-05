@@ -45,12 +45,21 @@
         <processorPath useClasspath="true" />
         <module name="social-dao" />
       </profile>
+      <profile default="false" name="Annotation profile for social-service-api" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="social-service-api" />
+      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="Alejano-Borhez-Social" target="1.8" />
       <module name="Social" target="1.8" />
       <module name="social-core" target="1.8" />
       <module name="social-dao" target="1.8" />
       <module name="social-dao-api" target="1.8" />
+      <module name="social-service-api" target="1.8" />
       <module name="social-test" target="1.8" />
     </bytecodeTargetLevel>
   </component>

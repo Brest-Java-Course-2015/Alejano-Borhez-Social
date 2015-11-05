@@ -4,11 +4,15 @@ import com.epam.brest.course2015.social.core.Friendship;
 import com.epam.brest.course2015.social.core.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -17,8 +21,14 @@ import java.util.List;
 public class FriendshipDaoImpl implements FriendshipDao {
     @Value("${friend.addFriendship}")
     String addFriendship;
+    @Value("${friend.findFriendship}")
+    String findFriendship;
+    @Value("${friend.discardFriendship}")
+    String deleteFriendship;
+    @Value("${friend.selectAllFriendship}")
+    String getAllFriendships;
 
-    RowMapper<Friendship> friendshipRowMapper = new BeanPropertyRowMapper<>(Friendship.class);
+    private RowMapper<Friendship> friendshipRowMapper = new BeanPropertyRowMapper<>(Friendship.class);
 
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -35,21 +45,30 @@ public class FriendshipDaoImpl implements FriendshipDao {
 
     @Override
     public boolean isAFriend(User user1, User user2) {
-        return false;
+        Friendship friendship = new Friendship (user1.getUserId(), user2.getUserId());
+        BeanPropertySqlParameterSource source = new BeanPropertySqlParameterSource(friendship);
+        try {
+            Friendship testFriendship = namedParameterJdbcTemplate.queryForObject(findFriendship, source, friendshipRowMapper);
+            return true;
+        } catch (EmptyResultDataAccessException ex) {
+
+            return false;
+        }
     }
 
     @Override
     public void discardFriendship(User enemy1, User enemy2) {
-
+        Friendship friendship12 = new Friendship(enemy1.getUserId(), enemy2.getUserId());
+        Friendship friendship21 = new Friendship(enemy2.getUserId(), enemy1.getUserId());
+        BeanPropertySqlParameterSource source12 = new BeanPropertySqlParameterSource(friendship12);
+        BeanPropertySqlParameterSource source21 = new BeanPropertySqlParameterSource(friendship21);
+        namedParameterJdbcTemplate.update(deleteFriendship, source12);
+        namedParameterJdbcTemplate.update(deleteFriendship, source21);
     }
 
-    @Override
-    public Integer[] listOfFriendsId(User user) {
-        return new Integer[0];
-    }
 
     @Override
-    public List<User> getFriends(User user) {
-        return null;
+    public List<Friendship> getAllFriendships () {
+        return namedParameterJdbcTemplate.query(getAllFriendships, friendshipRowMapper);
     }
 }

@@ -1,29 +1,29 @@
 INSERT INTO USER (
-userId,
-firstName,
-lastName,
-age,
-login,
-password,
-updatedDate)
+    userId,
+    firstName,
+    lastName,
+    age,
+    login,
+    password,
+    updatedDate)
 VALUES (
-1,
-'Alexander',
-'Borohov',
-29,
-'alejano_borhez',
-'123456',
-TO_TIMESTAMP('24/10/2015 20:30:00', 'DD/MM/YYYY HH:MI:SS')
+    1,
+    'Alexander',
+    'Borohov',
+    29,
+    'alejano_borhez',
+    '123456',
+    TO_TIMESTAMP('24/10/2015 20:30:00', 'DD/MM/YYYY HH:MI:SS')
 );
 
 INSERT INTO USER (
-userId,
-firstName,
-lastName,
-age,
-login,
-password,
-updatedDate)
+    userId,
+    firstName,
+    lastName,
+    age,
+    login,
+    password,
+    updatedDate)
 VALUES (
 2,
 'Julia',
@@ -53,21 +53,21 @@ TO_TIMESTAMP('24/10/2015 20:30:00', 'DD/MM/YYYY HH:MI:SS')
 );
 
 INSERT INTO USER (
-userId,
-firstName,
-lastName,
-age,
-login,
-password,
-updatedDate)
+    userId,
+    firstName,
+    lastName,
+    age,
+    login,
+    password,
+    updatedDate)
 VALUES (
-4,
-'Ivan',
-'Ivanov',
-25,
-'ivan',
-'123456',
-TO_TIMESTAMP('24/10/2015 20:30:00', 'DD/MM/YYYY HH:MI:SS')
+    4,
+    'Ivan',
+    'Ivanov',
+    25,
+    'ivan',
+    '123456',
+    TO_TIMESTAMP('24/10/2015 20:30:00', 'DD/MM/YYYY HH:MI:SS')
 );
 
 INSERT INTO FRIENDS (
