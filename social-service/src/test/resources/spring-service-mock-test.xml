@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="userDao" class="org.easymock.EasyMock" factory-method="createMock">
+        <constructor-arg value="com.epam.brest.course2015.social.dao.UserDao"/>
+    </bean>
+
+    <bean id="friendshipDao" class="org.easymock.EasyMock" factory-method="createMock">
+        <constructor-arg value="com.epam.brest.course2015.social.dao.FriendshipDao"/>
+    </bean>
+
+    <bean id="socialService" class="com.epam.brest.course2015.social.service.SocialServiceImpl">
+        <property name="userDao" ref="userDao"/>
+        <property name="friendshipDao" ref="friendshipDao"/>
+    </bean>
+
+</beans>

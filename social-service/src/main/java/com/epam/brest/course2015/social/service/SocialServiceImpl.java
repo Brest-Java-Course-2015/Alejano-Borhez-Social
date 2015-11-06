@@ -1,50 +1,89 @@
 package com.epam.brest.course2015.social.service;
 
+import com.epam.brest.course2015.social.core.Friendship;
 import com.epam.brest.course2015.social.core.User;
+import com.epam.brest.course2015.social.dao.FriendshipDao;
+import com.epam.brest.course2015.social.dao.UserDao;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.util.Assert;
 
 import java.util.List;
 
 /**
  * Created by alexander on 6.11.15.
  */
+
 public class SocialServiceImpl implements SocialService {
+    private static final Logger LOGGER = LogManager.getLogger();
+    private UserDao userDao;
+    private FriendshipDao friendshipDao;
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
+    public void setFriendshipDao(FriendshipDao friendshipDao) {
+        this.friendshipDao = friendshipDao;
+    }
+
     @Override
     public Integer addUser(User user) {
-        return null;
+        Assert.notNull(user, "User should not be null");
+
+
+
+        return userDao.addUser(user);
     }
 
     @Override
     public void deleteUser(Integer id) {
-
+        userDao.deleteUser(id);
     }
 
     @Override
-    public void updateUser(Integer id) {
+    public void updateUser(Integer id, String password) {
+        userDao.updateUser(id, password);
 
     }
 
     @Override
     public User getUserById(Integer id) {
-        return null;
+        return userDao.getUserById(id);
     }
 
     @Override
     public User getUserByLogin(String login) {
-        return null;
+        return userDao.getUserByLogin(login);
     }
 
     @Override
     public List<User> getAllUsers() {
-        return null;
+        return userDao.getAllUsers();
     }
 
     @Override
-    public List<User> getFriends() {
-        return null;
+    public List<User> getFriends(Integer id) {
+        return userDao.getFriends(id);
     }
 
     @Override
-    public void addFriendship(Integer id1, Integer id2) {
+    public void addFriendship(User user1, User user2) {
+        friendshipDao.addFriendship(user1, user2);
 
+    }
+
+    @Override
+    public boolean isAFriend(User user1, User user2) {
+        return friendshipDao.isAFriend(user1, user2);
+    }
+
+    @Override
+    public void discardFriendship(User enemy1, User enemy2) {
+        friendshipDao.discardFriendship(enemy1, enemy2);
+
+    }
+
+    @Override
+    public List<Friendship> getAllFriendships() {
+        return friendshipDao.getAllFriendships();
     }
 }

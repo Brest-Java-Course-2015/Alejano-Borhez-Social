@@ -5,6 +5,7 @@ package com.epam.brest.course2015.social.service;
  */
 public class SocialServiceImplTest  {
 
+
     public void testAddUser() throws Exception {
 
     }

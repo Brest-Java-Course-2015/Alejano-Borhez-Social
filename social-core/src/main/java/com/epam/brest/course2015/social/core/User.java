@@ -90,5 +90,8 @@ public class User {
         this.userId = userId;
     }
 
-
+    public User(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
 }
