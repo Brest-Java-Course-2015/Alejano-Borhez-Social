@@ -10,8 +10,10 @@ import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,6 +27,7 @@ import static org.junit.Assert.*;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring-service-mock-test.xml"})
+@Transactional
 public class SocialServiceImplMockTest {
     //Универсальный Логгер, который показывает имя тестового класса и имя тестового метода
     private static final Logger LOGGER = LogManager.getLogger();
@@ -55,11 +58,22 @@ public class SocialServiceImplMockTest {
     @Test
     public void testAddUser() throws Exception {
         LOGGERDO();
+        expect(userMockDao.getUserByLogin(testMockUser1.getLogin())).andThrow(new EmptyResultDataAccessException(1));
         expect(userMockDao.addUser(testMockUser1)).andReturn(1);
         replay(userMockDao);
         Integer result = socialService.addUser(testMockUser1);
         assertTrue(result == 1);
     }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testAddUserNull() throws Exception {
+        LOGGERDO();
+        expect(userMockDao.getUserByLogin(testMockUser1.getLogin())).andReturn(null);
+        expect(userMockDao.addUser(testMockUser1)).andReturn(1);
+        replay(userMockDao);
+        socialService.addUser(testMockUser1);
+    }
+
 
     @Test
     public void testDeleteUser() throws Exception {

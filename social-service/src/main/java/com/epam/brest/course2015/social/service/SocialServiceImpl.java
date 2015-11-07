@@ -6,6 +6,8 @@ import com.epam.brest.course2015.social.dao.FriendshipDao;
 import com.epam.brest.course2015.social.dao.UserDao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.List;
@@ -14,6 +16,7 @@ import java.util.List;
  * Created by alexander on 6.11.15.
  */
 
+@Transactional
 public class SocialServiceImpl implements SocialService {
     private static final Logger LOGGER = LogManager.getLogger();
     private UserDao userDao;
@@ -28,10 +31,21 @@ public class SocialServiceImpl implements SocialService {
     @Override
     public Integer addUser(User user) {
         Assert.notNull(user, "User should not be null");
+        Assert.isNull(user.getUserId(), "User id should be null");
+        Assert.notNull(user.getLogin(), "User login should not be null");
+        Assert.notNull(user.getPassword(), "User password should not be null");
+        Assert.notNull(user.getFirstName(), "User FirstName should not be null");
+        Assert.notNull(user.getLastName(), "User LastName should not be null");
+
+        try {
+            Assert.isNull(userDao.getUserByLogin(user.getLogin()), "User with login: " + user.getLogin() + " already exists");
+            throw new IllegalArgumentException();
+        } catch (EmptyResultDataAccessException ex) {
+            return userDao.addUser(user);
+        }
 
 
 
-        return userDao.addUser(user);
     }
 
     @Override
