@@ -16,6 +16,7 @@
         <module>social-dao</module>
         <module>social-service-api</module>
         <module>social-service</module>
+        <module>social-rest</module>
     </modules>
     <properties>
         <project.build.surceEncoding>UTF-8</project.build.surceEncoding>
@@ -23,6 +24,7 @@
         <log4j2.version>2.1</log4j2.version>
         <easymock.version>3.4</easymock.version>
         <hsqldb.version>2.3.3</hsqldb.version>
+        <jackson.databind.version>2.4.3</jackson.databind.version>
     </properties>
 
     <dependencyManagement>
@@ -50,6 +52,24 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>social-dao</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.epam.brest.course2015.social</groupId>
+                <artifactId>social-dao-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.epam.brest.course2015.social</groupId>
+                <artifactId>social-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.epam.brest.course2015.social</groupId>
+                <artifactId>social-service-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -107,6 +127,25 @@
                 <groupId>org.hsqldb</groupId>
                 <artifactId>hsqldb</artifactId>
                 <version>${hsqldb.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-webmvc</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.databind.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>3.1.0</version>
+                <scope>provided</scope>
             </dependency>
 
 
