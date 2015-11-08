@@ -89,9 +89,4 @@ public class User {
     public User(Integer userId) {
         this.userId = userId;
     }
-
-    public User(String login, String password) {
-        this.login = login;
-        this.password = password;
-    }
 }

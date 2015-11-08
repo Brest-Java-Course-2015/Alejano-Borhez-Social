@@ -6,6 +6,7 @@ import com.epam.brest.course2015.social.dao.FriendshipDao;
 import com.epam.brest.course2015.social.dao.UserDao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -28,76 +29,155 @@ public class SocialServiceImpl implements SocialService {
         this.friendshipDao = friendshipDao;
     }
 
+    @Value("${addUser.notNullUser}")
+    private String notNullUser;
+    @Value("${addUser.nullId}")
+    private String nullId;
+    @Value("${addUser.notNullLogin}")
+    private String notNullLogin;
+    @Value("${addUser.notNullPassword}")
+    private String notNullPassword;
+    @Value("${addUser.notNullFirstName}")
+    private String notNullFirstName;
+    @Value("${addUser.notNullLastName}")
+    private String notNullLastName;
+    @Value("${deleteUser.notNullId}")
+    private String notNullId;
+    @Value("${deleteUser.correctId}")
+    private String correctId;
+
     @Override
     public Integer addUser(User user) {
-        Assert.notNull(user, "User should not be null");
-        Assert.isNull(user.getUserId(), "User id should be null");
-        Assert.notNull(user.getLogin(), "User login should not be null");
-        Assert.notNull(user.getPassword(), "User password should not be null");
-        Assert.notNull(user.getFirstName(), "User FirstName should not be null");
-        Assert.notNull(user.getLastName(), "User LastName should not be null");
-
+        Assert.notNull(user, notNullUser);
+        Assert.isNull(user.getUserId(), nullId);
+        Assert.notNull(user.getLogin(), notNullLogin);
+        Assert.notNull(user.getPassword(), notNullPassword);
+        Assert.notNull(user.getFirstName(), notNullFirstName);
+        Assert.notNull(user.getLastName(), notNullLastName);
+        LOGGER.debug("Adding new user: {}", user.getLogin());
         try {
             Assert.isNull(userDao.getUserByLogin(user.getLogin()), "User with login: " + user.getLogin() + " already exists");
             throw new IllegalArgumentException();
         } catch (EmptyResultDataAccessException ex) {
             return userDao.addUser(user);
         }
-
-
-
     }
 
     @Override
     public void deleteUser(Integer id) {
-        userDao.deleteUser(id);
+        Assert.notNull(id, notNullId);
+        Assert.isTrue(id > 0, correctId);
+        LOGGER.debug("Deleting a user with id: {}", id);
+        try {
+            userDao.getUserById(id);
+            userDao.deleteUser(id);
+        } catch (EmptyResultDataAccessException e) {
+            e.printStackTrace();
+            LOGGER.debug("User with Id {} does not exist", id);
+            throw new IllegalArgumentException();
+        }
     }
 
     @Override
     public void updateUser(Integer id, String password) {
-        userDao.updateUser(id, password);
-
+        Assert.notNull(id, notNullId);
+        Assert.isTrue(id > 0, correctId);
+        Assert.notNull(password, notNullPassword);
+        LOGGER.debug("Updating a user with id: {}", id);
+        try {
+            userDao.getUserById(id);
+            userDao.updateUser(id, password);
+        } catch (EmptyResultDataAccessException e) {
+            e.printStackTrace();
+            LOGGER.debug("User with Id {} does not exist", id);
+            throw new IllegalArgumentException();
+        }
     }
 
     @Override
     public User getUserById(Integer id) {
-        return userDao.getUserById(id);
+        Assert.notNull(id, notNullId);
+        Assert.isTrue(id > 0, correctId);
+        LOGGER.debug("Getting user by Id: {}", id);
+        try {
+            return userDao.getUserById(id);
+        } catch (EmptyResultDataAccessException e) {
+            e.printStackTrace();
+            LOGGER.debug("User with Id {} does not exist", id);
+            throw new IllegalArgumentException();        }
     }
 
     @Override
     public User getUserByLogin(String login) {
-        return userDao.getUserByLogin(login);
+        Assert.notNull(login, notNullLogin);
+        LOGGER.debug("Getting user by login: {}", login);
+        try {
+            return userDao.getUserByLogin(login);
+        } catch (EmptyResultDataAccessException e) {
+            e.printStackTrace();
+            LOGGER.debug("User with login {} does not exist", login);
+            throw new IllegalArgumentException();
+        }
     }
 
     @Override
     public List<User> getAllUsers() {
+        LOGGER.debug("Getting list of all users");
         return userDao.getAllUsers();
     }
 
     @Override
     public List<User> getFriends(Integer id) {
-        return userDao.getFriends(id);
+        Assert.notNull(id, notNullId);
+        Assert.isTrue(id > 0, correctId);
+        LOGGER.debug("Getting list of all friends of user with id: {}", id);
+        try {
+            userDao.getUserById(id);
+            return userDao.getFriends(id);
+        } catch (EmptyResultDataAccessException e) {
+            e.printStackTrace();
+            LOGGER.debug("User with Id {} does not exist", id);
+            throw new IllegalArgumentException();
+        }
     }
 
     @Override
     public void addFriendship(User user1, User user2) {
+        Assert.notNull(user1, notNullUser + " user1");
+        Assert.notNull(user2, notNullUser + " user2");
+        Assert.notNull(user1.getUserId(), notNullId + " user1");
+        Assert.notNull(user2.getUserId(), notNullId + " user2");
+        Assert.isTrue(!friendshipDao.isAFriend(user1, user2), "Friendship already exists");
+        LOGGER.debug("Adding new friendship of users: {}, {}", user1.getUserId(), user2.getUserId());
         friendshipDao.addFriendship(user1, user2);
 
     }
 
     @Override
     public boolean isAFriend(User user1, User user2) {
+        Assert.notNull(user1, notNullUser + " user1");
+        Assert.notNull(user2, notNullUser + " user2");
+        Assert.notNull(user1.getUserId(), notNullId + " user1");
+        Assert.notNull(user2.getUserId(), notNullId + " user2");
+        LOGGER.debug("Checking for friendship of users: {}, {}", user1.getUserId(), user2.getUserId());
         return friendshipDao.isAFriend(user1, user2);
     }
 
     @Override
     public void discardFriendship(User enemy1, User enemy2) {
+        Assert.notNull(enemy1, notNullUser + " user1");
+        Assert.notNull(enemy2, notNullUser + " user2");
+        Assert.notNull(enemy1.getUserId(), notNullId + " user1");
+        Assert.notNull(enemy2.getUserId(), notNullId + " user2");
+        Assert.isTrue(friendshipDao.isAFriend(enemy1, enemy2), "Friendship does not exist");
+        LOGGER.debug("Discarding a friendship of users: {}, {}", enemy1.getUserId(), enemy2.getUserId());
         friendshipDao.discardFriendship(enemy1, enemy2);
 
     }
 
     @Override
     public List<Friendship> getAllFriendships() {
+        LOGGER.debug("Getting list of all friendships");
         return friendshipDao.getAllFriendships();
     }
 }

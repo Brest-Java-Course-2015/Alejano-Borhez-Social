@@ -10,6 +10,7 @@
             <list>
                 <value>classpath:database.properties</value>
                 <value>classpath:app.properties</value>
+                <value>classpath:app-service.properties</value>
             </list>
         </property>
     </bean>

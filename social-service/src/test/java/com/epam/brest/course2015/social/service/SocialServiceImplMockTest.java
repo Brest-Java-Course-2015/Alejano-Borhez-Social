@@ -33,7 +33,7 @@ public class SocialServiceImplMockTest {
     private static final Logger LOGGER = LogManager.getLogger();
     private static void LOGGERDO() {
         StackTraceElement[] elements = Thread.currentThread().getStackTrace();
-        LOGGER.debug("Test Class: " + elements[2].getClassName() + ", started test: " + elements[2].getMethodName());
+        LOGGER.debug("Started test: " + elements[2].getMethodName());
     }
     private static final User testMockUser1 = new User("testLogin1", "testPassword1", "testFirstName1", "testLastName1", 25);
     private static final User testMockUser2 = new User("testLogin2", "testPassword2", "testFirstName2", "testLastName2", 26);
@@ -58,6 +58,8 @@ public class SocialServiceImplMockTest {
     @Test
     public void testAddUser() throws Exception {
         LOGGERDO();
+        testMockUser1.setUserId(null);
+        testMockUser2.setUserId(null);
         expect(userMockDao.getUserByLogin(testMockUser1.getLogin())).andThrow(new EmptyResultDataAccessException(1));
         expect(userMockDao.addUser(testMockUser1)).andReturn(1);
         replay(userMockDao);
@@ -69,7 +71,6 @@ public class SocialServiceImplMockTest {
     public void testAddUserNull() throws Exception {
         LOGGERDO();
         expect(userMockDao.getUserByLogin(testMockUser1.getLogin())).andReturn(null);
-        expect(userMockDao.addUser(testMockUser1)).andReturn(1);
         replay(userMockDao);
         socialService.addUser(testMockUser1);
     }
@@ -78,6 +79,8 @@ public class SocialServiceImplMockTest {
     @Test
     public void testDeleteUser() throws Exception {
         LOGGERDO();
+        testMockUser1.setUserId(5);
+        expect(userMockDao.getUserById(testMockUser1.getUserId())).andReturn(testMockUser1);
         userMockDao.deleteUser(testMockUser1.getUserId());
         expectLastCall();
         replay(userMockDao);
@@ -88,6 +91,8 @@ public class SocialServiceImplMockTest {
     @Test
     public void testUpdateUser() throws Exception {
         LOGGERDO();
+        testMockUser1.setUserId(5);
+        expect(userMockDao.getUserById(testMockUser1.getUserId())).andReturn(testMockUser1);
         userMockDao.updateUser(testMockUser1.getUserId(), testMockUser2.getPassword());
         expectLastCall();
         replay(userMockDao);
@@ -126,6 +131,7 @@ public class SocialServiceImplMockTest {
     @Test
     public void testGetFriends() throws Exception {
         LOGGERDO();
+        expect(userMockDao.getUserById(1)).andReturn(new User());
         expect(userMockDao.getFriends(1)).andReturn(Arrays.<User>asList(testMockUser1));
         replay(userMockDao);
         List<User> result = socialService.getFriends(1);
@@ -136,6 +142,9 @@ public class SocialServiceImplMockTest {
     @Test
     public void testAddFriendship() throws Exception {
         LOGGERDO();
+        testMockUser1.setUserId(5);
+        testMockUser2.setUserId(6);
+        expect(friendshipMockDao.isAFriend(testMockUser1, testMockUser2)).andReturn(false);
         friendshipMockDao.addFriendship(testMockUser1, testMockUser2);
         expectLastCall();
         replay(friendshipMockDao);
@@ -146,6 +155,8 @@ public class SocialServiceImplMockTest {
     @Test
     public void testIsAFriend() throws Exception {
         LOGGERDO();
+        testMockUser1.setUserId(5);
+        testMockUser2.setUserId(6);
         expect(friendshipMockDao.isAFriend(testMockUser1, testMockUser2)).andReturn(true);
         replay(friendshipMockDao);
         boolean result = socialService.isAFriend(testMockUser1, testMockUser2);
@@ -155,6 +166,9 @@ public class SocialServiceImplMockTest {
     @Test
     public void testDiscardFriendship() throws Exception {
         LOGGERDO();
+        testMockUser1.setUserId(5);
+        testMockUser2.setUserId(6);
+        expect(friendshipMockDao.isAFriend(testMockUser1, testMockUser2)).andReturn(true);
         friendshipMockDao.discardFriendship(testMockUser1, testMockUser2);
         expectLastCall();
         replay(friendshipMockDao);

@@ -26,7 +26,7 @@ public class UserDaoImplTest {
     public static final Logger LOGGER = LogManager.getLogger();
     private static void LOGGERDO() {
         StackTraceElement[] elements = Thread.currentThread().getStackTrace();
-        LOGGER.debug("Test Class: " + elements[2].getClassName() + ", started test: " + elements[2].getMethodName());
+        LOGGER.debug("Started test: " + elements[2].getMethodName());
     }
     public static final Integer testId = 1;
     public static final String testLogin = "julia_borohova";

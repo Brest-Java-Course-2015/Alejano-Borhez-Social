@@ -27,7 +27,7 @@ public class FriendshipDaoImplTest extends TestCase {
     private static final Logger LOGGER = LogManager.getLogger();
     private static void LOGGERDO() {
         StackTraceElement[] elements = Thread.currentThread().getStackTrace();
-        LOGGER.debug("Test Class: " + elements[2].getClassName() + ", started test: " + elements[2].getMethodName());
+        LOGGER.debug("Started test: " + elements[2].getMethodName());
     }
     private static final Integer testFirstFriend = 5;
     private static final Integer testSecondFriend = 6;
