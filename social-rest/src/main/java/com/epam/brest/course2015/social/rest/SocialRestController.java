@@ -76,6 +76,31 @@ public class SocialRestController {
     public void deleteUser(@RequestParam(value = "id") Integer id) {
         LOGGER.debug("rest: Deleting a user {}", id);
         socialService.deleteUser(id);
+        socialService.discardAllFriendshipsOfAUser(id);
+    }
+
+    @RequestMapping(value = "/user/friendship", method = RequestMethod.GET)
+    @ResponseStatus(value = HttpStatus.OK)
+    public boolean isAFriend(@RequestParam(value = "id1") Integer id1,
+                             @RequestParam(value = "id2") Integer id2) {
+        LOGGER.debug("rest: Checking friendship of users {}, {}", id1, id2);
+        return socialService.isAFriend(new User(id1), new User(id2));
+    }
+
+    @RequestMapping(value = "/user/friendship", method = RequestMethod.DELETE)
+    @ResponseStatus(value = HttpStatus.OK)
+    public void discardFriendship (@RequestParam(value = "id1") Integer id1,
+                                   @RequestParam(value = "id2") Integer id2) {
+        LOGGER.debug("rest: Discarding friendship of users {}, {}", id1, id2);
+        socialService.discardFriendship(new User(id1), new User(id2));
+    }
+
+    @RequestMapping(value = "/user/friendship", method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.OK)
+    public void addFriendship(@RequestParam(value = "id1") Integer id1,
+                              @RequestParam(value = "id2") Integer id2) {
+        LOGGER.debug("rest: Adding friendship of users {}, {}", id1, id2);
+        socialService.addFriendship(new User(id1), new User(id2));
     }
 
 

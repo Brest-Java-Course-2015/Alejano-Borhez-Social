@@ -11,7 +11,9 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,6 +32,8 @@ public class FriendshipDaoImpl implements FriendshipDao {
     String deleteFriendship;
     @Value("${friend.selectAllFriendship}")
     String getAllFriendships;
+    @Value("${friend.deleteAllFriendships}")
+    String deleteAllFriendshipsOfAUser;
 
     private RowMapper<Friendship> friendshipRowMapper = new BeanPropertyRowMapper<>(Friendship.class);
 
@@ -77,5 +81,12 @@ public class FriendshipDaoImpl implements FriendshipDao {
     public List<Friendship> getAllFriendships () {
         LOGGER.debug("Getting all friendships");
         return namedParameterJdbcTemplate.query(getAllFriendships, friendshipRowMapper);
+    }
+
+    @Override
+    public void discardAllFriendshipsOfAUser(Integer userId) {
+        LOGGER.debug("Deleting all friendships of a user {}", userId);
+        SqlParameterSource source = new MapSqlParameterSource("id", userId);
+        namedParameterJdbcTemplate.update(deleteAllFriendshipsOfAUser, source);
     }
 }

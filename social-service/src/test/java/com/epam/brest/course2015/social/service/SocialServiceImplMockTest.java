@@ -187,5 +187,14 @@ public class SocialServiceImplMockTest {
         assertEquals(result.get(0).getFriend2Id(), testMockUser2.getUserId());
     }
 
+    @Test
+    public void testDiscardAllFriendshipsOfAUser() throws Exception {
+        LOGGERDO();
+        friendshipMockDao.discardAllFriendshipsOfAUser(1);
+        expectLastCall();
+        replay(friendshipMockDao);
+        socialService.discardAllFriendshipsOfAUser(1);
+    }
+
 
 }

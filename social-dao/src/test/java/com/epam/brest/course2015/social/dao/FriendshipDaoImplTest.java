@@ -82,6 +82,17 @@ public class FriendshipDaoImplTest extends TestCase {
         assertEquals(friendshipsList.get(0).getClass(), Friendship.class);
         assertEquals(friendshipsList.get(0).getFriend1Id().getClass(), Integer.class);
         assertEquals(friendshipsList.get(0).getFriend2Id().getClass(), Integer.class);
+    }
 
+    @Test
+    public void testDiscardAllFriendshipsOfAUser() throws Exception {
+        LOGGERDO();
+        assertTrue(friendshipDao.isAFriend(new User(1), new User(2)));
+        assertTrue(friendshipDao.isAFriend(new User(1), new User(3)));
+        assertTrue(friendshipDao.isAFriend(new User(1), new User(4)));
+        friendshipDao.discardAllFriendshipsOfAUser(1);
+        assertFalse(friendshipDao.isAFriend(new User(1), new User(2)));
+        assertFalse(friendshipDao.isAFriend(new User(1), new User(3)));
+        assertFalse(friendshipDao.isAFriend(new User(1), new User(4)));
     }
 }

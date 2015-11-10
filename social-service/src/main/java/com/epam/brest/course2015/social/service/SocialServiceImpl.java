@@ -180,4 +180,10 @@ public class SocialServiceImpl implements SocialService {
         LOGGER.debug("Getting list of all friendships");
         return friendshipDao.getAllFriendships();
     }
+
+    @Override
+    public void discardAllFriendshipsOfAUser(Integer id) {
+        LOGGER.debug("service: Deleting all friendships of a user {}", id);
+        friendshipDao.discardAllFriendshipsOfAUser(id);
+    }
 }

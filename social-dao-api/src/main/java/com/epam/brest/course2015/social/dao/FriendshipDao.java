@@ -13,5 +13,5 @@ public interface FriendshipDao {
     boolean isAFriend(User user1, User user2);
     void discardFriendship(User enemy1, User enemy2);
     List<Friendship> getAllFriendships ();
-
+    void discardAllFriendshipsOfAUser (Integer userId);
 }

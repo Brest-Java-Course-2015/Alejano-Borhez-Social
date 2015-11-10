@@ -156,6 +156,7 @@ public class SocialRestControllerMockTest {
     @Test
     public void testDeleteUser() throws Exception {
         socialService.deleteUser(1);
+        socialService.discardAllFriendshipsOfAUser(1);
         expectLastCall();
         replay(socialService);
         LOGGERDO();
@@ -167,4 +168,44 @@ public class SocialRestControllerMockTest {
                 .andExpect(content().string(""));
     }
 
+    @Test
+    public void testDiscardFriendship() throws Exception {
+        socialService.discardFriendship(anyObject(User.class), anyObject(User.class));
+        expectLastCall();
+        replay(socialService);
+        LOGGERDO();
+        mockMvc.perform(
+                delete("/user/friendship?id1=1&id2=2")
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string(""));
+    }
+
+    @Test
+    public void testAddFriendship() throws Exception {
+        socialService.addFriendship(anyObject(User.class), anyObject(User.class));
+        expectLastCall();
+        replay(socialService);
+        LOGGERDO();
+        mockMvc.perform(
+                post("/user/friendship?id1=1&id2=2")
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string(""));
+    }
+
+    @Test
+    public void testIsAFriend() throws Exception {
+        expect(socialService.isAFriend(anyObject(User.class), anyObject(User.class))).andReturn(true);
+        replay(socialService);
+        LOGGERDO();
+        mockMvc.perform(
+                get("/user/friendship?id1=1&id2=2")
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string("true"));
+    }
 }
