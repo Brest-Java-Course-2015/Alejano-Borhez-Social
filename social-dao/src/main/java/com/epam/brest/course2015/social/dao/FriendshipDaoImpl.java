@@ -2,6 +2,8 @@ package com.epam.brest.course2015.social.dao;
 
 import com.epam.brest.course2015.social.core.Friendship;
 import com.epam.brest.course2015.social.core.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -19,6 +21,7 @@ import java.util.List;
  * Created by alexander on 26.10.15.
  */
 public class FriendshipDaoImpl implements FriendshipDao {
+    private static final Logger LOGGER = LogManager.getLogger();
     @Value("${friend.addFriendship}")
     String addFriendship;
     @Value("${friend.findFriendship}")
@@ -35,6 +38,7 @@ public class FriendshipDaoImpl implements FriendshipDao {
 
     @Override
     public void addFriendship(User friend1, User friend2) {
+        LOGGER.debug("Adding friendship of users: {}, {}", friend1.getUserId(), friend2.getUserId());
         Friendship friendship12 = new Friendship(friend1.getUserId(), friend2.getUserId());
         BeanPropertySqlParameterSource parameterSource12 = new BeanPropertySqlParameterSource(friendship12);
         namedParameterJdbcTemplate.update(addFriendship, parameterSource12);
@@ -45,6 +49,7 @@ public class FriendshipDaoImpl implements FriendshipDao {
 
     @Override
     public boolean isAFriend(User user1, User user2) {
+        LOGGER.debug("Checking friendsip of users: {}, {}", user1.getUserId(), user2.getUserId());
         Friendship friendship = new Friendship (user1.getUserId(), user2.getUserId());
         BeanPropertySqlParameterSource source = new BeanPropertySqlParameterSource(friendship);
         try {
@@ -58,6 +63,7 @@ public class FriendshipDaoImpl implements FriendshipDao {
 
     @Override
     public void discardFriendship(User enemy1, User enemy2) {
+        LOGGER.debug("Deleting friendship of users: {}, {}", enemy1.getUserId(), enemy2.getUserId());
         Friendship friendship12 = new Friendship(enemy1.getUserId(), enemy2.getUserId());
         Friendship friendship21 = new Friendship(enemy2.getUserId(), enemy1.getUserId());
         BeanPropertySqlParameterSource source12 = new BeanPropertySqlParameterSource(friendship12);
@@ -69,6 +75,7 @@ public class FriendshipDaoImpl implements FriendshipDao {
 
     @Override
     public List<Friendship> getAllFriendships () {
+        LOGGER.debug("Getting all friendships");
         return namedParameterJdbcTemplate.query(getAllFriendships, friendshipRowMapper);
     }
 }

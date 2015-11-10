@@ -1,5 +1,7 @@
 package com.epam.brest.course2015.social.core;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 import java.util.List;
 
@@ -15,7 +17,9 @@ public class User {
     private String login;
     private String password;
     private List<User> friends;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private Date createdDate;
+    @JsonFormat (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private Date updatedDate;
     //Геттеры и сеттеры
     public String getFirstName() {

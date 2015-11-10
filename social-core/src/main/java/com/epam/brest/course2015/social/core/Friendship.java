@@ -1,5 +1,7 @@
 package com.epam.brest.course2015.social.core;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 /**
@@ -9,6 +11,7 @@ public class Friendship {
 //    Объявление переменных
     private Integer friend1Id;
     private Integer friend2Id;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private Date createdDate;
 //    Конструкторы
 //    Пустой конструктор

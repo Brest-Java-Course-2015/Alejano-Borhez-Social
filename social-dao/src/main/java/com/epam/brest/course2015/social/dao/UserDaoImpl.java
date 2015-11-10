@@ -43,6 +43,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Integer addUser(User user) {
+        LOGGER.debug("Adding user {}", user.getLogin());
         KeyHolder keyHolder = new GeneratedKeyHolder();
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(user);
         namedParameterJdbcTemplate.update(addUser, parameterSource, keyHolder);
@@ -51,6 +52,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void updateUser(Integer id, String password) {
+        LOGGER.debug("Updating user {}", id);
         User user = new User();
         user.setUserId(id);
         user.setPassword(password);
@@ -60,29 +62,34 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void deleteUser(Integer id) {
+        LOGGER.debug("Deleting user {}", id);
         SqlParameterSource parameterSource = new MapSqlParameterSource("userId", id);
         namedParameterJdbcTemplate.update(deleteUser, parameterSource);
     }
 
     @Override
     public List<User> getFriends(Integer id) {
+        LOGGER.debug("Getting friends of user {}", id);
         MapSqlParameterSource parameterSource = new MapSqlParameterSource("userId", id);
         return namedParameterJdbcTemplate.query(selectFriendship, parameterSource, userMapper);
     }
 
     @Override
     public List<User> getAllUsers() {
+        LOGGER.debug("Getting all users");
         return namedParameterJdbcTemplate.query(selectAllUsers, userMapper);
     }
 
     @Override
     public User getUserById(Integer id) {
+        LOGGER.debug("Getting user by id: {}", id);
         SqlParameterSource paramSource = new MapSqlParameterSource("userId", id);
         return namedParameterJdbcTemplate.queryForObject(selectUserById, paramSource, userMapper);
     }
 
     @Override
     public User getUserByLogin(String login) {
+        LOGGER.debug("Getting user by login: {}", login);
         SqlParameterSource parameterSource = new MapSqlParameterSource("login", login);
         return namedParameterJdbcTemplate.queryForObject(selectUserByLogin, parameterSource, userMapper);
     }
