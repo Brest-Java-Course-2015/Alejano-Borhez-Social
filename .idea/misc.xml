@@ -12,6 +12,8 @@
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/social-terminal/pom.xml" />
+        <option value="$PROJECT_DIR$/social-web-jsp/pom.xml" />
       </set>
     </option>
   </component>

@@ -66,6 +66,18 @@
         <processorPath useClasspath="true" />
         <module name="social-rest" />
       </profile>
+      <profile default="false" name="Annotation profile for social-terminal" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+      </profile>
+      <profile default="false" name="Annotation profile for social-web-jsp" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="Alejano-Borhez-Social" target="1.8" />
@@ -76,7 +88,9 @@
       <module name="social-rest" target="1.8" />
       <module name="social-service" target="1.8" />
       <module name="social-service-api" target="1.8" />
+      <module name="social-terminal" target="1.8" />
       <module name="social-test" target="1.8" />
+      <module name="social-web-jsp" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

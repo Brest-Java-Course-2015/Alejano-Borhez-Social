@@ -260,7 +260,6 @@ public class SocialServiceImplTest  {
         assertEquals(testList.get(0).getFriend2Id().getClass(), Integer.class);
     }
 
-    @Test
     public void testAddFriendship() throws Exception {
         LOGGERDO();
         testUser1.setUserId(null);
@@ -311,7 +310,6 @@ public class SocialServiceImplTest  {
         socialService.addFriendship(testUser1, testUser2);
     }
 
-    @Test
     public void testIsAFriend() throws Exception {
         LOGGERDO();
         testUser1.setUserId(socialService.addUser(testUser1));
@@ -349,7 +347,6 @@ public class SocialServiceImplTest  {
         assertTrue(socialService.isAFriend(testUser1, testUser2));
     }
 
-    @Test
     public void testDiscardFriendship() throws Exception {
         LOGGERDO();
         testUser1.setUserId(null);

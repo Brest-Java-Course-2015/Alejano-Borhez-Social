@@ -17,6 +17,10 @@ public class User {
     private String login;
     private String password;
     private List<User> friends;
+    private Integer totalFriends;
+
+
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private Date createdDate;
     @JsonFormat (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
@@ -61,6 +65,12 @@ public class User {
     public List<User> getFriends() {
         return friends;
     }
+    public Integer getTotalFriends() {
+        return totalFriends;
+    }
+    public void setTotalFriends(Integer totalFriends) {
+        this.totalFriends = totalFriends;
+    }
     public void setFriends(List<User> friends) {
         this.friends = friends;
     }
@@ -93,4 +103,5 @@ public class User {
     public User(Integer userId) {
         this.userId = userId;
     }
+
 }

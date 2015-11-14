@@ -4,6 +4,7 @@ import com.epam.brest.course2015.social.core.Friendship;
 import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dao.FriendshipDao;
 import com.epam.brest.course2015.social.dao.UserDao;
+import com.epam.brest.course2015.social.dto.SocialDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +12,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -186,4 +188,20 @@ public class SocialServiceImpl implements SocialService {
         LOGGER.debug("service: Deleting all friendships of a user {}", id);
         friendshipDao.discardAllFriendshipsOfAUser(id);
     }
+
+    @Override
+    public SocialDto getSocialDto() {
+        LOGGER.debug("service: Getting dto");
+        SocialDto dto = new SocialDto();
+        dto.setTotalUsers(userDao.getCountOfUsers());
+        if (dto.getTotalUsers() > 0) {
+            dto.setUsers(userDao.getAllUsers());
+        } else  {
+            dto.setUsers(Collections.<User>emptyList());
+        }
+        return dto;
+    }
+
+
+
 }

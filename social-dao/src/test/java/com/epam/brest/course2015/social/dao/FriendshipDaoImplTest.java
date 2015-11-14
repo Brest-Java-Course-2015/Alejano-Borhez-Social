@@ -31,14 +31,16 @@ public class FriendshipDaoImplTest extends TestCase {
     }
     private static final Integer testFirstFriend = 5;
     private static final Integer testSecondFriend = 6;
-    private static final User testFriend1 = new User(testFirstFriend);
-    private static final User testFriend2 = new User(testSecondFriend);
+    private static User testFriend1 = new User(testFirstFriend);
+    private static User testFriend2 = new User(testSecondFriend);
 
 
     @Autowired
     private FriendshipDao friendshipDao;
 
-    @Test
+    @Autowired
+    private UserDao userDao;
+
     public void testAddFriendship() throws Exception {
         LOGGERDO();
         assertFalse(friendshipDao.isAFriend(testFriend1, testFriend2));
@@ -63,7 +65,6 @@ public class FriendshipDaoImplTest extends TestCase {
         assertTrue(friendshipDao.isAFriend(new User(2), new User(1)));
     }
 
-    @Test
     public void testDiscardFriendship() throws Exception {
         LOGGERDO();
         assertTrue(friendshipDao.isAFriend(new User(1), new User(2)));

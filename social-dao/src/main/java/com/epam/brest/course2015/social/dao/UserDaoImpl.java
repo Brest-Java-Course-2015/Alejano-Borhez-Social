@@ -2,6 +2,7 @@ package com.epam.brest.course2015.social.dao;
 
 import com.epam.brest.course2015.social.core.User;
 
+import java.util.Date;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,6 +24,8 @@ public class UserDaoImpl implements UserDao {
     public static final Logger LOGGER = LogManager.getLogger();
     @Value("${user.selectAllUsers}")
     String selectAllUsers;
+    @Value("${user.selectAllUsersByDate}")
+    String getSelectAllUsersByDate;
     @Value("${user.selectById}")
     String selectUserById;
     @Value("${user.selectByLogin}")
@@ -35,6 +38,12 @@ public class UserDaoImpl implements UserDao {
     String updateUser;
     @Value("${friend.findFriends}")
     String selectFriendship;
+    @Value("${user.getCountOfUsers}")
+    String getCountOfUsers;
+    @Value("${user.getCountOfUserFriends}")
+    String getCountOfUserFriends;
+    @Value("${user.changeTotalFriends}")
+    String changeTotalFriends;
 
     private RowMapper<User> userMapper = new BeanPropertyRowMapper<>(User.class);
 
@@ -81,6 +90,15 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public List<User> getAllUsers(Date dateMin, Date dateMax) {
+        LOGGER.debug("dao: Getting all users by date");
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("dateMin", dateMin);
+        parameterSource.addValue("dateMax", dateMax);
+        return namedParameterJdbcTemplate.query(getSelectAllUsersByDate, parameterSource, userMapper);
+    }
+
+    @Override
     public User getUserById(Integer id) {
         LOGGER.debug("Getting user by id: {}", id);
         SqlParameterSource paramSource = new MapSqlParameterSource("userId", id);
@@ -93,4 +111,39 @@ public class UserDaoImpl implements UserDao {
         SqlParameterSource parameterSource = new MapSqlParameterSource("login", login);
         return namedParameterJdbcTemplate.queryForObject(selectUserByLogin, parameterSource, userMapper);
     }
+
+    @Override
+    public Integer getCountOfUsers() {
+        LOGGER.debug("dao: Getting count of all users");
+        SqlParameterSource parameterSource = new MapSqlParameterSource();
+        return namedParameterJdbcTemplate.queryForObject(getCountOfUsers, parameterSource, Integer.class);
+    }
+
+
+    @Override
+    public Integer getCountOfUserFriends(Integer id) {
+        LOGGER.debug("dao: Getting count of all friends of a user: {}", id);
+        SqlParameterSource parameterSource = new MapSqlParameterSource("userId", id);
+        return namedParameterJdbcTemplate.queryForObject(getCountOfUserFriends, parameterSource, Integer.class);
+    }
+
+    @Override
+    public void increaseFriends(Integer id) {
+        LOGGER.debug("dao: Increasing number of friends of user: {}", id);
+        User user = new User(id);
+        user.setTotalFriends(getCountOfUserFriends(id) + 1);
+        BeanPropertySqlParameterSource source = new BeanPropertySqlParameterSource(user);
+        namedParameterJdbcTemplate.update(changeTotalFriends, source);
+    }
+
+    @Override
+    public void decreaseFriends(Integer id) {
+        LOGGER.debug("dao: Decreasing number of friends of user: {}", id);
+        User user = new User(id);
+        user.setTotalFriends(getCountOfUserFriends(id) - 1);
+        BeanPropertySqlParameterSource source = new BeanPropertySqlParameterSource(user);
+        namedParameterJdbcTemplate.update(changeTotalFriends, source);
+    }
+
+
 }

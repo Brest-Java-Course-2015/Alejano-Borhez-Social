@@ -2,6 +2,7 @@ package com.epam.brest.course2015.social.rest;
 
 import com.epam.brest.course2015.social.core.Friendship;
 import com.epam.brest.course2015.social.core.User;
+import com.epam.brest.course2015.social.dto.SocialDto;
 import com.epam.brest.course2015.social.service.SocialService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -41,6 +42,13 @@ public class SocialRestController {
         LOGGER.debug("rest: Getting all friends of user {}", id);
         return socialService.getFriends(id);
     }
+
+   /* @RequestMapping(value = "/user/friendscount", method = RequestMethod.GET)
+    @ResponseStatus(value = HttpStatus.OK)
+    public @ResponseBody Integer getCountFriends (@RequestParam(value ="id") Integer id) {
+        LOGGER.debug("rest: Getting all friends of user {}", id);
+        return socialService.getCountFriends(id);
+    }*/
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)
@@ -101,6 +109,13 @@ public class SocialRestController {
                               @RequestParam(value = "id2") Integer id2) {
         LOGGER.debug("rest: Adding friendship of users {}, {}", id1, id2);
         socialService.addFriendship(new User(id1), new User(id2));
+    }
+
+    @RequestMapping(value = "/userdto", method = RequestMethod.GET)
+    @ResponseStatus(value = HttpStatus.OK)
+    public @ResponseBody SocialDto getSocialDto() {
+        LOGGER.debug("rest: Getting SocialDto");
+        return socialService.getSocialDto();
     }
 
 

@@ -35,6 +35,8 @@ public class FriendshipDaoImpl implements FriendshipDao {
     @Value("${friend.deleteAllFriendships}")
     String deleteAllFriendshipsOfAUser;
 
+
+
     private RowMapper<Friendship> friendshipRowMapper = new BeanPropertyRowMapper<>(Friendship.class);
 
     @Autowired

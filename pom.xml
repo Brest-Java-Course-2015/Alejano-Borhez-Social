@@ -17,6 +17,7 @@
         <module>social-service-api</module>
         <module>social-service</module>
         <module>social-rest</module>
+        <!--<module>social-web-jsp</module>-->
     </modules>
     <properties>
         <project.build.surceEncoding>UTF-8</project.build.surceEncoding>
@@ -73,6 +74,12 @@
                 <version>${project.version}</version>
             </dependency>
 
+            <!--<dependency>
+                <groupId>com.epam.brest.course2015.social</groupId>
+                <artifactId>social-web-jsp</artifactId>
+                <version>${project.version}</version>
+            </dependency>-->
+
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context</artifactId>
@@ -94,6 +101,12 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-beans</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-web</artifactId>
                 <version>${spring.version}</version>
             </dependency>
 
