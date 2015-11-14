@@ -8,11 +8,13 @@ var FRIENDSHIP_URL = "/friendship";
 
 findAll();
 
-// Register listeners
-$('#btnSave').click(function () {
-        addUser();
-});
+function gotoAddUser() {
+    window.location = "addUser.html";
+}
 
+function goHome() {
+    window.location="index.html";
+}
 
 function deleteUser(userId) {
 
@@ -25,7 +27,6 @@ function deleteUser(userId) {
         url: url,
         success: function (data, textStatus, jqXHR) {
                     alert('User deleted successfully');
-                    findAll();
                     findAll();
                 },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -105,9 +106,7 @@ function addUser() {
         dataType: "json",
         data: formToJSON(),
         success: function (data, textStatus, jqXHR) {
-            alert('User created successfully');
-            $('#userId').val(data.userId);
-            findAll();
+            goHome();
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert('addUser error: ' + textStatus);

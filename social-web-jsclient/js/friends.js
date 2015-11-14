@@ -3,7 +3,7 @@ var PREFIX_URL = "http://localhost:8081/rest"
 var USER_URL = "/user";
 var USERDTO_URL = "/userdto";
 var USERS_URL = "/users";
-var FRIENDS_URL = "/friends";
+var FRIENDS_URL = "/friendsdto";
 var FRIENDSHIP_URL = "/friendship";
 var id = getQueryVariable("id");
 
@@ -50,7 +50,7 @@ function deleteFriend(id, userId) {
 
 function findAll() {
     console.log('findAll');
-    var url = PREFIX_URL + USER_URL + FRIENDS_URL;
+    var url = PREFIX_URL + FRIENDS_URL;
     var data = "id=" + id;
     $.ajax({
         type: 'GET',
@@ -79,12 +79,14 @@ function drawRow(user) {
 }
 
 function renderList(data) {
-    var dto = data == null ? [] : (data instanceof Array ? data : [data]);
+    var dto = data.users == null ? [] : (data.users instanceof Array ? data.users : [data.users]);
+    var total = data.totalUsers;
     $('#userList tr').remove();
     $.each(dto, function (index, user) {
         drawRow(user);
     });
     $('#userTotal p').remove();
+    $('#userTotal').append($("<p>Всего пользователей: " + total + "</p>"));
 
 }
 

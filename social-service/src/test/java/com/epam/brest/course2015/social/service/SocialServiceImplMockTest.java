@@ -80,8 +80,12 @@ public class SocialServiceImplMockTest {
     public void testDeleteUser() throws Exception {
         LOGGERDO();
         testMockUser1.setUserId(5);
-        expect(userMockDao.getUserById(testMockUser1.getUserId())).andReturn(testMockUser1);
+        expect(userMockDao.getUserById(testMockUser1.getUserId()))
+                .andReturn(testMockUser1);
+        expect(userMockDao.getFriends(testMockUser1.getUserId()))
+                .andReturn(Arrays.<User>asList(testMockUser2));
         userMockDao.deleteUser(testMockUser1.getUserId());
+        userMockDao.setCountOfUserFriends(testMockUser2.getUserId());
         expectLastCall();
         replay(userMockDao);
         socialService.deleteUser(testMockUser1.getUserId());
@@ -195,6 +199,7 @@ public class SocialServiceImplMockTest {
         replay(friendshipMockDao);
         socialService.discardAllFriendshipsOfAUser(1);
     }
+
 
 
 }

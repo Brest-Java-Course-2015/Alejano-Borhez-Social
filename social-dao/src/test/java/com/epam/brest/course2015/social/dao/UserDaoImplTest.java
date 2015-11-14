@@ -108,24 +108,13 @@ public class UserDaoImplTest {
         assertTrue(count > 0);
     }
 
-   /* @Test
-    public void testIncreaseFriends() throws Exception {
+    @Test
+    public void testGetCountOfUsers() throws Exception {
         LOGGERDO();
-        Integer countBefore = userDao.getCountOfUserFriends(1);
-        userDao.increaseFriends(1);
-        Integer countAfter = userDao.getCountOfUserFriends(1);
-        assertTrue(countAfter - countBefore == 1);
-
+        Integer count = userDao.getCountOfUsers();
+        assertNotNull(count);
+        assertTrue(count > 0);
     }
 
-    @Test
-    public void testDecreaseFriends() throws Exception {
-        LOGGERDO();
-        Integer countBefore = userDao.getCountOfUserFriends(1);
-        userDao.decreaseFriends(1);
-        Integer countAfter = userDao.getCountOfUserFriends(1);
-        assertTrue(countAfter - countBefore == -1);
-
-    }*/
 
 }

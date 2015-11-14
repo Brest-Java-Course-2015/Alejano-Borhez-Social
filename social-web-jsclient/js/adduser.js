@@ -3,9 +3,11 @@ var PREFIX_URL = "http://localhost:8081/rest"
 var USER_URL = "/user";
 
 // Register listeners
-$('#btnSave').click(function () {
-        addUser();
-});
+
+
+function goHome() {
+    window.location="index.html";
+}
 
 function getQueryVariable(variable)
 {
@@ -31,9 +33,10 @@ function addUser() {
         success: function (data, textStatus, jqXHR) {
             alert('User created successfully');
             $('#userId').val(data.userId);
+
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            alert('addUser error: ' + textStatus);
+            alert('addUser error: ' + textStatus + errorThrown);
         }
     });
 }

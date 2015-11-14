@@ -19,6 +19,5 @@ public interface UserDao {
     User getUserByLogin(String login);
     Integer getCountOfUsers();
     Integer getCountOfUserFriends(Integer id);
-    /*void increaseFriends(Integer id);
-    void decreaseFriends(Integer id);*/
+    void setCountOfUserFriends(Integer id);
 }

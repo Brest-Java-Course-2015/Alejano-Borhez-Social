@@ -11,13 +11,14 @@ public class Friendship {
 //    Объявление переменных
     private Integer friend1Id;
     private Integer friend2Id;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING,
+            pattern = "dd-MM-yyyy hh:mm:ss")
     private Date createdDate;
 //    Конструкторы
 //    Пустой конструктор
-    public Friendship(){}
-//    Базовый конструктор
-    public Friendship(Integer firstFriend, Integer secondFriend) {
+    public Friendship() { }
+    //    Базовый конструктор
+    public Friendship(final Integer firstFriend, final Integer secondFriend) {
         this.friend1Id = firstFriend;
         this.friend2Id = secondFriend;
         this.createdDate = new Date();

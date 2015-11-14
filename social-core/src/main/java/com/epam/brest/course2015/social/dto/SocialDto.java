@@ -9,9 +9,7 @@ import java.util.List;
  */
 public class SocialDto {
     private List<User> users;
-    private List<User> friends;
     private Integer totalUsers;
-    private Integer totalFriends;
 
     public List<User> getUsers() {
         return users;

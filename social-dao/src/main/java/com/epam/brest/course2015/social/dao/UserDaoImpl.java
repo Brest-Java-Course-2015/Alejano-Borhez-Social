@@ -52,7 +52,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Integer addUser(User user) {
-        LOGGER.debug("Adding user {}", user.getLogin());
+        LOGGER.debug("userDao: Adding user {}", user.getLogin());
         KeyHolder keyHolder = new GeneratedKeyHolder();
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(user);
         namedParameterJdbcTemplate.update(addUser, parameterSource, keyHolder);
@@ -61,7 +61,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void updateUser(Integer id, String password) {
-        LOGGER.debug("Updating user {}", id);
+        LOGGER.debug("userDao: Updating user {}", id);
         User user = new User();
         user.setUserId(id);
         user.setPassword(password);
@@ -71,38 +71,27 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void deleteUser(Integer id) {
-        LOGGER.debug("Deleting user {}", id);
+        LOGGER.debug("userDao: Deleting user {}", id);
         SqlParameterSource parameterSource = new MapSqlParameterSource("userId", id);
         namedParameterJdbcTemplate.update(deleteUser, parameterSource);
     }
 
     @Override
     public List<User> getFriends(Integer id) {
-        LOGGER.debug("Getting friends of user {}", id);
+        LOGGER.debug("userDao: Getting friends of user {}", id);
         MapSqlParameterSource parameterSource = new MapSqlParameterSource("userId", id);
         return namedParameterJdbcTemplate.query(selectFriendship, parameterSource, userMapper);
     }
 
     @Override
     public List<User> getAllUsers() {
-        LOGGER.debug("Getting all users");
-        List<User> list = namedParameterJdbcTemplate.query(selectAllUsers, userMapper);
-
-        for (User user : list) {
-            Integer id = user.getUserId();
-            MapSqlParameterSource source = new MapSqlParameterSource();
-            source.addValue("totalFriends", getCountOfUserFriends(id));
-            source.addValue("userId", id);
-
-            namedParameterJdbcTemplate.update(setTotalFriends, source);
-        }
-
-        return list;
+        LOGGER.debug("userDao: Getting all users");
+        return namedParameterJdbcTemplate.query(selectAllUsers, userMapper);
     }
 
     @Override
     public List<User> getAllUsers(Date dateMin, Date dateMax) {
-        LOGGER.debug("dao: Getting all users by date");
+        LOGGER.debug("userDao: Getting all users by date");
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("dateMin", dateMin);
         parameterSource.addValue("dateMax", dateMax);
@@ -111,50 +100,38 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User getUserById(Integer id) {
-        LOGGER.debug("Getting user by id: {}", id);
+        LOGGER.debug("userDao: Getting user by id: {}", id);
         SqlParameterSource paramSource = new MapSqlParameterSource("userId", id);
         return namedParameterJdbcTemplate.queryForObject(selectUserById, paramSource, userMapper);
     }
 
     @Override
     public User getUserByLogin(String login) {
-        LOGGER.debug("Getting user by login: {}", login);
+        LOGGER.debug("userDao: Getting user by login: {}", login);
         SqlParameterSource parameterSource = new MapSqlParameterSource("login", login);
         return namedParameterJdbcTemplate.queryForObject(selectUserByLogin, parameterSource, userMapper);
     }
 
     @Override
     public Integer getCountOfUsers() {
-        LOGGER.debug("dao: Getting count of all users");
+        LOGGER.debug("userDao: Getting count of all users");
         SqlParameterSource parameterSource = new MapSqlParameterSource();
         return namedParameterJdbcTemplate.queryForObject(getCountOfUsers, parameterSource, Integer.class);
     }
 
-
     @Override
     public Integer getCountOfUserFriends(Integer id) {
-        LOGGER.debug("dao: Getting count of all friends of a user: {}", id);
+        LOGGER.debug("userDao: Getting count of all friends of a user: {}", id);
         SqlParameterSource parameterSource = new MapSqlParameterSource("userId", id);
         return namedParameterJdbcTemplate.queryForObject(getCountOfUserFriends, parameterSource, Integer.class);
     }
 
-   /* @Override
-    public void increaseFriends(Integer id) {
-        LOGGER.debug("dao: Increasing number of friends of user: {}", id);
-        User user = new User(id);
-        user.setTotalFriends(getCountOfUserFriends(id) + 1);
-        BeanPropertySqlParameterSource source = new BeanPropertySqlParameterSource(user);
-        namedParameterJdbcTemplate.update(changeTotalFriends, source);
-    }
-
     @Override
-    public void decreaseFriends(Integer id) {
-        LOGGER.debug("dao: Decreasing number of friends of user: {}", id);
-        User user = new User(id);
-        user.setTotalFriends(getCountOfUserFriends(id) - 1);
-        BeanPropertySqlParameterSource source = new BeanPropertySqlParameterSource(user);
-        namedParameterJdbcTemplate.update(changeTotalFriends, source);
-    }*/
-
-
+    public void setCountOfUserFriends(Integer id) {
+        LOGGER.debug("userDao: Setting count of all friends of a user: {}", id);
+        MapSqlParameterSource source = new MapSqlParameterSource();
+        source.addValue("totalFriends", getCountOfUserFriends(id));
+        source.addValue("userId", id);
+        namedParameterJdbcTemplate.update(setTotalFriends, source);
+    }
 }

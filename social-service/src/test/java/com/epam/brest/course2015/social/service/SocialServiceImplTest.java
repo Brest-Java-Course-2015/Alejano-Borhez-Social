@@ -2,6 +2,7 @@ package com.epam.brest.course2015.social.service;
 
 import com.epam.brest.course2015.social.core.Friendship;
 import com.epam.brest.course2015.social.core.User;
+import com.epam.brest.course2015.social.dto.SocialDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
@@ -394,5 +395,31 @@ public class SocialServiceImplTest  {
         testUser1.setUserId(socialService.addUser(testUser1));
         testUser2.setUserId(socialService.addUser(testUser2));
         socialService.discardFriendship(testUser1, testUser2);
+    }
+
+    @Test
+    public void testGetSocialUsersDto() throws Exception {
+        LOGGERDO();
+        SocialDto dto = socialService.getSocialUsersDto();
+        assertNotNull(dto);
+        assertEquals(SocialDto.class, dto.getClass());
+        assertNotNull(dto.getTotalUsers());
+        assertTrue(dto.getTotalUsers() > 0);
+        assertNotNull(dto.getUsers());
+        assertEquals(dto.getUsers().get(0).getClass(), User.class);
+        assertTrue(dto.getUsers().size() > 0);
+    }
+
+    @Test
+    public void testGetSocialFriendsDto() throws Exception {
+        LOGGERDO();
+        SocialDto dto = socialService.getSocialFriendsDto(1);
+        assertNotNull(dto);
+        assertEquals(SocialDto.class, dto.getClass());
+        assertNotNull(dto.getTotalUsers());
+        assertTrue(dto.getTotalUsers() > 0);
+        assertNotNull(dto.getUsers());
+        assertEquals(dto.getUsers().get(0).getClass(), User.class);
+        assertTrue(dto.getUsers().size() > 0);
     }
 }

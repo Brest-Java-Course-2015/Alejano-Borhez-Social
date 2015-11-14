@@ -25,8 +25,7 @@ public class SocialRestController {
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)
-    public @ResponseBody List<User> getAllUsers(/*@RequestParam(value = "crdatemin") Date createdDateMin,
-                                                @RequestParam(value = "crdatemax") Date createdDateMa*/) {
+    public @ResponseBody List<User> getAllUsers() {
         LOGGER.debug("rest: Getting all users");
         return socialService.getAllUsers();}
 
@@ -42,13 +41,6 @@ public class SocialRestController {
         LOGGER.debug("rest: Getting all friends of user {}", id);
         return socialService.getFriends(id);
     }
-
-   /* @RequestMapping(value = "/user/friendscount", method = RequestMethod.GET)
-    @ResponseStatus(value = HttpStatus.OK)
-    public @ResponseBody Integer getCountFriends (@RequestParam(value ="id") Integer id) {
-        LOGGER.debug("rest: Getting all friends of user {}", id);
-        return socialService.getCountFriends(id);
-    }*/
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)
@@ -113,9 +105,16 @@ public class SocialRestController {
 
     @RequestMapping(value = "/userdto", method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)
-    public @ResponseBody SocialDto getSocialDto() {
-        LOGGER.debug("rest: Getting SocialDto");
-        return socialService.getSocialDto();
+    public @ResponseBody SocialDto getUsersDto() {
+        LOGGER.debug("rest: Getting UserDto");
+        return socialService.getSocialUsersDto();
+    }
+
+    @RequestMapping(value = "/friendsdto", method = RequestMethod.GET)
+    @ResponseStatus(value = HttpStatus.OK)
+    public @ResponseBody SocialDto getFriendsDto(@RequestParam(value = "id") Integer id) {
+        LOGGER.debug("rest: Getting friendsDto");
+        return socialService.getSocialFriendsDto(id);
     }
 
 

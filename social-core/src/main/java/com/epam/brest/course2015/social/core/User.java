@@ -21,9 +21,11 @@ public class User {
 
 
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING,
+            pattern = "dd-MM-yyyy hh:mm:ss")
     private Date createdDate;
-    @JsonFormat (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+    @JsonFormat (shape = JsonFormat.Shape.STRING,
+            pattern = "dd-MM-yyyy hh:mm:ss")
     private Date updatedDate;
     //Геттеры и сеттеры
     public String getFirstName() {
@@ -87,8 +89,11 @@ public class User {
         this.updatedDate = updatedDate;
     }
     //Конструкторы
-    //Базовый конструктор - используется для добавления в базу данных нового пользователя
-    public User(String login, String password, String firstName, String lastName, Integer age) {
+    //Базовый конструктор - используется для добавления
+    //в базу данных нового пользователя
+    public User(String login, String password,
+                String firstName, String lastName,
+                Integer age) {
         this.password = password;
         this.login = login;
         this.age = age;
@@ -98,7 +103,7 @@ public class User {
         this.updatedDate = new Date();
     }
     //Пустой конструктор - используется в основном для тестов
-    public User() {}
+    public User() { }
 //    Конструкторы для тестов
     public User(Integer userId) {
         this.userId = userId;

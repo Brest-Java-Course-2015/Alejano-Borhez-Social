@@ -137,6 +137,14 @@ public class UserTest {
         assertEquals(testUser.getUserId().getClass(), Integer.class);
     }
 
-
+    @Test
+    public void testSetTotalFriends() throws Exception {
+        LOGGERDO();
+        Integer totalFriends = 5;
+        user.setTotalFriends(totalFriends);
+        Integer testTotalFriends = user.getTotalFriends();
+        assertNotNull(testTotalFriends);
+        assertTrue(testTotalFriends == totalFriends);
+    }
 
 }
