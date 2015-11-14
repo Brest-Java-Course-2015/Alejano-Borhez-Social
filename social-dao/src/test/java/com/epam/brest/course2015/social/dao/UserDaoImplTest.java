@@ -100,5 +100,32 @@ public class UserDaoImplTest {
 
     }
 
+    @Test
+    public void testGetCountOfUserFriends() throws Exception {
+        LOGGERDO();
+        Integer count = userDao.getCountOfUserFriends(1);
+        assertNotNull(count);
+        assertTrue(count > 0);
+    }
+
+   /* @Test
+    public void testIncreaseFriends() throws Exception {
+        LOGGERDO();
+        Integer countBefore = userDao.getCountOfUserFriends(1);
+        userDao.increaseFriends(1);
+        Integer countAfter = userDao.getCountOfUserFriends(1);
+        assertTrue(countAfter - countBefore == 1);
+
+    }
+
+    @Test
+    public void testDecreaseFriends() throws Exception {
+        LOGGERDO();
+        Integer countBefore = userDao.getCountOfUserFriends(1);
+        userDao.decreaseFriends(1);
+        Integer countAfter = userDao.getCountOfUserFriends(1);
+        assertTrue(countAfter - countBefore == -1);
+
+    }*/
 
 }

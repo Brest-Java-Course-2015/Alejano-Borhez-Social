@@ -1,10 +1,11 @@
 // The root URL for the RESTful services
 var PREFIX_URL = "http://localhost:8081/rest"
 var USER_URL = "/user";
-var USERDTO_URL = "/userdto"
+var USERDTO_URL = "/userdto";
 var USERS_URL = "/users";
 var FRIENDS_URL = "/friends";
 var FRIENDSHIP_URL = "/friendship";
+var id = getQueryVariable("id");
 
 findAll();
 
@@ -17,6 +18,16 @@ $('#btnSave').click(function () {
     return false;
 });
 
+function getQueryVariable(variable)
+{
+       var query = window.location.search.substring(1);
+       var vars = query.split("&");
+       for (var i=0;i<vars.length;i++) {
+               var pair = vars[i].split("=");
+               if(pair[0] == variable){return pair[1];}
+       }
+       return(false);
+}
 
 function deleteUser(userId) {
 
@@ -60,11 +71,13 @@ function updateUserPassword(userId) {
 
 function findAll() {
     console.log('findAll');
-    var url = PREFIX_URL + USERDTO_URL;
+    var url = PREFIX_URL + USER_URL + FRIENDS_URL;
+    var data = "id=" + id;
     $.ajax({
         type: 'GET',
         url: url,
         dataType: "json", // data type of response
+        data: data,
         success: renderList,
         error: function(jqXHR, textStatus, errorThrown) {
             console.log(jqXHR, textStatus, errorThrown);
@@ -87,14 +100,12 @@ function drawRow(user) {
 }
 
 function renderList(data) {
-    var dto = data.users == null ? [] : (data.users instanceof Array ? data.users : [data.users]);
-    var total = data.totalUsers;
+    var dto = data == null ? [] : (data instanceof Array ? data : [data]);
     $('#userList tr').remove();
     $.each(dto, function (index, user) {
         drawRow(user);
     });
     $('#userTotal p').remove();
-    $('#userTotal').append($("<p>Всего пользователей: " + total + "</p>"));
 
 }
 

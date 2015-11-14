@@ -152,6 +152,8 @@ public class SocialServiceImpl implements SocialService {
         Assert.isTrue(!friendshipDao.isAFriend(user1, user2), "Friendship already exists");
         LOGGER.debug("Adding new friendship of users: {}, {}", user1.getUserId(), user2.getUserId());
         friendshipDao.addFriendship(user1, user2);
+        userDao.increaseFriends(user1.getUserId());
+        userDao.increaseFriends(user2.getUserId());
 
     }
 
@@ -174,6 +176,8 @@ public class SocialServiceImpl implements SocialService {
         Assert.isTrue(friendshipDao.isAFriend(enemy1, enemy2), "Friendship does not exist");
         LOGGER.debug("Discarding a friendship of users: {}, {}", enemy1.getUserId(), enemy2.getUserId());
         friendshipDao.discardFriendship(enemy1, enemy2);
+        userDao.decreaseFriends(enemy1.getUserId());
+        userDao.decreaseFriends(enemy2.getUserId());
 
     }
 
