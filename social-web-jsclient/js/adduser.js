@@ -1,5 +1,5 @@
 // The root URL for the RESTful services
-var PREFIX_URL = "http://localhost:8081/rest"
+var PREFIX_URL = "http://localhost:8082/social-rest-1.0-SNAPSHOT"
 var USER_URL = "/user";
 
 // Register listeners
