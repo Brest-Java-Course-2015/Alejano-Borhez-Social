@@ -42,8 +42,8 @@ public class UserDaoImpl implements UserDao {
     String getCountOfUsers;
     @Value("${user.getCountOfUserFriends}")
     String getCountOfUserFriends;
-    @Value("${user.changeTotalFriends}")
-    String changeTotalFriends;
+    @Value("${user.setTotalFriends}")
+    String setTotalFriends;
 
     private RowMapper<User> userMapper = new BeanPropertyRowMapper<>(User.class);
 
@@ -86,7 +86,18 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> getAllUsers() {
         LOGGER.debug("Getting all users");
-        return namedParameterJdbcTemplate.query(selectAllUsers, userMapper);
+        List<User> list = namedParameterJdbcTemplate.query(selectAllUsers, userMapper);
+
+        for (User user : list) {
+            Integer id = user.getUserId();
+            MapSqlParameterSource source = new MapSqlParameterSource();
+            source.addValue("totalFriends", getCountOfUserFriends(id));
+            source.addValue("userId", id);
+
+            namedParameterJdbcTemplate.update(setTotalFriends, source);
+        }
+
+        return list;
     }
 
     @Override
@@ -127,7 +138,7 @@ public class UserDaoImpl implements UserDao {
         return namedParameterJdbcTemplate.queryForObject(getCountOfUserFriends, parameterSource, Integer.class);
     }
 
-    @Override
+   /* @Override
     public void increaseFriends(Integer id) {
         LOGGER.debug("dao: Increasing number of friends of user: {}", id);
         User user = new User(id);
@@ -143,7 +154,7 @@ public class UserDaoImpl implements UserDao {
         user.setTotalFriends(getCountOfUserFriends(id) - 1);
         BeanPropertySqlParameterSource source = new BeanPropertySqlParameterSource(user);
         namedParameterJdbcTemplate.update(changeTotalFriends, source);
-    }
+    }*/
 
 
 }

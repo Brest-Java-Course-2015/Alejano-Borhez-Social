@@ -11,11 +11,7 @@ findAll();
 
 // Register listeners
 $('#btnSave').click(function () {
-    if ($('#userId').val() == '')
         addUser();
-    else
-        updateUser();
-    return false;
 });
 
 function getQueryVariable(variable)
@@ -121,7 +117,6 @@ function addUser() {
         success: function (data, textStatus, jqXHR) {
             alert('User created successfully');
             $('#userId').val(data.userId);
-            findAll();
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert('addUser error: ' + textStatus);
@@ -148,9 +143,7 @@ function addUser() {
 }*/
 
 function formToJSON() {
-    var userId = $('#userId').val();
     return JSON.stringify({
-        "userId": userId == "" ? null : userId,
         "login": $('#login').val(),
         "password": $('#password').val(),
         "firstName": $('#firstName').val(),

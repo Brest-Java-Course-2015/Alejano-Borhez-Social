@@ -18,7 +18,15 @@
     <![endif]-->
 </head>
 <body>
-<h1>Simple Social Network</h1>
+<h1><a href="index.html">Simple Social Network</a></h1>
+<div id="breadcrumbs">
+    <span>Список пользователей >></span>
+    <span id="username">User1</span>
+    <span> >></span>
+    <span>Друзья пользователя </span>
+    <span id="username1">User1</span>
+
+</div>
 
 <div class="table-responsive">
     <table class="table table-striped">
@@ -54,31 +62,7 @@
 </div>
 <hr />
 
-<form id="userForm">
-    <div class="mainArea">
 
-        <label>Id:</label>
-        <input id="userId" name="id" type="text" disabled/>
-
-        <label>Login:</label>
-        <input type="text" id="login" name="login" required>
-
-        <label>Password:</label>
-        <input type="password" id="password" name="password" required>
-
-        <label>FirstName:</label>
-        <input type="text" id="firstName" name="firstName" required>
-
-        <label>LastName:</label>
-        <input type="text" id="lastName" name="lastName" required>
-
-        <label>LastName:</label>
-        <input type="number" id="age" name="age" required>
-
-        <button id="btnSave">Добавить</button>
-
-    </div>
-</form>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="js/jquery.js"></script>

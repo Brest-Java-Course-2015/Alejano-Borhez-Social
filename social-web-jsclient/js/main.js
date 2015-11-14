@@ -10,11 +10,7 @@ findAll();
 
 // Register listeners
 $('#btnSave').click(function () {
-    if ($('#userId').val() == '')
         addUser();
-    else
-        updateUser();
-    return false;
 });
 
 
@@ -29,6 +25,7 @@ function deleteUser(userId) {
         url: url,
         success: function (data, textStatus, jqXHR) {
                     alert('User deleted successfully');
+                    findAll();
                     findAll();
                 },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -137,9 +134,7 @@ function addUser() {
 }*/
 
 function formToJSON() {
-    var userId = $('#userId').val();
     return JSON.stringify({
-        "userId": userId == "" ? null : userId,
         "login": $('#login').val(),
         "password": $('#password').val(),
         "firstName": $('#firstName').val(),

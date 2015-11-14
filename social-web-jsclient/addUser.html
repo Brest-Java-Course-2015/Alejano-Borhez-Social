@@ -18,48 +18,36 @@
     <![endif]-->
 </head>
 <body>
-<h1><a href="index.html">Simple Social Network</a></h1>
+<h1>Adding a new user</h1>
 
-<div class="table-responsive">
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>UserId</th>
-            <th>Логин</th>
-            <th>Фамилия, Имя</th>
-            <th>Возраст</th>
-            <th>Друзья</th>
-            <th>Пароль</th>
-            <th>Дата создания</th>
-            <th>Действия</th>
-        </tr>
-        </thead>
-        <tbody id="userList">
-        <tr>
-            <td>abc</td>
-            <td>def</td>
-            <td>ghi</td>
-            <td>123</td>
-            <td>abc</td>
-            <td>def</td>
-            <td>ghi</td>
-            <td>123</td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+<form id="userForm">
+    <div class="mainArea">
 
-<div id="userTotal">
-    <p>3</p>
-    <button id="addUser" style="float: right; position:relative; right: 50px"><a href="addUser.html">Добавить пользователя</a> </button>
-</div>
+        <label>Login:</label><br>
+        <input type="text" id="login" name="login" required>
+        <br>
+        <label>Password:</label><br>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <label>FirstName:</label><br>
+        <input type="text" id="firstName" name="firstName" required>
+        <br>
+        <label>LastName:</label><br>
+        <input type="text" id="lastName" name="lastName" required>
+        <br>
+        <label>LastName:</label><br>
+        <input type="number" id="age" name="age" required>
+        <br>
+        <button id="btnSave"><a href="index.html">Добавить</a></button>
 
+    </div>
+</form>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="js/jquery.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="js/bootstrap.js"></script>
 
-<script src="js/main.js"></script>
+<script src="js/adduser.js"></script>
 </body>
 </html>
