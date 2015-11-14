@@ -25,45 +25,28 @@ function getQueryVariable(variable)
        return(false);
 }
 
-function deleteUser(userId) {
 
-    if (confirm("Вы уверены, что хотите удалить пользователя № " + userId + "?"))
+
+function deleteFriend(id, userId) {
+
+    if (confirm("Вы уверены, что хотите убрать пользователя № " + userId + "из друзей пользователя № " + id + "?"))
     {
-    console.log('deleteUser' + userId);
-    var url = PREFIX_URL + USER_URL + "?id=" + userId;
+    console.log('deleteFriendship' + id + ', ' + userId);
+    var url = PREFIX_URL + USER_URL + FRIENDSHIP_URL + "?id1=" + id + "&id2=" + userId;
     $.ajax({
         type: 'DELETE',
         url: url,
         success: function (data, textStatus, jqXHR) {
-                    alert('User deleted successfully');
+                    alert('Friendship deleted successfully');
                     findAll();
                 },
         error: function (jqXHR, textStatus, errorThrown) {
-            alert('deleteUser error: ' + textStatus + userId);
+            alert('deleteFriend error: ' + textStatus + userId);
         }
     })
     }
 }
 
-function updateUserPassword(userId) {
-    console.log('updateUser' + userId);
-    var newPassword = prompt("Введите новый пароль", '');
-    var url = PREFIX_URL + USER_URL + "?id=" + userId + "&password=" + newPassword;
-    $.ajax({
-        type: 'PUT',
-        url: url,
-        success: function() {
-        alert('Пароль успешно изменён.');
-        findAll();
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-                           console.log(jqXHR, textStatus, errorThrown);
-                           alert('updateUser: ' + textStatus);
-                       }
-
-    })
-
-}
 
 function findAll() {
     console.log('findAll');
@@ -92,7 +75,7 @@ function drawRow(user) {
     row.append($("<td>" + '<a href="friends.html?id=' + user.userId + '">' + user.totalFriends + '</a></td>'));
     row.append($("<td>" + user.password + "</td>"));
     row.append($("<td>" + user.createdDate + "</td>"));
-    row.append($("<td>" + '<button onclick="deleteUser('+ user.userId +')">Удалить</button>' + '<button onclick="updateUserPassword('+ user.userId +')">Изменить</button>' + "</td>"));
+    row.append($("<td>" + '<button onclick="deleteFriend('+ id + ',' + user.userId +')">Убрать из друзей</button>' + '<button onclick="updateUserPassword('+ user.userId +')">Изменить</button>' + "</td>"));
 }
 
 function renderList(data) {
@@ -123,24 +106,6 @@ function addUser() {
         }
     });
 }
-
-/*function updateUser() {
-    console.log('updateUser');
-    var url = PREFIX_URL + USER_URL + "";
-    $.ajax({
-        type: 'PUT',
-        contentType: 'application/json',
-        url: url,
-        data: formToJSON(),
-        success: function (data, textStatus, jqXHR) {
-            alert('User updated successfully');
-            findAll();
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            alert('updateUser error: ' + textStatus);
-        }
-    });
-}*/
 
 function formToJSON() {
     return JSON.stringify({
