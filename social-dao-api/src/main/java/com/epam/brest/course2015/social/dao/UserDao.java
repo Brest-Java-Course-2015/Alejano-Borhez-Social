@@ -10,7 +10,10 @@ import java.util.List;
  */
 public interface UserDao {
     Integer addUser(User user);
-    void updateUser(Integer id, String password);
+    void changePassword(Integer id, String password);
+    void changeLogin(Integer id, String login);
+    void changeFirstName(Integer id, String firstName);
+    void changeLastName(Integer id, String lastName);
     void deleteUser(Integer id);
     List<User> getFriends(Integer id);
     List<User> getAllUsers();

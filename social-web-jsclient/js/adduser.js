@@ -3,44 +3,39 @@ var PREFIX_URL = "http://localhost:8082/social-rest-1.0-SNAPSHOT"
 var USER_URL = "/user";
 
 // Register listeners
+$('#addUser').click(function () {
+        addUser();
+        goHome();
+});
 
+render();
+
+function render() {
+    $('#addUser span').remove();
+    $('#addUser').append($("<span>Добавить</span>"));
+}
 
 function goHome() {
     window.location="index.html";
 }
 
-function getQueryVariable(variable)
-{
-       var query = window.location.search.substring(1);
-       var vars = query.split("&");
-       for (var i=0;i<vars.length;i++) {
-               var pair = vars[i].split("=");
-               if(pair[0] == variable){return pair[1];}
-       }
-       return(false);
-}
-
-
 function addUser() {
     console.log('addUser');
-    var url = PREFIX_URL + USER_URL;
     $.ajax({
         type: 'POST',
         contentType: 'application/json',
-        url: url,
+        url: PREFIX_URL + USER_URL,
         dataType: "json",
         data: formToJSON(),
         success: function (data, textStatus, jqXHR) {
             alert('User created successfully');
-            $('#userId').val(data.userId);
-
+            goHome();
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            alert('addUser error: ' + textStatus + errorThrown);
+            alert('addUser error: ' + textStatus);
         }
     });
 }
-
 
 function formToJSON() {
     return JSON.stringify({

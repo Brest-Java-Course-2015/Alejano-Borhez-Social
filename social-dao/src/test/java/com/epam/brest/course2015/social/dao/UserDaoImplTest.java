@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
  * Created by alexander on 25.10.15.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath*:test-spring-dao.xml"})
+@ContextConfiguration(locations = {"classpath:test-spring-dao.xml"})
 @Transactional
 public class UserDaoImplTest {
     //Универсальный Логгер, который показывает имя тестового класса и имя тестового метода
@@ -83,9 +83,9 @@ public class UserDaoImplTest {
     }
 
     @Test
-    public void testUpdateUser() throws Exception {
+    public void testChangePassword() throws Exception {
         LOGGERDO();
-        userDao.updateUser(testId, testPassword);
+        userDao.changePassword(testId, testPassword);
         assertEquals(testPassword, userDao.getUserById(testId).getPassword());
     }
 

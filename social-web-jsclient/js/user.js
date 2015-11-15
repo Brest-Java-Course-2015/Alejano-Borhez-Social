@@ -9,11 +9,6 @@ var id = getQueryVariable("id");
 
 findAll();
 
-// Register listeners
-$('#btnSave').click(function () {
-        addUser();
-});
-
 function getQueryVariable(variable)
 {
        var query = window.location.search.substring(1);
@@ -70,7 +65,7 @@ function drawRow(user) {
     $("#userList").append(row);
     row.append($("<td>" + user.userId + "</td>"));
     row.append($("<td>" + user.login + "</td>"));
-    row.append($("<td>" + '<a href="#" data-identity="' + user.userId + '">' + user.firstName + ", " + user.lastName + '</a></td>'));
+    row.append($("<td>" + '<a href="user.html?id=' + user.userId + '">' + user.firstName + ", " + user.lastName + '</a></td>'));
     row.append($("<td>" + user.age + "</td>"));
     row.append($("<td>" + '<a href="friends.html?id=' + user.userId + '">' + user.totalFriends + '</a></td>'));
     row.append($("<td>" + user.password + "</td>"));
@@ -91,25 +86,40 @@ function renderList(data) {
     $('#bc_username span').remove();
     $('#bc_username_href').append($('<span><a href="user.html?id=' + id + '">' + data.user.firstName + " " + data.user.lastName + "</a></span>"));
     $('#bc_username').append($("<span>" + data.user.firstName + " " + data.user.lastName + "</span>"));
+    $('#login span').remove();
+    $('#login').append($("<span>" + data.user.login + "</span>"));
+    $('#password span').remove();
+    $('#password').append($("<span>" + data.user.password + "</span>"));
+    $('#firstname span').remove();
+    $('#firstname').append($("<span>" + data.user.firstName + "</span>"));
+    $('#lastname span').remove();
+    $('#lastname').append($("<span>" + data.user.lastName + "</span>"));
+    $('#age span').remove();
+    $('#age').append($("<span>" + data.user.age + "</span>"));
 }
 
-function addUser() {
-    console.log('addUser');
-    var url = PREFIX_URL + USER_URL;
+function changePassword() {
+    console.log('updateUser');
+    var newPassword = prompt("Введите новый пароль", '');
+    var url = PREFIX_URL + USER_URL + "?id=" + id + "&password=" + newPassword;
+    if (newPassword != "") {
     $.ajax({
-        type: 'POST',
-        contentType: 'application/json',
+        type: 'PUT',
         url: url,
-        dataType: "json",
-        data: formToJSON(),
         success: function (data, textStatus, jqXHR) {
-            alert('User created successfully');
-            $('#userId').val(data.userId);
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            alert('addUser error: ' + textStatus);
-        }
-    });
+                                     alert('Пароль успешно изменён.');
+                                     findAll();
+                                 },
+        error: function(jqXHR, textStatus, errorThrown) {
+                           console.log(jqXHR, textStatus, errorThrown);
+                           alert('updateUser: ' + textStatus + "пароль " + newPassword + "пользователь " + id);
+                       }
+
+    })
+    } else {
+        alert('Пароль не может быть пустым');
+    }
+
 }
 
 function formToJSON() {

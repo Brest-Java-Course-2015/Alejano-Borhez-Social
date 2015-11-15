@@ -408,6 +408,7 @@ public class SocialServiceImplTest  {
         assertNotNull(dto.getUsers());
         assertEquals(dto.getUsers().get(0).getClass(), User.class);
         assertTrue(dto.getUsers().size() > 0);
+        assertNull(dto.getUser());
     }
 
     @Test
@@ -421,5 +422,7 @@ public class SocialServiceImplTest  {
         assertNotNull(dto.getUsers());
         assertEquals(dto.getUsers().get(0).getClass(), User.class);
         assertTrue(dto.getUsers().size() > 0);
+        assertNotNull(dto.getUser());
+        assertEquals(dto.getUser().getClass(), User.class);
     }
 }

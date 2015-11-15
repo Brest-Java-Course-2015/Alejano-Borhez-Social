@@ -97,7 +97,7 @@ public class SocialServiceImplMockTest {
         LOGGERDO();
         testMockUser1.setUserId(5);
         expect(userMockDao.getUserById(testMockUser1.getUserId())).andReturn(testMockUser1);
-        userMockDao.updateUser(testMockUser1.getUserId(), testMockUser2.getPassword());
+        userMockDao.changePassword(testMockUser1.getUserId(), testMockUser2.getPassword());
         expectLastCall();
         replay(userMockDao);
         socialService.updateUser(testMockUser1.getUserId(), testMockUser2.getPassword());

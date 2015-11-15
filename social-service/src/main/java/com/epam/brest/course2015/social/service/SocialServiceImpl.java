@@ -103,7 +103,7 @@ public class SocialServiceImpl implements SocialService {
         LOGGER.debug("service: Updating a user with id: {}", id);
         try {
             userDao.getUserById(id);
-            userDao.updateUser(id, password);
+            userDao.changePassword(id, password);
         } catch (EmptyResultDataAccessException e) {
             e.printStackTrace();
             LOGGER.debug("service: User with Id {} does not exist", id);
@@ -229,6 +229,7 @@ public class SocialServiceImpl implements SocialService {
         } else {
             dto.setUsers(Collections.<User>emptyList());
         }
+        dto.setUser(userDao.getUserById(id));
         return dto;
     }
 }

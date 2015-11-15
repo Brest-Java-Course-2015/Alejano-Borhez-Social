@@ -10,6 +10,7 @@ import java.util.List;
 public class SocialDto {
     private List<User> users;
     private Integer totalUsers;
+    private User user;
 
     public List<User> getUsers() {
         return users;
@@ -27,5 +28,11 @@ public class SocialDto {
         this.totalUsers = totalUsers;
     }
 
+    public User getUser() {
+        return user;
+    }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

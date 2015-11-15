@@ -34,7 +34,7 @@ public class UserDaoImpl implements UserDao {
     String deleteUser;
     @Value("${user.addUser}")
     String addUser;
-    @Value("${user.updateUser}")
+    @Value("${user.changePassword}")
     String updateUser;
     @Value("${friend.findFriends}")
     String selectFriendship;
@@ -60,13 +60,28 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void updateUser(Integer id, String password) {
+    public void changePassword(Integer id, String password) {
         LOGGER.debug("userDao: Updating user {}", id);
         User user = new User();
         user.setUserId(id);
         user.setPassword(password);
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(user);
         namedParameterJdbcTemplate.update(updateUser, parameterSource);
+    }
+
+    @Override
+    public void changeLogin(Integer id, String login) {
+
+    }
+
+    @Override
+    public void changeFirstName(Integer id, String firstName) {
+
+    }
+
+    @Override
+    public void changeLastName(Integer id, String lastName) {
+
     }
 
     @Override
