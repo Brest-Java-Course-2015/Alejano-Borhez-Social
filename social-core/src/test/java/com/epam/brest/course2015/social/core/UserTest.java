@@ -81,17 +81,6 @@ public class UserTest {
     }
 
     @Test
-    public void testGetFriends() throws Exception {
-        LOGGERDO();
-        List<User> friends = new ArrayList<User>() {};
-        friends.add(user);
-        user.setFriends(friends);
-        assertNotNull(user.getFriends());
-        assertTrue(user.getFriends().size() > 0);
-        assertEquals(User.class, user.getFriends().get(0).getClass());
-    }
-
-    @Test
     public void testGetCreatedDate() throws Exception {
         LOGGERDO();
         user.setCreatedDate(new Date());

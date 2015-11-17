@@ -124,6 +124,18 @@ public class SocialRestControllerMockTest {
     }
 
     @Test
+    public void testGetUserNoFriends() throws Exception {
+        expect(socialService.getNoFriends(1)).andReturn(Arrays.<User>asList(new User(2), new User(3)));
+        replay(socialService);
+        LOGGERDO();
+        mockMvc.perform(
+                get("/user/nofriends?id=1")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
     public void testAddUser() throws Exception {
         expect(socialService.addUser(anyObject(User.class))).andReturn(5);
         replay(socialService);
@@ -140,14 +152,56 @@ public class SocialRestControllerMockTest {
     }
 
     @Test
-    public void testUpdateUser() throws Exception {
-        socialService.updateUser(1, "password");
+    public void testChangePassword() throws Exception {
+        socialService.changePassword(1, "password");
         expectLastCall();
         replay(socialService);
         LOGGERDO();
         mockMvc.perform(
-                put("/user?id=1&password=password")
+                put("/user/password?id=1&password=password")
                 .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string(""));
+    }
+
+    @Test
+    public void testChangeLogin() throws Exception {
+        socialService.changeLogin(1, "login");
+        expectLastCall();
+        replay(socialService);
+        LOGGERDO();
+        mockMvc.perform(
+                put("/user/login/?id=1&login=login")
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string(""));
+    }
+
+    @Test
+    public void testChangeFirstName() throws Exception {
+        socialService.changeFirstName(1, "firstname");
+        expectLastCall();
+        replay(socialService);
+        LOGGERDO();
+        mockMvc.perform(
+                put("/user/firstname/?id=1&firstname=firstname")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string(""));
+    }
+
+    @Test
+    public void testChangeLastName() throws Exception {
+        socialService.changeLastName(1, "lastname");
+        expectLastCall();
+        replay(socialService);
+        LOGGERDO();
+        mockMvc.perform(
+                put("/user/lastname/?id=1&lastname=lastname")
+                        .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(""));

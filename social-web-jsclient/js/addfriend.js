@@ -1,14 +1,14 @@
 // The root URL for the RESTful services
 var PREFIX_URL = "http://localhost:8082/social-rest-1.0-SNAPSHOT"
 var USER_URL = "/user";
-var FRIENDS_URL = "/friendsdto";
+var FRIENDS_URL = "/nofriendsdto";
 var FRIENDSHIP_URL = "/friendship";
 var id = getQueryVariable("id");
 
 findAll();
 
-function gotoAddFriend() {
-    window.location="addfriend.html?id=" + id;
+function goBack() {
+    window.location="friends.html?id=" + id;
 }
 
 function getQueryVariable(variable)
@@ -22,17 +22,17 @@ function getQueryVariable(variable)
        return(false);
 }
 
-function deleteFriend(id, userId)
+function addFriend(id, userId)
 {
-    if (confirm("Вы уверены, что хотите убрать пользователя № " + userId + "из друзей пользователя № " + id + "?"))
+    if (confirm("Вы уверены, что хотите добавить пользователя № " + userId + "в друзья пользователя № " + id + "?"))
     {
-    console.log('deleteFriendship' + id + ', ' + userId);
+    console.log('addFriendship' + id + ', ' + userId);
     var url = PREFIX_URL + USER_URL + FRIENDSHIP_URL + "?id1=" + id + "&id2=" + userId;
     $.ajax({
-        type: 'DELETE',
+        type: 'POST',
         url: url,
         success: function (data, textStatus, jqXHR) {
-                    alert('Friendship deleted successfully');
+                    alert('Friendship added successfully');
                     findAll();
                 },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -69,7 +69,7 @@ function drawRow(user) {
     row.append($("<td>" + '<a href="friends.html?id=' + user.userId + '">' + user.totalFriends + '</a></td>'));
     row.append($("<td>" + user.password + "</td>"));
     row.append($("<td>" + user.createdDate + "</td>"));
-    row.append($("<td>" + '<button onclick="deleteFriend('+ id + ',' + user.userId +')">Убрать из друзей</button>' + '<button onclick="updateUserPassword('+ user.userId +')">Изменить</button>' + "</td>"));
+    row.append($("<td>" + '<button onclick="addFriend('+ id + ',' + user.userId +')">Добавить в друзья</button>' + '<button onclick="updateUserPassword('+ user.userId +')">Изменить</button>' + "</td>"));
 }
 
 function renderList(data) {
@@ -80,7 +80,7 @@ function renderList(data) {
         drawRow(user);
     });
     $('#userTotal p').remove();
-    $('#userTotal').append($("<p>Всего друзей: " + total + "</p>"));
+    $('#userTotal').append($("<p>Всего незнакомых пользователей: " + total + "</p>"));
     $('#bc_username_href span').remove();
     $('#bc_username span').remove();
     $('#bc_username_href').append($('<span><a href="user.html?id=' + id + '">' + data.user.firstName + " " + data.user.lastName + "</a></span>"));

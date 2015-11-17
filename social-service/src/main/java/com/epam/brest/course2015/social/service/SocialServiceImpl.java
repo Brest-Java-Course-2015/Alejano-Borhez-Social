@@ -12,6 +12,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -92,7 +94,7 @@ public class SocialServiceImpl implements SocialService {
     }
 
     @Override
-    public void updateUser(Integer id, String password) {
+    public void changePassword(Integer id, String password) {
         Assert.notNull(id, notNullId);
         Assert.isTrue(id > 0, correctId);
         Assert.notNull(password, notNullPassword);
@@ -100,6 +102,54 @@ public class SocialServiceImpl implements SocialService {
         try {
             userDao.getUserById(id);
             userDao.changePassword(id, password);
+        } catch (EmptyResultDataAccessException e) {
+            e.printStackTrace();
+            LOGGER.debug("service: User with Id {} does not exist", id);
+            throw new IllegalArgumentException();
+        }
+    }
+
+    @Override
+    public void changeLogin(Integer id, String login) {
+        Assert.notNull(id, notNullId);
+        Assert.isTrue(id > 0, correctId);
+        Assert.notNull(login, notNullLogin);
+        LOGGER.debug("service: Changing login of a user: {}", id);
+        try {
+            userDao.getUserById(id);
+            userDao.changeLogin(id, login);
+        } catch (EmptyResultDataAccessException e) {
+            e.printStackTrace();
+            LOGGER.debug("service: User with Id {} does not exist", id);
+            throw new IllegalArgumentException();
+        }
+    }
+
+    @Override
+    public void changeFirstName(Integer id, String firstName) {
+        Assert.notNull(id, notNullId);
+        Assert.isTrue(id > 0, correctId);
+        Assert.notNull(firstName, notNullFirstName);
+        LOGGER.debug("service: Changing firstName of a user: {}", id);
+        try {
+            userDao.getUserById(id);
+            userDao.changeFirstName(id, firstName);
+        } catch (EmptyResultDataAccessException e) {
+            e.printStackTrace();
+            LOGGER.debug("service: User with Id {} does not exist", id);
+            throw new IllegalArgumentException();
+        }
+    }
+
+    @Override
+    public void changeLastName(Integer id, String lastName) {
+        Assert.notNull(id, notNullId);
+        Assert.isTrue(id > 0, correctId);
+        Assert.notNull(lastName, notNullLastName);
+        LOGGER.debug("service: Changing lastName of a user: {}", id);
+        try {
+            userDao.getUserById(id);
+            userDao.changeLastName(id, lastName);
         } catch (EmptyResultDataAccessException e) {
             e.printStackTrace();
             LOGGER.debug("service: User with Id {} does not exist", id);
@@ -152,6 +202,29 @@ public class SocialServiceImpl implements SocialService {
             LOGGER.debug("service: User with Id {} does not exist", id);
             throw new IllegalArgumentException();
         }
+    }
+
+    @Override
+    public List<User> getNoFriends(Integer id) {
+        Assert.notNull(id, notNullId);
+        Assert.isTrue(id > 0, correctId);
+        List<User> listUsers = getAllUsers();
+        List<User> listFriends = getFriends(id);
+        List<Integer> userId = new ArrayList<>();
+        for (User user: listUsers) {
+            userId.add(user.getUserId());
+        }
+        for (User user: listFriends) {
+            if (userId.contains(user.getUserId())) {
+                userId.remove(user.getUserId());
+            }
+        }
+        userId.remove(id);
+        List<User> resultList = new ArrayList<User>();
+        for (int i: userId) {
+            resultList.add(getUserById(i));
+        }
+        return resultList;
     }
 
     @Override
@@ -230,4 +303,23 @@ public class SocialServiceImpl implements SocialService {
         dto.setUser(userDao.getUserById(id));
         return dto;
     }
+
+    @Override
+    public SocialDto getSocialNoFriendsDto(Integer id) {
+        LOGGER.debug("service: Getting no-friends dto of user: {}", id);
+        SocialDto dto = new SocialDto();
+        dto.setTotalUsers(getNoFriends(id).size());
+        if (dto.getTotalUsers() > 0) {
+            dto.setUsers(getNoFriends(id));
+            for (User user: dto.getUsers()) {
+                user.setTotalFriends(userDao.getCountOfUserFriends(user.getUserId()));
+            }
+        } else {
+            dto.setUsers(Collections.<User>emptyList());
+        }
+        dto.setUser(userDao.getUserById(id));
+        return dto;
+    }
+
+
 }

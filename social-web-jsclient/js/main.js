@@ -16,6 +16,10 @@ function goHome() {
     window.location="index.html";
 }
 
+function gotoUser(id) {
+    window.location="user.html?id=" + id;
+}
+
 function deleteUser(userId) {
 
     if (confirm("Вы уверены, что хотите удалить пользователя № " + userId + "?"))
@@ -81,7 +85,7 @@ function drawRow(user) {
     row.append($("<td>" + '<a href="friends.html?id=' + user.userId + '">' + user.totalFriends + '</a></td>'));
     row.append($("<td>" + user.password + "</td>"));
     row.append($("<td>" + user.createdDate + "</td>"));
-    row.append($("<td>" + '<button onclick="deleteUser('+ user.userId +')">Удалить</button>' + '<button onclick="updateUserPassword('+ user.userId +')">Изменить</button>' + "</td>"));
+    row.append($("<td>" + '<button onclick="deleteUser('+ user.userId +')">Удалить</button>' + '<button onclick="gotoUser('+ user.userId +')">Изменить</button>' + "</td>"));
 }
 
 function renderList(data) {

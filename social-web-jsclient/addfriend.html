@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Bootstrap 101 Template</title>
+    <title>Социальная сеть - добавление друзей</title>
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -19,66 +19,14 @@
 </head>
 <body>
 <h1><a href="index.html">Simple Social Network</a></h1>
-
 <div id="breadcrumbs">
     <span id="bc_header"><a href="index.html">Список пользователей</a> >></span>
     <span id="bc_username_href"><span>User1</span></span>
     <span id="bc_delimiter"> >></span>
-    <span id="bc_subheader">Просмотр пользователя </span>
+    <span id="bc_subheader">Добавление друзей для пользователя </span>
     <span id="bc_username"><span>User1</span></span>
 
 </div>
-
-<h2>Пользователь:</h2>
-
-<div id="user" class="table-responsive" style="width: 33%">
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Характеристика</th>
-            <th>Значение</th>
-            <th>Действия</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>Логин</td>
-            <td id="login"><span></span></td>
-            <td>
-                    <button id="change_login" onclick="changeLogin()">Изменить</button>
-            </td>
-        </tr>
-        <tr>
-            <td>Пароль</td>
-            <td id="password"><span></span></td>
-            <td>
-                    <button id="change_password" onclick="changePassword()">Изменить</button>
-            </td>
-        </tr>
-        <tr>
-            <td>Имя</td>
-            <td id="firstname"><span></span></td>
-            <td>
-                    <button id="change_firstname" onclick="changeFirstName()">Изменить</button>
-            </td>
-        </tr>
-        <tr>
-            <td>Фамилия</td>
-            <td id="lastname"><span></span></td>
-            <td>
-                    <button id="change_lastname" onclick="changeLastName()">Изменить</button>
-            </td>
-        </tr>
-        <tr>
-            <td>Возраст</td>
-            <td id="age"><span></span></td>
-            <td><span></span></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-
-<h2 id="userH2">Друзья пользователя <span></span></h2>
 
 <div class="table-responsive">
     <table class="table table-striped">
@@ -91,7 +39,6 @@
             <th>Друзья</th>
             <th>Пароль</th>
             <th>Дата создания</th>
-            <th>Дата изменения</th>
             <th>Действия</th>
         </tr>
         </thead>
@@ -112,7 +59,7 @@
 
 <div id="userTotal">
     <p>3</p>
-    <button id="addUser" style="float: right; position:relative; right: 50px" onclick="gotoAddFriend()">Добавить друзей</button>
+    <button id="back" style="float: right; position:relative; right: 50px" onclick="goBack()">Вернуться назад</button>
 </div>
 <hr />
 
@@ -123,6 +70,6 @@
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="js/bootstrap.js"></script>
 
-<script src="js/user.js"></script>
+<script src="js/addfriend.js"></script>
 </body>
 </html>

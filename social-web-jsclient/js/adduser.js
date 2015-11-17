@@ -23,7 +23,11 @@ function addUser() {
         data: formToJSON(),
         success: function (data, textStatus, jqXHR) {
             alert('User created successfully');
+            if (confirm("Хотите добавить ещё одного пользователя?")) {
+
+            } else {
             goHome();
+            }
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert('addUser error: ' + textStatus);

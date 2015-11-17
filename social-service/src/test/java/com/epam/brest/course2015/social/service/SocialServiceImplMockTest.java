@@ -99,8 +99,8 @@ public class SocialServiceImplMockTest {
                                    testMockUser2.getPassword());
         expectLastCall();
         replay(userMockDao);
-        socialService.updateUser(testMockUser1.getUserId(),
-                                 testMockUser2.getPassword());
+        socialService.changePassword(testMockUser1.getUserId(),
+                testMockUser2.getPassword());
     }
 
     @Test

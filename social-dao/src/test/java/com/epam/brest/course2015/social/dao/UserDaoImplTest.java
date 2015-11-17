@@ -31,6 +31,8 @@ public class UserDaoImplTest {
     public static final Integer testId = 1;
     public static final String testLogin = "julia_borohova";
     public static final String testPassword = "newPassword";
+    public static final String testFirstName = "FirstName";
+    public static final String testLastName = "LastName";
     @Autowired
     private UserDao userDao;
 
@@ -116,5 +118,25 @@ public class UserDaoImplTest {
         assertTrue(count > 0);
     }
 
+    @Test
+    public void testChangeLogin() throws Exception {
+        LOGGERDO();
+        userDao.changeLogin(testId, testLogin);
+        assertEquals(testLogin, userDao.getUserById(testId).getLogin());
+    }
+
+    @Test
+    public void testChangeFirstName() throws Exception {
+        LOGGERDO();
+        userDao.changeFirstName(testId, testFirstName);
+        assertEquals(testFirstName, userDao.getUserById(testId).getFirstName());
+    }
+
+    @Test
+    public void testChangeLastName() throws Exception {
+        LOGGERDO();
+        userDao.changeLastName(testId, testLastName);
+        assertEquals(testLastName, userDao.getUserById(testId).getLastName());
+    }
 
 }

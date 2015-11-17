@@ -32,8 +32,10 @@ public class SocialServiceImplTest  {
     }
     private static User testUser1 = new User("testLogin1", "testPassword1", "testFirstName1", "testLastName1", 25);
     private static User testUser2 = new User("testLogin2", "testPassword2", "testFirstName2", "testLastName2", 26);
-    private static final String testPassword = "testPassword";
-    private static final String testLogin = "alejano_borhez";
+    private static String testPassword = "testPassword";
+    private static String testLogin = "testLogin";
+    private static String testFirstName = "testFirstName";
+    private static String testLastName = "testLastName";
 
     @Autowired
     private SocialService socialService;
@@ -137,32 +139,32 @@ public class SocialServiceImplTest  {
     public void testUpdateUser() throws Exception {
         LOGGERDO();
         assertNotEquals(socialService.getUserById(1).getPassword(), testPassword);
-        socialService.updateUser(1, testPassword);
+        socialService.changePassword(1, testPassword);
         assertEquals(socialService.getUserById(1).getPassword(), testPassword);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testUpdateNullUser() throws Exception {
         LOGGERDO();
-        socialService.updateUser(null, testPassword);
+        socialService.changePassword(null, testPassword);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testUpdateUserWithNullPassword() throws Exception {
         LOGGERDO();
-        socialService.updateUser(1, null);
+        socialService.changePassword(1, null);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testUdateUserWithIncorrectId() throws Exception {
         LOGGERDO();
-        socialService.updateUser(-1, testPassword);
+        socialService.changePassword(-1, testPassword);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testUpdateNonExistingUser() throws Exception {
         LOGGERDO();
-        socialService.updateUser(7, testPassword);
+        socialService.changePassword(7, testPassword);
     }
 
     @Test
@@ -195,6 +197,7 @@ public class SocialServiceImplTest  {
     @Test
     public void testGetUserByLogin() throws Exception {
         LOGGERDO();
+        socialService.addUser(new User(testLogin, testPassword, testFirstName, testLastName, 29));
         User testUser = socialService.getUserByLogin(testLogin);
         assertNotNull(testUser);
         assertEquals(testUser.getClass(), User.class);
@@ -248,6 +251,26 @@ public class SocialServiceImplTest  {
     public void testGetFriendsOfIncorrectId() throws Exception {
         LOGGERDO();
         socialService.getFriends(-2);
+    }
+
+    @Test
+    public void testGetNoFriends() throws Exception {
+        LOGGERDO();
+        List<User> list = socialService.getNoFriends(2);
+        assertNotNull(list);
+        assertEquals(list.get(0).getClass(), User.class);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testGetNoFriendsNullId() throws Exception {
+        LOGGERDO();
+        socialService.getNoFriends(null);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testGetNoFriendsIncorrectId() throws Exception {
+        LOGGERDO();
+        socialService.getNoFriends(-2);
     }
 
     @Test
@@ -424,5 +447,83 @@ public class SocialServiceImplTest  {
         assertTrue(dto.getUsers().size() > 0);
         assertNotNull(dto.getUser());
         assertEquals(dto.getUser().getClass(), User.class);
+    }
+
+    @Test
+    public void testChangeLogin() throws Exception {
+        LOGGERDO();
+        assertNotEquals(socialService.getUserById(1).getLogin(), testLogin);
+        socialService.changeLogin(1, testLogin);
+        assertEquals(socialService.getUserById(1).getLogin(), testLogin);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testChangeLoginWithNullId() throws Exception {
+        LOGGERDO();
+        socialService.changeLogin(null, testLogin);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testChangeLoginWithIncorrectId() throws Exception {
+        LOGGERDO();
+        socialService.changeLogin(-2, testLogin);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testChangeLoginOfNonExistingUser() throws Exception {
+        LOGGERDO();
+        socialService.changeLogin(10, testLogin);
+    }
+
+    @Test
+    public void testChangeFirstName() throws Exception {
+        LOGGERDO();
+        assertNotEquals(socialService.getUserById(1).getFirstName(), testFirstName);
+        socialService.changeFirstName(1, testFirstName);
+        assertEquals(socialService.getUserById(1).getFirstName(), testFirstName);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testChangeFirstNameWithNullId() throws Exception {
+        LOGGERDO();
+        socialService.changeFirstName(null, testFirstName);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testChangeFirstNameWithIncorrectId() throws Exception {
+        LOGGERDO();
+        socialService.changeFirstName(-2, testFirstName);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testChangeFirstNameOfNonExistingUser() throws Exception {
+        LOGGERDO();
+        socialService.changeFirstName(10, testFirstName);
+    }
+
+    @Test
+    public void testChangeLastName() throws Exception {
+        LOGGERDO();
+        assertNotEquals(socialService.getUserById(1).getLastName(), testLastName);
+        socialService.changeLastName(1, testLastName);
+        assertEquals(socialService.getUserById(1).getLastName(), testLastName);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testChangeLastNameWithNullId() throws Exception {
+        LOGGERDO();
+        socialService.changeLastName(null, testLastName);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testChangeLastNameWithIncorrectId() throws Exception {
+        LOGGERDO();
+        socialService.changeLastName(-2, testLastName);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testChangeLastNameOfNonExistingUser() throws Exception {
+        LOGGERDO();
+        socialService.changeLastName(10, testLastName);
     }
 }

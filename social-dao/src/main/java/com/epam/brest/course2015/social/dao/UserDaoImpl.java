@@ -23,25 +23,31 @@ import org.springframework.jdbc.support.KeyHolder;
 public class UserDaoImpl implements UserDao {
     public static final Logger LOGGER = LogManager.getLogger();
     @Value("${user.selectAllUsers}")
-    String selectAllUsers;
+    private String selectAllUsers;
     @Value("${user.selectAllUsersByDate}")
-    String getSelectAllUsersByDate;
+    private String getSelectAllUsersByDate;
     @Value("${user.selectById}")
-    String selectUserById;
+    private String selectUserById;
     @Value("${user.selectByLogin}")
-    String selectUserByLogin;
+    private String selectUserByLogin;
     @Value("${user.deleteUser}")
-    String deleteUser;
+    private String deleteUser;
     @Value("${user.addUser}")
-    String addUser;
+    private String addUser;
     @Value("${user.changePassword}")
-    String updateUser;
+    private String changePassword;
+    @Value("${user.changeLogin}")
+    private String changeLogin;
+    @Value("${user.changeFirstName}")
+    private String changeFirstName;
+    @Value("${user.changeLastName}")
+    private String changeLastName;
     @Value("${friend.findFriends}")
-    String selectFriendship;
+    private String selectFriendship;
     @Value("${user.getCountOfUsers}")
-    String getCountOfUsers;
+    private String getCountOfUsers;
     @Value("${user.getCountOfUserFriends}")
-    String getCountOfUserFriends;
+    private String getCountOfUserFriends;
 
     private RowMapper<User> userMapper = new BeanPropertyRowMapper<>(User.class);
 
@@ -52,48 +58,73 @@ public class UserDaoImpl implements UserDao {
     public Integer addUser(User user) {
         LOGGER.debug("userDao: Adding user {}", user.getLogin());
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(user);
+        BeanPropertySqlParameterSource parameterSource =
+                new BeanPropertySqlParameterSource(user);
         namedParameterJdbcTemplate.update(addUser, parameterSource, keyHolder);
         return keyHolder.getKey().intValue();
     }
 
     @Override
     public void changePassword(Integer id, String password) {
-        LOGGER.debug("userDao: Updating user {}", id);
+        LOGGER.debug("userDao: Changing password of a user {}", id);
         User user = new User();
         user.setUserId(id);
         user.setPassword(password);
-        BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(user);
-        namedParameterJdbcTemplate.update(updateUser, parameterSource);
+        BeanPropertySqlParameterSource parameterSource =
+                new BeanPropertySqlParameterSource(user);
+        namedParameterJdbcTemplate.update(changePassword, parameterSource);
     }
 
     @Override
     public void changeLogin(Integer id, String login) {
-
+        LOGGER.debug("dao: Changing login of a user {}", id);
+        User user = new User();
+        user.setLogin(login);
+        user.setUserId(id);
+        BeanPropertySqlParameterSource parameterSource =
+                new BeanPropertySqlParameterSource(user);
+        namedParameterJdbcTemplate.update(changeLogin, parameterSource);
     }
 
     @Override
     public void changeFirstName(Integer id, String firstName) {
-
+        LOGGER.debug("dao: Changing firstName of a user {}", id);
+        User user = new User();
+        user.setFirstName(firstName);
+        user.setUserId(id);
+        BeanPropertySqlParameterSource source =
+                new BeanPropertySqlParameterSource(user);
+        namedParameterJdbcTemplate.update(changeFirstName, source);
     }
 
     @Override
     public void changeLastName(Integer id, String lastName) {
-
+        LOGGER.debug("dao: Changing lastName of a user {}", id);
+        User user = new User();
+        user.setLastName(lastName);
+        user.setUserId(id);
+        BeanPropertySqlParameterSource source =
+                new BeanPropertySqlParameterSource(user);
+        namedParameterJdbcTemplate.update(changeLastName, source);
     }
 
     @Override
     public void deleteUser(Integer id) {
         LOGGER.debug("userDao: Deleting user {}", id);
-        SqlParameterSource parameterSource = new MapSqlParameterSource("userId", id);
-        namedParameterJdbcTemplate.update(deleteUser, parameterSource);
+        SqlParameterSource parameterSource =
+                new MapSqlParameterSource("userId", id);
+        namedParameterJdbcTemplate
+                .update(deleteUser, parameterSource);
     }
 
     @Override
     public List<User> getFriends(Integer id) {
         LOGGER.debug("userDao: Getting friends of user {}", id);
-        MapSqlParameterSource parameterSource = new MapSqlParameterSource("userId", id);
-        return namedParameterJdbcTemplate.query(selectFriendship, parameterSource, userMapper);
+        MapSqlParameterSource parameterSource =
+                new MapSqlParameterSource("userId", id);
+        return namedParameterJdbcTemplate
+                .query(
+                        selectFriendship, parameterSource, userMapper);
     }
 
     @Override

@@ -9,6 +9,10 @@ var id = getQueryVariable("id");
 
 findAll();
 
+function gotoAddFriend() {
+    window.location="addfriend.html?id=" + id;
+}
+
 function getQueryVariable(variable)
 {
        var query = window.location.search.substring(1);
@@ -87,6 +91,8 @@ function renderList(data) {
     $('#bc_username span').remove();
     $('#bc_username_href').append($('<span><a href="user.html?id=' + id + '">' + data.user.firstName + " " + data.user.lastName + "</a></span>"));
     $('#bc_username').append($("<span>" + data.user.firstName + " " + data.user.lastName + "</span>"));
+    $('#userH2 span').remove();
+    $('#userH2').append($("<span>" + data.user.firstName + " " + data.user.lastName + ":</span>"));
     $('#login span').remove();
     $('#login').append($("<span>" + data.user.login + "</span>"));
     $('#password span').remove();
@@ -100,9 +106,9 @@ function renderList(data) {
 }
 
 function changePassword() {
-    console.log('updateUser');
+    console.log('changePassword');
     var newPassword = prompt("Введите новый пароль", '');
-    var url = PREFIX_URL + USER_URL + "?id=" + id + "&password=" + newPassword;
+    var url = PREFIX_URL + USER_URL + "/password?id=" + id + "&password=" + newPassword;
     if (newPassword != "") {
     $.ajax({
         type: 'PUT',
@@ -122,6 +128,79 @@ function changePassword() {
     }
 
 }
+
+function changeLogin() {
+    console.log('changeLogin');
+    var newLogin = prompt("Введите новый логин", '');
+    var url = PREFIX_URL + USER_URL + "/login?id=" + id + "&login=" + newLogin;
+    if (newLogin != "") {
+    $.ajax({
+        type: 'PUT',
+        url: url,
+        success: function (data, textStatus, jqXHR) {
+                                     alert('Логин успешно изменён.');
+                                     findAll();
+                                 },
+        error: function(jqXHR, textStatus, errorThrown) {
+                           console.log(jqXHR, textStatus, errorThrown);
+                           alert('changeLogin: ' + textStatus + "логин " + newLogin + "пользователь " + id);
+                       }
+
+    })
+    } else {
+        alert('Логин не может быть пустым');
+    }
+
+}
+
+function changeFirstName() {
+    console.log('changeFirstName');
+    var newFirstName = prompt("Введите новое имя", '');
+    var url = PREFIX_URL + USER_URL + "/firstname?id=" + id + "&firstname=" + newFirstName;
+    if (newFirstName != "") {
+    $.ajax({
+        type: 'PUT',
+        url: url,
+        success: function (data, textStatus, jqXHR) {
+                                     alert('Имя успешно изменено.');
+                                     findAll();
+                                 },
+        error: function(jqXHR, textStatus, errorThrown) {
+                           console.log(jqXHR, textStatus, errorThrown);
+                           alert('changeFirstName: ' + textStatus + "имя " + newFirstName + "пользователь " + id);
+                       }
+
+    })
+    } else {
+        alert('Имя не может быть пустым');
+    }
+
+}
+
+function changeLastName() {
+    console.log('changeLastName');
+    var newLastName = prompt("Введите новую фамилию", '');
+    var url = PREFIX_URL + USER_URL + "/lastname?id=" + id + "&lastname=" + newLastName;
+    if (newLastName != "") {
+    $.ajax({
+        type: 'PUT',
+        url: url,
+        success: function (data, textStatus, jqXHR) {
+                                     alert('Фамилия успешно изменена.');
+                                     findAll();
+                                 },
+        error: function(jqXHR, textStatus, errorThrown) {
+                           console.log(jqXHR, textStatus, errorThrown);
+                           alert('changeLastName: ' + textStatus + "фамилия " + newLastName + "пользователь " + id);
+                       }
+
+    })
+    } else {
+        alert('Фамилия не может быть пустой');
+    }
+
+}
+
 
 function formToJSON() {
     return JSON.stringify({

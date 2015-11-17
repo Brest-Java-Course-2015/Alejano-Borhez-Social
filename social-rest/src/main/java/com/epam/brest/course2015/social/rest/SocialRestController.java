@@ -42,6 +42,13 @@ public class SocialRestController {
         return socialService.getFriends(id);
     }
 
+    @RequestMapping(value = "/user/nofriends", method = RequestMethod.GET)
+    @ResponseStatus(value = HttpStatus.OK)
+    public List<User> getNoFriends(@RequestParam(value = "id") Integer id) {
+        LOGGER.debug("rest: Getting all no-friends of user {}", id);
+        return socialService.getNoFriends(id);
+    }
+
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)
     public @ResponseBody User getUserById (@RequestParam(value = "id") Integer id) {
@@ -63,12 +70,36 @@ public class SocialRestController {
         return socialService.addUser(user);
     }
 
-    @RequestMapping(value = "/user", method = RequestMethod.PUT)
+    @RequestMapping(value = "/user/password", method = RequestMethod.PUT)
     @ResponseStatus(value = HttpStatus.OK)
-    public void updateUser(@RequestParam(value = "id") Integer id,
+    public void changePassword(@RequestParam(value = "id") Integer id,
                            @RequestParam(value = "password") String password) {
-        LOGGER.debug("rest: Updating a user {}", id);
-        socialService.updateUser(id, password);
+        LOGGER.debug("rest: Changing password of a user {}", id);
+        socialService.changePassword(id, password);
+    }
+
+    @RequestMapping(value = "/user/login", method = RequestMethod.PUT)
+    @ResponseStatus(value = HttpStatus.OK)
+    public void changeLogin(@RequestParam(value = "id") Integer id,
+                               @RequestParam(value = "login") String login) {
+        LOGGER.debug("rest: Changing login of a user {}", id);
+        socialService.changeLogin(id, login);
+    }
+
+    @RequestMapping(value = "/user/firstname", method = RequestMethod.PUT)
+    @ResponseStatus(value = HttpStatus.OK)
+    public void changeFirstName(@RequestParam(value = "id") Integer id,
+                            @RequestParam(value = "firstname") String firstname) {
+        LOGGER.debug("rest: Changing firstName of a user {}", id);
+        socialService.changeFirstName(id, firstname);
+    }
+
+    @RequestMapping(value = "/user/lastname", method = RequestMethod.PUT)
+    @ResponseStatus(value = HttpStatus.OK)
+    public void changeLastName(@RequestParam(value = "id") Integer id,
+                                @RequestParam(value = "lastname") String lastname) {
+        LOGGER.debug("rest: Changing lastName of a user {}", id);
+        socialService.changeLastName(id, lastname);
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.DELETE)
@@ -115,6 +146,13 @@ public class SocialRestController {
     public @ResponseBody SocialDto getFriendsDto(@RequestParam(value = "id") Integer id) {
         LOGGER.debug("rest: Getting friendsDto");
         return socialService.getSocialFriendsDto(id);
+    }
+
+    @RequestMapping(value = "/nofriendsdto", method = RequestMethod.GET)
+    @ResponseStatus(value = HttpStatus.OK)
+    public @ResponseBody SocialDto getNoFriendsDto(@RequestParam(value = "id") Integer id) {
+        LOGGER.debug("rest: Getting no-friendsDto");
+        return socialService.getSocialNoFriendsDto(id);
     }
 
 
