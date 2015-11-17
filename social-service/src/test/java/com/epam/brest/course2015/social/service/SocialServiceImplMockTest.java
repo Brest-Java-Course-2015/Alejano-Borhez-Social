@@ -49,9 +49,7 @@ public class SocialServiceImplMockTest {
 
     @After
     public void clean() {
-//        verify(userMockDao);
         reset(userMockDao);
-//        verify(friendshipMockDao);
         reset(friendshipMockDao);
     }
 
@@ -60,7 +58,8 @@ public class SocialServiceImplMockTest {
         LOGGERDO();
         testMockUser1.setUserId(null);
         testMockUser2.setUserId(null);
-        expect(userMockDao.getUserByLogin(testMockUser1.getLogin())).andThrow(new EmptyResultDataAccessException(1));
+        expect(userMockDao.getUserByLogin(testMockUser1.getLogin()))
+                .andThrow(new EmptyResultDataAccessException(1));
         expect(userMockDao.addUser(testMockUser1)).andReturn(1);
         replay(userMockDao);
         Integer result = socialService.addUser(testMockUser1);
@@ -70,7 +69,8 @@ public class SocialServiceImplMockTest {
     @Test (expected = IllegalArgumentException.class)
     public void testAddUserNull() throws Exception {
         LOGGERDO();
-        expect(userMockDao.getUserByLogin(testMockUser1.getLogin())).andReturn(null);
+        expect(userMockDao.getUserByLogin(testMockUser1.getLogin()))
+                .andReturn(null);
         replay(userMockDao);
         socialService.addUser(testMockUser1);
     }
@@ -82,10 +82,7 @@ public class SocialServiceImplMockTest {
         testMockUser1.setUserId(5);
         expect(userMockDao.getUserById(testMockUser1.getUserId()))
                 .andReturn(testMockUser1);
-        expect(userMockDao.getFriends(testMockUser1.getUserId()))
-                .andReturn(Arrays.<User>asList(testMockUser2));
         userMockDao.deleteUser(testMockUser1.getUserId());
-        userMockDao.setCountOfUserFriends(testMockUser2.getUserId());
         expectLastCall();
         replay(userMockDao);
         socialService.deleteUser(testMockUser1.getUserId());
@@ -96,11 +93,14 @@ public class SocialServiceImplMockTest {
     public void testUpdateUser() throws Exception {
         LOGGERDO();
         testMockUser1.setUserId(5);
-        expect(userMockDao.getUserById(testMockUser1.getUserId())).andReturn(testMockUser1);
-        userMockDao.changePassword(testMockUser1.getUserId(), testMockUser2.getPassword());
+        expect(userMockDao.getUserById(testMockUser1.getUserId()))
+                          .andReturn(testMockUser1);
+        userMockDao.changePassword(testMockUser1.getUserId(),
+                                   testMockUser2.getPassword());
         expectLastCall();
         replay(userMockDao);
-        socialService.updateUser(testMockUser1.getUserId(), testMockUser2.getPassword());
+        socialService.updateUser(testMockUser1.getUserId(),
+                                 testMockUser2.getPassword());
     }
 
     @Test
@@ -115,7 +115,8 @@ public class SocialServiceImplMockTest {
     @Test
     public void testGetUserByLogin() throws Exception {
         LOGGERDO();
-        expect(userMockDao.getUserByLogin("testLogin")).andReturn(testMockUser1);
+        expect(userMockDao.getUserByLogin("testLogin"))
+                .andReturn(testMockUser1);
         replay(userMockDao);
         User result = socialService.getUserByLogin("testLogin");
         assertEquals(result, testMockUser1);
@@ -125,7 +126,8 @@ public class SocialServiceImplMockTest {
     @Test
     public void testGetAllUsers() throws Exception {
         LOGGERDO();
-        expect(userMockDao.getAllUsers()).andReturn(Arrays.<User>asList(testMockUser1));
+        expect(userMockDao.getAllUsers())
+                .andReturn(Arrays.<User>asList(testMockUser1));
         replay(userMockDao);
         List<User> result = socialService.getAllUsers();
         assertNotNull(result);
@@ -135,8 +137,10 @@ public class SocialServiceImplMockTest {
     @Test
     public void testGetFriends() throws Exception {
         LOGGERDO();
-        expect(userMockDao.getUserById(1)).andReturn(new User());
-        expect(userMockDao.getFriends(1)).andReturn(Arrays.<User>asList(testMockUser1));
+        expect(userMockDao.getUserById(1))
+                .andReturn(new User());
+        expect(userMockDao.getFriends(1))
+                .andReturn(Arrays.<User>asList(testMockUser1));
         replay(userMockDao);
         List<User> result = socialService.getFriends(1);
         assertNotNull(result);
@@ -148,7 +152,8 @@ public class SocialServiceImplMockTest {
         LOGGERDO();
         testMockUser1.setUserId(5);
         testMockUser2.setUserId(6);
-        expect(friendshipMockDao.isAFriend(testMockUser1, testMockUser2)).andReturn(false);
+        expect(friendshipMockDao.isAFriend(testMockUser1, testMockUser2))
+                .andReturn(false);
         friendshipMockDao.addFriendship(testMockUser1, testMockUser2);
         expectLastCall();
         replay(friendshipMockDao);
@@ -161,7 +166,8 @@ public class SocialServiceImplMockTest {
         LOGGERDO();
         testMockUser1.setUserId(5);
         testMockUser2.setUserId(6);
-        expect(friendshipMockDao.isAFriend(testMockUser1, testMockUser2)).andReturn(true);
+        expect(friendshipMockDao.isAFriend(testMockUser1, testMockUser2))
+                .andReturn(true);
         replay(friendshipMockDao);
         boolean result = socialService.isAFriend(testMockUser1, testMockUser2);
         assertTrue(result);
@@ -172,7 +178,8 @@ public class SocialServiceImplMockTest {
         LOGGERDO();
         testMockUser1.setUserId(5);
         testMockUser2.setUserId(6);
-        expect(friendshipMockDao.isAFriend(testMockUser1, testMockUser2)).andReturn(true);
+        expect(friendshipMockDao.isAFriend(testMockUser1, testMockUser2))
+                .andReturn(true);
         friendshipMockDao.discardFriendship(testMockUser1, testMockUser2);
         expectLastCall();
         replay(friendshipMockDao);
@@ -182,7 +189,9 @@ public class SocialServiceImplMockTest {
     @Test
     public void testGetAllFriendships() throws Exception {
         LOGGERDO();
-        expect(friendshipMockDao.getAllFriendships()).andReturn(Arrays.<Friendship>asList(new Friendship(testMockUser1.getUserId(), testMockUser2.getUserId())));
+        expect(friendshipMockDao.getAllFriendships())
+                .andReturn(Arrays.<Friendship>asList(new Friendship(testMockUser1.getUserId(),
+                        testMockUser2.getUserId())));
         replay(friendshipMockDao);
         List<Friendship> result = socialService.getAllFriendships();
         assertNotNull(result);

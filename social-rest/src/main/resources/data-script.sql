@@ -5,8 +5,8 @@ INSERT INTO USER (
     age,
     login,
     password,
-    updatedDate,
-    totalFriends)
+    createdDate,
+    updatedDate)
 VALUES (
     1,
     'Alexander',
@@ -15,7 +15,7 @@ VALUES (
     'alejano_borhez',
     '123456',
     TO_TIMESTAMP('24/10/2015 20:30:00', 'DD/MM/YYYY HH:MI:SS'),
-    3
+    CURRENT_TIMESTAMP
 );
 
 INSERT INTO USER (
@@ -25,8 +25,8 @@ INSERT INTO USER (
     age,
     login,
     password,
-    updatedDate,
-    totalFriends)
+    createdDate,
+    updatedDate)
 VALUES (
 2,
 'Julia',
@@ -35,7 +35,7 @@ VALUES (
 'julia_borohova',
 '123456',
 TO_TIMESTAMP('24/10/2015 20:30:00', 'DD/MM/YYYY HH:MI:SS'),
-2
+CURRENT_TIMESTAMP
 );
 
 INSERT INTO USER (
@@ -45,8 +45,8 @@ lastName,
 age,
 login,
 password,
-updatedDate,
-totalFriends)
+createdDate,
+updatedDate)
 VALUES (
 3,
 'Darya',
@@ -55,7 +55,7 @@ VALUES (
 'darya_borohova',
 '123456',
 TO_TIMESTAMP('24/10/2015 20:30:00', 'DD/MM/YYYY HH:MI:SS'),
-2
+CURRENT_TIMESTAMP
 );
 
 INSERT INTO USER (
@@ -65,8 +65,8 @@ INSERT INTO USER (
     age,
     login,
     password,
-    updatedDate,
-    totalFriends)
+    createdDate,
+    updatedDate)
 VALUES (
     4,
     'Ivan',
@@ -75,7 +75,7 @@ VALUES (
     'ivan',
     '123456',
     TO_TIMESTAMP('24/10/2015 20:30:00', 'DD/MM/YYYY HH:MI:SS'),
-    1
+    CURRENT_TIMESTAMP
 );
 
 INSERT INTO FRIENDS (

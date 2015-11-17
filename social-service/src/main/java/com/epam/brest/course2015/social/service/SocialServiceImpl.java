@@ -82,12 +82,8 @@ public class SocialServiceImpl implements SocialService {
         LOGGER.debug("service: Deleting a user with id: {}", id);
         try {
             userDao.getUserById(id);
-            List<User> list = userDao.getFriends(id);
             userDao.deleteUser(id);
             friendshipDao.discardAllFriendshipsOfAUser(id);
-            for (User user: list) {
-                userDao.setCountOfUserFriends(user.getUserId());
-            }
         } catch (EmptyResultDataAccessException e) {
             e.printStackTrace();
             LOGGER.debug("service: User with Id {} does not exist", id);
@@ -167,8 +163,6 @@ public class SocialServiceImpl implements SocialService {
         Assert.isTrue(!friendshipDao.isAFriend(user1, user2), "Friendship already exists");
         LOGGER.debug("service: Adding new friendship of users: {}, {}", user1.getUserId(), user2.getUserId());
         friendshipDao.addFriendship(user1, user2);
-        userDao.setCountOfUserFriends(user1.getUserId());
-        userDao.setCountOfUserFriends(user2.getUserId());
     }
 
     @Override
@@ -190,8 +184,6 @@ public class SocialServiceImpl implements SocialService {
         Assert.isTrue(friendshipDao.isAFriend(enemy1, enemy2), "Friendship does not exist");
         LOGGER.debug("service: Discarding a friendship of users: {}, {}", enemy1.getUserId(), enemy2.getUserId());
         friendshipDao.discardFriendship(enemy1, enemy2);
-        userDao.setCountOfUserFriends(enemy1.getUserId());
-        userDao.setCountOfUserFriends(enemy2.getUserId());
     }
 
     @Override
@@ -213,6 +205,9 @@ public class SocialServiceImpl implements SocialService {
         dto.setTotalUsers(userDao.getCountOfUsers());
         if (dto.getTotalUsers() > 0) {
             dto.setUsers(userDao.getAllUsers());
+            for (User user: dto.getUsers()) {
+                user.setTotalFriends(userDao.getCountOfUserFriends(user.getUserId()));
+            }
         } else  {
             dto.setUsers(Collections.<User>emptyList());
         }
@@ -226,6 +221,9 @@ public class SocialServiceImpl implements SocialService {
         dto.setTotalUsers(userDao.getCountOfUserFriends(id));
         if (dto.getTotalUsers() > 0) {
             dto.setUsers(userDao.getFriends(id));
+            for (User user: dto.getUsers()) {
+                user.setTotalFriends(userDao.getCountOfUserFriends(user.getUserId()));
+            }
         } else {
             dto.setUsers(Collections.<User>emptyList());
         }

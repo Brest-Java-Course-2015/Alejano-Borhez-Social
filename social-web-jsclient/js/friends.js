@@ -70,7 +70,7 @@ function drawRow(user) {
     $("#userList").append(row);
     row.append($("<td>" + user.userId + "</td>"));
     row.append($("<td>" + user.login + "</td>"));
-    row.append($("<td>" + '<a href="#" data-identity="' + user.userId + '">' + user.firstName + ", " + user.lastName + '</a></td>'));
+    row.append($("<td>" + '<a href="user.html?id=' + user.userId + '">' + user.firstName + ", " + user.lastName + '</a></td>'));
     row.append($("<td>" + user.age + "</td>"));
     row.append($("<td>" + '<a href="friends.html?id=' + user.userId + '">' + user.totalFriends + '</a></td>'));
     row.append($("<td>" + user.password + "</td>"));

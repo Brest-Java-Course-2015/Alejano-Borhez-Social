@@ -5,15 +5,9 @@ var USER_URL = "/user";
 // Register listeners
 $('#addUser').click(function () {
         addUser();
-        goHome();
+//        goHome();
 });
 
-render();
-
-function render() {
-    $('#addUser span').remove();
-    $('#addUser').append($("<span>Добавить</span>"));
-}
 
 function goHome() {
     window.location="index.html";

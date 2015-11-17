@@ -70,6 +70,7 @@ function drawRow(user) {
     row.append($("<td>" + '<a href="friends.html?id=' + user.userId + '">' + user.totalFriends + '</a></td>'));
     row.append($("<td>" + user.password + "</td>"));
     row.append($("<td>" + user.createdDate + "</td>"));
+    row.append($("<td>" + user.updatedDate + "</td>"));
     row.append($("<td>" + '<button onclick="deleteFriend('+ id + ',' + user.userId +')">Убрать из друзей</button>' + '<button onclick="updateUserPassword('+ user.userId +')">Изменить</button>' + "</td>"));
 }
 
