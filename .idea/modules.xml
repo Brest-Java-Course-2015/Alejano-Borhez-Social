@@ -10,6 +10,7 @@
       <module fileurl="file://$PROJECT_DIR$/social-service/social-service.iml" filepath="$PROJECT_DIR$/social-service/social-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/social-service-api/social-service-api.iml" filepath="$PROJECT_DIR$/social-service-api/social-service-api.iml" />
       <module fileurl="file://$PROJECT_DIR$/social-test/social-test.iml" filepath="$PROJECT_DIR$/social-test/social-test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/social-web-jsp.iml" filepath="$PROJECT_DIR$/social-web-jsp.iml" />
     </modules>
   </component>
 </project>

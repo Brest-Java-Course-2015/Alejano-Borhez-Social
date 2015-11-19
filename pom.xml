@@ -17,7 +17,7 @@
         <module>social-service-api</module>
         <module>social-service</module>
         <module>social-rest</module>
-        <!--<module>social-web-jsp</module>-->
+        <module>social-web-jsp</module>
     </modules>
     <properties>
         <project.build.surceEncoding>UTF-8</project.build.surceEncoding>
@@ -64,6 +64,12 @@
             <dependency>
                 <groupId>com.epam.brest.course2015.social</groupId>
                 <artifactId>social-rest</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.epam.brest.course2015.social</groupId>
+                <artifactId>social-web-jsp</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -133,6 +139,11 @@
                 <artifactId>javax.servlet-api</artifactId>
                 <version>3.1.0</version>
                 <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>jstl</artifactId>
+                <version>1.2</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
