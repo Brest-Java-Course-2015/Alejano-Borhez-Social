@@ -18,6 +18,7 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
@@ -29,6 +30,10 @@
         <dependency>
             <groupId>com.epam.brest.course2015.social</groupId>
             <artifactId>social-service</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.epam.brest.course2015.social</groupId>
+            <artifactId>social-service-api</artifactId>
         </dependency>
         <dependency>
             <groupId>com.epam.brest.course2015.social</groupId>
@@ -57,6 +62,11 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

@@ -1,3 +1,5 @@
+package com.epam.brest.course2015.social.web;
+
 import com.epam.brest.course2015.social.dto.SocialDto;
 import com.epam.brest.course2015.social.service.SocialService;
 import org.apache.logging.log4j.LogManager;
@@ -20,10 +22,10 @@ public class SocialController {
 
     @RequestMapping("/")
     public String init() {
-        return "redirect:/home";
+        return "redirect:/users";
     }
 
-    @RequestMapping("/home")
+    @RequestMapping("/users")
     public ModelAndView getUserDto() {
         SocialDto dto = socialService.getSocialUsersDto();
         LOGGER.debug("web: getting user dto");
