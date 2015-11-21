@@ -1,11 +1,5 @@
 // The root URL for the RESTful services
-var PREFIX_URL = "http://localhost:8082/social-rest-1.0-SNAPSHOT"
-var USER_URL = "/user";
-var FRIENDS_URL = "/friendsdto";
-var FRIENDSHIP_URL = "/friendship";
 var id = getQueryVariable("id");
-
-findAll();
 
 function gotoAddFriend() {
     window.location="addfriend.html?id=" + id;

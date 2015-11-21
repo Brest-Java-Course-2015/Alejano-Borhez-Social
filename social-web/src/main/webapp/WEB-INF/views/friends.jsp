@@ -22,11 +22,13 @@
 
 <h1><spring:message code="users.list"/></h1>
 
+<jsp:include page="templates/breadcrumbs.jsp"/>
+
 <jsp:include page="templates/table.jsp"/>
 
 <div id="userTotal">
-    <h3><spring:message code="users.total"/>: ${dto.totalUsers}</h3>
-    <button id="addUser" style="float: right; position:relative; right: 50px" onclick="gotoAddUser()"><spring:message code="user.create"/></button>
+    <h3><spring:message code="friends.total"/>: ${dto.totalUsers}</h3>
+    <button id="addUser" style="float: right; position:relative; right: 50px" onclick="gotoAddUser()"><spring:message code="friend.create"/></button>
 </div>
 
 
@@ -34,6 +36,6 @@
 <script src="resources/js/jquery.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="resources/js/bootstrap.js"></script>
-<script src="resources/js/main.js"></script>
+<script src="resources/js/friends.js"></script>
 </body>
 </html>

@@ -11,6 +11,10 @@ function gotoAddUser() {
     window.location = "addUser.html";
 }
 
+function gotoAddFriends() {
+    window.location = "addUser.html";
+}
+
 function goHome() {
     window.location="index.html";
 }

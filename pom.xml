@@ -17,7 +17,6 @@
         <module>social-service-api</module>
         <module>social-service</module>
         <module>social-rest</module>
-        <module>social-web-jsp</module>
         <module>social-web</module>
     </modules>
     <properties>
@@ -68,11 +67,6 @@
                 <version>${project.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.epam.brest.course2015.social</groupId>
-                <artifactId>social-web-jsp</artifactId>
-                <version>${project.version}</version>
-            </dependency>
             <dependency>
                 <groupId>com.epam.brest.course2015.social</groupId>
                 <artifactId>social-web</artifactId>

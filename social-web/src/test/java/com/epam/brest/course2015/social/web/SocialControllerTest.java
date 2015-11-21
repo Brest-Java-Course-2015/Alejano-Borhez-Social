@@ -15,10 +15,12 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.annotation.Resource;
 
 import static org.easymock.EasyMock.*;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -26,12 +28,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 /**
- * Created by alexander on 20.11.15.
+ * Created by alexander on 21.11.15.
  */
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:social-web-spring-mock-test.xml"})
 public class SocialControllerTest {
-    //Универсальный Логгер, который показывает имя тестового класса и имя тестового метода
     private static final Logger LOGGER = LogManager.getLogger();
     private static void LOGGERDO() {
         StackTraceElement[] elements = Thread.currentThread().getStackTrace();
@@ -48,8 +50,13 @@ public class SocialControllerTest {
 
     @Before
     public void setUp() {
+        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+        viewResolver.setPrefix("/WEB-INF/view/");
+        viewResolver.setSuffix(".jsp");
+
         mockMvc = standaloneSetup(socialController)
                 .setMessageConverters(new MappingJackson2HttpMessageConverter())
+                .setViewResolvers(viewResolver)
                 .build();
     }
 
@@ -60,16 +67,27 @@ public class SocialControllerTest {
     }
 
     @Test
-    public void testGetUserDto() throws Exception {
+    public void testInit() throws Exception {
+        mockMvc.perform(
+                get("/")
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection());
+    }
+
+    @Test
+    public void testGetAllUsers() throws Exception {
         expect(socialService.getSocialUsersDto())
                 .andReturn(new SocialDto());
         replay(socialService);
         LOGGERDO();
         mockMvc.perform(
-                get("/")
-                        .accept(MediaType.APPLICATION_JSON))
+                get("/users")
+                .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().string(""));
+                .andExpect(status().isOk());
     }
+
+
+
 }
