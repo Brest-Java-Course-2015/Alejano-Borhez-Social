@@ -2,7 +2,6 @@
 .gitignore
 **/.idea
 **/*.iml
-/Social.iml
 **/*.*~
 **/*.jar
 **/*.class
