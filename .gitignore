@@ -1,1 +1,14 @@
 # Created by .ignore support plugin (hsz.mobi)
+.gitignore
+**/.idea
+**/*.iml
+**/*.*~
+**/*.jar
+**/*.class
+**/*.log
+**/target/
+
+# Package Files #
+*.jar
+*.war
+*.ear

@@ -20,16 +20,16 @@ public class SocialController {
     @Autowired
     private SocialService socialService;
 
-    @RequestMapping("/")
+    /*@RequestMapping("/")
     public String init() {
         return "redirect:/users";
-    }
+    }*/
 
-    @RequestMapping("/users")
+    @RequestMapping("/")
     public ModelAndView getUserDto() {
         SocialDto dto = socialService.getSocialUsersDto();
         LOGGER.debug("web: getting user dto");
-        return new ModelAndView("home", "dto", dto);
+        return new ModelAndView("users", "dto", dto);
     }
 
 }

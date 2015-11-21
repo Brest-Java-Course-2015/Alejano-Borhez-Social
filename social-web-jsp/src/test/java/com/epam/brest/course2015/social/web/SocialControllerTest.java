@@ -66,7 +66,7 @@ public class SocialControllerTest {
         replay(socialService);
         LOGGERDO();
         mockMvc.perform(
-                get("/users")
+                get("/")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
