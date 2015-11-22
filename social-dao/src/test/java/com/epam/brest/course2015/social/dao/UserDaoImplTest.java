@@ -1,8 +1,6 @@
 package com.epam.brest.course2015.social.dao;
 
 import com.epam.brest.course2015.social.core.User;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +16,8 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static com.epam.brest.course2015.social.test.LOGGER.LOGGERDO;
+
 /**
  * Created by alexander on 25.10.15.
  */
@@ -25,12 +25,6 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations = {"classpath:test-spring-dao.xml"})
 @Transactional
 public class UserDaoImplTest {
-    //Универсальный Логгер, который показывает имя тестового класса и имя тестового метода
-    public static final Logger LOGGER = LogManager.getLogger();
-    private static void LOGGERDO() {
-        StackTraceElement[] elements = Thread.currentThread().getStackTrace();
-        LOGGER.debug("Started test: " + elements[2].getMethodName());
-    }
     public static Date getTestDate(String date) {
     try {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");

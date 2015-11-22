@@ -45,6 +45,11 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>com.epam.brest.course2015.social</groupId>
+            <artifactId>social-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
         </dependency>

@@ -29,7 +29,6 @@
         <dependency>
             <groupId>com.epam.brest.course2015.social</groupId>
             <artifactId>social-service-api</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.epam.brest.course2015.social</groupId>

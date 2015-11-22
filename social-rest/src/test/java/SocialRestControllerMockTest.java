@@ -3,8 +3,6 @@ import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.rest.SocialRestController;
 import com.epam.brest.course2015.social.service.SocialService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +16,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import javax.annotation.Resource;
 
-
 import java.util.Arrays;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -27,6 +24,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static org.easymock.EasyMock.*;
+import static com.epam.brest.course2015.social.test.LOGGER.LOGGERDO;
+
 
 /**
  * Created by alexander on 10.11.15.
@@ -35,12 +34,6 @@ import static org.easymock.EasyMock.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:social-rest-spring-mock-test.xml"})
 public class SocialRestControllerMockTest {
-    //Универсальный Логгер, который показывает имя тестового класса и имя тестового метода
-    private static final Logger LOGGER = LogManager.getLogger();
-    private static void LOGGERDO() {
-        StackTraceElement[] elements = Thread.currentThread().getStackTrace();
-        LOGGER.debug("Started test: " + elements[2].getMethodName());
-    }
     @Resource
     SocialRestController socialRestController;
 
@@ -130,7 +123,7 @@ public class SocialRestControllerMockTest {
         LOGGERDO();
         mockMvc.perform(
                 get("/user/nofriends?id=1")
-                        .accept(MediaType.APPLICATION_JSON))
+                .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
     }

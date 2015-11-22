@@ -2,24 +2,17 @@ package com.epam.brest.course2015.social.core;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 
 import java.util.Date;
 
 import static org.junit.Assert.*;
+import static com.epam.brest.course2015.social.test.LOGGER.LOGGERDO;
+
 
 /**
  * Created by alexander on 26.10.15.
  */
 public class FriendshipTest {
-    //Универсальный Логгер, который показывает имя тестового класса и имя тестового метода
-    public static final Logger LOGGER = LogManager.getLogger();
-    private static void LOGGERDO() {
-        StackTraceElement[] elements = Thread.currentThread().getStackTrace();
-        LOGGER.debug("Started test: " + elements[2].getMethodName());
-    }
     private static final Integer testFirstFriend = 1;
     private static final Integer testSecondFriend = 2;
     private Friendship friendship;

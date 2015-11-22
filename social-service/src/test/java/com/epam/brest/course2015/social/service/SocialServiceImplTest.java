@@ -3,8 +3,6 @@ package com.epam.brest.course2015.social.service;
 import com.epam.brest.course2015.social.core.Friendship;
 import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dto.SocialDto;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +10,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static com.epam.brest.course2015.social.test.LOGGER.LOGGERDO;
 
 /**
  * Created by alexander on 6.11.15.
@@ -24,18 +26,21 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations = {"classpath:spring-service-test.xml"})
 @Transactional
 public class SocialServiceImplTest  {
-    //Универсальный Логгер, который показывает имя тестового класса и имя тестового метода
-    private static final Logger LOGGER = LogManager.getLogger();
-    private static void LOGGERDO() {
-        StackTraceElement[] elements = Thread.currentThread().getStackTrace();
-        LOGGER.debug("Started test: " + elements[2].getMethodName());
-    }
     private static User testUser1 = new User("testLogin1", "testPassword1", "testFirstName1", "testLastName1", 25);
     private static User testUser2 = new User("testLogin2", "testPassword2", "testFirstName2", "testLastName2", 26);
     private static String testPassword = "testPassword";
     private static String testLogin = "testLogin";
     private static String testFirstName = "testFirstName";
     private static String testLastName = "testLastName";
+    public static Date getTestDate(String date) {
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            return formatter.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     @Autowired
     private SocialService socialService;
@@ -50,7 +55,6 @@ public class SocialServiceImplTest  {
         assertTrue(sizeAfter - sizeBefore == 1);
         assertNotNull(newUserId);
         assertEquals(newUserId.getClass(), Integer.class);
-
     }
 
     @Test (expected = IllegalArgumentException.class)
@@ -105,6 +109,13 @@ public class SocialServiceImplTest  {
         User testUser = socialService.getUserById(1);
         testUser.setUserId(null);
         socialService.addUser(testUser);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testAddUserIncorrectAge() {
+        LOGGERDO();
+        testUser1.setAge(-2);
+        socialService.addUser(testUser1);
     }
 
     @Test
@@ -450,6 +461,35 @@ public class SocialServiceImplTest  {
     }
 
     @Test
+    public void testGetSocialNoFriendsDto() throws Exception {
+        LOGGERDO();
+        SocialDto dto = socialService.getSocialNoFriendsDto(2);
+        assertNotNull(dto);
+        assertEquals(SocialDto.class, dto.getClass());
+        assertNotNull(dto.getTotalUsers());
+        assertTrue(dto.getTotalUsers() > 0);
+        assertNotNull(dto.getUsers());
+        assertEquals(dto.getUsers().get(0).getClass(), User.class);
+        assertTrue(dto.getUsers().size() > 0);
+        assertNotNull(dto.getUser());
+        assertEquals(dto.getUser().getClass(), User.class);
+    }
+
+    @Test
+    public void testGetSocialNoFriendsDtoEmpty() throws Exception {
+        LOGGERDO();
+        SocialDto dto = socialService.getSocialNoFriendsDto(1);
+        assertNotNull(dto);
+        assertEquals(SocialDto.class, dto.getClass());
+        assertNotNull(dto.getTotalUsers());
+        assertTrue(dto.getTotalUsers() == 0);
+        assertNotNull(dto.getUsers());
+        assertTrue(dto.getUsers().size() == 0);
+        assertNotNull(dto.getUser());
+        assertEquals(dto.getUser().getClass(), User.class);
+    }
+
+    @Test
     public void testChangeLogin() throws Exception {
         LOGGERDO();
         assertNotEquals(socialService.getUserById(1).getLogin(), testLogin);
@@ -525,5 +565,64 @@ public class SocialServiceImplTest  {
     public void testChangeLastNameOfNonExistingUser() throws Exception {
         LOGGERDO();
         socialService.changeLastName(10, testLastName);
+    }
+
+    @Test
+    public void testGetAllUsersByDate() throws Exception {
+        LOGGERDO();
+        Date dateMin = getTestDate("2015-10-05");
+        Date dateMax = getTestDate("2015-10-20");
+        List<User> testList = socialService.getAllUsersByDate(
+                                            dateMin, dateMax);
+        assertNotNull(testList);
+        assertEquals(testList.get(0).getClass(), User.class);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testGetAllUsersByNullMinDate() throws Exception {
+        LOGGERDO();
+        Date dateMin = null;
+        Date dateMax = getTestDate("2015-10-20");
+        List<User> testList = socialService.getAllUsersByDate(
+                dateMin, dateMax);
+        assertNotNull(testList);
+        assertEquals(testList.get(0).getClass(), User.class);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testGetAllUsersByNullMaxDate() throws Exception {
+        LOGGERDO();
+        Date dateMin = getTestDate("2015-10-05");
+        Date dateMax = null;
+        List<User> testList = socialService.getAllUsersByDate(
+                dateMin, dateMax);
+        assertNotNull(testList);
+        assertEquals(testList.get(0).getClass(), User.class);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testGetAllUsersByDateCompare() throws Exception {
+        LOGGERDO();
+        Date dateMin = getTestDate("2015-10-05");
+        Date dateMax = getTestDate("2015-10-01");
+        List<User> testList = socialService.getAllUsersByDate(
+                dateMin, dateMax);
+        assertNotNull(testList);
+        assertEquals(testList.get(0).getClass(), User.class);
+    }
+
+    @Test
+    public void testGetSocialUsersDtoByDate() throws Exception {
+        LOGGERDO();
+        Date dateMin = getTestDate("2015-10-01");
+        Date dateMax = getTestDate("2015-11-30");
+        SocialDto dto = socialService.getSocialUsersDtoByDate(
+                                      dateMin, dateMax);
+        assertNotNull(dto);
+        assertNotNull(dto.getUsers());
+        assertNotNull(dto.getTotalUsers());
+        assertEquals(dto.getClass(), SocialDto.class);
+        assertEquals(dto.getUsers().get(0).getClass(), User.class);
+
     }
 }

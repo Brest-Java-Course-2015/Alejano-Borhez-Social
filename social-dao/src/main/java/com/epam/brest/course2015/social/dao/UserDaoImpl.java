@@ -60,7 +60,8 @@ public class UserDaoImpl implements UserDao {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         BeanPropertySqlParameterSource parameterSource =
                 new BeanPropertySqlParameterSource(user);
-        namedParameterJdbcTemplate.update(addUser, parameterSource, keyHolder);
+        namedParameterJdbcTemplate.update(addUser,
+                        parameterSource, keyHolder);
         return keyHolder.getKey().intValue();
     }
 
@@ -122,9 +123,9 @@ public class UserDaoImpl implements UserDao {
         LOGGER.debug("userDao: Getting friends of user {}", id);
         MapSqlParameterSource parameterSource =
                 new MapSqlParameterSource("userId", id);
-        return namedParameterJdbcTemplate
-                .query(
-                        selectFriendship, parameterSource, userMapper);
+        return namedParameterJdbcTemplate.query(selectFriendship,
+                                                parameterSource,
+                                                userMapper);
     }
 
     @Override
@@ -139,34 +140,47 @@ public class UserDaoImpl implements UserDao {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("dateMin", dateMin);
         parameterSource.addValue("dateMax", dateMax);
-        return namedParameterJdbcTemplate.query(getSelectAllUsersByDate, parameterSource, userMapper);
+        return namedParameterJdbcTemplate.query(getSelectAllUsersByDate,
+                                                parameterSource,
+                                                userMapper);
     }
 
     @Override
     public User getUserById(Integer id) {
         LOGGER.debug("userDao: Getting user by id: {}", id);
-        SqlParameterSource paramSource = new MapSqlParameterSource("userId", id);
-        return namedParameterJdbcTemplate.queryForObject(selectUserById, paramSource, userMapper);
+        SqlParameterSource paramSource =
+                new MapSqlParameterSource("userId", id);
+        return namedParameterJdbcTemplate.queryForObject(selectUserById,
+                                                        paramSource,
+                                                        userMapper);
     }
 
     @Override
     public User getUserByLogin(String login) {
         LOGGER.debug("userDao: Getting user by login: {}", login);
-        SqlParameterSource parameterSource = new MapSqlParameterSource("login", login);
-        return namedParameterJdbcTemplate.queryForObject(selectUserByLogin, parameterSource, userMapper);
+        SqlParameterSource parameterSource =
+                new MapSqlParameterSource("login", login);
+        return namedParameterJdbcTemplate.queryForObject(selectUserByLogin,
+                                                        parameterSource,
+                                                        userMapper);
     }
 
     @Override
     public Integer getCountOfUsers() {
         LOGGER.debug("userDao: Getting count of all users");
         SqlParameterSource parameterSource = new MapSqlParameterSource();
-        return namedParameterJdbcTemplate.queryForObject(getCountOfUsers, parameterSource, Integer.class);
+        return namedParameterJdbcTemplate.queryForObject(getCountOfUsers,
+                                                         parameterSource,
+                                                         Integer.class);
     }
 
     @Override
     public Integer getCountOfUserFriends(Integer id) {
         LOGGER.debug("userDao: Getting count of all friends of a user: {}", id);
-        SqlParameterSource parameterSource = new MapSqlParameterSource("userId", id);
-        return namedParameterJdbcTemplate.queryForObject(getCountOfUserFriends, parameterSource, Integer.class);
+        SqlParameterSource parameterSource =
+                new MapSqlParameterSource("userId", id);
+        return namedParameterJdbcTemplate.queryForObject(getCountOfUserFriends,
+                                                         parameterSource,
+                                                         Integer.class);
     }
 }

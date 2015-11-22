@@ -42,11 +42,20 @@ public class SocialDtoTest extends TestCase {
         assertEquals(User.class, dto.getUsers().get(0).getClass());
     }
 
+    @Test
     public void testGetTotalUsers() throws Exception {
         LOGGERDO();
         dto.setTotalUsers(totalUsers);
         assertNotNull(dto.getTotalUsers());
         assertTrue(dto.getTotalUsers() == totalUsers);
+    }
+
+    @Test
+    public void testGetUser() throws Exception {
+        LOGGERDO();
+        dto.setUser(user);
+        assertNotNull(dto.getUser());
+        assertEquals(dto.getUser().getClass(), User.class);
     }
 
 }

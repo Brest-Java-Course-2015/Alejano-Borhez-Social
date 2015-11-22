@@ -7,7 +7,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by alexander on 21.11.15.
@@ -42,25 +40,29 @@ public class SocialController {
     }
 
     @RequestMapping("/usersbydate")
-    public ModelAndView getAllUsersByDate(@RequestParam("datemin") String dateMin,
-                                          @RequestParam("datemax") String dateMax) {
+    public ModelAndView getAllUsersByDate(@RequestParam("datemin")
+                                                  String dateMin,
+                                          @RequestParam("datemax")
+                                                  String dateMax) {
         Date date1 = getDate(dateMin);
         Date date2 = getDate(dateMax);
-
-        SocialDto dto = socialService.getSocialUsersDtoByDate(date1, date2);
+        SocialDto dto = socialService
+                .getSocialUsersDtoByDate(date1,
+                                         date2);
         return new ModelAndView("usersbydate", "dto", dto);
     }
 
     @RequestMapping("/friends")
-    public ModelAndView getAllFriendsOfAUser(@RequestParam("id") Integer id) {
+    public ModelAndView getAllFriendsOfAUser(@RequestParam("id")
+                                                    Integer id) {
         LOGGER.debug("web: friends of a user: {}", id);
         SocialDto dto = socialService.getSocialFriendsDto(id);
         return new ModelAndView("friends", "dto", dto);
     }
 
     @RequestMapping("/user")
-    public ModelAndView getUser(@RequestParam("id") Integer id)
-    {
+    public ModelAndView getUser(@RequestParam("id")
+                                       Integer id) {
         LOGGER.debug("web: getting user: {}", id);
         SocialDto dto = socialService.getSocialFriendsDto(id);
         return new ModelAndView("user", "dto", dto);
@@ -86,70 +88,80 @@ public class SocialController {
         return "redirect:/users";
     }
 
-
-
     @RequestMapping("/user/password")
-    public String changePassword(@RequestParam("id") Integer id,
-                                 @RequestParam("password") String password) {
+    public String changePassword(@RequestParam("id")
+                                        Integer id,
+                                 @RequestParam("password")
+                                         String password) {
         LOGGER.debug("web: setting new password of user: {}", id);
         socialService.changePassword(id, password);
         return "redirect:/user?id=" + id;
     }
 
     @RequestMapping("/user/login")
-    public String changeLogin(@RequestParam("id") Integer id,
-                                 @RequestParam("login") String login) {
+    public String changeLogin(@RequestParam("id")
+                                     Integer id,
+                              @RequestParam("login")
+                                      String login) {
         LOGGER.debug("web: setting new login of user: {}", id);
         socialService.changeLogin(id, login);
         return "redirect:/user?id=" + id;
     }
 
     @RequestMapping("/user/firstname")
-    public String changeFirstName(@RequestParam("id") Integer id,
-                              @RequestParam("firstname") String firstname) {
+    public String changeFirstName(@RequestParam("id")
+                                         Integer id,
+                                  @RequestParam("firstname")
+                                          String firstname) {
         LOGGER.debug("web: setting new firstname of user: {}", id);
         socialService.changeFirstName(id, firstname);
         return "redirect:/user?id=" + id;
     }
 
     @RequestMapping("/user/lastname")
-    public String changeLastName(@RequestParam("id") Integer id,
-                                  @RequestParam("lastname") String lastname) {
+    public String changeLastName(@RequestParam("id")
+                                        Integer id,
+                                 @RequestParam("lastname")
+                                         String lastname) {
         LOGGER.debug("web: setting new lastname of user: {}", id);
         socialService.changeLastName(id, lastname);
         return "redirect:/user?id=" + id;
     }
 
     @RequestMapping("/user/friendship/del")
-    public String discardFriendship(@RequestParam("id1") Integer id1,
-                                    @RequestParam("id2") Integer id2) {
-        LOGGER.debug("web: discarding friendship of users: {}, {}", id1, id2);
+    public String discardFriendship(@RequestParam("id1")
+                                           Integer id1,
+                                    @RequestParam("id2")
+                                           Integer id2) {
+        LOGGER.debug("web: discarding friendship of users: {}, {}",
+                                                          id1, id2);
         socialService.discardFriendship(new User(id1), new User(id2));
         return "redirect:/user?id=" + id1;
     }
 
     @RequestMapping("/user/friendship/add")
-    public String addFriendship(@RequestParam("id1") Integer id1,
-                                    @RequestParam("id2") Integer id2) {
-        LOGGER.debug("web: adding friendship of users: {}, {}", id1, id2);
+    public String addFriendship(@RequestParam("id1")
+                                       Integer id1,
+                                @RequestParam("id2")
+                                       Integer id2) {
+        LOGGER.debug("web: adding friendship of users: {}, {}",
+                                                      id1, id2);
         socialService.addFriendship(new User(id1), new User(id2));
         return "redirect:/nofriends?id=" + id1;
     }
 
 
     @RequestMapping("nofriends")
-    public ModelAndView getAllNoFriendsOfAUser(@RequestParam("id") Integer id) {
+    public ModelAndView getAllNoFriendsOfAUser(@RequestParam("id")
+                                                      Integer id) {
         LOGGER.debug("web: getting all no-friends of a user {}", id);
         SocialDto dto = socialService.getSocialNoFriendsDto(id);
         return new ModelAndView("nofriends", "dto", dto);
     }
 
-    public static Date getDate(String date) {
-
+    private static Date getDate(String date) {
         try {
-
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
             return formatter.parse(date);
         } catch (ParseException e) {
             e.printStackTrace();

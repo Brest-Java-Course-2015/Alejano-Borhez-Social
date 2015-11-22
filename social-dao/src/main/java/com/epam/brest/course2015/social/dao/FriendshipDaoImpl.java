@@ -22,15 +22,15 @@ import java.util.List;
 public class FriendshipDaoImpl implements FriendshipDao {
     private static final Logger LOGGER = LogManager.getLogger();
     @Value("${friend.addFriendship}")
-    String addFriendship;
+    private String addFriendship;
     @Value("${friend.findFriendship}")
-    String findFriendship;
+    private String findFriendship;
     @Value("${friend.discardFriendship}")
-    String deleteFriendship;
+    private String deleteFriendship;
     @Value("${friend.selectAllFriendship}")
-    String getAllFriendships;
+    private String getAllFriendships;
     @Value("${friend.deleteAllFriendships}")
-    String deleteAllFriendshipsOfAUser;
+    private String deleteAllFriendshipsOfAUser;
 
     private RowMapper<Friendship> friendshipRowMapper =
             new BeanPropertyRowMapper<>(Friendship.class);
@@ -67,7 +67,10 @@ public class FriendshipDaoImpl implements FriendshipDao {
                     .queryForObject(findFriendship,
                                     source,
                                     friendshipRowMapper);
-            return true;
+            if (testFriendship.getClass().equals(Friendship.class)) {
+                return true;
+            }
+            return false;
         } catch (EmptyResultDataAccessException ex) {
 
             return false;
@@ -76,11 +79,16 @@ public class FriendshipDaoImpl implements FriendshipDao {
 
     @Override
     public void discardFriendship(User enemy1, User enemy2) {
-        LOGGER.debug("friendshipDao: Deleting friendship of users: {}, {}", enemy1.getUserId(), enemy2.getUserId());
-        Friendship friendship12 = new Friendship(enemy1.getUserId(), enemy2.getUserId());
-        Friendship friendship21 = new Friendship(enemy2.getUserId(), enemy1.getUserId());
-        BeanPropertySqlParameterSource source12 = new BeanPropertySqlParameterSource(friendship12);
-        BeanPropertySqlParameterSource source21 = new BeanPropertySqlParameterSource(friendship21);
+        LOGGER.debug("friendshipDao: Deleting friendship of users: {}, {}",
+                enemy1.getUserId(), enemy2.getUserId());
+        Friendship friendship12 = new Friendship(enemy1.getUserId(),
+                                                enemy2.getUserId());
+        Friendship friendship21 = new Friendship(enemy2.getUserId(),
+                                                enemy1.getUserId());
+        BeanPropertySqlParameterSource source12 =
+                new BeanPropertySqlParameterSource(friendship12);
+        BeanPropertySqlParameterSource source21 =
+                new BeanPropertySqlParameterSource(friendship21);
         namedParameterJdbcTemplate.update(deleteFriendship, source12);
         namedParameterJdbcTemplate.update(deleteFriendship, source21);
     }
@@ -88,13 +96,16 @@ public class FriendshipDaoImpl implements FriendshipDao {
     @Override
     public List<Friendship> getAllFriendships () {
         LOGGER.debug("friendshipDao: Getting all friendships");
-        return namedParameterJdbcTemplate.query(getAllFriendships, friendshipRowMapper);
+        return namedParameterJdbcTemplate.query(getAllFriendships,
+                                                friendshipRowMapper);
     }
 
     @Override
     public void discardAllFriendshipsOfAUser(Integer userId) {
-        LOGGER.debug("friendshipDao: Deleting all friendships of a user {}", userId);
+        LOGGER.debug("friendshipDao: Deleting all friendships of a user {}",
+                userId);
         SqlParameterSource source = new MapSqlParameterSource("id", userId);
-        namedParameterJdbcTemplate.update(deleteAllFriendshipsOfAUser, source);
+        namedParameterJdbcTemplate.update(deleteAllFriendshipsOfAUser,
+                                          source);
     }
 }

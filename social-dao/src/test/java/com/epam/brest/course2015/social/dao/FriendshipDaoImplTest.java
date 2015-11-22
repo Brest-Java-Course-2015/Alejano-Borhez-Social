@@ -3,17 +3,16 @@ package com.epam.brest.course2015.social.dao;
 import com.epam.brest.course2015.social.core.Friendship;
 import com.epam.brest.course2015.social.core.User;
 import junit.framework.TestCase;
-import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-import org.apache.logging.log4j.LogManager;
 
-import java.util.Date;
 import java.util.List;
+import static com.epam.brest.course2015.social.test.LOGGER.LOGGERDO;
+
 
 /**
  * Created by alexander on 26.10.15.
@@ -23,12 +22,6 @@ import java.util.List;
 @ContextConfiguration(locations = {"classpath*:test-spring-dao.xml"})
 @Transactional
 public class FriendshipDaoImplTest extends TestCase {
-    //Универсальный Логгер, который показывает имя тестового класса и имя тестового метода
-    private static final Logger LOGGER = LogManager.getLogger();
-    private static void LOGGERDO() {
-        StackTraceElement[] elements = Thread.currentThread().getStackTrace();
-        LOGGER.debug("Started test: " + elements[2].getMethodName());
-    }
     private static final Integer testFirstFriend = 5;
     private static final Integer testSecondFriend = 6;
     private static final User testFriend1 = new User(testFirstFriend);

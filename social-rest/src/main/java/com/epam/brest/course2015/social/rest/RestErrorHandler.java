@@ -20,7 +20,8 @@ public class RestErrorHandler {
 
     @ExceptionHandler(DataAccessException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public @ResponseBody String handleDataAccessException(DataAccessException ex) {
+    public String handleDataAccessException(
+                                DataAccessException ex) {
         LOGGER.debug("Handling DataAccessException: " + ex);
         return "DataAccessException: " + ex.getLocalizedMessage();
     }

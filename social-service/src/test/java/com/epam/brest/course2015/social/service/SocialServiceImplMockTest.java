@@ -4,8 +4,6 @@ import com.epam.brest.course2015.social.core.Friendship;
 import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dao.FriendshipDao;
 import com.epam.brest.course2015.social.dao.UserDao;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +18,7 @@ import java.util.List;
 
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
-
+import static com.epam.brest.course2015.social.test.LOGGER.LOGGERDO;
 
 /**
  * Created by alexander on 6.11.15.
@@ -29,12 +27,6 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations = {"classpath:spring-service-mock-test.xml"})
 @Transactional
 public class SocialServiceImplMockTest {
-    //Универсальный Логгер, который показывает имя тестового класса и имя тестового метода
-    private static final Logger LOGGER = LogManager.getLogger();
-    private static void LOGGERDO() {
-        StackTraceElement[] elements = Thread.currentThread().getStackTrace();
-        LOGGER.debug("Started test: " + elements[2].getMethodName());
-    }
     private static final User testMockUser1 = new User("testLogin1", "testPassword1", "testFirstName1", "testLastName1", 25);
     private static final User testMockUser2 = new User("testLogin2", "testPassword2", "testFirstName2", "testLastName2", 26);
 

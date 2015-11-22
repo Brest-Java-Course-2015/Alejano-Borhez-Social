@@ -31,7 +31,6 @@
 <jsp:include page="templates/table.jsp"/>
 
 <div id="userTotal">
-    <
     <h3><spring:message code="friends.total"/>: ${dto.totalUsers}</h3>
     <button id="addUser" style="float: right; position:relative; right: 50px" onclick="gotoAddFriends()"><spring:message code="friend.create"/></button>
     <script>

@@ -3,13 +3,13 @@ package com.epam.brest.course2015.social.core;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by alexander on 25.10.15.
  */
 public class User {
     //Объявление переменных
+
     private Integer userId;
     private String firstName;
     private String lastName;
@@ -84,6 +84,19 @@ public class User {
     //Конструкторы
     //Базовый конструктор - используется для добавления
     //в базу данных нового пользователя
+    /**
+     * Basic constructor for {@link User} object.
+     * It is usually used for basic operations within Dao processes.
+     * <p>
+     * Some parameters like createdDate & updatedDate are evaluated by default.
+     *
+     * @param  login    may contain only lowercase english letters and
+     *                  _- signs and numbers.
+     * @param password  may contain only english letters and numbers.
+     * @param firstName must have a first capital letter. Spaces are not allowed.
+     * @param lastName  must have a first capital letter. Spaces are not allowed.
+     * @param age       a positive integer number
+     */
     public User(String login, String password,
                 String firstName, String lastName,
                 Integer age) {
