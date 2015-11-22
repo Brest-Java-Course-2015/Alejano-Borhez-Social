@@ -4,6 +4,7 @@ You can manage a list of users and also a friendship between users.
 Web-application has a user-friendly web-interface.
 
 To install this application you have to proceed several simply steps:
+
 1. Download a repository with project to your local machine 
    (I suppose that you already have Apache Tomcat Server installed)
 2. Cd to the root directory of a project: cd /../../Alejano-Borhez-Social-master
