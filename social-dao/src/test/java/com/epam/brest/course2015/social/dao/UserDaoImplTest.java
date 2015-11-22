@@ -12,6 +12,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -27,6 +30,15 @@ public class UserDaoImplTest {
     private static void LOGGERDO() {
         StackTraceElement[] elements = Thread.currentThread().getStackTrace();
         LOGGER.debug("Started test: " + elements[2].getMethodName());
+    }
+    public static Date getTestDate(String date) {
+    try {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        return formatter.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
     public static final Integer testId = 1;
     public static final String testLogin = "julia_borohova";
@@ -139,4 +151,13 @@ public class UserDaoImplTest {
         assertEquals(testLastName, userDao.getUserById(testId).getLastName());
     }
 
+    @Test
+    public void testGetAllUsers1() throws Exception {
+        LOGGERDO();
+        Date dateMin = getTestDate("2015-10-05");
+        Date dateMax = getTestDate("2015-10-20");
+        List<User> list = userDao.getAllUsers(dateMin, dateMax);
+        assertNotNull(list);
+        assertEquals(list.get(0).getClass(), User.class);
+    }
 }

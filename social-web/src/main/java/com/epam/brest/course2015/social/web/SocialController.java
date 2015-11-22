@@ -7,10 +7,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -36,6 +41,16 @@ public class SocialController {
         return new ModelAndView("users", "dto", dto);
     }
 
+    @RequestMapping("/usersbydate")
+    public ModelAndView getAllUsersByDate(@RequestParam("datemin") String dateMin,
+                                          @RequestParam("datemax") String dateMax) {
+        Date date1 = getDate(dateMin);
+        Date date2 = getDate(dateMax);
+
+        SocialDto dto = socialService.getSocialUsersDtoByDate(date1, date2);
+        return new ModelAndView("usersbydate", "dto", dto);
+    }
+
     @RequestMapping("/friends")
     public ModelAndView getAllFriendsOfAUser(@RequestParam("id") Integer id) {
         LOGGER.debug("web: friends of a user: {}", id);
@@ -50,6 +65,28 @@ public class SocialController {
         SocialDto dto = socialService.getSocialFriendsDto(id);
         return new ModelAndView("user", "dto", dto);
     }
+
+    @RequestMapping("/addusersubmit")
+    public String addUserSubmit(@RequestBody User user) {
+        LOGGER.debug("web: adding new user");
+        Integer userId = socialService.addUser(user);
+        return "redirect:/users";
+    }
+
+    @RequestMapping("/adduser")
+    public ModelAndView addUser() {
+        LOGGER.debug("web: preparing to add new user");
+        return new ModelAndView("adduser");
+    }
+
+    @RequestMapping("/user/delete")
+    public String deleteUser(@RequestParam("id") Integer id) {
+        LOGGER.debug("web: deleting user {}", id);
+        socialService.deleteUser(id);
+        return "redirect:/users";
+    }
+
+
 
     @RequestMapping("/user/password")
     public String changePassword(@RequestParam("id") Integer id,
@@ -105,6 +142,19 @@ public class SocialController {
         LOGGER.debug("web: getting all no-friends of a user {}", id);
         SocialDto dto = socialService.getSocialNoFriendsDto(id);
         return new ModelAndView("nofriends", "dto", dto);
+    }
+
+    public static Date getDate(String date) {
+
+        try {
+
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+            return formatter.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }

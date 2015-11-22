@@ -5,6 +5,7 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <c:set var="mapping" value="${pageContext.request.requestURI}"/>
 <c:set var="users" value="${contextPath}${'/WEB-INF/views/users.jsp'}"/>
+<c:set var="usersbydate" value="${contextPath}${'/WEB-INF/views/usersbydate.jsp'}"/>
 <c:set var="friends" value="${contextPath}${'/WEB-INF/views/friends.jsp'}"/>
 <c:set var="usertab" value="${contextPath}${'/WEB-INF/views/user.jsp'}"/>
 <c:set var="nofriends" value="${contextPath}${'/WEB-INF/views/nofriends.jsp'}"/>
@@ -34,10 +35,19 @@
                     <td>${user.createdDate}</td>
                     <c:choose>
                          <c:when test="${mapping == users}">
-                            <jsp:include page="usersactions.jsp"/>
+                            <jsp:include page="usersactions.jsp">
+                                <jsp:param name="userId" value="${user.userId}"/>
+                            </jsp:include>
                          </c:when>
+                        <c:when test="${mapping == usersbydate}">
+                            <jsp:include page="usersactions.jsp">
+                                <jsp:param name="userId" value="${user.userId}"/>
+                            </jsp:include>
+                        </c:when>
                         <c:when test="${mapping == friends}">
-                            <jsp:include page="friendsactions.jsp"/>
+                            <jsp:include page="friendsactions.jsp">
+                                <jsp:param name="userId" value="${user.userId}"/>
+                            </jsp:include>
                         </c:when>
                         <c:when test="${mapping == usertab}">
                             <jsp:include page="friendsactions.jsp">
@@ -114,5 +124,29 @@ function addFriend(userId)
     })
     }
     }
+
+function deleteUser(userId) {
+
+    if (confirm("Вы уверены, что хотите удалить пользователя № " + userId + "?"))
+    {
+        console.log('deleteUser' + userId);
+        var url = '<c:url value="/user/delete" />' + "?id=" + userId;
+        $.ajax({
+            type: 'DELETE',
+            url: url,
+            success: function (data, textStatus, jqXHR) {
+                alert('User deleted successfully 1');
+                location.reload();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('deleteUser error: ' + textStatus + userId + ": " + errorThrown);
+            }
+        })
+    }
+}
+
+function gotoUser(userId) {
+    window.location='<c:url value="user"/>' + '?id=' + userId;
+}
 
 </script>

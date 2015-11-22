@@ -1,11 +1,11 @@
 // The root URL for the RESTful services
+var url = '${contextPath}';
 var PREFIX_URL = "http://localhost:8082/social-rest-1.0-SNAPSHOT"
 var USER_URL = "/user";
 
 // Register listeners
 $('#addUser').click(function () {
         addUser();
-//        goHome();
 });
 
 
@@ -18,7 +18,7 @@ function addUser() {
     $.ajax({
         type: 'POST',
         contentType: 'application/json',
-        url: PREFIX_URL + USER_URL,
+        url: "addusersubmit",
         dataType: "json",
         data: formToJSON(),
         success: function (data, textStatus, jqXHR) {

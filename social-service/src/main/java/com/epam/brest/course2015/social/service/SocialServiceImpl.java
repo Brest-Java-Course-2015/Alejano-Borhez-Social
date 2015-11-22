@@ -15,6 +15,7 @@ import org.springframework.util.Assert;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -190,6 +191,13 @@ public class SocialServiceImpl implements SocialService {
     }
 
     @Override
+    public List<User> getAllUsersByDate(Date dateMin, Date dateMax) {
+        LOGGER.debug("service: Getting users by date");
+
+        return userDao.getAllUsers(dateMin, dateMax);
+    }
+
+    @Override
     public List<User> getFriends(Integer id) {
         Assert.notNull(id, notNullId);
         Assert.isTrue(id > 0, correctId);
@@ -318,6 +326,19 @@ public class SocialServiceImpl implements SocialService {
             dto.setUsers(Collections.<User>emptyList());
         }
         dto.setUser(userDao.getUserById(id));
+        return dto;
+    }
+
+
+    @Override
+    public SocialDto getSocialUsersDtoByDate(Date dateMin, Date dateMax) {
+        LOGGER.debug("service: getting dto by date");
+        SocialDto dto = new SocialDto();
+        dto.setUsers(getAllUsersByDate(dateMin, dateMax));
+        dto.setTotalUsers(dto.getUsers().size());
+        for (User user: dto.getUsers()) {
+            user.setTotalFriends(userDao.getCountOfUserFriends(user.getUserId()));
+        }
         return dto;
     }
 

@@ -21,10 +21,10 @@ public class User {
 
 
     @JsonFormat(shape = JsonFormat.Shape.STRING,
-            pattern = "dd-MM-yyyy hh:mm:ss")
+            pattern = "dd-MM-yyyy")
     private Date createdDate;
     @JsonFormat (shape = JsonFormat.Shape.STRING,
-            pattern = "dd-MM-yyyy hh:mm:ss")
+            pattern = "dd-MM-yyyy")
     private Date updatedDate;
     //Геттеры и сеттеры
     public String getFirstName() {
