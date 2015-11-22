@@ -14,4 +14,6 @@ To install this application you have to proceed several simply steps:
 6. Restart your tomcat server
 7. Access the project by URL: localhost:port/social-web-1.0-SNAPSHOT
 8. Alternatively you may use a web-interface of your tomcat server: localhost:port/manager --> deploy by choosing a .WAR file
-9. Enjoy! And leave a feedback to alexander.borohov17@gmail.com
+9. Alternatively you may run an app;ication on a jetty-server: cd social-web --> mvn jetty:run
+10. After that an application will be available at: localhost:8081/web/
+11. Enjoy! And leave a feedback to alexander.borohov17@gmail.com
