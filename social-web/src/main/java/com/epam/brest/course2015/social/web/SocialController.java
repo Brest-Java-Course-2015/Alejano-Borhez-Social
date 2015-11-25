@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -88,7 +89,8 @@ public class SocialController {
         return "redirect:/users";
     }
 
-    @RequestMapping("/user/password")
+    @RequestMapping(value = "/user/password",
+                   method = RequestMethod.PUT)
     public String changePassword(@RequestParam("id")
                                         Integer id,
                                  @RequestParam("password")
@@ -98,17 +100,19 @@ public class SocialController {
         return "redirect:/user?id=" + id;
     }
 
-    @RequestMapping("/user/login")
+    @RequestMapping(value = "/user/login",
+                   method = RequestMethod.PUT)
     public String changeLogin(@RequestParam("id")
                                      Integer id,
                               @RequestParam("login")
                                       String login) {
         LOGGER.debug("web: setting new login of user: {}", id);
         socialService.changeLogin(id, login);
-        return "redirect:/user?id=" + id;
+        return "forward:/user?id=" + id;
     }
 
-    @RequestMapping("/user/firstname")
+    @RequestMapping(value = "/user/firstname",
+                   method = RequestMethod.PUT)
     public String changeFirstName(@RequestParam("id")
                                          Integer id,
                                   @RequestParam("firstname")
@@ -118,7 +122,8 @@ public class SocialController {
         return "redirect:/user?id=" + id;
     }
 
-    @RequestMapping("/user/lastname")
+    @RequestMapping(value = "/user/lastname",
+                   method = RequestMethod.PUT)
     public String changeLastName(@RequestParam("id")
                                         Integer id,
                                  @RequestParam("lastname")
@@ -128,7 +133,8 @@ public class SocialController {
         return "redirect:/user?id=" + id;
     }
 
-    @RequestMapping("/user/friendship/del")
+    @RequestMapping(value = "/user/friendship/del",
+                   method = RequestMethod.DELETE)
     public String discardFriendship(@RequestParam("id1")
                                            Integer id1,
                                     @RequestParam("id2")

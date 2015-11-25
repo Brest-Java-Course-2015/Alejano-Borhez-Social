@@ -58,9 +58,10 @@ function changeLogin() {
     console.log('changeLogin');
     var newLogin = prompt("Введите новый логин", '');
     if (newLogin != "") {
+        var url = "${contextPath}/user/login?id=" + id + "&login=" + newLogin;
     $.ajax({
         type: 'PUT',
-        url: '<c:url value="/user/login?id="/>' + id + "&login=" + newLogin,
+        url: url,
         success: function (data, textStatus, jqXHR) {
                                      alert('Логин успешно изменён.');
                                      location.reload();
@@ -81,9 +82,10 @@ function changePassword() {
     console.log('changePassword');
     var newPassword = prompt("Введите новый пароль", '');
     if (newPassword != "") {
+        var url = '<c:url value="/user/password?id="/>' + id + "&password=" + newPassword;
     $.ajax({
         type: 'PUT',
-        url: '<c:url value="/user/password?id="/>' + id + "&password=" + newPassword,
+        url: url,
         success: function (data, textStatus, jqXHR) {
                                      alert('Пароль успешно изменён.');
                                      location.reload();
@@ -105,7 +107,7 @@ function changeFirstName() {
     var newName = prompt("Введите новое имя", '');
     if (newName != "") {
     $.ajax({
-        type: 'PUT',
+        type: 'GET',
         url: '<c:url value="/user/firstname?id="/>' + id + "&firstname=" + newName,
         success: function (data, textStatus, jqXHR) {
                                      alert('Имя успешно изменено.');
@@ -128,7 +130,7 @@ function changeLastName() {
     var newName = prompt("Введите новую фамилию", '');
     if (newName != "") {
     $.ajax({
-        type: 'PUT',
+        type: 'GET',
         url: '<c:url value="/user/lastname?id="/>' + id + "&lastname=" + newName,
         success: function (data, textStatus, jqXHR) {
                                      alert('Имя успешно изменено.');

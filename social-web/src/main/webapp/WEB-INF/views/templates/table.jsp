@@ -130,7 +130,7 @@ function deleteUser(userId) {
     if (confirm("Вы уверены, что хотите удалить пользователя № " + userId + "?"))
     {
         console.log('deleteUser' + userId);
-        var url = '<c:url value="/user/delete" />' + "?id=" + userId;
+        var url = '<c:url value="/user/delete"/>' + "?id=" + userId;
         $.ajax({
             type: 'DELETE',
             url: url,

@@ -206,8 +206,8 @@ public class SocialControllerTest {
                 put("/user/login?id=1&login=login")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/user?id=1"));
+                .andExpect(status().isOk())
+                .andExpect(forwardedUrl("/user?id=1"));
     }
 
     @Test
