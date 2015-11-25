@@ -124,6 +124,7 @@ public class SocialRestController {
         LOGGER.debug("rest: Deleting a user {}", id);
         socialService.deleteUser(id);
         socialService.discardAllFriendshipsOfAUser(id);
+
     }
 
     @RequestMapping(value = "/user/friendship",
