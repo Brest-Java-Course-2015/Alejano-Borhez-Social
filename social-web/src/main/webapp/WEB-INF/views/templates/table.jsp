@@ -115,10 +115,8 @@ function deleteFriend(userId)
 
 function addFriend(userId)
 {
-    if (confirm("Вы уверены, что хотите добавить пользователя № " + userId + " в друзья к пользователю № " + id + "?"))
-    {
+    var url = "${contextPath}/user/friendship/add" +  "?id1=" + id + "&id2=" + userId;
     console.log('addFriendship' + id + ', ' + userId);
-    var url = '<c:url value="/user/friendship/add"/>' +  "?id1=" + id + "&id2=" + userId;
     $.ajax({
         type: 'POST',
         url: url,
@@ -127,11 +125,10 @@ function addFriend(userId)
                     location.reload();
                 },
         error: function (jqXHR, textStatus, errorThrown) {
-            alert('addFriend error: ' + textStatus + userId);
+            alert('addFriend error: ' + textStatus + ':' + url);
         }
     })
-    }
-    }
+}
 
 function deleteUser(userId) {
 

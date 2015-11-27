@@ -145,7 +145,8 @@ public class SocialController {
         return "redirect:/user?id=" + id1;
     }
 
-    @RequestMapping("/user/friendship/add")
+    @RequestMapping(value = "/user/friendship/add",
+                    method = RequestMethod.POST)
     public String addFriendship(@RequestParam("id1")
                                        Integer id1,
                                 @RequestParam("id2")
@@ -157,7 +158,8 @@ public class SocialController {
     }
 
 
-    @RequestMapping("nofriends")
+    @RequestMapping(value = "nofriends",
+             method = RequestMethod.GET)
     public ModelAndView getAllNoFriendsOfAUser(@RequestParam("id")
                                                       Integer id) {
         LOGGER.debug("web: getting all no-friends of a user {}", id);
