@@ -25,7 +25,7 @@
         </tr>
         <tr>
             <td>Пароль</td>
-            <td id="password"><span>${dto.user.password}</span></td>
+            <td id="password"><span>*******</span></td>
             <td>
                     <button id="change_password" onclick="changePassword()"><spring:message code="user.change"/></button>
             </td>
@@ -48,6 +48,16 @@
             <td>Возраст</td>
             <td id="age"><span>${dto.user.age}</span></td>
             <td><span></span></td>
+        </tr>
+        <tr>
+            <td>Дата создания</td>
+            <td id="createdDate">${dto.user.createdDate}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Дата изменения</td>
+            <td id="updatedDate">${dto.user.updatedDate}</td>
+            <td></td>
         </tr>
         </tbody>
     </table>
@@ -80,8 +90,10 @@ function changeLogin() {
 
 function changePassword() {
     console.log('changePassword');
-    var newPassword = prompt("Введите новый пароль", '');
-    if (newPassword != "") {
+    var oldPassword = prompt("Введите cтарый пароль", '');
+    if (oldPassword == "${dto.user.password}") {
+        var newPassword = prompt("Введите новый пароль", '');
+        if (newPassword != '') {
         var url = '<c:url value="/user/password?id="/>' + id + "&password=" + newPassword;
     $.ajax({
         type: 'PUT',
@@ -95,9 +107,11 @@ function changePassword() {
                            alert('updateUser: ' + textStatus + " пароль " + newPassword + ", пользователь " + id + "'" + url + "'");
                        }
 
-    })
+    })} else {
+            alert('Пароль не может быть пустым');
+        }
     } else {
-        alert('Пароль не может быть пустым');
+        alert('Пароль введён неверно');
     }
 
 }
@@ -105,10 +119,11 @@ function changePassword() {
 function changeFirstName() {
     console.log('changeFirstName');
     var newName = prompt("Введите новое имя", '');
+    var url = "${contextPath}/user/firstname?id=" + id + "&firstname=" + newName;
     if (newName != "") {
     $.ajax({
-        type: 'GET',
-        url: '<c:url value="/user/firstname?id="/>' + id + "&firstname=" + newName,
+        type: 'PUT',
+        url: url,
         success: function (data, textStatus, jqXHR) {
                                      alert('Имя успешно изменено.');
                                      location.reload();
@@ -128,10 +143,11 @@ function changeFirstName() {
 function changeLastName() {
     console.log('changeLastName');
     var newName = prompt("Введите новую фамилию", '');
+    var url = '<c:url value="/user/lastname?id="/>' + id + "&lastname=" + newName;
     if (newName != "") {
     $.ajax({
-        type: 'GET',
-        url: '<c:url value="/user/lastname?id="/>' + id + "&lastname=" + newName,
+        type: 'PUT',
+        url: url,
         success: function (data, textStatus, jqXHR) {
                                      alert('Имя успешно изменено.');
                                      location.reload();

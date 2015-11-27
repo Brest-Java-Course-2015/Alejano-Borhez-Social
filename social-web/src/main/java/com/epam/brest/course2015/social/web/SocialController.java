@@ -97,7 +97,7 @@ public class SocialController {
                                          String password) {
         LOGGER.debug("web: setting new password of user: {}", id);
         socialService.changePassword(id, password);
-        return "redirect:/user?id=" + id;
+        return "forward:/user?id=" + id;
     }
 
     @RequestMapping(value = "/user/login",
@@ -119,7 +119,7 @@ public class SocialController {
                                           String firstname) {
         LOGGER.debug("web: setting new firstname of user: {}", id);
         socialService.changeFirstName(id, firstname);
-        return "redirect:/user?id=" + id;
+        return "forward:/user?id=" + id;
     }
 
     @RequestMapping(value = "/user/lastname",
@@ -130,7 +130,7 @@ public class SocialController {
                                          String lastname) {
         LOGGER.debug("web: setting new lastname of user: {}", id);
         socialService.changeLastName(id, lastname);
-        return "redirect:/user?id=" + id;
+        return "forward:/user?id=" + id;
     }
 
     @RequestMapping(value = "/user/friendship/del",

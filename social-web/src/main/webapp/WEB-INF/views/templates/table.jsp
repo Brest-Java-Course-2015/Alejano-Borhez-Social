@@ -13,26 +13,34 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>UserId</th>
-            <th>Логин</th>
-            <th>Фамилия, Имя</th>
+            <th>Имя</th>
+            <th>Фамилия</th>
             <th>Возраст</th>
             <th>Друзья</th>
-            <th>Пароль</th>
-            <th>Дата создания</th>
             <th>Действия</th>
         </tr>
         </thead>
         <tbody id="userList">
         <c:forEach items="${dto.users}" var="user">
                 <tr>
-                    <td>${user.userId}</td>
-                    <td>${user.login}</td>
-                    <td><a href ="${contextPath}/user?id=${user.userId}">${user.lastName}, ${user.firstName}</a></td>
-                    <td>${user.age}</td>
-                    <td><a href="${contextPath}/friends?id=${user.userId}">${user.totalFriends}</a></td>
-                    <td>${user.password}</td>
-                    <td>${user.createdDate}</td>
+                    <td>
+                        <a href ="${contextPath}/user?id=${user.userId}">
+                            ${user.firstName}
+                        </a>
+                    </td>
+                    <td>
+                        <a href ="${contextPath}/user?id=${user.userId}">
+                            ${user.lastName}
+                        </a>
+                    </td>
+                    <td>
+                        ${user.age}
+                    </td>
+                    <td>
+                        <a href="${contextPath}/friends?id=${user.userId}">
+                            ${user.totalFriends}
+                        </a>
+                    </td>
                     <c:choose>
                          <c:when test="${mapping == users}">
                             <jsp:include page="usersactions.jsp">
@@ -90,16 +98,16 @@ function deleteFriend(userId)
     if (confirm("Вы уверены, что хотите убрать пользователя № " + userId + " из друзей пользователя № " + id + "?"))
     {
     console.log('deleteFriendship' + id + ', ' + userId);
-    ;
+    var url = '<c:url value="/user/friendship/del"/>' +  "?id1=" + id + "&id2=" + userId;
     $.ajax({
         type: 'DELETE',
-        url: '<c:url value="/user/friendship/del"/>' +  "?id1=" + id + "&id2=" + userId,
+        url: url,
         success: function (data, textStatus, jqXHR) {
                     alert('Friendship deleted successfully');
                     location.reload();
                 },
         error: function (jqXHR, textStatus, errorThrown) {
-            alert('deleteFriend error: ' + textStatus + userId);
+            alert('deleteFriend error: ' + textStatus + userId + ': ' + url);
         }
     })
     }
@@ -110,10 +118,10 @@ function addFriend(userId)
     if (confirm("Вы уверены, что хотите добавить пользователя № " + userId + " в друзья к пользователю № " + id + "?"))
     {
     console.log('addFriendship' + id + ', ' + userId);
-    ;
+    var url = '<c:url value="/user/friendship/add"/>' +  "?id1=" + id + "&id2=" + userId;
     $.ajax({
         type: 'POST',
-        url: '<c:url value="/user/friendship/add"/>' +  "?id1=" + id + "&id2=" + userId,
+        url: url,
         success: function (data, textStatus, jqXHR) {
                     alert('Friendship added successfully');
                     location.reload();

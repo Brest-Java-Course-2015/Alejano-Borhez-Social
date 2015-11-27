@@ -3,5 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
-<td><button onclick="addFriend(${param.userId})"><spring:message code="friend.add"/></button> </td>
+<td>
+    <button onclick="addFriend(${param.userId})">
+        <spring:message code="friend.add"/>
+    </button>
+</td>
 

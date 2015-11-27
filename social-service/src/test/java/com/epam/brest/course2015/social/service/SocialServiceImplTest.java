@@ -252,10 +252,10 @@ public class SocialServiceImplTest  {
         socialService.getFriends(null);
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test
     public void testGetFriendsOfNonExistingUser() throws Exception {
         LOGGERDO();
-        socialService.getFriends(7);
+        assertEquals(socialService.getFriends(7).size(), 0);
     }
 
     @Test (expected = IllegalArgumentException.class)

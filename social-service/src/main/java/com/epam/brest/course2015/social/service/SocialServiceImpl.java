@@ -8,6 +8,7 @@ import com.epam.brest.course2015.social.dto.SocialDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -218,7 +219,7 @@ public class SocialServiceImpl implements SocialService {
         } catch (EmptyResultDataAccessException e) {
             e.printStackTrace();
             LOGGER.debug("service: User with Id {} does not exist", id);
-            throw new IllegalArgumentException();
+            return Collections.<User>emptyList();
         }
     }
 
@@ -229,8 +230,7 @@ public class SocialServiceImpl implements SocialService {
         List<User> listUsers = getAllUsers();
         List<User> listFriends = getFriends(id);
         List<Integer> userId = new ArrayList<>();
-        for (User user: listUsers) {
-            userId.add(user.getUserId());
+        for (User user: listUsers) {userId.add(user.getUserId());
         }
         for (User user: listFriends) {
             if (userId.contains(user.getUserId())) {

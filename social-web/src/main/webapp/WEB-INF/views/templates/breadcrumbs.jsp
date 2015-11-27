@@ -9,9 +9,20 @@
 <c:set var="nofriends" value="${contextPath}${'/WEB-INF/views/nofriends.jsp'}"/>
 
 <div id="breadcrumbs">
-    <span id="bc_header"><a href="${contextPath}/users"><spring:message code="users.list"/></a> >></span>
-    <span id="bc_username_href"><span><a href ="${contextPath}/user?id=${dto.user.userId}">${dto.user.lastName}, ${dto.user.firstName}</a></span></span>
-    <span id="bc_delimiter"> >></span>
+    <span id="bc_header">
+        <a href="${contextPath}/users">
+            <spring:message code="users.list"/>
+        </a>
+        >>
+    </span>
+    <span id="bc_username_href">
+            <a href ="${contextPath}/user?id=${dto.user.userId}">
+                ${dto.user.lastName}, ${dto.user.firstName}
+            </a>
+    </span>
+    <span id="bc_delimiter">
+        >>
+    </span>
     <span id="bc_subheader">
         <c:choose>
             <c:when test="${mapping == friends}">
@@ -29,5 +40,7 @@
         </c:choose>
 
     </span>
-    <span id="bc_username"><span>${dto.user.firstName} ${dto.user.lastName}</span></span>
+    <span id="bc_username">
+        ${dto.user.firstName} ${dto.user.lastName}
+    </span>
 </div>

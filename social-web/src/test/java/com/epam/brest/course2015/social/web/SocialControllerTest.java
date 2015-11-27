@@ -192,8 +192,8 @@ public class SocialControllerTest {
                 put("/user/password?id=1&password=password")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/user?id=1"));
+                .andExpect(status().isOk())
+                .andExpect(forwardedUrl("/user?id=1"));
     }
 
     @Test
@@ -220,8 +220,8 @@ public class SocialControllerTest {
                 put("/user/firstname?id=1&firstname=firstname")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/user?id=1"));
+                .andExpect(status().isOk())
+                .andExpect(forwardedUrl("/user?id=1"));
     }
 
     @Test
@@ -234,8 +234,8 @@ public class SocialControllerTest {
                 put("/user/lastname?id=1&lastname=lastname")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/user?id=1"));
+                .andExpect(status().isOk())
+                .andExpect(forwardedUrl("/user?id=1"));
     }
 
     @Test

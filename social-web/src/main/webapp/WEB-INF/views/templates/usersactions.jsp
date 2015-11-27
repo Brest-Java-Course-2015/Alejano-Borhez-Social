@@ -4,4 +4,11 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
-<td><button onclick="deleteUser(${param.userId})"><spring:message code="user.delete"/></button> <button onclick="gotoUser(${param.userId})"><spring:message code="user.change"/></button></td>
+<td>
+    <button onclick="deleteUser(${param.userId})">
+        <spring:message code="user.delete"/>
+    </button>
+    <button onclick="gotoUser(${param.userId})">
+        <spring:message code="user.change"/>
+    </button>
+</td>
