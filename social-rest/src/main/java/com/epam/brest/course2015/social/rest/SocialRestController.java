@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -161,7 +164,7 @@ public class SocialRestController {
 
     @RequestMapping(value = "/userdto",
                     method = RequestMethod.GET)
-    public SocialDto getUsersDto() {
+    public SocialDto getUserDto() {
         LOGGER.debug("rest: Getting UserDto");
         return socialService.getSocialUsersDto();
     }
@@ -180,5 +183,28 @@ public class SocialRestController {
                                                    Integer id) {
         LOGGER.debug("rest: Getting no-friendsDto");
         return socialService.getSocialNoFriendsDto(id);
+    }
+
+    @RequestMapping(value = "/userdtobydate",
+            method = RequestMethod.GET)
+    public SocialDto getUsersDtoByDate(@RequestParam("datemin")
+                                           String dateMin,
+                                       @RequestParam("datemax")
+                                           String dateMax) {
+        LOGGER.debug("rest: Getting UserDto By Date");
+        Date date1 = getDate(dateMin);
+        Date date2 = getDate(dateMax);
+        return socialService.getSocialUsersDtoByDate(date1
+                                                   , date2);
+    }
+
+    private static Date getDate(String date) {
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            return formatter.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

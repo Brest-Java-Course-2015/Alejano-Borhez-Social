@@ -6,16 +6,22 @@ import com.epam.brest.course2015.social.service.SocialService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by alexander on 21.11.15.
@@ -24,9 +30,13 @@ import java.util.Date;
 @Controller
 public class SocialController {
     private static final Logger LOGGER = LogManager.getLogger();
+    @Value("${prefix}")
+    private String restPrefix;
 
     @Autowired
     private SocialService socialService;
+
+    private RestTemplate restTemplate = new RestTemplate();
 
     @RequestMapping("/")
     public String init() {
@@ -85,6 +95,7 @@ public class SocialController {
     @RequestMapping("/user/delete")
     public String deleteUser(@RequestParam("id") Integer id) {
         LOGGER.debug("web: deleting user {}", id);
+
         socialService.deleteUser(id);
         return "redirect:/users";
     }

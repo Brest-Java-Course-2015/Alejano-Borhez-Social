@@ -75,7 +75,7 @@
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>8.1.16.v20140903</version>
                 <configuration>
-                    <stopPort>9091</stopPort>
+                    <stopPort>9093</stopPort>
                     <stopKey>STOP</stopKey>
                     <webAppConfig>
                         <contextPath>/web</contextPath>
@@ -84,7 +84,7 @@
                     <scanIntervalSeconds>10</scanIntervalSeconds>
                     <connectors>
                         <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-                            <port>8081</port>
+                            <port>8083</port>
                         </connector>
                     </connectors>
                 </configuration>

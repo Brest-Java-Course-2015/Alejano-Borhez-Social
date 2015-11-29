@@ -2,18 +2,26 @@
 
 <Configuration>
 
+    <properties>
+        <property name="filename">
+            /home/alexander/development/Social/Alejano-Borhez-Social/logs/server.log
+        </property>
+    </properties>
+
     <Appenders>
         <Console name="Console" target="SYSTEM.OUT">
             <Patternlayout pattern="%d{HH:mm:ss.SSS}[%t] %-5level %logger{6} - %msg%n"/>
         </Console>
 
-        <File name="File" filename="logs/server.log">
+        <File name="File" filename="${filename}">
             <PatternLayout pattern="%d[%t] %msg %n"/>
         </File>
+
     </Appenders>
 
+
     <Loggers>
-        <Logger name="com.epam.brest" level="DEBUG">
+        <Logger name="com.epam.brest.course2015.social" level="DEBUG">
             <AppenderRef ref="File"/>
             <AppenderRef ref="Console"/>
         </Logger>

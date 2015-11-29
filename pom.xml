@@ -18,6 +18,7 @@
         <module>social-service</module>
         <module>social-rest</module>
         <module>social-web</module>
+        <module>social-app</module>
     </modules>
     <properties>
         <project.build.surceEncoding>UTF-8</project.build.surceEncoding>
@@ -30,6 +31,11 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.epam.brest.course2015.social</groupId>
+                <artifactId>social-app</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>social-core</artifactId>

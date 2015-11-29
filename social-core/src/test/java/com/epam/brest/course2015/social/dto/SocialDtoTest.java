@@ -2,25 +2,19 @@ package com.epam.brest.course2015.social.dto;
 
 import com.epam.brest.course2015.social.core.User;
 import junit.framework.TestCase;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.epam.brest.course2015.social.test.SocialTestLogger.LOGGER;
 
 /**
  * Created by alexander on 14.11.15.
  */
 public class SocialDtoTest extends TestCase {
     //Универсальный Логгер, который показывает имя тестового класса и имя тестового метода
-    public static final Logger LOGGER = LogManager.getLogger();
-    private static void LOGGERDO() {
-        StackTraceElement[] elements = Thread.currentThread().getStackTrace();
-        LOGGER.debug("Started test: " + elements[2].getMethodName());
-    }
     private static final Integer totalUsers = 5;
     private SocialDto dto;
     private User user;
@@ -33,7 +27,7 @@ public class SocialDtoTest extends TestCase {
 
     @Test
     public void testGetUsers() throws Exception {
-        LOGGERDO();
+        LOGGER();
         List<User> list = new ArrayList<User>() {};
         list.add(user);
         dto.setUsers(list);
@@ -44,7 +38,7 @@ public class SocialDtoTest extends TestCase {
 
     @Test
     public void testGetTotalUsers() throws Exception {
-        LOGGERDO();
+        LOGGER();
         dto.setTotalUsers(totalUsers);
         assertNotNull(dto.getTotalUsers());
         assertTrue(dto.getTotalUsers() == totalUsers);
@@ -52,7 +46,7 @@ public class SocialDtoTest extends TestCase {
 
     @Test
     public void testGetUser() throws Exception {
-        LOGGERDO();
+        LOGGER();
         dto.setUser(user);
         assertNotNull(dto.getUser());
         assertEquals(dto.getUser().getClass(), User.class);

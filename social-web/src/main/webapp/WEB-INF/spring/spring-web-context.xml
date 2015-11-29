@@ -23,6 +23,7 @@
                 <value>classpath:app.properties</value>
                 <value>classpath:database.properties</value>
                 <value>classpath:app-service.properties</value>
+                <value>classpath:social-rest.properties</value>
             </list>
         </property>
     </bean>

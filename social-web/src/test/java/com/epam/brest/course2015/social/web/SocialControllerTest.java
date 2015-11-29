@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static com.epam.brest.course2015.social.test.LOGGER.LOGGERDO;
+import static com.epam.brest.course2015.social.test.SocialTestLogger.LOGGER;
 
 
 /**
@@ -68,7 +68,7 @@ public class SocialControllerTest {
     @Test
     public void testInit() throws Exception {
         replay(socialService);
-        LOGGERDO();
+        LOGGER();
         mockMvc.perform(
                 get("/")
                 .accept(MediaType.APPLICATION_JSON))
@@ -82,7 +82,7 @@ public class SocialControllerTest {
         expect(socialService.getSocialUsersDto())
                 .andReturn(new SocialDto());
         replay(socialService);
-        LOGGERDO();
+        LOGGER();
         mockMvc.perform(
                 get("/users")
                 .accept(MediaType.APPLICATION_JSON))
@@ -93,6 +93,8 @@ public class SocialControllerTest {
     }
 
 
+
+
     @Test
     public void testGetAllUsersByDate() throws Exception {
         expect(socialService.getSocialUsersDtoByDate(
@@ -100,7 +102,7 @@ public class SocialControllerTest {
                             anyObject(Date.class)))
                             .andReturn(new SocialDto());
         replay(socialService);
-        LOGGERDO();
+        LOGGER();
         mockMvc.perform(
                 get("/usersbydate?datemin=2015-10-11&datemax=2015-11-11")
                 .accept(MediaType.APPLICATION_JSON))
@@ -115,7 +117,7 @@ public class SocialControllerTest {
         expect(socialService.getSocialFriendsDto(1))
                 .andReturn(new SocialDto());
         replay(socialService);
-        LOGGERDO();
+        LOGGER();
         mockMvc.perform(
                 get("/friends?id=1")
                 .accept(MediaType.APPLICATION_JSON))
@@ -130,7 +132,7 @@ public class SocialControllerTest {
         expect(socialService.getSocialFriendsDto(1))
                 .andReturn(new SocialDto());
         replay(socialService);
-        LOGGERDO();
+        LOGGER();
         mockMvc.perform(
                 get("/user?id=1")
                 .accept(MediaType.APPLICATION_JSON))
@@ -145,7 +147,7 @@ public class SocialControllerTest {
         expect(socialService.addUser(anyObject(User.class)))
                 .andReturn(1);
         replay(socialService);
-        LOGGERDO();
+        LOGGER();
         String user = new ObjectMapper().writeValueAsString(new User());
         mockMvc.perform(
                 post("/addusersubmit")
@@ -160,7 +162,7 @@ public class SocialControllerTest {
     @Test
     public void testAddUser() throws Exception {
         replay(socialService);
-        LOGGERDO();
+        LOGGER();
         mockMvc.perform(
                 get("/adduser"))
                 .andDo(print())
@@ -173,7 +175,7 @@ public class SocialControllerTest {
         socialService.deleteUser(1);
         expectLastCall();
         replay(socialService);
-        LOGGERDO();
+        LOGGER();
         mockMvc.perform(
                 delete("/user/delete?id=1")
                 .accept(MediaType.APPLICATION_JSON))
@@ -187,7 +189,7 @@ public class SocialControllerTest {
         socialService.changePassword(1, "password");
         expectLastCall();
         replay(socialService);
-        LOGGERDO();
+        LOGGER();
         mockMvc.perform(
                 put("/user/password?id=1&password=password")
                 .accept(MediaType.APPLICATION_JSON))
@@ -201,7 +203,7 @@ public class SocialControllerTest {
         socialService.changeLogin(1, "login");
         expectLastCall();
         replay(socialService);
-        LOGGERDO();
+        LOGGER();
         mockMvc.perform(
                 put("/user/login?id=1&login=login")
                 .accept(MediaType.APPLICATION_JSON))
@@ -215,7 +217,7 @@ public class SocialControllerTest {
         socialService.changeFirstName(1, "firstname");
         expectLastCall();
         replay(socialService);
-        LOGGERDO();
+        LOGGER();
         mockMvc.perform(
                 put("/user/firstname?id=1&firstname=firstname")
                 .accept(MediaType.APPLICATION_JSON))
@@ -229,7 +231,7 @@ public class SocialControllerTest {
         socialService.changeLastName(1, "lastname");
         expectLastCall();
         replay(socialService);
-        LOGGERDO();
+        LOGGER();
         mockMvc.perform(
                 put("/user/lastname?id=1&lastname=lastname")
                 .accept(MediaType.APPLICATION_JSON))
@@ -244,7 +246,7 @@ public class SocialControllerTest {
                                         anyObject(User.class));
         expectLastCall();
         replay(socialService);
-        LOGGERDO();
+        LOGGER();
         mockMvc.perform(
                 delete("/user/friendship/del?id1=1&id2=2")
                 .accept(MediaType.APPLICATION_JSON))
@@ -259,7 +261,7 @@ public class SocialControllerTest {
                                     anyObject(User.class));
         expectLastCall();
         replay(socialService);
-        LOGGERDO();
+        LOGGER();
         mockMvc.perform(
                 post("/user/friendship/add?id1=1&id2=2")
                 .accept(MediaType.APPLICATION_JSON))
@@ -273,7 +275,7 @@ public class SocialControllerTest {
         expect(socialService.getSocialNoFriendsDto(1))
                 .andReturn(new SocialDto());
         replay(socialService);
-        LOGGERDO();
+        LOGGER();
         mockMvc.perform(
                 get("/nofriends?id=1")
                 .accept(MediaType.APPLICATION_JSON))

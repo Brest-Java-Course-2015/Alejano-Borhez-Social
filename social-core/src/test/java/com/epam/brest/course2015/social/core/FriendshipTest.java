@@ -6,7 +6,7 @@ import org.junit.Test;
 import java.util.Date;
 
 import static org.junit.Assert.*;
-import static com.epam.brest.course2015.social.test.LOGGER.LOGGERDO;
+import static com.epam.brest.course2015.social.test.SocialTestLogger.LOGGER;
 
 
 /**
@@ -23,7 +23,7 @@ public class FriendshipTest {
 
     @Test
     public void testGetFirstFriend() throws Exception {
-        LOGGERDO();
+        LOGGER();
         friendship.setFriend1Id(testFirstFriend);
         assertNotNull(friendship.getFriend1Id());
         assertEquals(testFirstFriend, friendship.getFriend1Id());
@@ -31,7 +31,7 @@ public class FriendshipTest {
 
     @Test
     public void testGetSecondFriend() throws Exception {
-        LOGGERDO();
+        LOGGER();
         friendship.setFriend2Id(testSecondFriend);
         assertNotNull(friendship.getFriend2Id());
         assertEquals(testSecondFriend, friendship.getFriend2Id());
@@ -39,7 +39,7 @@ public class FriendshipTest {
 
     @Test
     public void testGetCreatedDate() throws Exception {
-        LOGGERDO();
+        LOGGER();
         friendship.setCreatedDate(new Date());
         assertNotNull(friendship.getCreatedDate());
         assertEquals(Date.class, friendship.getCreatedDate().getClass());
@@ -47,7 +47,7 @@ public class FriendshipTest {
 
     @Test
     public void testBaseConstructor() throws Exception {
-        LOGGERDO();
+        LOGGER();
         Friendship testFriendship = new Friendship(testFirstFriend, testSecondFriend);
         assertNotNull(testFriendship);
         assertEquals(testFirstFriend, testFriendship.getFriend1Id());
