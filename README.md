@@ -22,4 +22,4 @@ Other ways to run application:
 4. Change rest.prefix in social-app/src/main/resources/social-app.properties file to a root URL of rest-client, e.g. http://localhost:8080/social-rest-1.0-SNAPSHOT/
 5. Deploy app-client to your server cd social-app/ --> mvn clean install --> deploy
 6. Acces your application by URL, e.g. http://localhost:8080/social-app-1.0-SNAPSHOT/
-11. Enjoy! And leave a feedback to alexander.borohov17@gmail.com
+7. Enjoy! And leave a feedback to alexander.borohov17@gmail.com
