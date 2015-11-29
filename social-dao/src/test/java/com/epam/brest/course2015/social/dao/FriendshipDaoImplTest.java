@@ -2,6 +2,7 @@ package com.epam.brest.course2015.social.dao;
 
 import com.epam.brest.course2015.social.core.Friendship;
 import com.epam.brest.course2015.social.core.User;
+import com.epam.brest.course2015.social.test.TestLogged;
 import junit.framework.TestCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,7 +12,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import static com.epam.brest.course2015.social.test.SocialTestLogger.LOGGER;
 
 
 /**
@@ -32,7 +32,6 @@ public class FriendshipDaoImplTest extends TestCase {
 
     @Test
     public void testAddFriendship() throws Exception {
-        LOGGER();
         assertFalse(friendshipDao.isAFriend(testFriend1, testFriend2));
         assertFalse(friendshipDao.isAFriend(testFriend2, testFriend1));
         friendshipDao.addFriendship(testFriend1, testFriend2);
@@ -42,7 +41,6 @@ public class FriendshipDaoImplTest extends TestCase {
 
     @Test
     public void testIsAFriendFalse() throws Exception {
-        LOGGER();
         assertFalse(friendshipDao.isAFriend(testFriend1, testFriend2));
         assertFalse(friendshipDao.isAFriend(testFriend2, testFriend1));
 
@@ -50,14 +48,12 @@ public class FriendshipDaoImplTest extends TestCase {
 
     @Test
     public void testIsAFriendTrue() throws Exception {
-        LOGGER();
         assertTrue(friendshipDao.isAFriend(new User(1), new User(2)));
         assertTrue(friendshipDao.isAFriend(new User(2), new User(1)));
     }
 
     @Test
     public void testDiscardFriendship() throws Exception {
-        LOGGER();
         assertTrue(friendshipDao.isAFriend(new User(1), new User(2)));
         assertTrue(friendshipDao.isAFriend(new User(2), new User(1)));
         friendshipDao.discardFriendship(new User(1), new User(2));
@@ -67,7 +63,6 @@ public class FriendshipDaoImplTest extends TestCase {
 
     @Test
     public void testGetAllFriendships () throws Exception {
-        LOGGER();
         List<Friendship> friendshipsList = friendshipDao.getAllFriendships();
         assertNotNull(friendshipsList);
         assertTrue(friendshipsList.size() > 0);
@@ -78,7 +73,6 @@ public class FriendshipDaoImplTest extends TestCase {
 
     @Test
     public void testDiscardAllFriendshipsOfAUser() throws Exception {
-        LOGGER();
         assertTrue(friendshipDao.isAFriend(new User(1), new User(2)));
         assertTrue(friendshipDao.isAFriend(new User(1), new User(3)));
         assertTrue(friendshipDao.isAFriend(new User(1), new User(4)));

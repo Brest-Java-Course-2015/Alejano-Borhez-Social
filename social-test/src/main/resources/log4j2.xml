@@ -26,6 +26,12 @@
             <AppenderRef ref="Console"/>
         </Logger>
 
+        <Logger name="org.springframework.test.context.junit4"
+                level="DEBUG">
+            <AppenderRef ref="File"/>
+            <AppenderRef ref="Console"/>
+        </Logger>
+
         <!--<Root level="ERROR">
             <AppenderRef ref="Console"/>
         </Root>-->

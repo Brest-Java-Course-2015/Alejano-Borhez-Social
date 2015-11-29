@@ -8,8 +8,6 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.epam.brest.course2015.social.test.SocialTestLogger.LOGGER;
-
 /**
  * Created by alexander on 14.11.15.
  */
@@ -27,7 +25,6 @@ public class SocialDtoTest extends TestCase {
 
     @Test
     public void testGetUsers() throws Exception {
-        LOGGER();
         List<User> list = new ArrayList<User>() {};
         list.add(user);
         dto.setUsers(list);
@@ -38,7 +35,6 @@ public class SocialDtoTest extends TestCase {
 
     @Test
     public void testGetTotalUsers() throws Exception {
-        LOGGER();
         dto.setTotalUsers(totalUsers);
         assertNotNull(dto.getTotalUsers());
         assertTrue(dto.getTotalUsers() == totalUsers);
@@ -46,7 +42,6 @@ public class SocialDtoTest extends TestCase {
 
     @Test
     public void testGetUser() throws Exception {
-        LOGGER();
         dto.setUser(user);
         assertNotNull(dto.getUser());
         assertEquals(dto.getUser().getClass(), User.class);

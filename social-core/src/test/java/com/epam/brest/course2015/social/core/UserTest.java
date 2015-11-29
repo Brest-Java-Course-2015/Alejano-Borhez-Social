@@ -1,11 +1,13 @@
 package com.epam.brest.course2015.social.core;
 
+import com.epam.brest.course2015.social.test.TestLogged;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Date;
 import static org.junit.Assert.*;
-import static com.epam.brest.course2015.social.test.SocialTestLogger.LOGGER;
 
 /**
  * Created by alexander on 25.10.15.
@@ -18,7 +20,7 @@ public class UserTest {
     private static final String password = "Password";
     private static final Integer userId = 1;
     private User user;
-
+    private static final Logger LOGGER = LogManager.getLogger(UserTest.class);
     @Before
     public void setUp() {
         user = new User();
@@ -26,7 +28,6 @@ public class UserTest {
 
     @Test
     public void testGetFirstName() throws Exception {
-        LOGGER();
         user.setFirstName(firstName);
         assertNotNull(user.getFirstName());
         assertEquals(firstName, user.getFirstName());
@@ -34,7 +35,6 @@ public class UserTest {
 
     @Test
     public void testGetLastName() throws Exception {
-        LOGGER();
         user.setLastName(lastName);
         assertNotNull(user.getLastName());
         assertEquals(lastName, user.getLastName());
@@ -42,7 +42,6 @@ public class UserTest {
 
     @Test
     public void testGetAge() throws Exception {
-        LOGGER();
         user.setAge(age);
         assertNotNull(user.getAge());
         assertEquals(age, user.getAge());
@@ -50,7 +49,6 @@ public class UserTest {
 
     @Test
     public void testGetLogin() throws Exception {
-        LOGGER();
         user.setLogin(login);
         assertNotNull(user.getLogin());
         assertEquals(login, user.getLogin());
@@ -58,7 +56,6 @@ public class UserTest {
 
     @Test
     public void testGetPassword() throws Exception {
-        LOGGER();
         user.setPassword(password);
         assertNotNull(user.getPassword());
         assertEquals(password, user.getPassword());
@@ -66,7 +63,6 @@ public class UserTest {
 
     @Test
     public void testGetUserId() throws Exception {
-        LOGGER();
         user.setUserId(userId);
         assertNotNull(user.getUserId());
         assertEquals(userId, user.getUserId());
@@ -74,7 +70,6 @@ public class UserTest {
 
     @Test
     public void testGetCreatedDate() throws Exception {
-        LOGGER();
         user.setCreatedDate(new Date());
         assertNotNull(user.getCreatedDate());
         assertEquals(Date.class, user.getCreatedDate().getClass());
@@ -82,7 +77,6 @@ public class UserTest {
 
     @Test
     public void testGetUpdatedDate() throws Exception {
-        LOGGER();
         user.setUpdatedDate(new Date());
         assertNotNull(user.getUpdatedDate());
         assertEquals(Date.class, user.getUpdatedDate().getClass());
@@ -90,7 +84,6 @@ public class UserTest {
 
     @Test
     public void testBaseConstructor() throws Exception {
-        LOGGER();
         User testUser = new User(login, password, firstName, lastName, age);
         assertNotNull(testUser);
         assertEquals(login, testUser.getLogin());
@@ -110,7 +103,6 @@ public class UserTest {
 
     @Test
     public void testTestConstructor() throws Exception {
-        LOGGER();
         User testUser = new User(userId);
         assertNotNull(testUser);
         assertNotNull(testUser.getUserId());
@@ -119,8 +111,8 @@ public class UserTest {
     }
 
     @Test
+    @TestLogged
     public void testSetTotalFriends() throws Exception {
-        LOGGER();
         Integer totalFriends = 5;
         user.setTotalFriends(totalFriends);
         Integer testTotalFriends = user.getTotalFriends();

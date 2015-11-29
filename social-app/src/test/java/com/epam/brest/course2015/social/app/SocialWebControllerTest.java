@@ -2,36 +2,31 @@ package com.epam.brest.course2015.social.app;
 
 import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dto.SocialDto;
+import com.epam.brest.course2015.social.test.TestLogged;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import junit.framework.TestCase;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServlet;
 
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static com.epam.brest.course2015.social.test.SocialTestLogger.LOGGER;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.*;
 import static org.easymock.EasyMock.*;
 
 /**
@@ -44,6 +39,8 @@ import static org.easymock.EasyMock.*;
 public class SocialWebControllerTest extends TestCase {
     @Value("${rest.prefix}")
     private String restPrefix;
+
+    public static Logger logger = LogManager.getLogger();
 
     @Resource
     private SocialWebController socialController;
@@ -72,7 +69,6 @@ public class SocialWebControllerTest extends TestCase {
 
     @Test
     public void testGetAllUsers() throws Exception {
-        LOGGER();
         expect(socialController.getAllUsers()).andReturn(new ModelAndView("users", "dto", new SocialDto()));
         replay(socialController);
         mockMvc.perform(
@@ -85,7 +81,6 @@ public class SocialWebControllerTest extends TestCase {
 
     @Test
     public void testGetAllUsersByDate() throws Exception {
-        LOGGER();
         expect(socialController.getAllUsersByDate("2015-10-01", "2015-11-01"))
                 .andReturn(new ModelAndView("usersbydate", "dto", new SocialDto()));
         replay(socialController);
@@ -100,7 +95,6 @@ public class SocialWebControllerTest extends TestCase {
 
     @Test
     public void testGetAllFriends() throws Exception {
-        LOGGER();
         expect(socialController.getAllFriends(2))
                 .andReturn(new ModelAndView("friends", "dto", new SocialDto()));
         replay(socialController);
@@ -114,7 +108,6 @@ public class SocialWebControllerTest extends TestCase {
 
     @Test
     public void testDeleteFriend() throws Exception {
-        LOGGER();
         expect(socialController.deleteFriend(5, 6))
         .andReturn("forward:/friends?id=5");
         replay(socialController);
@@ -129,7 +122,6 @@ public class SocialWebControllerTest extends TestCase {
 
     @Test
     public void testAddFriend() throws Exception {
-        LOGGER();
         expect(socialController.addFriendship(5, 6))
                 .andReturn("forward:/nofriends?id=5");
         replay(socialController);
@@ -143,7 +135,6 @@ public class SocialWebControllerTest extends TestCase {
 
     @Test
     public void testGetUser() throws Exception {
-        LOGGER();
         expect(socialController.getUser(2))
                 .andReturn(new ModelAndView("user", "dto", new SocialDto()));
         replay(socialController);
@@ -159,7 +150,6 @@ public class SocialWebControllerTest extends TestCase {
 
     @Test
     public void testAddUserSubmit() throws Exception {
-        LOGGER();
         User testUser = new User(
                 "login"
                 , "password"
@@ -184,7 +174,6 @@ public class SocialWebControllerTest extends TestCase {
 
     @Test
     public void testAddUser() throws Exception {
-        LOGGER();
         expect(socialController.addUser())
                 .andReturn(new ModelAndView("adduser"));
         replay(socialController);
