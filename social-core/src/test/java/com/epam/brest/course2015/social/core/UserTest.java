@@ -102,6 +102,7 @@ public class UserTest {
     }
 
     @Test
+    @TestLogged
     public void testTestConstructor() throws Exception {
         User testUser = new User(userId);
         assertNotNull(testUser);
