@@ -2,7 +2,6 @@ package com.epam.brest.course2015.social.dao;
 
 import com.epam.brest.course2015.social.core.Friendship;
 import com.epam.brest.course2015.social.core.User;
-import com.epam.brest.course2015.social.test.TestLogged;
 import junit.framework.TestCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;

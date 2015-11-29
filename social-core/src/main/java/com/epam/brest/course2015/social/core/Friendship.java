@@ -6,24 +6,45 @@ import java.util.Date;
 
 /**
  * Created by alexander on 26.10.15.
+ *
+ * @author alexander.borohov
+ * @version 1.0
+ *
+ * {@link Friendship} class is one of entities of my Simple-Social-Network
+ * study project.
+ *
+ * Instance of a {@link Friendship} class is used to transfer data to a DB.
+ * Every record in a DB determines a friendship between two {@link User}s.
+ *
+ *
  */
 public class Friendship {
-//    Объявление переменных
+//  Class variables declaration
     private Integer friend1Id;
     private Integer friend2Id;
+//  Dates are formatted to be transferred via JSON
     @JsonFormat(shape = JsonFormat.Shape.STRING,
             pattern = "dd-MM-yyyy hh:mm:ss")
     private Date createdDate;
-//    Конструкторы
-//    Пустой конструктор
+    /**
+     * Empty constructor for {@link Friendship} object.
+     */
     public Friendship() { }
-    //    Базовый конструктор
-    public Friendship(final Integer firstFriend, final Integer secondFriend) {
+    /**
+     * Basic constructor for {@link Friendship} object.
+     * It is usually used for basic operations within Dao processes.
+     * <p>
+     * Variable createdDate is evaluated by default.
+     *
+     * @param firstFriend a positive Integer, determining a {@link User} id.
+     * @param secondFriend a positive Integer, determining a {@link User} id.
+     */
+    public Friendship(Integer firstFriend, Integer secondFriend) {
         this.friend1Id = firstFriend;
         this.friend2Id = secondFriend;
         this.createdDate = new Date();
     }
-//    Геттеры и сеттеры
+//  Getters and setters for class variables
     public Integer getFriend1Id() {
         return friend1Id;
     }

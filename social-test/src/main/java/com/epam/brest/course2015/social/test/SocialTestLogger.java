@@ -20,12 +20,17 @@ public class SocialTestLogger {
         long start = System.currentTimeMillis();
             Object result = point.proceed();
         Logger logger = LogManager.getLogger(classname);
-        logger.info(
-                    "#%s(%s): %s in %[msec]s",
-                    MethodSignature.class.cast(point.getSignature()).getMethod().getName(),
-                    point.getArgs(),
-                    result,
-                    System.currentTimeMillis() - start
+        logger.debug(
+                    MethodSignature.class
+                            .cast(point.getSignature())
+                            .getMethod()
+                            .getName()
+                            + ", "
+                            + point.getArgs()
+                            + ", "
+                            + result
+                            + ", "
+                            + (System.currentTimeMillis() - start)
             );
             return result;
         }

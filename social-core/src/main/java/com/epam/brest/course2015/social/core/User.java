@@ -6,10 +6,17 @@ import java.util.Date;
 
 /**
  * Created by alexander on 25.10.15.
+ *
+ * @author alexander.borohov
+ * @version 1.0
+ *
+ * {@link User} class is one of entities of my Simple-Social-Network
+ * study project.
+ *
+ *
  */
 public class User {
-    //Объявление переменных
-
+//  Class variables declaration
     private Integer userId;
     private String firstName;
     private String lastName;
@@ -17,16 +24,15 @@ public class User {
     private String login;
     private String password;
     private Integer totalFriends;
-
-
-
+//  Dates are formatted to be transferred via JSON
     @JsonFormat(shape = JsonFormat.Shape.STRING,
-            pattern = "dd-MM-yyyy")
+                pattern = "dd-MM-yyyy")
     private Date createdDate;
-    @JsonFormat (shape = JsonFormat.Shape.STRING,
-            pattern = "dd-MM-yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING,
+                pattern = "dd-MM-yyyy")
     private Date updatedDate;
-    //Геттеры и сеттеры
+
+//  Getters and setters for class variables
     public String getFirstName() {
         return firstName;
     }
@@ -81,9 +87,7 @@ public class User {
     public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
     }
-    //Конструкторы
-    //Базовый конструктор - используется для добавления
-    //в базу данных нового пользователя
+
     /**
      * Basic constructor for {@link User} object.
      * It is usually used for basic operations within Dao processes.
@@ -95,7 +99,7 @@ public class User {
      * @param password  may contain only english letters and numbers.
      * @param firstName must have a first capital letter. Spaces are not allowed.
      * @param lastName  must have a first capital letter. Spaces are not allowed.
-     * @param age       a positive integer number
+     * @param age       a positive Integer.
      */
     public User(String login, String password,
                 String firstName, String lastName,
@@ -108,9 +112,17 @@ public class User {
         this.createdDate = new Date();
         this.updatedDate = new Date();
     }
-    //Пустой конструктор - используется в основном для тестов
+
+    /**
+     * Empty constructor for {@link User} object.
+     */
     public User() { }
-//    Конструкторы для тестов
+
+    /**
+     * Simple constructor for {@link User} object.
+     * Usually used for test purposes.
+     * @param userId should be a positive Integer.
+     */
     public User(Integer userId) {
         this.userId = userId;
     }
