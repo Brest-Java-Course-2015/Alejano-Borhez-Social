@@ -20,7 +20,7 @@ public class UserTest {
     private static final String password = "Password";
     private static final Integer userId = 1;
     private User user;
-    private static final Logger LOGGER = LogManager.getLogger(UserTest.class);
+    private static final Logger logger = LogManager.getLogger(UserTest.class);
     @Before
     public void setUp() {
         user = new User();

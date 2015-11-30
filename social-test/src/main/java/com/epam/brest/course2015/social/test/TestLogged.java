@@ -14,5 +14,4 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = ElementType.METHOD)
 public @interface TestLogged {
-    String state() default "";
 }
