@@ -18,7 +18,6 @@ import java.util.List;
 
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
-import static com.epam.brest.course2015.social.test.SocialTestLogger.LOGGER;
 
 /**
  * Created by alexander on 6.11.15.
@@ -47,7 +46,6 @@ public class SocialServiceImplMockTest {
 
     @Test
     public void testAddUser() throws Exception {
-        LOGGER();
         testMockUser1.setUserId(null);
         testMockUser2.setUserId(null);
         expect(userMockDao.getUserByLogin(testMockUser1.getLogin()))
@@ -60,7 +58,6 @@ public class SocialServiceImplMockTest {
 
     @Test (expected = IllegalArgumentException.class)
     public void testAddUserNull() throws Exception {
-        LOGGER();
         expect(userMockDao.getUserByLogin(testMockUser1.getLogin()))
                 .andReturn(null);
         replay(userMockDao);
@@ -70,7 +67,6 @@ public class SocialServiceImplMockTest {
 
     @Test
     public void testDeleteUser() throws Exception {
-        LOGGER();
         testMockUser1.setUserId(5);
         expect(userMockDao.getUserById(testMockUser1.getUserId()))
                 .andReturn(testMockUser1);
@@ -83,7 +79,6 @@ public class SocialServiceImplMockTest {
 
     @Test
     public void testUpdateUser() throws Exception {
-        LOGGER();
         testMockUser1.setUserId(5);
         expect(userMockDao.getUserById(testMockUser1.getUserId()))
                           .andReturn(testMockUser1);
@@ -97,7 +92,6 @@ public class SocialServiceImplMockTest {
 
     @Test
     public void testGetUserById() throws Exception {
-        LOGGER();
         expect(userMockDao.getUserById(1)).andReturn(testMockUser1);
         replay(userMockDao);
         User result = socialService.getUserById(1);
@@ -106,7 +100,6 @@ public class SocialServiceImplMockTest {
 
     @Test
     public void testGetUserByLogin() throws Exception {
-        LOGGER();
         expect(userMockDao.getUserByLogin("testLogin"))
                 .andReturn(testMockUser1);
         replay(userMockDao);
@@ -117,7 +110,6 @@ public class SocialServiceImplMockTest {
 
     @Test
     public void testGetAllUsers() throws Exception {
-        LOGGER();
         expect(userMockDao.getAllUsers())
                 .andReturn(Arrays.<User>asList(testMockUser1));
         replay(userMockDao);
@@ -128,7 +120,6 @@ public class SocialServiceImplMockTest {
 
     @Test
     public void testGetFriends() throws Exception {
-        LOGGER();
         expect(userMockDao.getUserById(1))
                 .andReturn(new User());
         expect(userMockDao.getFriends(1))
@@ -141,7 +132,6 @@ public class SocialServiceImplMockTest {
 
     @Test
     public void testAddFriendship() throws Exception {
-        LOGGER();
         testMockUser1.setUserId(5);
         testMockUser2.setUserId(6);
         expect(friendshipMockDao.isAFriend(testMockUser1, testMockUser2))
@@ -155,7 +145,6 @@ public class SocialServiceImplMockTest {
 
     @Test
     public void testIsAFriend() throws Exception {
-        LOGGER();
         testMockUser1.setUserId(5);
         testMockUser2.setUserId(6);
         expect(friendshipMockDao.isAFriend(testMockUser1, testMockUser2))
@@ -167,7 +156,6 @@ public class SocialServiceImplMockTest {
 
     @Test
     public void testDiscardFriendship() throws Exception {
-        LOGGER();
         testMockUser1.setUserId(5);
         testMockUser2.setUserId(6);
         expect(friendshipMockDao.isAFriend(testMockUser1, testMockUser2))
@@ -180,7 +168,6 @@ public class SocialServiceImplMockTest {
 
     @Test
     public void testGetAllFriendships() throws Exception {
-        LOGGER();
         expect(friendshipMockDao.getAllFriendships())
                 .andReturn(Arrays.<Friendship>asList(new Friendship(testMockUser1.getUserId(),
                         testMockUser2.getUserId())));
@@ -194,7 +181,6 @@ public class SocialServiceImplMockTest {
 
     @Test
     public void testDiscardAllFriendshipsOfAUser() throws Exception {
-        LOGGER();
         friendshipMockDao.discardAllFriendshipsOfAUser(1);
         expectLastCall();
         replay(friendshipMockDao);

@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 public class SocialTestLogger {
 
     private static final Logger logger =
-            LogManager.getLogger();
+            LogManager.getLogger(SocialTestLogger.class.getName());
 
     @Pointcut("execution(@com.epam.brest.course2015.social.test.TestLogged * *(..)) && @annotation(testLogged)")
     public void setTestLogged(TestLogged testLogged) {}
@@ -32,6 +32,7 @@ public class SocialTestLogger {
 
         Object result;
         long executionTime;
+        logger.debug("koo");
 
         try {
             long startTime = System.nanoTime();
@@ -55,22 +56,4 @@ public class SocialTestLogger {
         return result;
     }
 
-    /* public Object around(ProceedingJoinPoint point) throws Throwable {
-        String classname = point.getStaticPart().getSignature().getDeclaringTypeName();
-        long start = System.currentTimeMillis();
-            Object result = point.proceed();
-        logger.debug(
-                    MethodSignature.class
-                            .cast(point.getSignature())
-                            .getMethod()
-                            .getName()
-                            + ", "
-                            + point.getArgs()
-                            + ", "
-                            + result
-                            + ", "
-                            + (System.currentTimeMillis() - start)
-            );
-            return result;
-        }*/
 }
