@@ -4,7 +4,7 @@
 
     <properties>
         <property name="filename">
-            /home/alexander/development/Social/Alejano-Borhez-Social/logs/server.log
+            logs/server.log
         </property>
     </properties>
 
