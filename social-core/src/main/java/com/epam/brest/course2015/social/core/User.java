@@ -1,6 +1,8 @@
 package com.epam.brest.course2015.social.core;
 
+import com.epam.brest.course2015.social.test.Logged;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.test.context.ContextConfiguration;
 
 import java.util.Date;
 
@@ -33,57 +35,75 @@ public class User {
     private Date updatedDate;
 
 //  Getters and setters for class variables
+    @Logged
     public String getFirstName() {
         return firstName;
     }
+    @Logged
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
+    @Logged
     public String getLastName() {
         return lastName;
     }
+    @Logged
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+    @Logged
     public Integer getAge() {
         return age;
     }
+    @Logged
     public void setAge(Integer age) {
         this.age = age;
     }
+    @Logged
     public String getLogin() {
         return login;
     }
+    @Logged
     public void setLogin(String login) {
         this.login = login;
     }
+    @Logged
     public String getPassword() {
         return password;
     }
+    @Logged
     public void setPassword(String password) {
         this.password = password;
     }
+    @Logged
     public Integer getUserId() {
         return userId;
     }
+    @Logged
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
+    @Logged
     public Integer getTotalFriends() {
         return totalFriends;
     }
+    @Logged
     public void setTotalFriends(Integer totalFriends) {
         this.totalFriends = totalFriends;
     }
+    @Logged
     public Date getCreatedDate() {
         return createdDate;
     }
+    @Logged
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
+    @Logged
     public Date getUpdatedDate() {
         return updatedDate;
     }
+    @Logged
     public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
     }
@@ -101,8 +121,10 @@ public class User {
      * @param lastName  must have a first capital letter. Spaces are not allowed.
      * @param age       a positive Integer.
      */
-    public User(String login, String password,
-                String firstName, String lastName,
+    public User(String login,
+                String password,
+                String firstName,
+                String lastName,
                 Integer age) {
         this.password = password;
         this.login = login;

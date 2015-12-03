@@ -2,6 +2,7 @@ package com.epam.brest.course2015.social.app;
 
 import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dto.SocialDto;
+import com.epam.brest.course2015.social.test.Logged;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class SocialWebController {
-    private static final Logger LOGGER = LogManager.getLogger();
 
     @Value("${rest.prefix}")
     private String restPrefix;
@@ -33,6 +33,7 @@ public class SocialWebController {
     }
 
     @RequestMapping("/users")
+    @Logged
     public ModelAndView getAllUsers() {
         String url = restPrefix + "userdto";
         SocialDto dto = restTemplate
@@ -41,11 +42,11 @@ public class SocialWebController {
                         , SocialDto.class
                         )
                         .getBody();
-        LOGGER.debug("app: users.size: {}", dto.getTotalUsers());
         return new ModelAndView("users", "dto", dto);
     }
 
     @RequestMapping("/usersbydate")
+    @Logged
     public ModelAndView getAllUsersByDate(@RequestParam("datemin")
                                           String dateMin,
                                           @RequestParam("datemax")
@@ -59,11 +60,11 @@ public class SocialWebController {
                     url
                   , SocialDto.class)
                    .getBody();
-        LOGGER.debug("app: userlist by date {} - {}", dateMin, dateMax);
         return new ModelAndView("usersbydate", "dto", dto);
     }
 
     @RequestMapping("/friends")
+    @Logged
     public ModelAndView getAllFriends(@RequestParam("id")
                                       Integer id) {
 
@@ -80,6 +81,7 @@ public class SocialWebController {
     }
 
     @RequestMapping("/user/friendship/del")
+    @Logged
     public String deleteFriend(@RequestParam("id1")
                                Integer id1,
                                @RequestParam("id2")
@@ -93,11 +95,11 @@ public class SocialWebController {
                 + id2;
 
         restTemplate.delete(url);
-        LOGGER.debug("app: deleted friendship: {}, {}", id1, id2);
         return "forward:/friends?id=" + id1;
     }
 
     @RequestMapping("user/friendship/add")
+    @Logged
     public String addFriendship(@RequestParam("id1")
                                        Integer id1,
                                 @RequestParam("id2")
@@ -110,13 +112,13 @@ public class SocialWebController {
                 + id2;
 
         restTemplate.postForObject(url, null, String.class);
-        LOGGER.debug("app: added friendship: {}, {}", id1, id2);
 
         return "forward:/nofriends?id=" + id1;
 
     }
 
     @RequestMapping("/user")
+    @Logged
     public ModelAndView getUser(@RequestParam("id")
                                        Integer id) {
         String url = restPrefix
@@ -130,14 +132,13 @@ public class SocialWebController {
                         url
                         , SocialDto.class)
                 .getBody();
-        LOGGER.debug("app: get user by id {}", id);
         return new ModelAndView("user", "dto", dto);
 
     }
 
     @RequestMapping("/addusersubmit")
+    @Logged
     public String addUserSubmit(@RequestBody User user) {
-        LOGGER.debug("app: adding new user");
         String url = restPrefix
                 + "user";
 
@@ -147,21 +148,20 @@ public class SocialWebController {
                         , user
                         , Integer.class
                 );
-        LOGGER.debug("app: added new user, id: {}", userId);
 
         return "forward:/users";
     }
 
     @RequestMapping("/adduser")
+    @Logged
     public ModelAndView addUser() {
-        LOGGER.debug("app: preparing to add new user");
         return new ModelAndView("adduser");
     }
 
     @RequestMapping("/user/delete")
+    @Logged
     public String deleteUser(@RequestParam("id")
                                     Integer id) {
-        LOGGER.debug("app: deleting user {}", id);
 
         String url = restPrefix
                 + "user"
@@ -174,11 +174,11 @@ public class SocialWebController {
     }
 
     @RequestMapping("/user/password")
+    @Logged
     public String changePassword(@RequestParam("id")
                                  Integer id,
                                  @RequestParam("password")
                                  String password) {
-        LOGGER.debug("app: setting new password of user: {}", id);
 
         String url = restPrefix
                 + "user/password"
@@ -193,11 +193,11 @@ public class SocialWebController {
     }
 
     @RequestMapping("/user/login")
+    @Logged
     public String changeLogin(@RequestParam("id")
                               Integer id,
                               @RequestParam("login")
                               String login) {
-        LOGGER.debug("app: setting new login of user: {}", id);
         String url = restPrefix
                 + "user/login"
                 + "?id="
@@ -211,11 +211,11 @@ public class SocialWebController {
     }
 
     @RequestMapping(value = "/user/firstname")
+    @Logged
     public String changeFirstName(@RequestParam("id")
                                          Integer id,
                                   @RequestParam("firstname")
                                           String firstname) {
-        LOGGER.debug("app: setting new firstname of user: {}", id);
 
         String url = restPrefix
                 + "user/firstname"
@@ -230,11 +230,11 @@ public class SocialWebController {
     }
 
     @RequestMapping("/user/lastname")
+    @Logged
     public String changeLastName(@RequestParam("id")
                                         Integer id,
                                  @RequestParam("lastname")
                                          String lastname) {
-        LOGGER.debug("app: setting new lastname of user: {}", id);
 
         String url = restPrefix
                 + "user/lastname"
@@ -249,9 +249,9 @@ public class SocialWebController {
     }
 
     @RequestMapping("/nofriends")
+    @Logged
     public ModelAndView getAllNoFriendsOfAUser(@RequestParam("id")
                                                       Integer id) {
-        LOGGER.debug("app: getting all no-friends of a user {}", id);
 
         String url = restPrefix
                 + "/nofriendsdto"

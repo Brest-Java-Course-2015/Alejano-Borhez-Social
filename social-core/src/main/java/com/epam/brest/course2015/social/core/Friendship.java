@@ -1,5 +1,6 @@
 package com.epam.brest.course2015.social.core;
 
+import com.epam.brest.course2015.social.test.Logged;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
@@ -45,29 +46,28 @@ public class Friendship {
         this.createdDate = new Date();
     }
 //  Getters and setters for class variables
+    @Logged
     public Integer getFriend1Id() {
         return friend1Id;
     }
-
+    @Logged
     public void setFriend1Id(Integer friend1Id) {
         this.friend1Id = friend1Id;
     }
-
+    @Logged
     public Integer getFriend2Id() {
         return friend2Id;
     }
-
+    @Logged
     public void setFriend2Id(Integer friend2Id) {
         this.friend2Id = friend2Id;
     }
-
+    @Logged
     public Date getCreatedDate() {
         return createdDate;
     }
-
+    @Logged
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
-
-
 }

@@ -1,10 +1,11 @@
 package com.epam.brest.course2015.social.core;
 
-import com.epam.brest.course2015.social.test.TestLogged;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.junit.Before;
+import com.epam.brest.course2015.social.test.Logged;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Date;
 import static org.junit.Assert.*;
@@ -12,6 +13,8 @@ import static org.junit.Assert.*;
 /**
  * Created by alexander on 25.10.15.
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:test-spring-core.xml"})
 public class UserTest {
     private static final String firstName = "FirstName";
     private static final String lastName = "LastName";
@@ -19,12 +22,8 @@ public class UserTest {
     private static final String login = "Login";
     private static final String password = "Password";
     private static final Integer userId = 1;
+    @Autowired
     private User user;
-    private static final Logger logger = LogManager.getLogger(UserTest.class);
-    @Before
-    public void setUp() {
-        user = new User();
-    }
 
     @Test
     public void testGetFirstName() throws Exception {
@@ -102,7 +101,7 @@ public class UserTest {
     }
 
     @Test
-    @TestLogged
+    @Logged
     public void testTestConstructor() throws Exception {
         User testUser = new User(userId);
         assertNotNull(testUser);
@@ -112,7 +111,7 @@ public class UserTest {
     }
 
     @Test
-    @TestLogged
+    @Logged
     public void testSetTotalFriends() throws Exception {
         Integer totalFriends = 5;
         user.setTotalFriends(totalFriends);

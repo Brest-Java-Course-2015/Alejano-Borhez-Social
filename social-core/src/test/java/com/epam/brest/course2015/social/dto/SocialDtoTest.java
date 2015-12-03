@@ -4,6 +4,10 @@ import com.epam.brest.course2015.social.core.User;
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,17 +15,15 @@ import java.util.List;
 /**
  * Created by alexander on 14.11.15.
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:test-spring-core.xml"})
 public class SocialDtoTest extends TestCase {
     //Универсальный Логгер, который показывает имя тестового класса и имя тестового метода
     private static final Integer totalUsers = 5;
+    @Autowired
     private SocialDto dto;
+    @Autowired
     private User user;
-
-    @Before
-    public void setUp() throws Exception {
-        dto = new SocialDto();
-        user = new User();
-    }
 
     @Test
     public void testGetUsers() throws Exception {
@@ -30,7 +32,7 @@ public class SocialDtoTest extends TestCase {
         dto.setUsers(list);
         assertNotNull(dto.getUsers());
         assertTrue(dto.getUsers().size() > 0);
-        assertEquals(User.class, dto.getUsers().get(0).getClass());
+        assertEquals(user.getClass(), dto.getUsers().get(0).getClass());
     }
 
     @Test
@@ -44,7 +46,7 @@ public class SocialDtoTest extends TestCase {
     public void testGetUser() throws Exception {
         dto.setUser(user);
         assertNotNull(dto.getUser());
-        assertEquals(dto.getUser().getClass(), User.class);
+        assertEquals(dto.getUser().getClass(), user.getClass());
     }
 
 }

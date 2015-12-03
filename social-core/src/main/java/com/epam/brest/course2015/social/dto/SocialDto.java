@@ -1,6 +1,7 @@
 package com.epam.brest.course2015.social.dto;
 
 import com.epam.brest.course2015.social.core.User;
+import com.epam.brest.course2015.social.test.Logged;
 
 import java.util.List;
 
@@ -27,26 +28,27 @@ public class SocialDto {
     private Integer totalUsers;
     private User user;
 //  Getters and setters for class variables
+    @Logged
     public List<User> getUsers() {
         return users;
     }
-
+    @Logged
     public void setUsers(List<User> users) {
         this.users = users;
     }
-
+    @Logged
     public Integer getTotalUsers() {
         return totalUsers;
     }
-
+    @Logged
     public void setTotalUsers(Integer totalUsers) {
         this.totalUsers = totalUsers;
     }
-
+    @Logged
     public User getUser() {
         return user;
     }
-
+    @Logged
     public void setUser(User user) {
         this.user = user;
     }

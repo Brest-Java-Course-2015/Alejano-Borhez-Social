@@ -10,7 +10,7 @@
 
     <Appenders>
         <Console name="Console" target="SYSTEM.OUT">
-            <Patternlayout pattern="%d{HH:mm:ss.SSS}[%t] %-5level %logger{6} - %msg%n"/>
+            <Patternlayout pattern="%d{HH:mm:ss.SSS}[%t] %-5level - %msg%n"/>
         </Console>
 
         <File name="File" filename="${filename}">
@@ -26,10 +26,9 @@
             <AppenderRef ref="Console"/>
         </Logger>
 
-
-        <!--<Root level="ERROR">
+        <Root level="ERROR">
             <AppenderRef ref="Console"/>
-        </Root>-->
+        </Root>
     </Loggers>
 
 </Configuration>

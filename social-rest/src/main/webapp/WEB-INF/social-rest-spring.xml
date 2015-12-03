@@ -4,6 +4,7 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns="http://www.springframework.org/schema/beans"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/jdbc
@@ -11,10 +12,11 @@
        http://www.springframework.org/schema/mvc
        http://www.springframework.org/schema/mvc/spring-mvc.xsd
        http://www.springframework.org/schema/context
-       http://www.springframework.org/schema/context/spring-context.xsd">
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
     <context:component-scan base-package="com.epam.brest.course2015.social.rest"/>
-    <!--//необходимо указывать явно, к какому пакету относятся остальные-->
 
     <mvc:annotation-driven/>
 
@@ -48,9 +50,17 @@
         <constructor-arg ref="dataSource"/>
     </bean>
 
-    <bean id="userDao" class="com.epam.brest.course2015.social.dao.UserDaoImpl"/>
+    <bean id="user" class="com.epam.brest.course2015.social.core.User"/>
 
-    <bean id="friendshipDao" class="com.epam.brest.course2015.social.dao.FriendshipDaoImpl"/>
+    <bean id="userDao" class="com.epam.brest.course2015.social.dao.UserDaoImpl">
+    </bean>
+
+    <bean id="friendship" class="com.epam.brest.course2015.social.core.Friendship"/>
+
+    <bean id="friendshipDao" class="com.epam.brest.course2015.social.dao.FriendshipDaoImpl">
+    </bean>
+
+    <bean id="socialDto" class="com.epam.brest.course2015.social.dto.SocialDto"/>
 
     <bean id="socialService" class="com.epam.brest.course2015.social.service.SocialServiceImpl">
         <property name="userDao" ref="userDao"/>
@@ -69,5 +79,10 @@
         <property name="supportedMediaTypes" value="application/json" />
         <property name="prettyPrint" value="true" />
     </bean>
+
+    <aop:aspectj-autoproxy/>
+
+    <bean id="socialLogger" class="com.epam.brest.course2015.social.test.SocialLogger"/>
+
 
 </beans>

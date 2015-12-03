@@ -2,7 +2,6 @@ package com.epam.brest.course2015.social.app;
 
 import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dto.SocialDto;
-import com.epam.brest.course2015.social.test.TestLogged;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import junit.framework.TestCase;
 import org.apache.logging.log4j.LogManager;

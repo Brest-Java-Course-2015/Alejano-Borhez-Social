@@ -5,11 +5,14 @@ import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dao.FriendshipDao;
 import com.epam.brest.course2015.social.dao.UserDao;
 import com.epam.brest.course2015.social.dto.SocialDto;
+import com.epam.brest.course2015.social.test.Logged;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -23,9 +26,11 @@ import java.util.List;
  */
 
 @Transactional
+@ContextConfiguration(value = {"classpath:spring-service.xml"})
 public class SocialServiceImpl implements SocialService {
-    private static final Logger LOGGER = LogManager.getLogger();
+    @Autowired
     private UserDao userDao;
+    @Autowired
     private FriendshipDao friendshipDao;
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
@@ -60,6 +65,7 @@ public class SocialServiceImpl implements SocialService {
     private String dateCompare;
 
     @Override
+    @Logged
     public Integer addUser(User user) {
         Assert.notNull(user, notNullUser);
         Assert.isNull(user.getUserId(), nullId);
@@ -73,7 +79,6 @@ public class SocialServiceImpl implements SocialService {
         Assert.hasText(user.getLastName(), notNullLastName);
         Assert.notNull(user.getAge(), notNullAge);
         Assert.isTrue(user.getAge() > 0, positiveAge);
-        LOGGER.debug("service: Adding new user: {}", user.getLogin());
         try {
             Assert.isNull(userDao.getUserByLogin(user.getLogin()),
                     "User with login: "
@@ -86,144 +91,137 @@ public class SocialServiceImpl implements SocialService {
     }
 
     @Override
+    @Logged
     public void deleteUser(Integer id) {
         Assert.notNull(id, notNullId);
         Assert.isTrue(id > 0, correctId);
-        LOGGER.debug("service: Deleting a user with id: {}", id);
         try {
             userDao.getUserById(id);
             userDao.deleteUser(id);
             friendshipDao.discardAllFriendshipsOfAUser(id);
         } catch (EmptyResultDataAccessException e) {
             e.printStackTrace();
-            LOGGER.debug("service: User with Id {} does not exist", id);
             throw new IllegalArgumentException();
         }
     }
 
     @Override
+    @Logged
     public void changePassword(Integer id, String password) {
         Assert.notNull(id, notNullId);
         Assert.isTrue(id > 0, correctId);
         Assert.notNull(password, notNullPassword);
-        LOGGER.debug("service: Updating a user with id: {}", id);
         try {
             userDao.getUserById(id);
             userDao.changePassword(id, password);
         } catch (EmptyResultDataAccessException e) {
             e.printStackTrace();
-            LOGGER.debug("service: User with Id {} does not exist", id);
             throw new IllegalArgumentException();
         }
     }
 
     @Override
+    @Logged
     public void changeLogin(Integer id, String login) {
         Assert.notNull(id, notNullId);
         Assert.isTrue(id > 0, correctId);
         Assert.notNull(login, notNullLogin);
-        LOGGER.debug("service: Changing login of a user: {}", id);
         try {
             userDao.getUserById(id);
             userDao.changeLogin(id, login);
         } catch (EmptyResultDataAccessException e) {
             e.printStackTrace();
-            LOGGER.debug("service: User with Id {} does not exist", id);
             throw new IllegalArgumentException();
         }
     }
 
     @Override
+    @Logged
     public void changeFirstName(Integer id, String firstName) {
         Assert.notNull(id, notNullId);
         Assert.isTrue(id > 0, correctId);
         Assert.notNull(firstName, notNullFirstName);
-        LOGGER.debug("service: Changing firstName of a user: {}", id);
         try {
             userDao.getUserById(id);
             userDao.changeFirstName(id, firstName);
         } catch (EmptyResultDataAccessException e) {
             e.printStackTrace();
-            LOGGER.debug("service: User with Id {} does not exist", id);
             throw new IllegalArgumentException();
         }
     }
 
     @Override
+    @Logged
     public void changeLastName(Integer id, String lastName) {
         Assert.notNull(id, notNullId);
         Assert.isTrue(id > 0, correctId);
         Assert.notNull(lastName, notNullLastName);
-        LOGGER.debug("service: Changing lastName of a user: {}", id);
         try {
             userDao.getUserById(id);
             userDao.changeLastName(id, lastName);
         } catch (EmptyResultDataAccessException e) {
             e.printStackTrace();
-            LOGGER.debug("service: User with Id {} does not exist", id);
             throw new IllegalArgumentException();
         }
     }
 
     @Override
+    @Logged
     public User getUserById(Integer id) {
         Assert.notNull(id, notNullId);
         Assert.isTrue(id > 0, correctId);
-        LOGGER.debug("service: Getting user by Id: {}", id);
         try {
             return userDao.getUserById(id);
         } catch (EmptyResultDataAccessException e) {
             e.printStackTrace();
-            LOGGER.debug("service: User with Id {} does not exist", id);
             throw new IllegalArgumentException();
         }
     }
 
     @Override
+    @Logged
     public User getUserByLogin(String login) {
         Assert.notNull(login, notNullLogin);
-        LOGGER.debug("service: Getting user by login: {}", login);
         try {
             return userDao.getUserByLogin(login);
         } catch (EmptyResultDataAccessException e) {
             e.printStackTrace();
-            LOGGER.debug("service: User with login {} does not exist", login);
             throw new IllegalArgumentException();
         }
     }
 
     @Override
+    @Logged
     public List<User> getAllUsers() {
-        LOGGER.debug("service: Getting list of all users");
         return userDao.getAllUsers();
     }
 
     @Override
+    @Logged
     public List<User> getAllUsersByDate(Date dateMin, Date dateMax) {
         Assert.notNull(dateMin, notNullDate);
         Assert.notNull(dateMax, notNullDate);
         Assert.isTrue(dateMax.getTime() >= dateMin.getTime(), dateCompare);
-        LOGGER.debug("service: Getting users by date");
 
         return userDao.getAllUsers(dateMin, dateMax);
     }
 
     @Override
+    @Logged
     public List<User> getFriends(Integer id) {
         Assert.notNull(id, notNullId);
         Assert.isTrue(id > 0, correctId);
-        LOGGER.debug("service: Getting list of friends of user: {}", id);
         try {
             userDao.getUserById(id);
             return userDao.getFriends(id);
         } catch (EmptyResultDataAccessException e) {
             e.printStackTrace();
-            LOGGER.debug("service: User with Id {} does not exist", id);
             return Collections.<User>emptyList();
         }
     }
 
     @Override
+    @Logged
     public List<User> getNoFriends(Integer id) {
         Assert.notNull(id, notNullId);
         Assert.isTrue(id > 0, correctId);
@@ -246,57 +244,54 @@ public class SocialServiceImpl implements SocialService {
     }
 
     @Override
+    @Logged
     public void addFriendship(User user1, User user2) {
         Assert.notNull(user1, notNullUser + " user1");
         Assert.notNull(user2, notNullUser + " user2");
         Assert.notNull(user1.getUserId(), notNullId + " user1");
         Assert.notNull(user2.getUserId(), notNullId + " user2");
         Assert.isTrue(!friendshipDao.isAFriend(user1, user2),
-                                "Friendship already exists");
-        LOGGER.debug("service: Adding new friendship of users: {}, {}",
-                                 user1.getUserId(), user2.getUserId());
+                "Friendship already exists");
         friendshipDao.addFriendship(user1, user2);
     }
 
     @Override
+    @Logged
     public boolean isAFriend(User user1, User user2) {
         Assert.notNull(user1, notNullUser + " user1");
         Assert.notNull(user2, notNullUser + " user2");
         Assert.notNull(user1.getUserId(), notNullId + " user1");
         Assert.notNull(user2.getUserId(), notNullId + " user2");
-        LOGGER.debug("service: Checking for friendship of users: {}, {}",
-                                   user1.getUserId(), user2.getUserId());
         return friendshipDao.isAFriend(user1, user2);
     }
 
     @Override
+    @Logged
     public void discardFriendship(User enemy1, User enemy2) {
         Assert.notNull(enemy1, notNullUser + " user1");
         Assert.notNull(enemy2, notNullUser + " user2");
         Assert.notNull(enemy1.getUserId(), notNullId + " user1");
         Assert.notNull(enemy2.getUserId(), notNullId + " user2");
         Assert.isTrue(friendshipDao.isAFriend(enemy1, enemy2),
-                                 "Friendship does not exist");
-        LOGGER.debug("service: Discarding a friendship of users: {}, {}",
-                                 enemy1.getUserId(), enemy2.getUserId());
+                "Friendship does not exist");
         friendshipDao.discardFriendship(enemy1, enemy2);
     }
 
     @Override
+    @Logged
     public List<Friendship> getAllFriendships() {
-        LOGGER.debug("service: Getting list of all friendships");
         return friendshipDao.getAllFriendships();
     }
 
     @Override
+    @Logged
     public void discardAllFriendshipsOfAUser(Integer id) {
-        LOGGER.debug("service: Deleting all friendships of a user {}", id);
         friendshipDao.discardAllFriendshipsOfAUser(id);
     }
 
     @Override
+    @Logged
     public SocialDto getSocialUsersDto() {
-        LOGGER.debug("service: Getting users dto");
         SocialDto dto = new SocialDto();
         dto.setTotalUsers(userDao.getCountOfUsers());
         if (dto.getTotalUsers() > 0) {
@@ -312,8 +307,8 @@ public class SocialServiceImpl implements SocialService {
     }
 
     @Override
+    @Logged
     public SocialDto getSocialFriendsDto(Integer id) {
-        LOGGER.debug("service: Getting friends dto of user: {}", id);
         SocialDto dto = new SocialDto();
         dto.setTotalUsers(userDao.getCountOfUserFriends(id));
         if (dto.getTotalUsers() > 0) {
@@ -330,8 +325,8 @@ public class SocialServiceImpl implements SocialService {
     }
 
     @Override
+    @Logged
     public SocialDto getSocialNoFriendsDto(Integer id) {
-        LOGGER.debug("service: Getting no-friends dto of user: {}", id);
         SocialDto dto = new SocialDto();
         dto.setTotalUsers(getNoFriends(id).size());
         if (dto.getTotalUsers() > 0) {
@@ -349,8 +344,8 @@ public class SocialServiceImpl implements SocialService {
 
 
     @Override
+    @Logged
     public SocialDto getSocialUsersDtoByDate(Date dateMin, Date dateMax) {
-        LOGGER.debug("service: getting dto by date");
         SocialDto dto = new SocialDto();
         dto.setTotalUsers(getAllUsersByDate(dateMin, dateMax).size());
         if (dto.getTotalUsers() > 0) {

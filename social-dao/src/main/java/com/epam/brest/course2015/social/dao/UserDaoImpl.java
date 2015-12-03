@@ -1,11 +1,11 @@
 package com.epam.brest.course2015.social.dao;
 
 import com.epam.brest.course2015.social.core.User;
+import com.epam.brest.course2015.social.test.Logged;
 
 import java.util.Date;
 import java.util.List;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -21,7 +21,6 @@ import org.springframework.jdbc.support.KeyHolder;
  * Created by alexander on 25.10.15.
  */
 public class UserDaoImpl implements UserDao {
-    public static final Logger LOGGER = LogManager.getLogger();
     @Value("${user.selectAllUsers}")
     private String selectAllUsers;
     @Value("${user.selectAllUsersByDate}")
@@ -64,8 +63,8 @@ public class UserDaoImpl implements UserDao {
      */
 
     @Override
+    @Logged
     public Integer addUser(User user) {
-        LOGGER.debug("userDao: Adding user {}", user.getLogin());
         KeyHolder keyHolder = new GeneratedKeyHolder();
         BeanPropertySqlParameterSource parameterSource =
                 new BeanPropertySqlParameterSource(user);
@@ -75,8 +74,8 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    @Logged
     public void changePassword(Integer id, String password) {
-        LOGGER.debug("userDao: Changing password of a user {}", id);
         User user = new User();
         user.setUserId(id);
         user.setPassword(password);
@@ -86,8 +85,8 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    @Logged
     public void changeLogin(Integer id, String login) {
-        LOGGER.debug("dao: Changing login of a user {}", id);
         User user = new User();
         user.setLogin(login);
         user.setUserId(id);
@@ -97,8 +96,8 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    @Logged
     public void changeFirstName(Integer id, String firstName) {
-        LOGGER.debug("dao: Changing firstName of a user {}", id);
         User user = new User();
         user.setFirstName(firstName);
         user.setUserId(id);
@@ -108,8 +107,8 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    @Logged
     public void changeLastName(Integer id, String lastName) {
-        LOGGER.debug("dao: Changing lastName of a user {}", id);
         User user = new User();
         user.setLastName(lastName);
         user.setUserId(id);
@@ -119,8 +118,8 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    @Logged
     public void deleteUser(Integer id) {
-        LOGGER.debug("userDao: Deleting user {}", id);
         SqlParameterSource parameterSource =
                 new MapSqlParameterSource("userId", id);
         namedParameterJdbcTemplate
@@ -128,8 +127,8 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    @Logged
     public List<User> getFriends(Integer id) {
-        LOGGER.debug("userDao: Getting friends of user {}", id);
         MapSqlParameterSource parameterSource =
                 new MapSqlParameterSource("userId", id);
         return namedParameterJdbcTemplate.query(selectFriendship,
@@ -138,14 +137,14 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    @Logged
     public List<User> getAllUsers() {
-        LOGGER.debug("userDao: Getting all users");
         return namedParameterJdbcTemplate.query(selectAllUsers, userMapper);
     }
 
     @Override
+    @Logged
     public List<User> getAllUsers(Date dateMin, Date dateMax) {
-        LOGGER.debug("userDao: Getting all users by date");
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("dateMin", dateMin);
         parameterSource.addValue("dateMax", dateMax);
@@ -155,8 +154,8 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    @Logged
     public User getUserById(Integer id) {
-        LOGGER.debug("userDao: Getting user by id: {}", id);
         SqlParameterSource paramSource =
                 new MapSqlParameterSource("userId", id);
         return namedParameterJdbcTemplate.queryForObject(selectUserById,
@@ -165,8 +164,8 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    @Logged
     public User getUserByLogin(String login) {
-        LOGGER.debug("userDao: Getting user by login: {}", login);
         SqlParameterSource parameterSource =
                 new MapSqlParameterSource("login", login);
         return namedParameterJdbcTemplate.queryForObject(selectUserByLogin,
@@ -175,8 +174,8 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    @Logged
     public Integer getCountOfUsers() {
-        LOGGER.debug("userDao: Getting count of all users");
         SqlParameterSource parameterSource = new MapSqlParameterSource();
         return namedParameterJdbcTemplate.queryForObject(getCountOfUsers,
                                                          parameterSource,
@@ -184,8 +183,8 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    @Logged
     public Integer getCountOfUserFriends(Integer id) {
-        LOGGER.debug("userDao: Getting count of all friends of a user: {}", id);
         SqlParameterSource parameterSource =
                 new MapSqlParameterSource("userId", id);
         return namedParameterJdbcTemplate.queryForObject(getCountOfUserFriends,

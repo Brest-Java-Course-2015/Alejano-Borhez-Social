@@ -2,6 +2,7 @@ package com.epam.brest.course2015.social.dao;
 
 import com.epam.brest.course2015.social.core.Friendship;
 import com.epam.brest.course2015.social.core.User;
+import com.epam.brest.course2015.social.test.Logged;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,7 @@ public class FriendshipDaoImpl implements FriendshipDao {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Override
+    @Logged
     public void addFriendship(User friend1, User friend2) {
         LOGGER.debug("friendshipDao: Adding friendship of users: {}, {}",
                       friend1.getUserId(), friend2.getUserId());
@@ -55,6 +57,7 @@ public class FriendshipDaoImpl implements FriendshipDao {
     }
 
     @Override
+    @Logged
     public boolean isAFriend(User user1, User user2) {
         LOGGER.debug("friendshipDao: Checking friendship of users: {}, {}",
                       user1.getUserId(), user2.getUserId());
@@ -78,6 +81,7 @@ public class FriendshipDaoImpl implements FriendshipDao {
     }
 
     @Override
+    @Logged
     public void discardFriendship(User enemy1, User enemy2) {
         LOGGER.debug("friendshipDao: Deleting friendship of users: {}, {}",
                 enemy1.getUserId(), enemy2.getUserId());
@@ -94,6 +98,7 @@ public class FriendshipDaoImpl implements FriendshipDao {
     }
 
     @Override
+    @Logged
     public List<Friendship> getAllFriendships () {
         LOGGER.debug("friendshipDao: Getting all friendships");
         return namedParameterJdbcTemplate.query(getAllFriendships,
@@ -101,6 +106,7 @@ public class FriendshipDaoImpl implements FriendshipDao {
     }
 
     @Override
+    @Logged
     public void discardAllFriendshipsOfAUser(Integer userId) {
         LOGGER.debug("friendshipDao: Deleting all friendships of a user {}",
                 userId);

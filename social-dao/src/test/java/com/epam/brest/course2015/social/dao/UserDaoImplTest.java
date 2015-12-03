@@ -1,7 +1,6 @@
 package com.epam.brest.course2015.social.dao;
 
 import com.epam.brest.course2015.social.core.User;
-import com.epam.brest.course2015.social.test.TestLogged;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +42,6 @@ public class UserDaoImplTest {
     private UserDao userDao;
 
     @Test
-    @TestLogged
     public void testGetAllUsers() throws Exception {
         List<User> users = userDao.getAllUsers();
         assertNotNull(users);
@@ -51,7 +49,6 @@ public class UserDaoImplTest {
     }
 
     @Test
-    @TestLogged
     public void testGetUserById() throws Exception {
         User user = userDao.getUserById(testId);
         assertNotNull(user);
@@ -60,7 +57,6 @@ public class UserDaoImplTest {
     }
 
     @Test
-    @TestLogged
     public void testGetUserByLogin() throws Exception {
         User user = userDao.getUserByLogin(testLogin);
         assertNotNull(user);
@@ -69,7 +65,6 @@ public class UserDaoImplTest {
     }
 
     @Test (expected = EmptyResultDataAccessException.class)
-    @TestLogged
     public void testDeleteUser() throws Exception {
         Integer sizeBefore = userDao.getAllUsers().size();
         userDao.deleteUser(testId);
@@ -79,7 +74,6 @@ public class UserDaoImplTest {
     }
 
     @Test
-    @TestLogged
     public void testAddUser() throws Exception {
         User user = new User("login", "password", "Petr", "Petrov", 30);
         Integer sizeBefore = userDao.getAllUsers().size();
@@ -91,14 +85,12 @@ public class UserDaoImplTest {
     }
 
     @Test
-    @TestLogged
     public void testChangePassword() throws Exception {
         userDao.changePassword(testId, testPassword);
         assertEquals(testPassword, userDao.getUserById(testId).getPassword());
     }
 
     @Test
-    @TestLogged
     public void testGetFriends() throws Exception {
         List<User> friends = userDao.getFriends(testId);
         assertNotNull(friends);
@@ -108,7 +100,6 @@ public class UserDaoImplTest {
     }
 
     @Test
-    @TestLogged
     public void testGetCountOfUserFriends() throws Exception {
         Integer count = userDao.getCountOfUserFriends(1);
         assertNotNull(count);
@@ -116,7 +107,6 @@ public class UserDaoImplTest {
     }
 
     @Test
-    @TestLogged
     public void testGetCountOfUsers() throws Exception {
         Integer count = userDao.getCountOfUsers();
         assertNotNull(count);
@@ -124,28 +114,24 @@ public class UserDaoImplTest {
     }
 
     @Test
-    @TestLogged
     public void testChangeLogin() throws Exception {
         userDao.changeLogin(testId, testLogin);
         assertEquals(testLogin, userDao.getUserById(testId).getLogin());
     }
 
     @Test
-    @TestLogged
     public void testChangeFirstName() throws Exception {
         userDao.changeFirstName(testId, testFirstName);
         assertEquals(testFirstName, userDao.getUserById(testId).getFirstName());
     }
 
     @Test
-    @TestLogged
     public void testChangeLastName() throws Exception {
         userDao.changeLastName(testId, testLastName);
         assertEquals(testLastName, userDao.getUserById(testId).getLastName());
     }
 
     @Test
-    @TestLogged
     public void testGetAllUsers1() throws Exception {
         Date dateMin = getTestDate("2015-10-05");
         Date dateMax = getTestDate("2015-10-20");

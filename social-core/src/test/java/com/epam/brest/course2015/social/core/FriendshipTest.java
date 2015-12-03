@@ -2,6 +2,10 @@ package com.epam.brest.course2015.social.core;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Date;
 
@@ -11,14 +15,13 @@ import static org.junit.Assert.*;
 /**
  * Created by alexander on 26.10.15.
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:test-spring-core.xml"})
 public class FriendshipTest {
     private static final Integer testFirstFriend = 1;
     private static final Integer testSecondFriend = 2;
+    @Autowired
     private Friendship friendship;
-    @Before
-    public void setUp() {
-        friendship = new Friendship();
-    }
 
     @Test
     public void testGetFirstFriend() throws Exception {
