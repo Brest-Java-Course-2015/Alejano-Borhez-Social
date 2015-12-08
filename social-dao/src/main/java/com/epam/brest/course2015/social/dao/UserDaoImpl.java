@@ -48,7 +48,8 @@ public class UserDaoImpl implements UserDao {
     @Value("${user.getCountOfUserFriends}")
     private String getCountOfUserFriends;
 
-    private RowMapper<User> userMapper = new BeanPropertyRowMapper<>(User.class);
+    private RowMapper<User> userMapper =
+        new BeanPropertyRowMapper<>(User.class);
 
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;

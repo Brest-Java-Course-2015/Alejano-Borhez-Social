@@ -6,6 +6,9 @@
         <property name="filename">
             logs/server.log
         </property>
+        <property name="sharedLogFolder">
+            /home/alexander/development/Social/Alejano-Borhez-Social/logs/server.log
+        </property>
     </properties>
 
     <Appenders>
@@ -17,12 +20,17 @@
             <PatternLayout pattern="%d[%t] %msg %n"/>
         </File>
 
+        <File name="SharedLogFolder" filename="${sharedLogFolder}">
+            <PatternLayout pattern="%d[%t] %msg %n"/>
+        </File>
+
     </Appenders>
 
 
     <Loggers>
         <Logger name="com.epam.brest.course2015.social" level="DEBUG">
             <AppenderRef ref="File"/>
+            <AppenderRef ref="SharedLogFolder"/>
             <AppenderRef ref="Console"/>
         </Logger>
 

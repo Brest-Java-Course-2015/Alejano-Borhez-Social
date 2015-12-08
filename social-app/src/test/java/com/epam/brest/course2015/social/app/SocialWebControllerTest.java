@@ -10,6 +10,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -17,6 +18,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
@@ -36,11 +38,6 @@ import static org.easymock.EasyMock.*;
 @ContextConfiguration(locations = {"classpath:social-app-spring-mock-test.xml"})
 @WebAppConfiguration
 public class SocialWebControllerTest extends TestCase {
-    @Value("${rest.prefix}")
-    private String restPrefix;
-
-    public static Logger logger = LogManager.getLogger();
-
     @Resource
     private SocialWebController socialController;
 
@@ -193,7 +190,7 @@ public class SocialWebControllerTest extends TestCase {
 
         mockMvc.perform(
                 get("/user/delete?id=1")
-                        .accept(MediaType.APPLICATION_JSON))
+                .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
     }

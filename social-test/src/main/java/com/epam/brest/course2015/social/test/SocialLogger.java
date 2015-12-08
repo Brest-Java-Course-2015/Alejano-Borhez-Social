@@ -20,8 +20,10 @@ public class SocialLogger {
     private static final Logger LOGGER =
             LogManager.getLogger(SocialLogger.class.getName());
 
-    @Pointcut("execution(@com.epam.brest.course2015.social.test.Logged * *(..)) && @annotation(logged)")
-    public void setLogged(Logged logged) {}
+    @Pointcut("execution" +
+            "(@com.epam.brest.course2015.social.test.Logged * *(..))" +
+            " && @annotation(logged)")
+    public void setLogged(Logged logged) { }
 
     @Around("setLogged(logged)")
     public Object log(ProceedingJoinPoint joinPoint,
@@ -48,19 +50,21 @@ public class SocialLogger {
             LOGGER.catching(Level.ERROR, exception.getCause());
             throw exception;
         }
-        if (returnVoid)
+        if (returnVoid) {
             LOGGER.info("{} #{}{} in {} μsec",
                     clazz,
                     method,
                     args,
                     executionTime / 1000);
-        else if (result == null)
+        }
+        else if (result == null) {
             LOGGER.info("{} #{}{} => {} in {} μsec",
                     clazz,
                     method,
                     args,
                     result,
                     executionTime / 1000);
+        }
         else {
             String resultClass = result.getClass().getSimpleName();
             LOGGER.info("{} #{}{} => {}: {} in {} μsec",

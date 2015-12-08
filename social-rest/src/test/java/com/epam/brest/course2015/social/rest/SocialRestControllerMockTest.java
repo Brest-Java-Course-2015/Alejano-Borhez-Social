@@ -1,5 +1,10 @@
+package com.epam.brest.course2015.social.rest;
+
+
 import com.epam.brest.course2015.social.core.Friendship;
 import com.epam.brest.course2015.social.core.User;
+import com.epam.brest.course2015.social.dto.SocialDto;
+import com.epam.brest.course2015.social.rest.RestErrorHandler;
 import com.epam.brest.course2015.social.rest.SocialRestController;
 import com.epam.brest.course2015.social.service.SocialService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,7 +21,11 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import javax.annotation.Resource;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -35,6 +44,16 @@ import static org.easymock.EasyMock.*;
 public class SocialRestControllerMockTest {
     @Resource
     SocialRestController socialRestController;
+
+    private static Date getDate(String date) {
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            return formatter.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     private MockMvc mockMvc;
 
@@ -220,7 +239,8 @@ public class SocialRestControllerMockTest {
 
     @Test
     public void testAddFriendship() throws Exception {
-        socialService.addFriendship(anyObject(User.class), anyObject(User.class));
+        socialService.addFriendship(anyObject(User.class),
+                anyObject(User.class));
         expectLastCall();
         replay(socialService);
         mockMvc.perform(
@@ -233,7 +253,9 @@ public class SocialRestControllerMockTest {
 
     @Test
     public void testIsAFriend() throws Exception {
-        expect(socialService.isAFriend(anyObject(User.class), anyObject(User.class))).andReturn(true);
+        expect(socialService.isAFriend(anyObject(User.class),
+                anyObject(User.class)))
+                .andReturn(true);
         replay(socialService);
         mockMvc.perform(
                 get("/user/friendship?id1=1&id2=2")
@@ -241,5 +263,64 @@ public class SocialRestControllerMockTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string("true"));
+    }
+
+    @Test
+    public void testGetUserDto() throws Exception {
+        expect(socialService.getSocialUsersDto())
+                .andReturn(new SocialDto());
+        replay(socialService);
+        mockMvc.perform(
+                get("/userdto")
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content()
+                  .string("{\"users\":null,\"totalUsers\":null,\"user\":null}"));
+    }
+
+    @Test
+    public void testGetFriendsDto() throws Exception {
+        expect(socialService.getSocialFriendsDto(1))
+                .andReturn(new SocialDto());
+        replay(socialService);
+        mockMvc.perform(
+                get("/friendsdto?id=1")
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content()
+                    .string("{\"users\":null,\"totalUsers\":null,\"user\":null}"));
+    }
+
+    @Test
+    public void testGetNoFriendsDto() throws Exception {
+        expect(socialService.getSocialNoFriendsDto(1))
+                .andReturn(new SocialDto());
+        replay(socialService);
+        mockMvc.perform(
+                get("/nofriendsdto?id=1")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content()
+                        .string("{\"users\":null,\"totalUsers\":null,\"user\":null}"));
+    }
+
+    @Test
+    public void testGetUsersDtoByDate() throws Exception {
+        Date date1 = getDate("2015-10-01");
+        Date date2 = getDate("2015-11-01");
+        expect(socialService.getSocialUsersDtoByDate(date1,
+                date2))
+                .andReturn(new SocialDto());
+        replay(socialService);
+        mockMvc.perform(
+                get("/userdtobydate?datemin=2015-10-01&datemax=2015-11-01")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content()
+                        .string("{\"users\":null,\"totalUsers\":null,\"user\":null}"));
     }
 }
