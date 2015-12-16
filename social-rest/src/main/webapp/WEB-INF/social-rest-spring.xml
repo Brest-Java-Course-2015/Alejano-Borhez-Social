@@ -16,7 +16,7 @@
        http://www.springframework.org/schema/aop
        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
-    <context:component-scan base-package="com.epam.brest.course2015.social.rest"/>
+    <context:component-scan base-package="com.epam.brest.course2015.social"/>
 
     <mvc:annotation-driven/>
 
@@ -38,8 +38,8 @@
     </bean>
 
     <jdbc:initialize-database data-source="dataSource">
-        <jdbc:script location="classpath*:create-tables.sql"/>
-        <jdbc:script location="classpath*:data-script.sql"/>
+        <jdbc:script location="classpath:create-tables.sql"/>
+        <jdbc:script location="classpath:data-script.sql"/>
     </jdbc:initialize-database>
 
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
@@ -51,15 +51,9 @@
     </bean>
 
     <bean id="user" class="com.epam.brest.course2015.social.core.User"/>
-
-    <bean id="userDao" class="com.epam.brest.course2015.social.dao.UserDaoImpl">
-    </bean>
-
+    <bean id="userDao" class="com.epam.brest.course2015.social.dao.UserDaoImpl"/>
     <bean id="friendship" class="com.epam.brest.course2015.social.core.Friendship"/>
-
-    <bean id="friendshipDao" class="com.epam.brest.course2015.social.dao.FriendshipDaoImpl">
-    </bean>
-
+    <bean id="friendshipDao" class="com.epam.brest.course2015.social.dao.FriendshipDaoImpl"/>
     <bean id="socialDto" class="com.epam.brest.course2015.social.dto.SocialDto"/>
 
     <bean id="socialService" class="com.epam.brest.course2015.social.service.SocialServiceImpl">

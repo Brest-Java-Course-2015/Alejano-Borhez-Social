@@ -9,7 +9,6 @@ import com.epam.brest.course2015.social.test.Logged;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -23,15 +22,15 @@ import java.util.List;
  */
 
 @Transactional
-@ContextConfiguration(value = {"classpath:spring-service.xml"})
 public class SocialServiceImpl implements SocialService {
-    @Autowired
     private UserDao userDao;
-    @Autowired
     private FriendshipDao friendshipDao;
+
+    @Autowired
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
     }
+    @Autowired
     public void setFriendshipDao(FriendshipDao friendshipDao) {
         this.friendshipDao = friendshipDao;
     }
