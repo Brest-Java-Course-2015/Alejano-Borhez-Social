@@ -18,6 +18,7 @@ import java.util.List;
  * Created by alexander on 9.11.15.
  */
 
+@CrossOrigin
 @RestController
 public class SocialRestController {
 

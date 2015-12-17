@@ -1,5 +1,5 @@
 // The root URL for the RESTful services
-var PREFIX_URL = "http://localhost:8082/social-rest-1.0-SNAPSHOT"
+var PREFIX_URL = "http://localhost:8081/rest"
 var USER_URL = "/user";
 var FRIENDS_URL = "/nofriendsdto";
 var FRIENDSHIP_URL = "/friendship";
