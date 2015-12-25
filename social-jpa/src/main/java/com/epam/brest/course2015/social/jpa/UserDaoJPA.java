@@ -1,9 +1,8 @@
-package com.epam.brest.course2015.social.dao;
+package com.epam.brest.course2015.social.jpa;
 
 import com.epam.brest.course2015.social.core.User;
+import com.epam.brest.course2015.social.dao.UserDao;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.Date;
 import java.util.List;
 
@@ -12,18 +11,16 @@ import java.util.List;
  */
 public class UserDaoJPA implements UserDao {
 
-    @PersistenceContext
-    private EntityManager entityManager;
 
     @Override
     public Integer addUser(User user) {
-        entityManager.persist(user);
-        return user.getUserId();
+
+        return null;
     }
 
     @Override
     public void changePassword(Integer id, String password) {
-        User user = new User(id);
+
     }
 
     @Override

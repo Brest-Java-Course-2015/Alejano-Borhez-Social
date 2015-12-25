@@ -3,6 +3,7 @@ package com.epam.brest.course2015.social.core;
 import com.epam.brest.course2015.social.test.Logged;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import javax.persistence.Entity;
 import java.util.Date;
 
 /**
@@ -16,6 +17,7 @@ import java.util.Date;
  *
  *
  */
+@Entity
 public class User {
 //  Class variables declaration
     private Integer userId;
@@ -134,6 +136,7 @@ public class User {
         this.firstName = firstName;
         this.createdDate = new Date();
         this.updatedDate = new Date();
+        this.totalFriends = 0;
     }
 
     /**
