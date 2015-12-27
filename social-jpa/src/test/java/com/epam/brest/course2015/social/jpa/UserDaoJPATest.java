@@ -1,5 +1,6 @@
 package com.epam.brest.course2015.social.jpa;
 
+import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dao.UserDao;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +14,7 @@ import static org.junit.Assert.*;
  * Created by alexander on 25.12.15.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration
+@ContextConfiguration(locations = {"classpath:test-spring-persistence.xml"})
 public class UserDaoJPATest {
 
     @Autowired
@@ -22,6 +23,10 @@ public class UserDaoJPATest {
     @Test
     public void testGetAllUsers() throws Exception {
 
+        assertEquals("name", "name");
+        Integer i = userDao.addUser(new User());
+        assertNotNull(i);
+        System.out.println("allright");
     }
 
 

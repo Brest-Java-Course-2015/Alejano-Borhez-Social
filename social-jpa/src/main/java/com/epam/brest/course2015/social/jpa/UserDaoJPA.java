@@ -2,6 +2,7 @@ package com.epam.brest.course2015.social.jpa;
 
 import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dao.UserDao;
+import com.epam.brest.course2015.social.test.Logged;
 
 import java.util.Date;
 import java.util.List;
@@ -13,9 +14,10 @@ public class UserDaoJPA implements UserDao {
 
 
     @Override
+    @Logged
     public Integer addUser(User user) {
 
-        return null;
+        return 1;
     }
 
     @Override

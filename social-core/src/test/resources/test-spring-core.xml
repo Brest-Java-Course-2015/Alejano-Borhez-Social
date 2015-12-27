@@ -4,6 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
+
     <aop:aspectj-autoproxy/>
 
     <bean id="socialLogger" class="com.epam.brest.course2015.social.test.SocialLogger"/>
@@ -11,5 +12,6 @@
     <bean id="user" class="com.epam.brest.course2015.social.core.User"/>
     <bean id="friendship" class="com.epam.brest.course2015.social.core.Friendship"/>
     <bean id="socialDto" class="com.epam.brest.course2015.social.dto.SocialDto"/>
+
 
 </beans>

@@ -10,15 +10,16 @@
 
     <modelVersion>4.0.0</modelVersion>
 
+
     <artifactId>social-jpa</artifactId>
+    <name>${project.artifactId}</name>
+    <packaging>jar</packaging>
+
     <dependencies>
+        <!-- Social Network-->
         <dependency>
             <groupId>com.epam.brest.course2015.social</groupId>
             <artifactId>social-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jpa</artifactId>
         </dependency>
         <dependency>
             <groupId>com.epam.brest.course2015.social</groupId>
@@ -28,17 +29,34 @@
             <groupId>com.epam.brest.course2015.social</groupId>
             <artifactId>social-test</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-        </dependency>
+        <!-- Spring -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+        </dependency>
+        <!-- Test -->
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- Database -->
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
         </dependency>
     </dependencies>
 
