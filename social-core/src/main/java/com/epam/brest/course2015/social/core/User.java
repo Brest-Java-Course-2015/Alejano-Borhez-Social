@@ -3,6 +3,7 @@ package com.epam.brest.course2015.social.core;
 import com.epam.brest.course2015.social.test.Logged;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -14,24 +15,33 @@ import java.util.Date;
  * {@link User} class is one of entities of my Simple-Social-Network
  * study project.
  *
+ *  Class is ready to use as Entity in JPA to persist data in database
  *
  */
-
+@Entity
+@Table(name = "USER")
 public class User {
 //  Class variables declaration
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private Integer userId;
+
     private String firstName;
     private String lastName;
     private Integer age;
     private String login;
     private String password;
+
+    @Transient
     private Integer totalFriends;
 //  Dates are formatted to be transferred via JSON
     @JsonFormat(shape = JsonFormat.Shape.STRING,
                 pattern = "dd-MM-yyyy")
+    @Temporal(TemporalType.DATE)
     private Date createdDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING,
                 pattern = "dd-MM-yyyy")
+    @Temporal(TemporalType.DATE)
     private Date updatedDate;
 
 //  Getters and setters for class variables
@@ -140,6 +150,7 @@ public class User {
 
     /**
      * Empty constructor for {@link User} object.
+     * Used for JPA purposes
      */
     public User() { }
 

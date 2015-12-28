@@ -3,6 +3,7 @@ package com.epam.brest.course2015.social.core;
 import com.epam.brest.course2015.social.test.Logged;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -17,18 +18,25 @@ import java.util.Date;
  * Instance of a {@link Friendship} class is used to transfer data to a DB.
  * Every record in a DB determines a friendship between two {@link User}s.
  *
- *
+ *  Class is ready to use as Entity in JPA to persist data in database
  */
+
+@Entity
+@Table(name = "FRIENDS")
 public class Friendship {
 //  Class variables declaration
+
+    @Id
     private Integer friend1Id;
     private Integer friend2Id;
 //  Dates are formatted to be transferred via JSON
     @JsonFormat(shape = JsonFormat.Shape.STRING,
             pattern = "dd-MM-yyyy hh:mm:ss")
+    @Temporal(TemporalType.DATE)
     private Date createdDate;
     /**
      * Empty constructor for {@link Friendship} object.
+     * Used for JPA purposes
      */
     public Friendship() { }
     /**

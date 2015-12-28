@@ -4,6 +4,8 @@ import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dao.UserDao;
 import com.epam.brest.course2015.social.test.Logged;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.Date;
 import java.util.List;
 
@@ -12,6 +14,8 @@ import java.util.List;
  */
 public class UserDaoJPA implements UserDao {
 
+    @PersistenceContext(unitName = "social-user")
+    private EntityManager entityManager;
 
     @Override
     @Logged
@@ -21,8 +25,11 @@ public class UserDaoJPA implements UserDao {
     }
 
     @Override
+    @Logged
     public void changePassword(Integer id, String password) {
-
+        User user = entityManager.find(User.class, id);
+        user.setPassword(password);
+        entityManager.merge(user);
     }
 
     @Override
@@ -41,7 +48,9 @@ public class UserDaoJPA implements UserDao {
     }
 
     @Override
+    @Logged
     public void deleteUser(Integer id) {
+        entityManager.remove(getUserById(id));
 
     }
 
@@ -61,8 +70,9 @@ public class UserDaoJPA implements UserDao {
     }
 
     @Override
+    @Logged
     public User getUserById(Integer id) {
-        return null;
+        return entityManager.find(User.class, id);
     }
 
     @Override
