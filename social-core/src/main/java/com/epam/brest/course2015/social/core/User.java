@@ -23,7 +23,7 @@ import java.util.Date;
 public class User {
 //  Class variables declaration
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
 
     private String firstName;
