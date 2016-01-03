@@ -49,8 +49,8 @@ public class UserDaoJPA implements UserDao {
     @Logged
     public Integer addUser(User user) {
         entityManager.persist(user);
-        User user1 = entityManager.merge(user);
-        return user1.getUserId();
+        user = entityManager.merge(user);
+        return user.getUserId();
     }
 
     @Override
@@ -64,31 +64,41 @@ public class UserDaoJPA implements UserDao {
     @Override
     @Logged
     public void changeLogin(Integer id, String login) {
-
+        User user = entityManager.find(User.class, id);
+        user.setLogin(login);
+        entityManager.merge(user);
     }
 
     @Override
     @Logged
     public void changeFirstName(Integer id, String firstName) {
-
+        User user = entityManager.find(User.class, id);
+        user.setFirstName(firstName);
+        entityManager.merge(user);
     }
 
     @Override
     @Logged
     public void changeLastName(Integer id, String lastName) {
-
+        User user = entityManager.find(User.class, id);
+        user.setLastName(lastName);
+        entityManager.merge(user);
     }
 
     @Override
     @Logged
     public void deleteUser(Integer id) {
         entityManager.remove(getUserById(id));
-
     }
 
     @Override
+    @Logged
     public List<User> getFriends(Integer id) {
-        return null;
+        List<User> list = entityManager
+                .createNativeQuery(selectFriendship, User.class)
+                .setParameter("userId", id)
+                .getResultList();
+        return list;
     }
 
     @Override
@@ -138,7 +148,12 @@ public class UserDaoJPA implements UserDao {
     }
 
     @Override
+    @Logged
     public Integer getCountOfUserFriends(Integer id) {
-        return null;
+        BigInteger big = (BigInteger) entityManager
+                .createNativeQuery(getCountOfUserFriends)
+                .setParameter("userId", id)
+                .getSingleResult();
+        return big.intValue();
     }
 }

@@ -35,8 +35,11 @@ public class UserDaoJPATest {
         }
     }
 
-    private static final Integer testId = 1;
-    private static final String testPassword = "newPassword";
+    public static final Integer testId = 1;
+    public static final String testLogin = "julia_borohova";
+    public static final String testPassword = "newPassword";
+    public static final String testFirstName = "FirstName";
+    public static final String testLastName = "LastName";
     private static User testUser = new User("login", "password", "Petr", "Petrov", 30);
 
     @Autowired
@@ -70,6 +73,7 @@ public class UserDaoJPATest {
     public void testAddUser() throws Exception {
         Integer i = userDao.addUser(testUser);
         assertNotNull(i);
+        assertTrue(i > 0);
     }
 
     @Test
@@ -99,5 +103,38 @@ public class UserDaoJPATest {
     public void testGetCountOfUsers() throws Exception {
         Integer i = userDao.getCountOfUsers();
         assertTrue(i == 4);
+    }
+
+    @Test
+    public void testChangeLogin() throws Exception {
+        userDao.changeLogin(testId, testLogin);
+        assertEquals(testLogin, userDao.getUserById(testId).getLogin());
+    }
+
+    @Test
+    public void testChangeFirstName() throws Exception {
+        userDao.changeFirstName(testId, testFirstName);
+        assertEquals(testFirstName, userDao.getUserById(testId).getFirstName());
+    }
+
+    @Test
+    public void testChangeLastName() throws Exception {
+        userDao.changeLastName(testId, testLastName);
+        assertEquals(testLastName, userDao.getUserById(testId).getLastName());
+    }
+
+    @Test
+    public void testGetFriends() throws Exception {
+        List<User> friends = userDao.getFriends(testId);
+        assertNotNull(friends);
+        assertTrue(friends.size() == 3);
+        assertEquals(User.class, friends.get(0).getClass());
+    }
+
+    @Test
+    public void testGetCountOfUserFriends() throws Exception {
+        Integer count = userDao.getCountOfUserFriends(1);
+        assertNotNull(count);
+        assertTrue(count > 0);
     }
 }
