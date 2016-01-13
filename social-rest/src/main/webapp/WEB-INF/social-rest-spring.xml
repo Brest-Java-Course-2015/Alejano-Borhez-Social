@@ -5,6 +5,7 @@
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns="http://www.springframework.org/schema/beans"
        xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/jdbc
@@ -14,7 +15,10 @@
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd
        http://www.springframework.org/schema/aop
-       http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+       http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+       http://www.springframework.org/schema/tx
+	   http://www.springframework.org/schema/tx/spring-tx.xsd
+       ">
 
     <context:component-scan base-package="com.epam.brest.course2015.social"/>
 
@@ -42,25 +46,32 @@
         <jdbc:script location="classpath:data-script.sql"/>
     </jdbc:initialize-database>
 
-    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource"/>
-    </bean>
 
-    <bean id="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
-        <constructor-arg ref="dataSource"/>
-    </bean>
 
     <!-- JPA -->
+
+    <tx:annotation-driven transaction-manager="transactionManagerUser"/>
+
     <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
 
-    <bean id="entityManagerFactory"
+    <bean id="entityManagerFactoryUser"
           class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="persistenceUnitName" value="social-user"/>
     </bean>
 
-    <bean id="transactionManagerJPA" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    <bean id="transactionManagerUser" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactoryUser" />
     </bean>
+
+    <bean id="entityManagerFactoryFriendship"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitName" value="social-friendship"/>
+    </bean>
+
+    <bean id="transactionManagerFriendship" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactoryFriendship" />
+    </bean>
+
     <!-- JPA -->
     <bean id="user" class="com.epam.brest.course2015.social.core.User"/>
     <bean id="userDao" class="com.epam.brest.course2015.social.jpa.UserDaoJPA">
@@ -68,7 +79,7 @@
 
     </bean>
     <bean id="friendship" class="com.epam.brest.course2015.social.core.Friendship"/>
-    <bean id="friendshipDao" class="com.epam.brest.course2015.social.dao.FriendshipDaoImpl"/>
+    <bean id="friendshipDao" class="com.epam.brest.course2015.social.jpa.FriendshipDaoJPA"/>
     <bean id="socialDto" class="com.epam.brest.course2015.social.dto.SocialDto"/>
 
     <bean id="socialService" class="com.epam.brest.course2015.social.service.SocialServiceImpl">

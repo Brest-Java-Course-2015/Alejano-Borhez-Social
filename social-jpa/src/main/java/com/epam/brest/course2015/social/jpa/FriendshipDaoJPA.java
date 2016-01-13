@@ -4,6 +4,8 @@ import com.epam.brest.course2015.social.core.Friendship;
 import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dao.FriendshipDao;
 import com.epam.brest.course2015.social.test.Logged;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -12,6 +14,8 @@ import java.util.List;
 /**
  * Created by alexander on 13.1.16.
  */
+@Repository
+@Transactional("transactionManagerFriendship")
 public class FriendshipDaoJPA implements FriendshipDao {
     @PersistenceContext(unitName = "social-friendship")
     EntityManager entityManagerFriendship;

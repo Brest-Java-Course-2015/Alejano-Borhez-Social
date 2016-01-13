@@ -4,6 +4,8 @@ import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dao.UserDao;
 import com.epam.brest.course2015.social.test.Logged;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,6 +16,7 @@ import java.util.List;
 /**
  * Created by alexander on 25.12.15.
  */
+@Repository
 public class UserDaoJPA implements UserDao {
     @Value("${user.selectAllUsers}")
     private String selectAllUsers;
@@ -87,6 +90,7 @@ public class UserDaoJPA implements UserDao {
 
     @Override
     @Logged
+    @Transactional("transactionManagerUser")
     public void deleteUser(Integer id) {
         entityManagerUser.remove(getUserById(id));
     }

@@ -7,6 +7,7 @@ import com.epam.brest.course2015.social.service.SocialService;
 import com.epam.brest.course2015.social.test.Logged;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -125,6 +126,7 @@ public class SocialRestController {
     @Logged
     public void deleteUser(@RequestParam(value = "id")
                                          Integer id) {
+
         socialService.deleteUser(id);
         socialService.discardAllFriendshipsOfAUser(id);
 
