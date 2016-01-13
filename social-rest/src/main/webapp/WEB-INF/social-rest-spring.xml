@@ -42,9 +42,9 @@
         <jdbc:script location="classpath:data-script.sql"/>
     </jdbc:initialize-database>
 
-    <!--<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
-    </bean>-->
+    </bean>
 
     <bean id="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
         <constructor-arg ref="dataSource"/>
@@ -58,12 +58,15 @@
         <property name="persistenceUnitName" value="social-user"/>
     </bean>
 
-    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+    <bean id="transactionManagerJPA" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
     <!-- JPA -->
     <bean id="user" class="com.epam.brest.course2015.social.core.User"/>
-    <bean id="userDao" class="com.epam.brest.course2015.social.jpa.UserDaoJPA"/>
+    <bean id="userDao" class="com.epam.brest.course2015.social.jpa.UserDaoJPA">
+        <!--<property name="entityManagerFactory" ref="entityManagerFactory"/>-->
+
+    </bean>
     <bean id="friendship" class="com.epam.brest.course2015.social.core.Friendship"/>
     <bean id="friendshipDao" class="com.epam.brest.course2015.social.dao.FriendshipDaoImpl"/>
     <bean id="socialDto" class="com.epam.brest.course2015.social.dto.SocialDto"/>

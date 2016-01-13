@@ -43,58 +43,58 @@ public class UserDaoJPA implements UserDao {
     private String getCountOfUserFriends;
 
     @PersistenceContext(unitName = "social-user")
-    private EntityManager entityManager;
+    private EntityManager entityManagerUser;
 
     @Override
     @Logged
     public Integer addUser(User user) {
-        entityManager.persist(user);
-        user = entityManager.merge(user);
+        entityManagerUser.persist(user);
+        user = entityManagerUser.merge(user);
         return user.getUserId();
     }
 
     @Override
     @Logged
     public void changePassword(Integer id, String password) {
-        User user = entityManager.find(User.class, id);
+        User user = entityManagerUser.find(User.class, id);
         user.setPassword(password);
-        entityManager.merge(user);
+        entityManagerUser.merge(user);
     }
 
     @Override
     @Logged
     public void changeLogin(Integer id, String login) {
-        User user = entityManager.find(User.class, id);
+        User user = entityManagerUser.find(User.class, id);
         user.setLogin(login);
-        entityManager.merge(user);
+        entityManagerUser.merge(user);
     }
 
     @Override
     @Logged
     public void changeFirstName(Integer id, String firstName) {
-        User user = entityManager.find(User.class, id);
+        User user = entityManagerUser.find(User.class, id);
         user.setFirstName(firstName);
-        entityManager.merge(user);
+        entityManagerUser.merge(user);
     }
 
     @Override
     @Logged
     public void changeLastName(Integer id, String lastName) {
-        User user = entityManager.find(User.class, id);
+        User user = entityManagerUser.find(User.class, id);
         user.setLastName(lastName);
-        entityManager.merge(user);
+        entityManagerUser.merge(user);
     }
 
     @Override
     @Logged
     public void deleteUser(Integer id) {
-        entityManager.remove(getUserById(id));
+        entityManagerUser.remove(getUserById(id));
     }
 
     @Override
     @Logged
     public List<User> getFriends(Integer id) {
-        List<User> list = entityManager
+        List<User> list = entityManagerUser
                 .createNativeQuery(selectFriendship, User.class)
                 .setParameter("userId", id)
                 .getResultList();
@@ -104,7 +104,7 @@ public class UserDaoJPA implements UserDao {
     @Override
     @Logged
     public List<User> getAllUsers() {
-        List<User> list = entityManager
+        List<User> list = entityManagerUser
                 .createNativeQuery(selectAllUsers, User.class)
                 .getResultList();
         return list;
@@ -113,7 +113,7 @@ public class UserDaoJPA implements UserDao {
     @Override
     @Logged
     public List<User> getAllUsers(Date dateMin, Date dateMax) {
-        List<User> list = entityManager
+        List<User> list = entityManagerUser
                 .createNativeQuery(getSelectAllUsersByDate, User.class)
                 .setParameter("dateMin", dateMin)
                 .setParameter("dateMax", dateMax)
@@ -124,14 +124,14 @@ public class UserDaoJPA implements UserDao {
     @Override
     @Logged
     public User getUserById(Integer id) {
-        return entityManager.find(User.class, id);
+        return entityManagerUser.find(User.class, id);
     }
 
 //    Временные костыли
     @Override
     @Logged
     public User getUserByLogin(String login) {
-        List<User> user = entityManager
+        List<User> user = entityManagerUser
                 .createNativeQuery(selectUserByLogin, User.class)
                 .setParameter("login", login)
                 .getResultList();
@@ -141,7 +141,7 @@ public class UserDaoJPA implements UserDao {
     @Override
     @Logged
     public Integer getCountOfUsers() {
-        BigInteger big = (BigInteger) entityManager
+        BigInteger big = (BigInteger) entityManagerUser
                 .createNativeQuery(getCountOfUsers)
                 .getSingleResult();
         return big.intValue();
@@ -150,7 +150,7 @@ public class UserDaoJPA implements UserDao {
     @Override
     @Logged
     public Integer getCountOfUserFriends(Integer id) {
-        BigInteger big = (BigInteger) entityManager
+        BigInteger big = (BigInteger) entityManagerUser
                 .createNativeQuery(getCountOfUserFriends)
                 .setParameter("userId", id)
                 .getSingleResult();
