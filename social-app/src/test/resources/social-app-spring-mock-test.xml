@@ -21,6 +21,7 @@
     </bean>
 
     <bean id="restTemplate" class="org.springframework.web.client.RestTemplate"/>
+    <bean id="socialConsumer" class="com.epam.brest.course2015.social.consumer.SocialConsumerRestImpl"/>
 
     <bean id="socialWebController" class="org.easymock.EasyMock" factory-method="createMock">
         <constructor-arg value="com.epam.brest.course2015.social.app.SocialWebController"/>

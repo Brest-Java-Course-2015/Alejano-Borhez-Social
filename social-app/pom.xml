@@ -14,18 +14,29 @@
     <packaging>war</packaging>
 
     <dependencies>
+        <!-- Social -->
         <dependency>
             <groupId>com.epam.brest.course2015.social</groupId>
             <artifactId>social-core</artifactId>
         </dependency>
         <dependency>
             <groupId>com.epam.brest.course2015.social</groupId>
+            <artifactId>social-consumer-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.epam.brest.course2015.social</groupId>
+            <artifactId>social-consumer-restimpl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.epam.brest.course2015.social</groupId>
             <artifactId>social-test</artifactId>
         </dependency>
+        <!-- Spring -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
         </dependency>
+        <!-- Testing -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
@@ -37,17 +48,10 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.epam.brest.course2015.social</groupId>
-            <artifactId>social-test</artifactId>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-        </dependency>
+        <!-- Servlets -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
@@ -55,15 +59,6 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.easymock</groupId>
-            <artifactId>easymock</artifactId>
-            <version>3.4</version>
         </dependency>
     </dependencies>
 

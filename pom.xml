@@ -19,6 +19,8 @@
         <module>social-rest</module>
         <module>social-app</module>
         <module>social-jpa</module>
+        <module>social-consumer-api</module>
+        <module>social-consumer-restimpl</module>
     </modules>
     <properties>
         <project.build.surceEncoding>UTF-8</project.build.surceEncoding>
@@ -81,6 +83,16 @@
             <dependency>
                 <groupId>com.epam.brest.course2015.social</groupId>
                 <artifactId>social-web</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.epam.brest.course2015.social</groupId>
+                <artifactId>social-consumer-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.epam.brest.course2015.social</groupId>
+                <artifactId>social-consumer-restimpl</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- Spring -->

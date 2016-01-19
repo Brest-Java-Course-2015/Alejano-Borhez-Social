@@ -1,15 +1,14 @@
 package com.epam.brest.course2015.social.app;
 
+import com.epam.brest.course2015.social.consumer.SocialConsumer;
 import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dto.SocialDto;
 import com.epam.brest.course2015.social.test.Logged;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -19,11 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class SocialWebController {
 
-    @Value("${rest.prefix}")
-    private String restPrefix;
-
     @Autowired
-    private RestTemplate restTemplate;
+    private SocialConsumer socialConsumer;
 
     @RequestMapping("/")
     public String init() {
@@ -33,13 +29,7 @@ public class SocialWebController {
     @RequestMapping("/users")
     @Logged
     public ModelAndView getAllUsers() {
-        String url = restPrefix + "userdto";
-        SocialDto dto = restTemplate
-                        .getForEntity(
-                        url
-                        , SocialDto.class
-                        )
-                        .getBody();
+        SocialDto dto = socialConsumer.getAllUsers();
         return new ModelAndView("users", "dto", dto);
     }
 
@@ -49,15 +39,11 @@ public class SocialWebController {
                                           String dateMin,
                                           @RequestParam("datemax")
                                           String dateMax) {
-        String url = restPrefix + "/userdtobydate"
-                    + "?datemin="
-                    + dateMin
-                    + "&datemax="
-                    + dateMax;
-        SocialDto dto = restTemplate.getForEntity(
-                    url
-                  , SocialDto.class)
-                   .getBody();
+        SocialDto dto = socialConsumer
+                .getAllUsersByDate(
+                        dateMin
+                        , dateMax
+                );
         return new ModelAndView("usersbydate", "dto", dto);
     }
 
@@ -65,16 +51,7 @@ public class SocialWebController {
     @Logged
     public ModelAndView getAllFriends(@RequestParam("id")
                                       Integer id) {
-
-        String url = restPrefix
-                + "/friendsdto"
-                + "?id="
-                + id;
-        SocialDto dto = restTemplate
-                .getForEntity(
-                 url
-                , SocialDto.class)
-                .getBody();
+        SocialDto dto = socialConsumer.getAllFriends(id);
         return new ModelAndView("friends", "dto", dto);
     }
 
@@ -84,15 +61,7 @@ public class SocialWebController {
                                Integer id1,
                                @RequestParam("id2")
                                Integer id2) {
-
-        String url = restPrefix
-                + "/user/friendship"
-                + "?id1="
-                + id1
-                + "&id2="
-                + id2;
-
-        restTemplate.delete(url);
+        socialConsumer.deleteFriend(id1, id2);
         return "forward:/friends?id=" + id1;
     }
 
@@ -102,51 +71,22 @@ public class SocialWebController {
                                        Integer id1,
                                 @RequestParam("id2")
                                        Integer id2) {
-        String url = restPrefix
-                + "user/friendship"
-                + "?id1="
-                + id1
-                + "&id2="
-                + id2;
-
-        restTemplate.postForObject(url, null, String.class);
-
+        socialConsumer.addFriendship(id1, id2);
         return "forward:/nofriends?id=" + id1;
-
     }
 
     @RequestMapping("/user")
     @Logged
     public ModelAndView getUser(@RequestParam("id")
                                        Integer id) {
-        String url = restPrefix
-                + "friendsdto"
-                + "?id="
-                + id;
-
-        SocialDto dto =
-                restTemplate
-                .getForEntity(
-                        url
-                        , SocialDto.class)
-                .getBody();
+        SocialDto dto = socialConsumer.getUser(id);
         return new ModelAndView("user", "dto", dto);
-
     }
 
     @RequestMapping("/addusersubmit")
     @Logged
     public String addUserSubmit(@RequestBody User user) {
-        String url = restPrefix
-                + "user";
-
-        Integer userId = restTemplate
-                .postForObject(
-                        url
-                        , user
-                        , Integer.class
-                );
-
+        socialConsumer.addUserSubmit(user);
         return "forward:/users";
     }
 
@@ -160,14 +100,7 @@ public class SocialWebController {
     @Logged
     public String deleteUser(@RequestParam("id")
                                     Integer id) {
-
-        String url = restPrefix
-                + "user"
-                + "?id="
-                + id;
-
-        restTemplate.delete(url);
-
+        socialConsumer.deleteUser(id);
         return "forward:/users";
     }
 
@@ -177,16 +110,7 @@ public class SocialWebController {
                                  Integer id,
                                  @RequestParam("password")
                                  String password) {
-
-        String url = restPrefix
-                + "user/password"
-                + "?id="
-                + id
-                + "&password="
-                + password;
-
-        restTemplate.put(url, null);
-
+        socialConsumer.changePassword(id, password);
         return "forward:/user?id=" + id;
     }
 
@@ -196,15 +120,7 @@ public class SocialWebController {
                               Integer id,
                               @RequestParam("login")
                               String login) {
-        String url = restPrefix
-                + "user/login"
-                + "?id="
-                + id
-                + "&login="
-                + login;
-
-        restTemplate.put(url, null);
-
+        socialConsumer.changeLogin(id, login);
         return "forward:/user?id=" + id;
     }
 
@@ -214,16 +130,7 @@ public class SocialWebController {
                                          Integer id,
                                   @RequestParam("firstname")
                                           String firstname) {
-
-        String url = restPrefix
-                + "user/firstname"
-                + "?id="
-                + id
-                + "&firstname="
-                + firstname;
-
-        restTemplate.put(url, null);
-
+        socialConsumer.changeFirstName(id, firstname);
         return "forward:/user?id=" + id;
     }
 
@@ -233,16 +140,7 @@ public class SocialWebController {
                                         Integer id,
                                  @RequestParam("lastname")
                                          String lastname) {
-
-        String url = restPrefix
-                + "user/lastname"
-                + "?id="
-                + id
-                + "&lastname="
-                + lastname;
-
-        restTemplate.put(url, null);
-
+        socialConsumer.changeLastName(id, lastname);
         return "forward:/user?id=" + id;
     }
 
@@ -251,13 +149,7 @@ public class SocialWebController {
     public ModelAndView getAllNoFriendsOfAUser(@RequestParam("id")
                                                       Integer id) {
 
-        String url = restPrefix
-                + "/nofriendsdto"
-                + "?id="
-                + id;
-
-        SocialDto dto = restTemplate
-                .getForObject(url, SocialDto.class);
+        SocialDto dto = socialConsumer.getAllNoFriendsOfAUser(id);
         return new ModelAndView("nofriends", "dto", dto);
     }
 
