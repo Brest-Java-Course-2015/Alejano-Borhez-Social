@@ -5,12 +5,11 @@ import com.epam.brest.course2015.social.dao.UserDao;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -74,6 +73,7 @@ public class UserDaoJPATest {
         Integer i = userDao.addUser(testUser);
         assertNotNull(i);
         assertTrue(i > 0);
+        assertNotNull(userDao.getUserById(i).getCreatedDate());
     }
 
     @Test
@@ -97,6 +97,11 @@ public class UserDaoJPATest {
     public void testGetUserByLogin() throws Exception {
         User user = userDao.getUserByLogin("alejano_borhez");
         assertEquals(user.getLogin(), "alejano_borhez");
+    }
+
+    @Test(expected = EmptyResultDataAccessException.class)
+    public void testGetUserByWrongLogin() throws Exception {
+        User user = userDao.getUserByLogin("alejano");
     }
 
     @Test

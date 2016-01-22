@@ -4,12 +4,12 @@ import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dao.UserDao;
 import com.epam.brest.course2015.social.test.Logged;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 
@@ -21,23 +21,9 @@ public class UserDaoJPA implements UserDao {
     @Value("${user.selectAllUsers}")
     private String selectAllUsers;
     @Value("${user.selectAllUsersByDate}")
-    private String getSelectAllUsersByDate;
-    @Value("${user.selectById}")
-    private String selectUserById;
+    private String SelectAllUsersByDate;
     @Value("${user.selectByLogin}")
     private String selectUserByLogin;
-    @Value("${user.deleteUser}")
-    private String deleteUser;
-    @Value("${user.addUser}")
-    private String addUser;
-    @Value("${user.changePassword}")
-    private String changePassword;
-    @Value("${user.changeLogin}")
-    private String changeLogin;
-    @Value("${user.changeFirstName}")
-    private String changeFirstName;
-    @Value("${user.changeLastName}")
-    private String changeLastName;
     @Value("${friend.findFriends}")
     private String selectFriendship;
     @Value("${user.getCountOfUsers}")
@@ -90,7 +76,6 @@ public class UserDaoJPA implements UserDao {
 
     @Override
     @Logged
-    @Transactional("transactionManagerUser")
     public void deleteUser(Integer id) {
         entityManagerUser.remove(getUserById(id));
     }
@@ -99,7 +84,7 @@ public class UserDaoJPA implements UserDao {
     @Logged
     public List<User> getFriends(Integer id) {
         List<User> list = entityManagerUser
-                .createNativeQuery(selectFriendship, User.class)
+                .createQuery(selectFriendship, User.class)
                 .setParameter("userId", id)
                 .getResultList();
         return list;
@@ -109,7 +94,7 @@ public class UserDaoJPA implements UserDao {
     @Logged
     public List<User> getAllUsers() {
         List<User> list = entityManagerUser
-                .createNativeQuery(selectAllUsers, User.class)
+                .createQuery(selectAllUsers, User.class)
                 .getResultList();
         return list;
     }
@@ -118,7 +103,7 @@ public class UserDaoJPA implements UserDao {
     @Logged
     public List<User> getAllUsers(Date dateMin, Date dateMax) {
         List<User> list = entityManagerUser
-                .createNativeQuery(getSelectAllUsersByDate, User.class)
+                .createQuery(SelectAllUsersByDate, User.class)
                 .setParameter("dateMin", dateMin)
                 .setParameter("dateMax", dateMax)
                 .getResultList();
@@ -131,33 +116,37 @@ public class UserDaoJPA implements UserDao {
         return entityManagerUser.find(User.class, id);
     }
 
-//    Временные костыли
     @Override
     @Logged
     public User getUserByLogin(String login) {
-        List<User> user = entityManagerUser
-                .createNativeQuery(selectUserByLogin, User.class)
-                .setParameter("login", login)
-                .getResultList();
-        return user.get(0);
+        try {
+            User user = entityManagerUser
+                    .createQuery(selectUserByLogin, User.class)
+                    .setParameter("login", login)
+                    .getSingleResult();
+            return user;
+        } catch (NoResultException e) {
+            e.printStackTrace();
+            throw new EmptyResultDataAccessException(login, 1);
+        }
     }
 
     @Override
     @Logged
     public Integer getCountOfUsers() {
-        BigInteger big = (BigInteger) entityManagerUser
-                .createNativeQuery(getCountOfUsers)
+        Long count = (Long) entityManagerUser
+                .createQuery(getCountOfUsers)
                 .getSingleResult();
-        return big.intValue();
+        return count.intValue();
     }
 
     @Override
     @Logged
     public Integer getCountOfUserFriends(Integer id) {
-        BigInteger big = (BigInteger) entityManagerUser
-                .createNativeQuery(getCountOfUserFriends)
+        Long count = (Long) entityManagerUser
+                .createQuery(getCountOfUserFriends)
                 .setParameter("userId", id)
                 .getSingleResult();
-        return big.intValue();
+        return count.intValue();
     }
 }

@@ -14,7 +14,7 @@
         <property name="locations">
             <list>
                 <value>classpath:database.properties</value>
-                <value>classpath:app.properties</value>
+                <value>classpath:app-jpa.properties</value>
             </list>
         </property>
     </bean>

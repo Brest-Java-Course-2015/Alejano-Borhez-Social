@@ -78,7 +78,12 @@ public class SocialRestController {
     @ResponseStatus(value = HttpStatus.CREATED)
     @Logged
     public Integer addUser(@RequestBody User user) {
-        return socialService.addUser(user);
+        User addedUser = new User(user.getLogin(),
+                user.getPassword(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getAge());
+        return socialService.addUser(addedUser);
     }
 
     @RequestMapping(value = "/user/password",

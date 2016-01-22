@@ -163,4 +163,23 @@ public class User {
         this.userId = userId;
     }
 
+    @Override
+    public String toString() {
+        String user = "Id: "
+            + userId
+            + "; login: "
+            + login
+            + "; firstname: "
+            + firstName
+            + "; lastname: "
+            + lastName
+            + "; age: "
+            + age
+            + "; createdDate: "
+            + createdDate
+            + "; updatedDate: "
+            + updatedDate;
+
+        return user;
+    }
 }
