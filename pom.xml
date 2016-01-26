@@ -21,6 +21,8 @@
         <module>social-jpa</module>
         <module>social-consumer-api</module>
         <module>social-consumer-restimpl</module>
+        <module>social-soap</module>
+        <module>social-consumer-soapimpl</module>
     </modules>
     <properties>
         <project.build.surceEncoding>UTF-8</project.build.surceEncoding>
@@ -82,6 +84,11 @@
             </dependency>
             <dependency>
                 <groupId>com.epam.brest.course2015.social</groupId>
+                <artifactId>social-soap</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.epam.brest.course2015.social</groupId>
                 <artifactId>social-web</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -93,6 +100,11 @@
             <dependency>
                 <groupId>com.epam.brest.course2015.social</groupId>
                 <artifactId>social-consumer-restimpl</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.epam.brest.course2015.social</groupId>
+                <artifactId>social-consumer-soapimpl</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- Spring -->
@@ -121,6 +133,26 @@
                 <artifactId>spring-aspects</artifactId>
                 <version>${spring.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.ws</groupId>
+                <artifactId>spring-ws</artifactId>
+                <version>2.1.4.RELEASE</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.ws</groupId>
+                <artifactId>spring-ws-core</artifactId>
+                <version>2.2.2.RELEASE</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.xml.bind</groupId>
+                <artifactId>jaxb-core</artifactId>
+                <version>2.2.11</version>
+            </dependency>
+            <dependency>
+                <groupId>wsdl4j</groupId>
+                <artifactId>wsdl4j</artifactId>
+                <version>1.6.3</version>
+            </dependency>
             <!-- Database -->
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -132,7 +164,7 @@
                 <artifactId>hsqldb</artifactId>
                 <version>${hsqldb.version}</version>
             </dependency>
-            <!-- Test -->
+            <!-- Testing -->
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-test</artifactId>

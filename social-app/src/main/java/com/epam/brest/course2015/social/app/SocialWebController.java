@@ -21,6 +21,12 @@ public class SocialWebController {
     @Autowired
     private SocialConsumer socialConsumer;
 
+    @RequestMapping("/hello")
+    @Logged
+    public ModelAndView sayHello() {
+        return new ModelAndView("hello", "hello", socialConsumer.hello());
+    }
+
     @RequestMapping("/")
     public String init() {
         return "redirect:users";

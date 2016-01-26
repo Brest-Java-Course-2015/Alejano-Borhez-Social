@@ -15,7 +15,7 @@ import java.util.Date;
  * {@link User} class is one of entities of my Simple-Social-Network
  * study project.
  *
- *  Class is ready to use as Entity in JPA to persist data in database
+ *  Class is ready to use as Entity in Dao-JPA Implementation to persist data in database
  *
  */
 @Entity

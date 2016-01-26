@@ -14,10 +14,12 @@
     <packaging>war</packaging>
 
     <dependencies>
+        <!-- Social app -->
         <dependency>
             <groupId>com.epam.brest.course2015.social</groupId>
             <artifactId>social-service</artifactId>
         </dependency>
+        <!-- Spring -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
@@ -30,10 +32,12 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
         </dependency>
+        <!-- Serializing/deserializing -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
         </dependency>
+        <!-- Testing -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -48,12 +52,13 @@
             <groupId>com.epam.brest.course2015.social</groupId>
             <artifactId>social-test</artifactId>
         </dependency>
+        <!-- Servlet -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
         </dependency>
     </dependencies>
-
+<!-- Jetty plugin localhost:8081/rest -->
     <build>
         <plugins>
             <plugin>

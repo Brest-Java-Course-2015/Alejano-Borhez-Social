@@ -88,6 +88,11 @@ public class SocialConsumerRestImpl implements SocialConsumer {
     }
 
     @Override
+    public String hello() {
+        return "Hello!";
+    }
+
+    @Override
     @Logged
     public SocialDto getUser(Integer id) {
         String url = restPrefix
