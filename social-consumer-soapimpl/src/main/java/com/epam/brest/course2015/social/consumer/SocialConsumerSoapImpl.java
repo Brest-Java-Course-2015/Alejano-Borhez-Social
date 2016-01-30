@@ -2,17 +2,16 @@ package com.epam.brest.course2015.social.consumer;
 
 import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dto.SocialDto;
-import org.springframework.ws.server.endpoint.annotation.Endpoint;
 
 /**
  * Created by alexander on 26.1.16.
  */
 
-@Endpoint
 public class SocialConsumerSoapImpl implements SocialConsumer {
+
     @Override
     public String hello() {
-        return "Hello!";
+        return "hello";
     }
 
     @Override

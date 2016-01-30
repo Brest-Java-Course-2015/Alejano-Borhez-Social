@@ -52,4 +52,7 @@ public class SocialDto {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public SocialDto () { }
+
 }
