@@ -2,6 +2,7 @@ package com.epam.brest.course2015.social.consumer;
 
 import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dto.SocialDto;
+import com.epam.brest.course2015.social.dto.*;
 
 /**
  * Created by alexander on 26.1.16.
@@ -9,9 +10,11 @@ import com.epam.brest.course2015.social.dto.SocialDto;
 
 public class SocialConsumerSoapImpl implements SocialConsumer {
 
-    @Override
+    SocialWebService webService = new SocialWebServiceService().getSocialWebServicePort();
+
+
     public String hello() {
-        return "hello";
+        return webService.sayHello();
     }
 
     @Override
@@ -21,7 +24,7 @@ public class SocialConsumerSoapImpl implements SocialConsumer {
 
     @Override
     public SocialDto getAllUsers() {
-        return null;
+        return webService.getAllUsers();
     }
 
     @Override

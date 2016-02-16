@@ -4,6 +4,10 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
          http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
+    <listener>
+        <listener-class></listener-class>
+    </listener>
+    
     <servlet>
         <servlet-name>soapDispatcherServlet</servlet-name>
         <servlet-class>org.springframework.ws.transport.http.MessageDispatcherServlet</servlet-class>

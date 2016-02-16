@@ -168,6 +168,11 @@
                 <artifactId>wsdl4j</artifactId>
                 <version>1.6.3</version>
             </dependency>
+            <dependency>
+                <groupId>org.kie.modules</groupId>
+                <artifactId>javax-ws-rs</artifactId>
+                <version>6.3.0.Final</version>
+            </dependency>
             <!-- Database -->
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -226,6 +231,7 @@
                 <artifactId>jstl</artifactId>
                 <version>1.2</version>
             </dependency>
+
             <!-- Persistence -->
             <dependency>
                 <groupId>org.hibernate.javax.persistence</groupId>
