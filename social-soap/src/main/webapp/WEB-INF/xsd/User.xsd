@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://epam.com/brest/course2015/social/core"
+           targetNamespace="http://epam.com/brest/course2015/social/core"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+    <xs:element name="user" type="user"/>
+
+    <xs:complexType name="user">
+        <xs:sequence>
+            <xs:element name="age" type="xs:int" minOccurs="0"/>
+            <xs:element name="createdDate" type="xs:dateTime" minOccurs="0"/>
+            <xs:element name="firstName" type="xs:string" minOccurs="0"/>
+            <xs:element name="lastName" type="xs:string" minOccurs="0"/>
+            <xs:element name="login" type="xs:string" minOccurs="0"/>
+            <xs:element name="password" type="xs:string" minOccurs="0"/>
+            <xs:element name="totalFriends" type="xs:int" minOccurs="0"/>
+            <xs:element name="updatedDate" type="xs:dateTime" minOccurs="0"/>
+            <xs:element name="userId" type="xs:int" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

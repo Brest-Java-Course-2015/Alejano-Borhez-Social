@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:user="http://epam.com/brest/course2015/social/core"
+           xmlns="http://epam.com/brest/course2015/social/dto"
+           targetNamespace="http://epam.com/brest/course2015/social/dto"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+    <xs:import namespace="http://epam.com/brest/course2015/social/core"
+               schemaLocation="User.xsd"/>
+    <xs:element name="socialDto" type="socialDto"/>
+    <xs:complexType name="socialDto">
+        <xs:sequence>
+            <xs:element name="totalUsers" type="xs:int" minOccurs="0"/>
+            <xs:element name="user" type="user:user" minOccurs="0"/>
+            <xs:element name="users" type="user:user" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

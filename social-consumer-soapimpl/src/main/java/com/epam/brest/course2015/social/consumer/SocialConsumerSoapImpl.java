@@ -1,6 +1,7 @@
 package com.epam.brest.course2015.social.consumer;
 
 import com.epam.brest.course2015.social.core.User;
+import com.epam.brest.course2015.social.soap.*;
 import com.epam.brest.course2015.social.dto.SocialDto;
 import com.epam.brest.course2015.social.dto.*;
 

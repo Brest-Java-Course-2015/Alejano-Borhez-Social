@@ -39,7 +39,7 @@
 
     <bean id="socialLogger" class="com.epam.brest.course2015.social.test.SocialLogger"/>
 
-    <bean id="socialConsumer" class="com.epam.brest.course2015.social.consumer.SocialConsumerSoapImpl"/>
+    <bean id="socialConsumer" class="com.epam.brest.course2015.social.consumer.SocialConsumerRestImpl"/>
 
     <bean id="restTemplate" class="org.springframework.web.client.RestTemplate"/>
 

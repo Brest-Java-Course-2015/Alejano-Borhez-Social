@@ -4,23 +4,47 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
          http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
-    <listener>
-        <listener-class></listener-class>
-    </listener>
+<context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>/WEB-INF/spring-config/social-soap-spring.xml</param-value>
+</context-param>
+
+<listener>
+     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+</listener>
     
     <servlet>
-        <servlet-name>soapDispatcherServlet</servlet-name>
+        <servlet-name>webservice</servlet-name>
         <servlet-class>org.springframework.ws.transport.http.MessageDispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>/WEB-INF/social-soap-spring.xml</param-value>
+            <param-value></param-value>
         </init-param>
+        <init-param>
+            <param-name>transformWsdlLocations</param-name>
+            <param-value>true</param-value>
+        </init-param>
+
         <load-on-startup>1</load-on-startup>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>soapDispatcherServlet</servlet-name>
-        <url-pattern>/</url-pattern>
+        <servlet-name>webservice</servlet-name>
+        <url-pattern>*.wsdl</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>webservice</servlet-name>
+        <url-pattern>/endpoints/*</url-pattern>
+    </servlet-mapping>
+
+    <mime-mapping>
+        <extension>wsdl</extension>
+        <mime-type>text/xml</mime-type>
+    </mime-mapping>
+
+    <mime-mapping>
+        <extension>xsd</extension>
+        <mime-type>text/xml</mime-type>
+    </mime-mapping>
 
 </web-app>

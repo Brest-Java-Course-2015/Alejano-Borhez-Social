@@ -1,36 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns="http://www.springframework.org/schema/beans"
-       xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
-       http://www.springframework.org/schema/jdbc
-       http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
-       http://www.springframework.org/schema/mvc
-       http://www.springframework.org/schema/mvc/spring-mvc.xsd
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd
        http://www.springframework.org/schema/aop
-       http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/jdbc
+       http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
        http://www.springframework.org/schema/tx
 	   http://www.springframework.org/schema/tx/spring-tx.xsd
        ">
 
+    <!--<import resource="classpath*:test-spring-db.xml"/>-->
+
+    <!--<bean id="marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller"/>
+
+    <bean id="webServiceTemplate" class="org.springframework.ws.client.core.WebServiceTemplate">
+        <property name="marshaller" ref="marshaller"/>
+        <property name="unmarshaller" ref="marshaller"/>
+        <property name="defaultUri" value="http://localhost:8081/soap"/>
+    </bean>
+-->
+    <aop:aspectj-autoproxy/>
+
+    <bean id="socialLogger" class="com.epam.brest.course2015.social.test.SocialLogger"/>
+
     <context:component-scan base-package="com.epam.brest.course2015.social"/>
 
-    <mvc:annotation-driven/>
-
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <!--<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
             <list>
                 <value>classpath:app-jpa.properties</value>
                 <value>classpath:database.properties</value>
                 <value>classpath:app-service.properties</value>
-                <value>classpath:social-soap.properties</value>
             </list>
         </property>
     </bean>
@@ -49,7 +57,7 @@
 
 
 
-    <!-- JPA -->
+    &lt;!&ndash; JPA &ndash;&gt;
 
     <tx:annotation-driven transaction-manager="transactionManagerUser"/>
 
@@ -73,9 +81,11 @@
         <property name="entityManagerFactory" ref="entityManagerFactoryFriendship" />
     </bean>
 
-    <!-- JPA -->
+    &lt;!&ndash; JPA &ndash;&gt;
     <bean id="user" class="com.epam.brest.course2015.social.core.User"/>
     <bean id="userDao" class="com.epam.brest.course2015.social.jpa.UserDaoJPA">
+        &lt;!&ndash;<property name="entityManagerFactory" ref="entityManagerFactory"/>&ndash;&gt;
+
     </bean>
     <bean id="friendship" class="com.epam.brest.course2015.social.core.Friendship"/>
     <bean id="friendshipDao" class="com.epam.brest.course2015.social.jpa.FriendshipDaoJPA"/>
@@ -84,13 +94,6 @@
     <bean id="socialService" class="com.epam.brest.course2015.social.service.SocialServiceImpl">
         <property name="userDao" ref="userDao"/>
         <property name="friendshipDao" ref="friendshipDao"/>
-    </bean>
-
-    <!-- SOAP -->
-
-
-    <!-- AOP for logger -->
-    <aop:aspectj-autoproxy/>
-    <bean id="socialLogger" class="com.epam.brest.course2015.social.test.SocialLogger"/>
+    </bean>-->
 
 </beans>

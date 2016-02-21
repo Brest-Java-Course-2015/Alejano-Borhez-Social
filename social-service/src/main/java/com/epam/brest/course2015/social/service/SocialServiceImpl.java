@@ -9,6 +9,7 @@ import com.epam.brest.course2015.social.test.Logged;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -20,7 +21,7 @@ import java.util.List;
 /**
  * Created by alexander on 6.11.15.
  */
-
+@Service
 @Transactional
 public class SocialServiceImpl implements SocialService {
     private UserDao userDao;

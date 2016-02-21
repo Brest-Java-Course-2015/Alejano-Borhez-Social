@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:sws="http://www.springframework.org/schema/web-services"
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/jdbc
+       http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+       http://www.springframework.org/schema/tx
+	   http://www.springframework.org/schema/tx/spring-tx.xsd
+	   http://www.springframework.org/schema/web-services
+       http://www.springframework.org/schema/web-services/web-services-2.0.xsd
+       ">
+
+    <context:component-scan base-package="com.epam.brest.course2015.social"/>
+    <sws:annotation-driven/>
+
+    <!-- Publishing WSDL -->
+    <bean name="socialwebservice"
+          class="org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition"
+          >
+        <!--<property name="schema">
+            <bean class="org.springframework.xml.xsd.SimpleXsdSchema">
+                <property name="xsd" value="/WEB-INF/xsd/SocialWebService.xsd"/>
+            </bean>
+        </property>-->
+        <property name="schemaCollection" ref="schemas"/>
+        <property name="portTypeName" value="SocialWebService" />
+        <property name="serviceName" value="SocialWebService"/>
+        <property name="locationUri" value="/endpoints" />
+    </bean>
+
+    <bean id="schemas" class="org.springframework.xml.xsd.commons.CommonsXsdSchemaCollection">
+        <property name="xsds">
+            <list>
+                <value>WEB-INF/xsd/User.xsd</value>
+                <value>WEB-INF/xsd/SocialDto.xsd</value>
+                <value>WEB-INF/xsd/SocialWebService.xsd</value>
+            </list>
+        </property>
+
+        <property name="inline" value="true" />
+
+    </bean>
+
+    <!--<bean class="org.springframework.ws.server.endpoint.adapter.GenericMarshallingMethodEndpointAdapter">
+        <property name="marshaller" ref="marshaller" />
+        <property name="unmarshaller" ref="marshaller" />
+    </bean>
+
+    <bean id="marshaller" class="org.springframework.oxm.xmlbeans.XmlBeansMarshaller"/>
+
+    <sws:dynamic-wsdl id="SocialWebService" portTypeName="SocialWebService" locationUri="/enpoints" >
+
+        <sws:xsd location="WEB-INF/xsd/User.xsd"/>
+        <sws:xsd location="WEB-INF/xsd/SocialDto.xsd"/>
+        <sws:xsd location="/WEB-INF/xsd/SocialWebService.xsd" />
+    </sws:dynamic-wsdl>-->
+
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:app-jpa.properties</value>
+                <value>classpath:database.properties</value>
+                <value>classpath:app-service.properties</value>
+                <value>classpath:social-soap.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${jdbc.driverClassName}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+
+    <jdbc:initialize-database data-source="dataSource">
+        <jdbc:script location="classpath:create-tables.sql"/>
+        <jdbc:script location="classpath:data-script.sql"/>
+    </jdbc:initialize-database>
+
+    <!-- JPA -->
+
+    <tx:annotation-driven transaction-manager="transactionManagerUser"/>
+
+    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
+
+    <bean id="entityManagerFactoryUser"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitName" value="social-user"/>
+    </bean>
+
+    <bean id="transactionManagerUser" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactoryUser" />
+    </bean>
+
+    <bean id="entityManagerFactoryFriendship"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitName" value="social-friendship"/>
+    </bean>
+
+    <bean id="transactionManagerFriendship" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactoryFriendship" />
+    </bean>
+
+    <!-- JPA -->
+    <bean id="user" class="com.epam.brest.course2015.social.core.User"/>
+    <bean id="userDao" class="com.epam.brest.course2015.social.jpa.UserDaoJPA">
+    </bean>
+    <bean id="friendship" class="com.epam.brest.course2015.social.core.Friendship"/>
+    <bean id="friendshipDao" class="com.epam.brest.course2015.social.jpa.FriendshipDaoJPA"/>
+    <bean id="socialDto" class="com.epam.brest.course2015.social.dto.SocialDto"/>
+
+    <bean id="socialService" class="com.epam.brest.course2015.social.service.SocialServiceImpl">
+        <property name="userDao" ref="userDao"/>
+        <property name="friendshipDao" ref="friendshipDao"/>
+    </bean>
+
+    <!-- AOP for logger -->
+    <aop:aspectj-autoproxy/>
+    <bean id="socialLogger" class="com.epam.brest.course2015.social.test.SocialLogger"/>
+
+</beans>
