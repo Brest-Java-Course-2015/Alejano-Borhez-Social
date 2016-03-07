@@ -67,7 +67,7 @@
 
                 </configuration>
             </plugin>-->
-            <plugin>
+            <!--<plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jaxb2-maven-plugin</artifactId>
                 <version>2.2</version>
@@ -88,7 +88,7 @@
                     </sources>
                     <enableIntrospection>false</enableIntrospection>
                 </configuration>
-            </plugin>
+            </plugin>-->
         </plugins>
     </build>
 

@@ -9,7 +9,10 @@
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>/WEB-INF/social-rest-spring.xml</param-value>
+            <!-- JPA Config -->
+            <param-value>/WEB-INF/social-rest-spring-jpa.xml</param-value>
+            <!-- JDBC Config -->
+            <!--<param-value>/WEB-INF/social-rest-spring-jdbc.xml</param-value>-->
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>

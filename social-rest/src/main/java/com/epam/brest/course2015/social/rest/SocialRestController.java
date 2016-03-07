@@ -21,7 +21,6 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-
 public class SocialRestController {
 
     @Autowired
