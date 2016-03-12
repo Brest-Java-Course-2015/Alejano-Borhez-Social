@@ -21,7 +21,8 @@
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/spring/spring-app-context.xml</param-value>
+        <param-value>/WEB-INF/spring/spring-app-context-Socket.xml</param-value>
+        <!--<param-value>/WEB-INF/spring/spring-app-context-Rest.xml</param-value>-->
     </context-param>
 
     <listener>

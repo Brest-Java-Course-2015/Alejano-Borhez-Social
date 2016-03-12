@@ -65,24 +65,9 @@ function goHome() {
 
 function addUser() {
     console.log('addUser');
+    var socket = new SockJS("/socket");
+    stompClient = Stomp.over(socket);
 
-    $.ajax({
-        type: 'POST',
-        contentType: 'application/json',
-        url: '<c:url value="/addusersubmit"/>',
-        data: formToJSON(),
-        success: function () {
-            alert('Пользователь успешно добавлен');
-            if (confirm("Хотите добавить ещё одного пользователя?")) {
-
-            } else {
-            goHome();
-            }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            alert('addUser error: ' + textStatus + ': ' + errorThrown);
-        }
-    });
 }
 
 function formToJSON() {

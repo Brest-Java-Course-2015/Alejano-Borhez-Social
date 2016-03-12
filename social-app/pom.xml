@@ -33,12 +33,20 @@
         </dependency>
         <dependency>
             <groupId>com.epam.brest.course2015.social</groupId>
+            <artifactId>social-consumer-socketimpl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.epam.brest.course2015.social</groupId>
             <artifactId>social-test</artifactId>
         </dependency>
         <!-- Spring -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-messaging</artifactId>
         </dependency>
         <!-- Testing -->
         <dependency>

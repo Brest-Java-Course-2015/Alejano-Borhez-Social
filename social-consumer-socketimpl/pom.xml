@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>Social</artifactId>
+        <groupId>com.epam.brest.course2015.social</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>social-consumer-socketimpl</artifactId>
+    <name>${project.artifactId}</name>
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <!-- Social -->
+        <dependency>
+            <groupId>com.epam.brest.course2015.social</groupId>
+            <artifactId>social-consumer-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.epam.brest.course2015.social</groupId>
+            <artifactId>social-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.epam.brest.course2015.social</groupId>
+            <artifactId>social-test</artifactId>
+        </dependency>
+        <!-- Messaging -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-messaging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-websocket</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

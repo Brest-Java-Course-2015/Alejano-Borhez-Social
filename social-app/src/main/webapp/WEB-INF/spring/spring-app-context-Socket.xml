@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/mvc
@@ -39,8 +39,6 @@
 
     <bean id="socialLogger" class="com.epam.brest.course2015.social.test.SocialLogger"/>
 
-    <bean id="socialConsumer" class="com.epam.brest.course2015.social.consumer.SocialConsumerRestImpl"/>
-
-    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate"/>
+    <bean id="socialConsumer" class="com.epam.brest.course2015.social.consumer.SocialConsumerSocketImpl"/>
 
 </beans>
