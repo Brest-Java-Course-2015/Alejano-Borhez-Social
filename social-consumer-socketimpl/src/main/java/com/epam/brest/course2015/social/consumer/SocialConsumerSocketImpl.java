@@ -2,15 +2,18 @@ package com.epam.brest.course2015.social.consumer;
 
 import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dto.SocialDto;
+import com.epam.brest.course2015.social.test.Logged;
 
 /**
  * Created by alexander on 12.3.16.
  */
 public class SocialConsumerSocketImpl implements SocialConsumer {
 
+
     @Override
+    @Logged
     public String hello() {
-        return null;
+        return "Hello";
     }
 
     @Override

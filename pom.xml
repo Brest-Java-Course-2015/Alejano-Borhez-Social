@@ -24,6 +24,7 @@
         <module>social-soap</module>
         <module>social-consumer-soapimpl</module>
         <module>social-consumer-socketimpl</module>
+        <module>social-websocket</module>
     </modules>
     <properties>
         <project.build.surceEncoding>UTF-8</project.build.surceEncoding>
@@ -33,6 +34,7 @@
         <hsqldb.version>2.3.3</hsqldb.version>
         <jackson.databind.version>2.4.3</jackson.databind.version>
         <hibernate.version>5.0.2.Final</hibernate.version>
+        <jetty-version>9.2.7.v20150116</jetty-version>
     </properties>
 
     <dependencyManagement>
@@ -111,6 +113,11 @@
             <dependency>
                 <groupId>com.epam.brest.course2015.social</groupId>
                 <artifactId>social-consumer-socketimpl</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.epam.brest.course2015.social</groupId>
+                <artifactId>social-websocket</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- Spring -->
@@ -205,6 +212,47 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-websocket</artifactId>
                 <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-websocket</artifactId>
+                <version>8.1.16.v20140903</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-util</artifactId>
+                <version>9.3.5.v20151012</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-io</artifactId>
+                <version>9.3.5.v20151012</version>
+            </dependency>
+
+            <!-- To write basic websockets against -->
+            <dependency>
+                <groupId>org.eclipse.jetty.websocket</groupId>
+                <artifactId>websocket-api</artifactId>
+                <version>${jetty-version}</version>
+            </dependency>
+            <!-- To run websockets in embedded server -->
+            <dependency>
+                <groupId>org.eclipse.jetty.websocket</groupId>
+                <artifactId>websocket-server</artifactId>
+                <version>${jetty-version}</version>
+            </dependency>
+            <!-- To run websockets client -->
+            <dependency>
+                <groupId>org.eclipse.jetty.websocket</groupId>
+                <artifactId>websocket-client</artifactId>
+                <version>${jetty-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.jetty.websocket</groupId>
+                <artifactId>websocket-servlet</artifactId>
+                <version>${jetty-version}</version>
             </dependency>
 
             <!-- Database -->
