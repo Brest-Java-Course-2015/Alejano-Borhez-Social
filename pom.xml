@@ -17,7 +17,6 @@
         <module>social-service-api</module>
         <module>social-service</module>
         <module>social-rest</module>
-        <module>social-app</module>
         <module>social-jpa</module>
         <module>social-consumer-api</module>
         <module>social-consumer-restimpl</module>
@@ -25,6 +24,7 @@
         <module>social-consumer-soapimpl</module>
         <module>social-consumer-socketimpl</module>
         <module>social-websocket</module>
+        <module>social-app</module>
     </modules>
     <properties>
         <project.build.surceEncoding>UTF-8</project.build.surceEncoding>
@@ -123,7 +123,7 @@
             <!-- Spring -->
             <dependency>
                 <groupId>org.springframework</groupId>
-                <artifactId>spring-context</artifactId>
+                <artifactId>spring-core</artifactId>
                 <version>${spring.version}</version>
             </dependency>
             <dependency>
@@ -133,22 +133,12 @@
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
-                <artifactId>spring-web</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-webmvc</artifactId>
+                <artifactId>spring-context</artifactId>
                 <version>${spring.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-aspects</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-core</artifactId>
                 <version>${spring.version}</version>
             </dependency>
             <dependency>
@@ -165,6 +155,11 @@
             <dependency>
                 <groupId>org.springframework.ws</groupId>
                 <artifactId>spring-ws-core</artifactId>
+                <version>2.2.2.RELEASE</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.ws</groupId>
+                <artifactId>spring-xml</artifactId>
                 <version>2.2.2.RELEASE</version>
             </dependency>
             <dependency>
@@ -193,11 +188,6 @@
                 <version>2.0.2</version>
             </dependency>
             <dependency>
-                <groupId>org.springframework.ws</groupId>
-                <artifactId>spring-xml</artifactId>
-                <version>2.2.2.RELEASE</version>
-            </dependency>
-            <dependency>
                 <groupId>org.apache.xmlbeans</groupId>
                 <artifactId>xmlbeans</artifactId>
                 <version>2.4.0</version>
@@ -218,13 +208,11 @@
                 <artifactId>jetty-websocket</artifactId>
                 <version>8.1.16.v20140903</version>
             </dependency>
-
             <dependency>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-util</artifactId>
                 <version>9.3.5.v20151012</version>
             </dependency>
-
             <dependency>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-io</artifactId>
@@ -254,7 +242,6 @@
                 <artifactId>websocket-servlet</artifactId>
                 <version>${jetty-version}</version>
             </dependency>
-
             <!-- Database -->
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -312,6 +299,16 @@
                 <groupId>javax.servlet</groupId>
                 <artifactId>jstl</artifactId>
                 <version>1.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-web</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-webmvc</artifactId>
+                <version>${spring.version}</version>
             </dependency>
 
             <!-- Persistence -->
