@@ -4,8 +4,6 @@ package com.epam.brest.course2015.social.rest;
 import com.epam.brest.course2015.social.core.Friendship;
 import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dto.SocialDto;
-import com.epam.brest.course2015.social.rest.RestErrorHandler;
-import com.epam.brest.course2015.social.rest.SocialRestController;
 import com.epam.brest.course2015.social.service.SocialService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
@@ -15,24 +13,23 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import javax.annotation.Resource;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 
+import static org.easymock.EasyMock.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-import static org.easymock.EasyMock.*;
 
 
 /**
@@ -59,6 +56,9 @@ public class SocialRestControllerMockTest {
 
     @Autowired
     SocialService socialService;
+
+    @Autowired
+    SimpMessagingTemplate socialMessaging;
 
     @Before
     public void setUp() {
@@ -146,6 +146,7 @@ public class SocialRestControllerMockTest {
     @Test
     public void testAddUser() throws Exception {
         expect(socialService.addUser(anyObject(User.class))).andReturn(5);
+//        expectLastCall(socialMessaging.convertAndSend("", anyObject(User.class)));
         replay(socialService);
         String user = new ObjectMapper().writeValueAsString(new User());
         mockMvc.perform(

@@ -7,7 +7,8 @@ import com.epam.brest.course2015.social.service.SocialService;
 import com.epam.brest.course2015.social.test.Logged;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -23,8 +24,21 @@ import java.util.List;
 @RestController
 public class SocialRestController {
 
-    @Autowired
     private SocialService socialService;
+    private SimpMessagingTemplate socialMessaging;
+
+    @Autowired
+    public SocialRestController(SocialService socialService, SimpMessagingTemplate socialMessaging) {
+        this.socialService = socialService;
+        this.socialMessaging = socialMessaging;
+    }
+
+    @MessageMapping(value = "/hello")
+    @Logged
+    public String sayHello (String name) {
+        return "Hello, " + name + "!";
+    }
+
 
     @RequestMapping(value = "/users",
                     method = RequestMethod.GET)
@@ -82,6 +96,7 @@ public class SocialRestController {
                 user.getFirstName(),
                 user.getLastName(),
                 user.getAge());
+        socialMessaging.convertAndSend("/topic/update", addedUser);
         return socialService.addUser(addedUser);
     }
 

@@ -5,9 +5,9 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
 <script src="//cdn.jsdelivr.net/sockjs/1.0.3/sockjs.min.js"></script>
 <script language="javascript" type="text/javascript">
-  var wsUri = "http://localhost:8086/jetty/websocket/endpoint";
+  var wsUri = "http://localhost:8081/rest/websocket/endpoint";
   var output;
-
+  var realSocket;
   function init()
   {
     output = document.getElementById("output");
@@ -17,13 +17,18 @@
   function testWebSocket()
   {
     var websocket = new SockJS(wsUri);
-    var realSocket = Stomp.over(websocket);
+    realSocket = Stomp.over(websocket);
 
     var payload = JSON.stringify('hello');
 
+
+
     realSocket.connect('guest', 'guest', function() {
-      realSocket.send("/app/hello", {}, payload);
+      realSocket.subscribe("/topic/update");
     });
+
+
+
 
 
   }
@@ -34,4 +39,6 @@
   </script>
 
 <h2>WebSocket Test</h2>
+<div>
 
+</div>

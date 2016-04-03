@@ -12,7 +12,7 @@
 
         ">
 
-    <context:component-scan base-package="com.epam.brest.course2015.social.websocket"/>
+    <context:component-scan base-package="com.epam.brest.course2015.social.rest"/>
 
     <websocket:message-broker application-destination-prefix="/app">
         <websocket:stomp-endpoint path="websocket/endpoint" allowed-origins="*">
@@ -25,6 +25,5 @@
             <bean class="org.springframework.messaging.converter.MappingJackson2MessageConverter"/>
         </websocket:message-converters>
     </websocket:message-broker>
-
 
 </beans>
