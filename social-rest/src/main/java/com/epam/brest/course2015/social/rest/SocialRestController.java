@@ -96,8 +96,14 @@ public class SocialRestController {
                 user.getFirstName(),
                 user.getLastName(),
                 user.getAge());
-        socialMessaging.convertAndSend("/topic/update", addedUser);
-        return socialService.addUser(addedUser);
+        Integer addedUserId = socialService.addUser(addedUser);
+        SocialDto dto = socialService.getSocialUsersDto();
+        Integer totalUsers = dto.getTotalUsers();
+        addedUser.setUserId(addedUserId);
+        socialMessaging.convertAndSend("/topic/addeduser", addedUser);
+        socialMessaging.convertAndSend("/topic/totalusers", totalUsers);
+        return addedUserId;
+
     }
 
     @RequestMapping(value = "/user/password",

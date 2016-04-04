@@ -145,8 +145,10 @@ public class SocialRestControllerMockTest {
 
     @Test
     public void testAddUser() throws Exception {
-        expect(socialService.addUser(anyObject(User.class))).andReturn(5);
-//        expectLastCall(socialMessaging.convertAndSend("", anyObject(User.class)));
+        expect(socialService.addUser(anyObject(User.class)))
+        .andReturn(5);
+        expect(socialService.getSocialUsersDto())
+        .andReturn(new SocialDto());
         replay(socialService);
         String user = new ObjectMapper().writeValueAsString(new User());
         mockMvc.perform(

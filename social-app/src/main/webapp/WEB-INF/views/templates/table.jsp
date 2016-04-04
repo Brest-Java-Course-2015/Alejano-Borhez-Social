@@ -154,4 +154,6 @@ function gotoUser(userId) {
     window.location='<c:url value="user"/>' + '?id=' + userId;
 }
 
+
+
 </script>

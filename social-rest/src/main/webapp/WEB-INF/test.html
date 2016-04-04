@@ -10,7 +10,7 @@
   var realSocket;
   function init()
   {
-    output = document.getElementById("output");
+    output = document.getElementById("addedUser");
     testWebSocket();
   }
 
@@ -24,7 +24,7 @@
 
 
     realSocket.connect('guest', 'guest', function() {
-      realSocket.subscribe("/topic/update");
+      realSocket.subscribe("/topic/userdto");
     });
 
 
