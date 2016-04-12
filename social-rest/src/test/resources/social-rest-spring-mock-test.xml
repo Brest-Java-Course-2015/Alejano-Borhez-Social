@@ -9,11 +9,12 @@
     <bean id="socialService" class="org.easymock.EasyMock" factory-method="createMock">
         <constructor-arg value="com.epam.brest.course2015.social.service.SocialService"/>
     </bean>
-    <aop:aspectj-autoproxy/>
 
     <bean id="socialMessaging" class="org.easymock.EasyMock" factory-method="createMock">
         <constructor-arg value="org.springframework.messaging.simp.SimpMessagingTemplate"/>
     </bean>
+
+    <aop:aspectj-autoproxy/>
 
     <bean id="socialLogger" class="com.epam.brest.course2015.social.test.SocialLogger"/>
 

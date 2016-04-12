@@ -78,4 +78,15 @@ public class Friendship {
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
+
+    @Override
+    public String toString() {
+        String friendship = "friends: id1: "
+                + friend1Id
+                + ", id2: "
+                + friend2Id
+                + ", createdDate: "
+                + createdDate;
+        return friendship;
+    }
 }

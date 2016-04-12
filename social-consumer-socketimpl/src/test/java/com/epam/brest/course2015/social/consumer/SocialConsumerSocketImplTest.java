@@ -15,11 +15,11 @@ import static org.junit.Assert.assertNotNull;
 @ContextConfiguration(locations = {"classpath:test-spring-consumer-socket.xml"})
 public class SocialConsumerSocketImplTest {
     @Autowired
-    SocialConsumer consumer;
+    SocialConsumer socialConsumer;
 
     @Test
     public void testHello() throws Exception {
-        String hello = consumer.hello();
+        String hello = socialConsumer.hello();
         assertNotNull(hello);
         assertEquals(hello, "Hello");
     }

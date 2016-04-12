@@ -9,6 +9,14 @@ import com.epam.brest.course2015.social.test.Logged;
  */
 public class SocialConsumerSocketImpl implements SocialConsumer {
 
+//    @Autowired
+//    SocialMessageChannel messageChannel;
+
+//    @Autowired
+//    SimpAnnotationMethodMessageHandler messageHandler;
+
+
+
 
     @Override
     @Logged

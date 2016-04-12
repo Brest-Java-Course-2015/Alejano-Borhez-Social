@@ -1,8 +1,8 @@
 package com.epam.brest.course2015.social.dto;
 
+import com.epam.brest.course2015.social.core.SocialMessage;
 import com.epam.brest.course2015.social.core.User;
 import junit.framework.TestCase;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +18,13 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:test-spring-core.xml"})
 public class SocialDtoTest extends TestCase {
-    //Универсальный Логгер, который показывает имя тестового класса и имя тестового метода
     private static final Integer totalUsers = 5;
     @Autowired
     private SocialDto dto;
     @Autowired
     private User user;
+    @Autowired
+    private SocialMessage message;
 
     @Test
     public void testGetUsers() throws Exception {
@@ -48,5 +49,18 @@ public class SocialDtoTest extends TestCase {
         assertNotNull(dto.getUser());
         assertEquals(dto.getUser().getClass(), user.getClass());
     }
+
+  /*  @Test
+    public void testGetMessages() throws Exception {
+        List<SocialMessage> list = new ArrayList<>();
+        message.setUser1Id(1);
+        message.setUser2Id(2);
+        message.setMessage("Hello!");
+        list.add(message);
+        dto.setMessages(list);
+        assertNotNull(dto.getMessages());
+        assertEquals(dto.getMessages().get(0).getClass(), message.getClass());
+        assertEquals(dto.getMessages().size(), 1);
+    }*/
 
 }

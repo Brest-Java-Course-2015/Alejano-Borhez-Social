@@ -25,6 +25,7 @@ import java.util.List;
 public class SocialDto {
 //  Class variables declaration
     private List<User> users;
+//    private List<SocialMessage> messages;
     private Integer totalUsers;
     private User user;
 //  Getters and setters for class variables
@@ -32,6 +33,17 @@ public class SocialDto {
     public List<User> getUsers() {
         return users;
     }
+
+    /*@Logged
+    public List<SocialMessage> getMessages() {
+        return messages;
+    }
+
+    @Logged
+    public void setMessages(List<SocialMessage> messages) {
+        this.messages = messages;
+    }
+*/
     @Logged
     public void setUsers(List<User> users) {
         this.users = users;
