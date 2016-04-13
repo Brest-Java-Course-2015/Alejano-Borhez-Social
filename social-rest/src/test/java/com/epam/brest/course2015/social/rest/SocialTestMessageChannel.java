@@ -1,5 +1,6 @@
 package com.epam.brest.course2015.social.rest;
 
+import com.epam.brest.course2015.social.test.Logged;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.AbstractSubscribableChannel;
 
@@ -18,6 +19,7 @@ public class SocialTestMessageChannel extends AbstractSubscribableChannel {
     }
 
     @Override
+    @Logged
     protected boolean sendInternal(Message<?> message, long timeout) {
         this.messages.add(message);
         return true;

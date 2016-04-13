@@ -36,8 +36,6 @@ public class SocialWebSocketTest {
 
     private SocialTestMessageChannel outMessageChannel;
 
-    private SocialTestMessageChannel inMessageChannel;
-
     private SocialTestAnnotationMethodMessageHandler messageHandler;
 
     @Before
@@ -97,14 +95,15 @@ public class SocialWebSocketTest {
         Message<?> message = MessageBuilder.withPayload(payload).setHeaders(headers).build();
 //        Handling SocialMessage
         this.messageHandler.handleMessage(message);
-//        String reply = this.outMessageChannel.getMessages().get(0).toString();
 
 //        Testing
-//        assertEquals(1, inMessageChannel.getMessages().size());
-//        assertEquals(hello, restController.sayHello(hello));
-//        SocialMessage<?> reply = this.inMessageChannel.getMessages().get(0);
-//        System.out.println(reply);
-        System.out.println(message);
+        assertEquals(1, outMessageChannel.getMessages().size());
+        Message<?> reply = this.outMessageChannel.getMessages().get(0);
+        User testUser = new ObjectMapper().readValue((byte[]) reply.getPayload(), User.class);
+        assertEquals(testUser.getClass(), User.class);
+        assertEquals(testUser.getFirstName(), "Alex");
+
+        System.out.println(reply);
         System.out.println("Out:" + this.outMessageChannel.getMessages());
     }
 

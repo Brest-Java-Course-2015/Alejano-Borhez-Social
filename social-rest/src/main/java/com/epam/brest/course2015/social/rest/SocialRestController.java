@@ -7,8 +7,8 @@ import com.epam.brest.course2015.social.service.SocialService;
 import com.epam.brest.course2015.social.test.Logged;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -33,10 +33,11 @@ public class SocialRestController {
         this.socialMessaging = socialMessaging;
     }
 
-    @MessageMapping(value = "/hello")
+    @SubscribeMapping(value = "/hello")
     @Logged
-    public String sayHello (String name) {
-        return "Hello, " + name + "!";
+    public User sayHello (String name) {
+//        return "Hello, " + name + "!";
+        return new User("login", "paswrd", "Alex", "Borohov", 30);
     }
 
 
