@@ -21,7 +21,7 @@
         <module>social-consumer-api</module>
         <module>social-consumer-restimpl</module>
         <module>social-soap</module>
-        <module>social-consumer-soapimpl</module>
+        <!--<module>social-consumer-soapimpl</module>-->
         <module>social-consumer-socketimpl</module>
         <module>social-websocket</module>
         <module>social-app</module>
