@@ -5,9 +5,10 @@ Web-application has a user-friendly web-interface.
 
 ### Part I.
 For testing purposes use Docker.
-> 1. Install it from here: https://docs.docker.com/engine/installation/
-> 2. To run:
+ 1. Install it from here: https://docs.docker.com/engine/installation/
+ 2. To run:
 * Run runnable.sh from your terminal. First give permissions to run the script
+
 ```sh
 $ chmod 755 runnable.sh
 ```
@@ -17,7 +18,7 @@ $ sudo ./runnable.sh
 ```
 
 * Access WebApp via "http://localhost:8080/social" (make sure your local port 8080 is available)
->3. To stop:
+ 3. To stop:
 * Run stoppable.sh from your terminal. First give permissions to run the script
 ```sh 
 $ chmod 755 stoppable.sh
