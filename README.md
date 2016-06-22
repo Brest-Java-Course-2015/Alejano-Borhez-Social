@@ -7,10 +7,10 @@ Part I.
 For testing purposes use Docker.
 1. Install it from here: https://docs.docker.com/engine/installation/
 2. To run:
-    2.1. Run runnable.sh from your terminal (first give permissions to run the script "chmod 755 runnable.sh")
-    2.2. Access WebApp via "http://localhost:8080/social" (make sure your local port 8080 is available)
+     2.1. Run runnable.sh from your terminal (first give permissions to run the script "chmod 755 runnable.sh")
+     2.2. Access WebApp via "http://localhost:8080/social" (make sure your local port 8080 is available)
 3. To stop:
-    3.1. Run stoppable.sh from your terminal (first give permissions to run the script "chmod 755 stoppable.sh")
+     3.1. Run stoppable.sh from your terminal (first give permissions to run the script "chmod 755 stoppable.sh")
 
 Part II.
 For standalone application use.
