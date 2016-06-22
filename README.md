@@ -9,13 +9,13 @@ For testing purposes use Docker.
  2. To run:
 * Run runnable.sh from your terminal. First give permissions to run the script
 
->```sh
->$ chmod 755 runnable.sh
->```
+```sh
+$ chmod 755 runnable.sh
+```
 after that
->```sh
->$ sudo ./runnable.sh
->```
+```sh
+$ sudo ./runnable.sh
+```
 
 * Access WebApp via "http://localhost:8080/social" (make sure your local port 8080 is available)
  3. To stop:
