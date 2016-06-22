@@ -3,16 +3,32 @@ This project represents administration tools for a simple social network.
 You can manage a list of users and also a friendship between users.
 Web-application has a user-friendly web-interface.
 
-Part I.
+### Part I.
 For testing purposes use Docker.
-1. Install it from here: https://docs.docker.com/engine/installation/
-2. To run:
-     2.1. Run runnable.sh from your terminal (first give permissions to run the script "chmod 755 runnable.sh")
-     2.2. Access WebApp via "http://localhost:8080/social" (make sure your local port 8080 is available)
-3. To stop:
-     3.1. Run stoppable.sh from your terminal (first give permissions to run the script "chmod 755 stoppable.sh")
+>1. Install it from here: https://docs.docker.com/engine/installation/
+>2. To run:
+* Run runnable.sh from your terminal. First give permissions to run the script
+```sh
+$ chmod 755 runnable.sh
+```
+after that
+```sh
+$ sudo ./runnable.sh
+```
 
-Part II.
+
+* Access WebApp via "http://localhost:8080/social" (make sure your local port 8080 is available)
+>3. To stop:
+* Run stoppable.sh from your terminal. First give permissions to run the script
+```sh 
+$ chmod 755 stoppable.sh
+```
+after that 
+```sh
+$ sudo ./stoppable.sh
+```
+
+### Part II.
 For standalone application use.
 To install this application proceed several simply steps:
 
