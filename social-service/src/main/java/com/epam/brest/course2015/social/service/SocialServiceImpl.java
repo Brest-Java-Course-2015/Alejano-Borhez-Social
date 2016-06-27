@@ -294,6 +294,7 @@ public class SocialServiceImpl implements SocialService {
         dto.setTotalUsers(userDao.getCountOfUsers());
         if (dto.getTotalUsers() > 0) {
             dto.setUsers(userDao.getAllUsers());
+
             for (User user: dto.getUsers()) {
                 user.setTotalFriends(userDao.getCountOfUserFriends(
                                                 user.getUserId()));

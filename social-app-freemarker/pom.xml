@@ -9,9 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>social-app</artifactId>
-    <name>app</name>
-    <packaging>war</packaging>
+    <artifactId>social-app-freemarker</artifactId>
 
     <dependencies>
         <!-- Social -->
@@ -35,10 +33,6 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-messaging</artifactId>
         </dependency>
         <!-- Testing -->
         <dependency>
@@ -64,6 +58,11 @@
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
         </dependency>
+        <!--Freemarker-->
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+        </dependency>
     </dependencies>
 
     <!--To run Jetty Server from console: mvn jetty:run -->
@@ -77,7 +76,7 @@
                     <stopPort>9094</stopPort>
                     <stopKey>STOP</stopKey>
                     <webAppConfig>
-                        <contextPath>/web</contextPath>
+                        <contextPath>/social</contextPath>
                         <allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
                     </webAppConfig>
                     <scanIntervalSeconds>10</scanIntervalSeconds>
@@ -90,4 +89,7 @@
             </plugin>
         </plugins>
     </build>
+
+
+
 </project>

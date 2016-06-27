@@ -21,10 +21,10 @@
         <module>social-consumer-api</module>
         <module>social-consumer-restimpl</module>
         <module>social-soap</module>
-        <!--<module>social-consumer-soapimpl</module>-->
         <module>social-consumer-socketimpl</module>
         <module>social-websocket</module>
         <module>social-app</module>
+        <module>social-app-freemarker</module>
     </modules>
     <properties>
         <project.build.surceEncoding>UTF-8</project.build.surceEncoding>
@@ -43,6 +43,11 @@
             <dependency>
                 <groupId>com.epam.brest.course2015.social</groupId>
                 <artifactId>social-app</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.epam.brest.course2015.social</groupId>
+                <artifactId>social-app-freemarker</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -103,11 +108,6 @@
             <dependency>
                 <groupId>com.epam.brest.course2015.social</groupId>
                 <artifactId>social-consumer-restimpl</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.epam.brest.course2015.social</groupId>
-                <artifactId>social-consumer-soapimpl</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -203,45 +203,6 @@
                 <artifactId>spring-websocket</artifactId>
                 <version>${spring.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-websocket</artifactId>
-                <version>8.1.16.v20140903</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-util</artifactId>
-                <version>9.3.5.v20151012</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-io</artifactId>
-                <version>9.3.5.v20151012</version>
-            </dependency>
-
-            <!-- To write basic websockets against -->
-            <dependency>
-                <groupId>org.eclipse.jetty.websocket</groupId>
-                <artifactId>websocket-api</artifactId>
-                <version>${jetty-version}</version>
-            </dependency>
-            <!-- To run websockets in embedded server -->
-            <dependency>
-                <groupId>org.eclipse.jetty.websocket</groupId>
-                <artifactId>websocket-server</artifactId>
-                <version>${jetty-version}</version>
-            </dependency>
-            <!-- To run websockets client -->
-            <dependency>
-                <groupId>org.eclipse.jetty.websocket</groupId>
-                <artifactId>websocket-client</artifactId>
-                <version>${jetty-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.jetty.websocket</groupId>
-                <artifactId>websocket-servlet</artifactId>
-                <version>${jetty-version}</version>
-            </dependency>
             <!-- Database -->
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -309,6 +270,12 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-webmvc</artifactId>
                 <version>${spring.version}</version>
+            </dependency>
+            <!--Freemarker -->
+            <dependency>
+                <groupId>org.freemarker</groupId>
+                <artifactId>freemarker</artifactId>
+                <version>2.3.24-incubating</version>
             </dependency>
 
             <!-- Persistence -->
