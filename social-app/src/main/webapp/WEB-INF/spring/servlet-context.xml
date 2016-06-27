@@ -23,7 +23,7 @@
     <beans:bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <beans:property name="locations">
             <beans:list>
-                <beans:value>classpath*:social-app.properties</beans:value>
+                <beans:value>classpath:social-app.properties</beans:value>
             </beans:list>
         </beans:property>
     </beans:bean>

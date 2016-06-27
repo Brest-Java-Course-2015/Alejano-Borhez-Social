@@ -10,6 +10,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>social-app-freemarker</artifactId>
+    <name>app</name>
+    <packaging>war</packaging>
 
     <dependencies>
         <!-- Social -->

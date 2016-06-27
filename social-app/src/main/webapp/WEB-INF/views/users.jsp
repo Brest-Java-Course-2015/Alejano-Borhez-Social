@@ -57,7 +57,7 @@
     }
 </script>
 <script>
-      var wsUri = "http://localhost:8081/rest/websocket/endpoint";
+      var wsUri = "${restPrefix}" + "/websocket/endpoint";
       var output;
       var realSocket;
 

@@ -5,6 +5,7 @@ import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dto.SocialDto;
 import com.epam.brest.course2015.social.test.Logged;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class SocialWebController {
+
+    @Value("${rest.prefix}")
+    private String restPrefix;
 
     @Autowired
     private SocialConsumer socialConsumer;
@@ -36,7 +40,9 @@ public class SocialWebController {
     @Logged
     public ModelAndView getAllUsers() {
         SocialDto dto = socialConsumer.getAllUsers();
-        return new ModelAndView("users", "dto", dto);
+        ModelAndView model = new ModelAndView("users", "dto", dto);
+        model.addObject("restPrefix", restPrefix);
+        return model;
     }
 
     @RequestMapping("/usersbydate")
