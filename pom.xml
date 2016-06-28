@@ -151,6 +151,11 @@
                 <artifactId>spring-js</artifactId>
                 <version>${spring.version}</version>
             </dependency>
+            <dependency>
+                <version>${spring.version}</version>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context-support</artifactId>
+            </dependency>
             <!-- WEB-SERVICES -->
             <dependency>
                 <groupId>org.springframework.ws</groupId>
