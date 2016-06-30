@@ -7,7 +7,7 @@
             logs/server.log
         </property>
         <property name="sharedLogFolder">
-            /home/alexander/development/Social/Alejano-Borhez-Social/logs/server.log
+            /home/alexander_borohov/work/projects/Alejano-Borhez-Social/logs/server.log
         </property>
     </properties>
 

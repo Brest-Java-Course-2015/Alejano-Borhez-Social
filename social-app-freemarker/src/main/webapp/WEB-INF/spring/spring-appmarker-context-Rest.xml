@@ -16,7 +16,9 @@
 
     <mvc:annotation-driven/>
 
-    <mvc:resources mapping="/resources/**" location="classpath:/resources/"/>
+    <mvc:resources mapping="/resources/**" location="/resources/" />
+    <mvc:resources mapping="/resources/css/**" location="/resources/css/" />
+    <mvc:resources mapping="/resources/js/**" location="/resources/js/" />
 
     <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
         <property name="basename" value="classpath:messages"/>
@@ -48,7 +50,9 @@
         <property name="cache" value="true"/>
         <property name="prefix" value=""/>
         <property name="suffix" value=".ftl"/>
+        <property name="contentType" value="text/html;charset=UTF-8"/>
     </bean>
+
 
     <aop:aspectj-autoproxy/>
 

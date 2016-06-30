@@ -1,13 +1,25 @@
+<#ftl output_format="HTML">
+
 <!doctype html>
 
-<html lang="en">
 <#include "/header.ftl"/>
 
 <body>
 
-    <h1> ${hello} </h1>
+<h1> <@spring.message code="users.list"/> </h1>
+
+    <#include "/datepicker.ftl"/>
+
+    <#include "/table.ftl"/>
+
+    <#include "/adduserbutton.ftl"/>
+
 
 </body>
 
 <#include "/footer.ftl"/>
+
+    <script type="text/javascript" src="<@spring.url "/resources/js/websocket.js"/>"></script>
+
+
 </html>

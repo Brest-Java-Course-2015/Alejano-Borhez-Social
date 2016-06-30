@@ -11,18 +11,15 @@
     <packaging>pom</packaging>
     <modules>
         <module>social-core</module>
-        <module>social-dao-api</module>
         <module>social-test</module>
+        <module>social-dao-api</module>
         <module>social-dao</module>
+        <module>social-jpa</module>
         <module>social-service-api</module>
         <module>social-service</module>
         <module>social-rest</module>
-        <module>social-jpa</module>
         <module>social-consumer-api</module>
         <module>social-consumer-restimpl</module>
-        <module>social-soap</module>
-        <module>social-consumer-socketimpl</module>
-        <module>social-websocket</module>
         <module>social-app</module>
         <module>social-app-freemarker</module>
     </modules>

@@ -1,6 +1,23 @@
-var wsUri = "${restPrefix}" + "/websocket/endpoint";
 var output;
 var realSocket;
+
+var wsUri="";
+var url = "restAPI";
+
+$.ajax({
+    type: 'GET',
+    url: url,
+    success: function (data, textStatus, jqXHR) {
+                                 wsUri = data;
+                                 getSocket();
+                               },
+    error: function(jqXHR, textStatus, errorThrown) {
+                       console.log(jqXHR, textStatus, errorThrown);
+                       alert('restAPI: ' + textStatus);
+                   }
+
+});
+
 
 function getSocket()
 {
@@ -28,5 +45,3 @@ realSocket.subscribe("/topic/totalusers", function(message){
         }
   });
 })};
-
-window.addEventListener("load", getSocket, false);
