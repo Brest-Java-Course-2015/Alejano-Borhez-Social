@@ -45,3 +45,19 @@ realSocket.subscribe("/topic/totalusers", function(message){
         }
   });
 })};
+
+function drawRow(user) {
+    var row = $("<tr />")
+    $("#userList").append(row);
+    row.append($("<td>" + '<a href="user.html?id=' + user.userId + '">' + user.firstName + '</a></td>'));
+    row.append($("<td>" + '<a href="user.html?id=' + user.userId + '">' + user.lastName + '</a></td>'));
+    row.append($("<td>" + user.age + "</td>"));
+    row.append($("<td>" + '<a href="friends.html?id=' + user.userId + '">' + user.totalFriends + '</a></td>'));
+    row.append($("<td>" + '<button onclick="deleteUser('+ user.userId +')">Удалить пользователя</button> ' + '<button onclick="gotoUser('+ user.userId +')">Изменить</button>' + "</td>"));
+}
+
+function drawTotal(totalUsers) {
+    $('#userTotal h3').remove();
+    $('#userTotal').append($("<h3>Всего пользователей: " + totalUsers + "</h3>"));
+
+}

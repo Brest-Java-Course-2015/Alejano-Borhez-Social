@@ -6,13 +6,14 @@
 
 <body>
 
-<h1> <@spring.message code="users.list"/> </h1>
+<h1> <@spring.message code="user.friends"/> ${dto.user.firstName} ${dto.user.lastName} </h1>
 
-    <#include "/datepicker.ftl"/>
+    <#include "/breadcrumbs.ftl"/>
+
 
     <#include "/table.ftl"/>
 
-    <#include "/gotoadduserbutton.ftl"/>
+    <#include "/adduserbutton.ftl"/>
 
 
 </body>

@@ -22,4 +22,9 @@
         </tbody>
 
     </table>
+
+</div>
+
+<div id="userTotal">
+    <h3><@spring.message code="users.total"/>: ${dto.totalUsers}</h3>
 </div>

@@ -22,6 +22,7 @@
         <module>social-consumer-restimpl</module>
         <module>social-app</module>
         <module>social-app-freemarker</module>
+        <module>social-webapp-api</module>
     </modules>
     <properties>
         <project.build.surceEncoding>UTF-8</project.build.surceEncoding>
@@ -109,12 +110,7 @@
             </dependency>
             <dependency>
                 <groupId>com.epam.brest.course2015.social</groupId>
-                <artifactId>social-consumer-socketimpl</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.epam.brest.course2015.social</groupId>
-                <artifactId>social-websocket</artifactId>
+                <artifactId>social-webapp-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- Spring -->

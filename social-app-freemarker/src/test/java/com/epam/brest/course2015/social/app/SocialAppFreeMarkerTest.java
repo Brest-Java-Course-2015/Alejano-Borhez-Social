@@ -3,7 +3,6 @@ package com.epam.brest.course2015.social.app;
 import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dto.SocialDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import junit.framework.TestCase;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,30 +11,34 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.annotation.Resource;
 
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.easymock.EasyMock.*;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.junit.Assert.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 /**
- * Created by alexander on 28.11.15.
+ * Created by alexander_borohov on 27.6.16.
  */
-
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:social-app-spring-mock-test.xml"})
-@WebAppConfiguration
-public class SocialWebControllerTest extends TestCase {
+@ContextConfiguration(locations = {"classpath:freemarker-test.xml"})
+public class SocialAppFreeMarkerTest {
 
     @Resource
-    private SocialWebController socialController;
+    private SocialAppFreeMarker socialController;
+
 
     private MockMvc mockMvc;
 
@@ -65,7 +68,7 @@ public class SocialWebControllerTest extends TestCase {
         replay(socialController);
         mockMvc.perform(
                 get("/users")
-                .accept(MediaType.APPLICATION_JSON))
+                        .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(forwardedUrl("/WEB-INF/view/users.jsp"));
@@ -78,7 +81,7 @@ public class SocialWebControllerTest extends TestCase {
         replay(socialController);
         mockMvc.perform(
                 get("/usersbydate?datemin=2015-10-01&datemax=2015-11-01")
-                .accept(MediaType.APPLICATION_JSON))
+                        .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(forwardedUrl("/WEB-INF/view/usersbydate.jsp"))
@@ -92,7 +95,7 @@ public class SocialWebControllerTest extends TestCase {
         replay(socialController);
         mockMvc.perform(
                 get("/friends?id=2")
-                .accept(MediaType.APPLICATION_JSON))
+                        .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(forwardedUrl("/WEB-INF/view/friends.jsp"));
@@ -101,11 +104,11 @@ public class SocialWebControllerTest extends TestCase {
     @Test
     public void testDeleteFriend() throws Exception {
         expect(socialController.deleteFriend(5, 6))
-        .andReturn("forward:/friends?id=5");
+                .andReturn("forward:/friends?id=5");
         replay(socialController);
         mockMvc.perform(
                 get("/user/friendship/del?id1=5&id2=6")
-                .accept(MediaType.APPLICATION_JSON))
+                        .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(forwardedUrl("/friends?id=5"));
@@ -132,7 +135,7 @@ public class SocialWebControllerTest extends TestCase {
         replay(socialController);
         mockMvc.perform(
                 get("/user?id=2")
-                .accept(MediaType.APPLICATION_JSON))
+                        .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(forwardedUrl("/WEB-INF/view/user.jsp"))
@@ -155,9 +158,9 @@ public class SocialWebControllerTest extends TestCase {
         String user = new ObjectMapper().writeValueAsString(testUser);
         mockMvc.perform(
                 post("/addusersubmit")
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(user))
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(user))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(forwardedUrl("/users"));
@@ -172,7 +175,7 @@ public class SocialWebControllerTest extends TestCase {
 
         mockMvc.perform(
                 get("/adduser")
-                .accept(MediaType.APPLICATION_JSON))
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(forwardedUrl("/WEB-INF/view/adduser.jsp"))
                 .andExpect(view().name("adduser"));
@@ -186,7 +189,7 @@ public class SocialWebControllerTest extends TestCase {
 
         mockMvc.perform(
                 get("/user/delete?id=1")
-                .accept(MediaType.APPLICATION_JSON))
+                        .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
@@ -261,16 +264,17 @@ public class SocialWebControllerTest extends TestCase {
     public void testGetAllNoFriendsOfAUser() throws Exception {
         expect(socialController.getAllNoFriendsOfAUser(4))
                 .andReturn(new ModelAndView("nofriends"
-                                          , "dto"
-                                          , new SocialDto()));
+                        , "dto"
+                        , new SocialDto()));
         replay(socialController);
 
         mockMvc.perform(
                 get("/nofriends?id=4")
-                .accept(MediaType.APPLICATION_JSON))
+                        .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(forwardedUrl("/WEB-INF/view/nofriends.jsp"))
                 .andExpect(view().name("nofriends"));
     }
+
 }

@@ -14,11 +14,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * Created by alexander on 28.11.15.
+ * Created by alexander_borohov on 27.6.16.
  */
-
 @Controller
-public class SocialWebController {
+public class SocialAppFreeMarker {
 
     @Value("${rest.prefix}")
     private String restPrefix;
@@ -29,7 +28,7 @@ public class SocialWebController {
     @RequestMapping("/restAPI")
     @ResponseBody
     public String restPrefix() {
-        return restPrefix;
+        return restPrefix + "websocket/endpoint";
     }
 
     @RequestMapping("/hello")
@@ -47,17 +46,15 @@ public class SocialWebController {
     @Logged
     public ModelAndView getAllUsers() {
         SocialDto dto = socialConsumer.getAllUsers();
-        ModelAndView model = new ModelAndView("users", "dto", dto);
-        model.addObject("restPrefix", restPrefix);
-        return model;
+        return new ModelAndView("users", "dto", dto);
     }
 
     @RequestMapping("/usersbydate")
     @Logged
     public ModelAndView getAllUsersByDate(@RequestParam("datemin")
-                                          String dateMin,
+                                                  String dateMin,
                                           @RequestParam("datemax")
-                                          String dateMax) {
+                                                  String dateMax) {
         SocialDto dto = socialConsumer
                 .getAllUsersByDate(
                         dateMin
@@ -69,17 +66,19 @@ public class SocialWebController {
     @RequestMapping("/friends")
     @Logged
     public ModelAndView getAllFriends(@RequestParam("id")
-                                      Integer id) {
+                                              Integer id) {
         SocialDto dto = socialConsumer.getAllFriends(id);
-        return new ModelAndView("friends", "dto", dto);
+        ModelAndView model = new ModelAndView("friends", "dto", dto);
+        model.addObject("mapping", "friends");
+        return model;
     }
 
     @RequestMapping("/user/friendship/del")
     @Logged
     public String deleteFriend(@RequestParam("id1")
-                               Integer id1,
+                                       Integer id1,
                                @RequestParam("id2")
-                               Integer id2) {
+                                       Integer id2) {
         socialConsumer.deleteFriend(id1, id2);
         return "forward:/friends?id=" + id1;
     }
@@ -87,9 +86,9 @@ public class SocialWebController {
     @RequestMapping("user/friendship/add")
     @Logged
     public String addFriendship(@RequestParam("id1")
-                                       Integer id1,
+                                        Integer id1,
                                 @RequestParam("id2")
-                                       Integer id2) {
+                                        Integer id2) {
         socialConsumer.addFriendship(id1, id2);
         return "forward:/nofriends?id=" + id1;
     }
@@ -97,9 +96,12 @@ public class SocialWebController {
     @RequestMapping("/user")
     @Logged
     public ModelAndView getUser(@RequestParam("id")
-                                       Integer id) {
+                                        Integer id) {
         SocialDto dto = socialConsumer.getUser(id);
-        return new ModelAndView("user", "dto", dto);
+
+        ModelAndView model = new ModelAndView("user", "dto", dto);
+        model.addObject("mapping", "usertab");
+        return model;
     }
 
     @RequestMapping("/addusersubmit")
@@ -118,7 +120,7 @@ public class SocialWebController {
     @RequestMapping("/user/delete")
     @Logged
     public String deleteUser(@RequestParam("id")
-                                    Integer id) {
+                                     Integer id) {
         socialConsumer.deleteUser(id);
         return "forward:/users";
     }
@@ -126,9 +128,9 @@ public class SocialWebController {
     @RequestMapping("/user/password")
     @Logged
     public String changePassword(@RequestParam("id")
-                                 Integer id,
+                                         Integer id,
                                  @RequestParam("password")
-                                 String password) {
+                                         String password) {
         socialConsumer.changePassword(id, password);
         return "forward:/user?id=" + id;
     }
@@ -136,9 +138,9 @@ public class SocialWebController {
     @RequestMapping("/user/login")
     @Logged
     public String changeLogin(@RequestParam("id")
-                              Integer id,
+                                      Integer id,
                               @RequestParam("login")
-                              String login) {
+                                      String login) {
         socialConsumer.changeLogin(id, login);
         return "forward:/user?id=" + id;
     }
@@ -146,7 +148,7 @@ public class SocialWebController {
     @RequestMapping(value = "/user/firstname")
     @Logged
     public String changeFirstName(@RequestParam("id")
-                                         Integer id,
+                                          Integer id,
                                   @RequestParam("firstname")
                                           String firstname) {
         socialConsumer.changeFirstName(id, firstname);
@@ -156,7 +158,7 @@ public class SocialWebController {
     @RequestMapping("/user/lastname")
     @Logged
     public String changeLastName(@RequestParam("id")
-                                        Integer id,
+                                         Integer id,
                                  @RequestParam("lastname")
                                          String lastname) {
         socialConsumer.changeLastName(id, lastname);
@@ -166,7 +168,7 @@ public class SocialWebController {
     @RequestMapping("/nofriends")
     @Logged
     public ModelAndView getAllNoFriendsOfAUser(@RequestParam("id")
-                                                      Integer id) {
+                                                       Integer id) {
 
         SocialDto dto = socialConsumer.getAllNoFriendsOfAUser(id);
         return new ModelAndView("nofriends", "dto", dto);

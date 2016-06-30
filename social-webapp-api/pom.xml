@@ -3,27 +3,26 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>com.epam.brest.course2015.social</groupId>
         <artifactId>Social</artifactId>
+        <groupId>com.epam.brest.course2015.social</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>social-dao-api</artifactId>
+    <artifactId>social-webapp-api</artifactId>
     <name>${project.artifactId}</name>
     <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>social-core</artifactId>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>social-test</artifactId>
-            <scope>test</scope>
+            <groupId>com.epam.brest.course2015.social</groupId>
+            <artifactId>social-core</artifactId>
         </dependency>
-
     </dependencies>
+
 
 </project>

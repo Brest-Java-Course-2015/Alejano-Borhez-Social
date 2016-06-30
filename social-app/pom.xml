@@ -16,19 +16,23 @@
     <dependencies>
         <!-- Social -->
         <dependency>
-            <groupId>com.epam.brest.course2015.social</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>social-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.epam.brest.course2015.social</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>social-consumer-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.epam.brest.course2015.social</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>social-consumer-restimpl</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.epam.brest.course2015.social</groupId>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>social-webapp-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>social-test</artifactId>
         </dependency>
         <!-- Spring -->

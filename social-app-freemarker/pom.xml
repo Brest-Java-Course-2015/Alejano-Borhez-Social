@@ -10,25 +10,25 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>social-app-freemarker</artifactId>
-    <name>app</name>
+    <name>app-marker</name>
     <packaging>war</packaging>
 
     <dependencies>
         <!-- Social -->
         <dependency>
-            <groupId>com.epam.brest.course2015.social</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>social-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.epam.brest.course2015.social</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>social-consumer-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.epam.brest.course2015.social</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>social-consumer-restimpl</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.epam.brest.course2015.social</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>social-test</artifactId>
         </dependency>
         <!-- Spring -->
@@ -80,6 +80,10 @@
         <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.epam.brest.course2015.social</groupId>
+            <artifactId>social-webapp-api</artifactId>
         </dependency>
     </dependencies>
 

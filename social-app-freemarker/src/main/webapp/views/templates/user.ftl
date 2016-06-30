@@ -73,8 +73,7 @@
 
     <#include "/table.ftl"/>
 
-    <#include "/adduserbutton.ftl"/>
-
+    <#include "/gotoadduserbutton.ftl"/>
 
 </body>
 
