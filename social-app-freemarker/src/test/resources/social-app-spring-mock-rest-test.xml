@@ -23,7 +23,7 @@
     <bean id="restTemplate" class="org.springframework.web.client.RestTemplate"/>
     <bean id="socialConsumer" class="com.epam.brest.course2015.social.consumer.SocialConsumerRestImpl"/>
 
-    <bean id="socialController" class="com.epam.brest.course2015.social.app.SocialWebController">
+    <bean id="socialController" class="com.epam.brest.course2015.social.app.SocialAppFreeMarker">
     </bean>
 
     <aop:aspectj-autoproxy/>
