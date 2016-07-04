@@ -1,3 +1,3 @@
 rootProject.name = 'Alejano-Borhez-Social'
-include 'social-core', 'social-test'
+include 'social-core', 'social-test', 'social-dao-api'
 
