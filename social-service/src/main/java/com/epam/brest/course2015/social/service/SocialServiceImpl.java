@@ -126,7 +126,7 @@ public class SocialServiceImpl implements SocialService {
         try {
             userDao.getUserById(id);
             userDao.changeLogin(id, login);
-        } catch (EmptyResultDataAccessException e) {
+        } catch (EmptyResultDataAccessException | NullPointerException e) {
             e.printStackTrace();
             throw new IllegalArgumentException();
         }
@@ -222,23 +222,13 @@ public class SocialServiceImpl implements SocialService {
     public List<User> getNoFriends(Integer id) {
         Assert.notNull(id, notNullId);
         Assert.isTrue(id > 0, correctId);
-        List<User> listUsers = getAllUsers();
-        List<User> listFriends = getFriends(id);
-        List<Integer> userId = new ArrayList<>();
-        for (User user: listUsers) {
-            userId.add(user.getUserId());
+        try {
+            userDao.getUserById(id);
+            return userDao.getNoFriends(id);
+        } catch (EmptyResultDataAccessException e) {
+            e.printStackTrace();
+            return Collections.<User>emptyList();
         }
-        for (User user: listFriends) {
-            if (userId.contains(user.getUserId())) {
-                userId.remove(user.getUserId());
-            }
-        }
-        userId.remove(id);
-        List<User> resultList = new ArrayList<User>();
-        for (int i: userId) {
-            resultList.add(getUserById(i));
-        }
-        return resultList;
     }
 
     @Override

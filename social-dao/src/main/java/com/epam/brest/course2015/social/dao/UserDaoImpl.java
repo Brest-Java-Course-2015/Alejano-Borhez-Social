@@ -139,6 +139,12 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     @Logged
+    public List<User> getNoFriends(Integer id) {
+        return null;
+    }
+
+    @Override
+    @Logged
     public List<User> getAllUsers() {
         return namedParameterJdbcTemplate.query(selectAllUsers, userMapper);
     }

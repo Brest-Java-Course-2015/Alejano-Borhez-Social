@@ -10,10 +10,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.jws.soap.SOAPBinding;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import static org.junit.Assert.*;
 
@@ -134,6 +136,14 @@ public class UserDaoJPATest {
         assertNotNull(friends);
         assertTrue(friends.size() == 3);
         assertEquals(User.class, friends.get(0).getClass());
+    }
+
+    @Test
+    public void testGetNoFriends() throws ExecutionException {
+        List<User> noFriends = userDao.getNoFriends(testId + 1);
+        assertNotNull(noFriends);
+        assertTrue(noFriends.size() == 1);
+        assertEquals(User.class, noFriends.get(0).getClass());
     }
 
     @Test

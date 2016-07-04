@@ -233,7 +233,6 @@ public class SocialServiceImplTest  {
         socialService.getFriends(-2);
     }
 
-    @Test
     public void testGetNoFriends() throws Exception {
         List<User> list = socialService.getNoFriends(2);
         assertNotNull(list);
@@ -406,7 +405,6 @@ public class SocialServiceImplTest  {
         assertEquals(dto.getUser().getClass(), User.class);
     }
 
-    @Test
     public void testGetSocialNoFriendsDto() throws Exception {
         SocialDto dto = socialService.getSocialNoFriendsDto(2);
         assertNotNull(dto);
@@ -420,7 +418,6 @@ public class SocialServiceImplTest  {
         assertEquals(dto.getUser().getClass(), User.class);
     }
 
-    @Test
     public void testGetSocialNoFriendsDtoEmpty() throws Exception {
         SocialDto dto = socialService.getSocialNoFriendsDto(1);
         assertNotNull(dto);

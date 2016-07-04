@@ -26,6 +26,8 @@ public class UserDaoJPA implements UserDao {
     private String selectUserByLogin;
     @Value("${friend.findFriends}")
     private String selectFriendship;
+    @Value("${friend.findNoFriends}")
+    private String selectNoFriendship;
     @Value("${user.getCountOfUsers}")
     private String getCountOfUsers;
     @Value("${user.getCountOfUserFriends}")
@@ -85,6 +87,16 @@ public class UserDaoJPA implements UserDao {
     public List<User> getFriends(Integer id) {
         List<User> list = entityManagerUser
                 .createQuery(selectFriendship, User.class)
+                .setParameter("userId", id)
+                .getResultList();
+        return list;
+    }
+
+    @Override
+    @Logged
+    public List<User> getNoFriends(Integer id) {
+        List<User> list = entityManagerUser
+                .createQuery(selectNoFriendship, User.class)
                 .setParameter("userId", id)
                 .getResultList();
         return list;

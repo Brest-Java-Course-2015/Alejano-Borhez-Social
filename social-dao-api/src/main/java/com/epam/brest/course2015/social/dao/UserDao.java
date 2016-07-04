@@ -16,6 +16,7 @@ public interface UserDao {
     void changeLastName(Integer id, String lastName);
     void deleteUser(Integer id);
     List<User> getFriends(Integer id);
+    List<User> getNoFriends(Integer id);
     List<User> getAllUsers();
     List<User> getAllUsers(Date dateMin, Date dateMax);
     User getUserById(Integer id);
