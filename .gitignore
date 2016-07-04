@@ -9,7 +9,7 @@
 **/target/
 **/build
 **/.gradle
-
+**/logs
 
 # Package Files #
 *.jar
