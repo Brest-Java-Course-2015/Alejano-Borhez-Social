@@ -7,7 +7,14 @@ repositories {
     mavenCentral()
 }
 
+String springVersion = '4.3.0.RELEASE'
+
+List test = ["org.springframework:spring-test:" + springVersion,
+             "junit:junit:4.12",
+             "org.easymock:easymock:3.4"]
+
+
 dependencies {
-    compile group: 'org.springframework', name: 'spring-core', version: '4.3.0.RELEASE'
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile project(':')
+    testCompile test
 }

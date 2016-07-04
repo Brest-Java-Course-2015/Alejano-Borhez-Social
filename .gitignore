@@ -7,6 +7,9 @@
 **/*.class
 **/*.log
 **/target/
+**/build
+**/.gradle
+
 
 # Package Files #
 *.jar

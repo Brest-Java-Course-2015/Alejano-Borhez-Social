@@ -7,8 +7,27 @@ repositories {
     mavenCentral()
 }
 
+String springVersion = '4.3.0.RELEASE'
+
+List test = ["org.springframework:spring-test:" + springVersion,
+             "junit:junit:4.12",
+             "org.easymock:easymock:3.4"]
+
+
 dependencies {
-    compile group: 'org.springframework', name: 'spring-core', version: '4.3.0.RELEASE'
-    compile group: 'com.epam.brest.course2015.social.test', name: 'social-test', version: '1.0-SNAPSHOT'
-    testCompile group: 'junit', name: 'junit', version: '4.+'
+    compile project(':social-test'),
+    'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final'
+
+    testCompile test
+}
+
+task count << {
+    4.times { print "$it " }
+}
+
+task hello << {
+    println 'Hello world!'
+}
+task intro(dependsOn: hello) << {
+    println "I'm Gradle"
 }
