@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<title>WebSocket Test</title>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
+<script src="//cdn.jsdelivr.net/sockjs/1.0.3/sockjs.min.js"></script>
+<script language="javascript" type="text/javascript">
+  var wsUri = "http://localhost:8081/rest/websocket/endpoint";
+  var output;
+  var realSocket;
+  function init()
+  {
+    output = document.getElementById("addedUser");
+    testWebSocket();
+  }
+
+  function testWebSocket()
+  {
+    var websocket = new SockJS(wsUri);
+    realSocket = Stomp.over(websocket);
+
+    var payload = JSON.stringify('hello');
+
+
+
+    realSocket.connect('guest', 'guest', function() {
+      realSocket.subscribe("/topic/userdto");
+    });
+
+
+
+
+
+  }
+
+
+  window.addEventListener("load", init, false);
+
+  </script>
+
+<h2>WebSocket Test</h2>
+<div>
+
+</div>

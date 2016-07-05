@@ -1,6 +1,9 @@
 apply plugin: 'java'
 apply plugin: 'checkstyle'
 
+Integer sourceCompatibility = 1.7
+Integer targetCompatibility = 1.7
+
 repositories {
     mavenCentral()
 }
@@ -17,7 +20,7 @@ List test = ["org.springframework:spring-test:" + springVersion,
              "junit:junit:4.12",
              "org.easymock:easymock:3.4"]
 
-List jackson = ["com.fasterxml.jackson.core:jackson-databind:2.4.3"]
+List jackson = ["com.fasterxml.jackson.core:jackson-databind:2.6.5"]
 
 List logging = ["org.apache.logging.log4j:log4j-api:2.1",
                 "org.apache.logging.log4j:log4j-core:2.1"]
