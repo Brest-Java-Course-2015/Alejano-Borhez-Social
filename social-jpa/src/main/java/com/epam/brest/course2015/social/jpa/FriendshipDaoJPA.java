@@ -16,7 +16,7 @@ import java.util.List;
  * Created by alexander on 13.1.16.
  */
 @Repository
-@Transactional("transactionManagerFriendship")
+@Transactional
 public class FriendshipDaoJPA implements FriendshipDao {
     @Value("${friend.findFriendship}")
     private String selectFriendship;
@@ -27,7 +27,7 @@ public class FriendshipDaoJPA implements FriendshipDao {
     @Value("${friend.deleteAllFriendships}")
     private String deleteAllFriendships;
 
-    @PersistenceContext(unitName = "social-friendship")
+    @PersistenceContext
     EntityManager entityManagerFriendship;
 
     @Override

@@ -3,5 +3,5 @@ include 'social-core',
         'social-test',
         'social-dao-api',
         'social-jpa',
-        'social-service-api'
-
+        'social-service-api',
+        'social-service'

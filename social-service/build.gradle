@@ -1,0 +1,20 @@
+group 'Alejano-Borhez-Social'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+String springVersion = '4.3.0.RELEASE'
+
+List test = ["org.springframework:spring-test:" + springVersion,
+             "junit:junit:4.12",
+             "org.easymock:easymock:3.4"]
+
+dependencies {
+    compile project(':social-service-api')
+
+    testCompile test
+}

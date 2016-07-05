@@ -33,7 +33,7 @@ public class UserDaoJPA implements UserDao {
     @Value("${user.getCountOfUserFriends}")
     private String getCountOfUserFriends;
 
-    @PersistenceContext(unitName = "social-user")
+    @PersistenceContext
     private EntityManager entityManagerUser;
 
     @Override
@@ -79,7 +79,13 @@ public class UserDaoJPA implements UserDao {
     @Override
     @Logged
     public void deleteUser(Integer id) {
-        entityManagerUser.remove(getUserById(id));
+        try {
+            entityManagerUser.remove(getUserById(id));
+        }
+        catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            throw new EmptyResultDataAccessException(id);
+        }
     }
 
     @Override
