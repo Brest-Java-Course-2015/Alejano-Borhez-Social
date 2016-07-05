@@ -7,4 +7,5 @@ include 'social-core',
         'social-service',
         'social-rest',
         'social-consumer-api',
-        'social-consumer-restimpl'
+        'social-consumer-restimpl',
+        'social-app-freemarker'

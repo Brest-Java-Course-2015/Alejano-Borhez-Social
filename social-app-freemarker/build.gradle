@@ -1,12 +1,11 @@
 group 'Alejano-Borhez-Social'
 version '1.0-SNAPSHOT'
 
-
 apply plugin: 'war'
 apply plugin: 'jetty'
 
-httpPort = 8081
-stopPort = 9081
+httpPort = 8082
+stopPort = 9082
 stopKey = "stopKey"
 
 repositories {
@@ -20,12 +19,14 @@ List test = ["org.springframework:spring-test:" + springVersion,
              "org.easymock:easymock:3.4"]
 
 dependencies {
-    compile project(':social-service')
+    compile project(':social-consumer-restimpl')
     compile 'org.springframework:spring-webmvc:' + springVersion,
             'org.springframework:spring-web:' + springVersion,
             'org.springframework:spring-messaging:' + springVersion,
             'org.springframework:spring-websocket:' + springVersion,
-            'javax.servlet:javax.servlet-api:3.1.0'
+            'org.springframework:spring-context-support:' + springVersion,
+            'javax.servlet:javax.servlet-api:3.1.0',
+            'org.freemarker:freemarker:2.3.24-incubating'
 
     testCompile test
 }
