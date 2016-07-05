@@ -5,4 +5,5 @@ include 'social-core',
         'social-jpa',
         'social-service-api',
         'social-service',
-        'social-rest'
+        'social-rest',
+        'social-consumer-api'
