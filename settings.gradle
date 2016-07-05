@@ -6,4 +6,5 @@ include 'social-core',
         'social-service-api',
         'social-service',
         'social-rest',
-        'social-consumer-api'
+        'social-consumer-api',
+        'social-consumer-restimpl'
