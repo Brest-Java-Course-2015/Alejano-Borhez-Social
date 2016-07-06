@@ -5,8 +5,10 @@
 **/*.*~
 **/*.jar
 **/*.class
-**/*.log
 **/target/
+**/build
+**/.gradle
+**/logs
 
 # Package Files #
 *.jar

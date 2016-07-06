@@ -31,7 +31,11 @@
         <Logger name="com.epam.brest.course2015.social" level="DEBUG">
             <AppenderRef ref="File"/>
             <AppenderRef ref="SharedLogFolder"/>
-            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <Logger name="log4j.logger.org.springframework.jdbc.core" level="TRACE">
+            <Appender-Ref ref="Console" />
+            <Appender-Ref ref="File"/>
         </Logger>
 
         <Root level="ERROR">

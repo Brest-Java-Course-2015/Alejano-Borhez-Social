@@ -18,16 +18,14 @@ import org.springframework.stereotype.Component;
 public class SocialLogger {
 
     private static final Logger LOGGER =
-            LogManager.getLogger(SocialLogger.class.getName());
+            LogManager.getLogger();
 
     @Pointcut("execution" +
-            "(@com.epam.brest.course2015.social.test.Logged * *(..))" +
-            " && @annotation(logged)")
-    public void setLogged(Logged logged) { }
+            "(@com.epam.brest.course2015.social.test.Logged * *(..))")
+    public void setLogged() { }
 
-    @Around("setLogged(logged)")
-    public Object log(ProceedingJoinPoint joinPoint,
-                      Logged logged) throws Throwable {
+    @Around("setLogged()")
+    public Object log(ProceedingJoinPoint joinPoint) throws Throwable {
         String clazz = joinPoint.getSignature().getDeclaringTypeName();
         String method = joinPoint.getSignature().getName();
         Object[] args = joinPoint.getArgs();
@@ -36,7 +34,6 @@ public class SocialLogger {
 
         Object result;
         long executionTime;
-
         try {
             long startTime = System.nanoTime();
             result = joinPoint.proceed();
@@ -67,7 +64,7 @@ public class SocialLogger {
         }
         else {
             String resultClass = result.getClass().getSimpleName();
-            LOGGER.info("{} #{}{} => {}: {} in {} μsec",
+            LOGGER.debug("{} #{}{} => {}: {} in {} μsec",
                     clazz,
                     method,
                     args,
