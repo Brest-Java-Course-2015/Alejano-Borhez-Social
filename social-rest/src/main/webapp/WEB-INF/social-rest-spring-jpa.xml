@@ -75,11 +75,9 @@
     </bean>
 
     <!-- JPA -->
-    <bean id="user" class="com.epam.brest.course2015.social.core.User"/>
     <bean id="userDao" class="com.epam.brest.course2015.social.jpa.UserDaoJPA">
 
     </bean>
-    <bean id="friendship" class="com.epam.brest.course2015.social.core.Friendship"/>
     <bean id="friendshipDao" class="com.epam.brest.course2015.social.jpa.FriendshipDaoJPA"/>
     <bean id="socialDto" class="com.epam.brest.course2015.social.dto.SocialDto"/>
 

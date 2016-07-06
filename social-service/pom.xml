@@ -22,10 +22,10 @@
             <groupId>com.epam.brest.course2015.social</groupId>
             <artifactId>social-dao</artifactId>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>com.epam.brest.course2015.social</groupId>
             <artifactId>social-jpa</artifactId>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>com.epam.brest.course2015.social</groupId>
             <artifactId>social-test</artifactId>
