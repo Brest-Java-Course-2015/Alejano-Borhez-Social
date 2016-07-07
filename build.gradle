@@ -25,6 +25,8 @@ List jackson = ["com.fasterxml.jackson.core:jackson-databind:2.6.5"]
 List logging = ["org.apache.logging.log4j:log4j-api:2.1",
                 "org.apache.logging.log4j:log4j-core:2.1"]
 
+
+
 dependencies {
     compile spring, logging, jackson
     testCompile test

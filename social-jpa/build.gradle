@@ -16,8 +16,9 @@ List test = ["org.springframework:spring-test:" + springVersion,
 
 dependencies {
     compile project(':social-dao-api'), 'org.hsqldb:hsqldb:2.3.3',
-    'org.springframework.data:spring-data-jpa:1.10.2.RELEASE',
-    'org.hibernate:hibernate-entitymanager:5.0.2.Final'
+            'org.springframework.data:spring-data-jpa:1.10.2.RELEASE',
+            'org.hibernate:hibernate-entitymanager:5.0.2.Final',
+            'mysql:mysql-jdbc-connector:5.0.8'
 
     testCompile test
 }
