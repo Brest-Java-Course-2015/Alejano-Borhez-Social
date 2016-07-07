@@ -217,6 +217,11 @@
                 <artifactId>hsqldb</artifactId>
                 <version>${hsqldb.version}</version>
             </dependency>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>5.0.8</version>
+            </dependency>
             <!-- Testing -->
             <dependency>
                 <groupId>org.springframework</groupId>
