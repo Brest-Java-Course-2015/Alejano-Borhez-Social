@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
  * Created by alexander on 25.12.15.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:test-spring-persistence-user.xml"})
+@ContextConfiguration(locations = {"classpath:test-spring-persistence-HSQL.xml"})
 @Transactional
 public class UserDaoJPATest {
     public static Date getTestDate(String date) {
@@ -54,7 +54,11 @@ public class UserDaoJPATest {
 
     @Test
     public void testDeleteUser() throws Exception {
+        User user1 = userDao.getUserById(testId);
         userDao.deleteUser(testId);
+        User user2 = userDao.getUserById(testId);
+        assertNull(user2);
+
     }
 
     @Test
@@ -81,6 +85,8 @@ public class UserDaoJPATest {
         List<User> list = userDao.getAllUsers();
         assertNotNull(list);
         assertTrue(list.size() > 0);
+        assertNotNull(list.get(0).getFriends());
+        System.out.println(list.get(0).getFriends());
     }
 
     @Test

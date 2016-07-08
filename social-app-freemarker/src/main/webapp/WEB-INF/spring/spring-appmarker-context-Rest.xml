@@ -2,7 +2,8 @@
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/mvc
@@ -19,6 +20,7 @@
     <mvc:resources mapping="/resources/**" location="/resources/" />
     <mvc:resources mapping="/resources/css/**" location="/resources/css/" />
     <mvc:resources mapping="/resources/js/**" location="/resources/js/" />
+    <mvc:resources mapping="/images/**" location="/views/images/"/>
 
     <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
         <property name="basename" value="classpath:messages"/>
@@ -53,6 +55,13 @@
         <property name="contentType" value="text/html;charset=UTF-8"/>
     </bean>
 
+    <!--File uploader MessageConverter-->
+
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="1073741824"/>
+    </bean>
+
+    <bean id="jackson2JsonObjectMapper" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
 
     <aop:aspectj-autoproxy/>
 

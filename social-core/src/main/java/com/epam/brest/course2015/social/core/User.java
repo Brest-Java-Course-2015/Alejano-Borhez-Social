@@ -4,7 +4,9 @@ import com.epam.brest.course2015.social.test.Logged;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by alexander on 25.10.15.
@@ -19,7 +21,7 @@ import java.util.Date;
  *
  */
 @Entity
-@Table(name = "USER")
+@Table(name = "user")
 public class User {
 //  Class variables declaration
     @Id
@@ -31,6 +33,19 @@ public class User {
     private Integer age;
     private String login;
     private String password;
+
+
+    @OneToMany(mappedBy = "userId", fetch = FetchType.EAGER)
+    private List<Image> images = new ArrayList<Image>();
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "friends",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"friend1Id", "friend2Id"})},
+        joinColumns = {@JoinColumn(name = "friend1Id", referencedColumnName = "userId", nullable = false)},
+        inverseJoinColumns = {@JoinColumn(name = "friend2Id", referencedColumnName = "userId", nullable = false)}
+    )
+    private List<User> friends = new ArrayList<>();
 
     @Transient
     private Integer totalFriends;
@@ -117,6 +132,22 @@ public class User {
     public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
     }
+    @Logged
+    public List<Image> getImages() {
+        return images;
+    }
+    @Logged
+    public void setImages(List<Image> images) {
+        this.images = images;
+    }
+    @Logged
+    public List<User> getFriends() {
+        return friends;
+    }
+    @Logged
+    public void setFriends(List<User> friends) {
+        this.friends = friends;
+    }
 
     /**
      * Basic constructor for {@link User} object.
@@ -146,6 +177,7 @@ public class User {
         this.createdDate = new Date();
         this.updatedDate = new Date();
         this.totalFriends = 0;
+        this.images = new ArrayList<Image>();
     }
 
     /**

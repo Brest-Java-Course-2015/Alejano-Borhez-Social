@@ -109,11 +109,13 @@ public class SocialServiceImplTest {
 
     @Test
     public void testDeleteUser() throws Exception {
+        Integer sizeFriendsBefore = socialService.getAllFriendships().size();
         Integer sizeBefore = socialService.getAllUsers().size();
         socialService.deleteUser(1);
         Integer sizeAfter = socialService.getAllUsers().size();
         assertTrue(sizeBefore - sizeAfter == 1);
-
+        Integer sizeFriendsAfter = socialService.getAllFriendships().size();
+        assertTrue(sizeFriendsBefore - sizeFriendsAfter > 0);
     }
 
     @Test (expected = IllegalArgumentException.class)
@@ -223,7 +225,7 @@ public class SocialServiceImplTest {
         socialService.getFriends(null);
     }
 
-    @Test
+    @Test (expected = NullPointerException.class)
     public void testGetFriendsOfNonExistingUser() throws Exception {
         assertEquals(socialService.getFriends(7).size(), 0);
     }

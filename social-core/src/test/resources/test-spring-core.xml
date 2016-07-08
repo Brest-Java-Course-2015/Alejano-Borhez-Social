@@ -13,5 +13,6 @@
     <bean id="friendship" class="com.epam.brest.course2015.social.core.Friendship"/>
     <bean id="socialDto" class="com.epam.brest.course2015.social.dto.SocialDto"/>
     <bean id="message" class="com.epam.brest.course2015.social.core.SocialMessage"/>
+    <bean id="image" class="com.epam.brest.course2015.social.core.Image"/>
 
 </beans>

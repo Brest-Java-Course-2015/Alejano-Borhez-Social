@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.Date;
+import java.util.*;
+import java.util.concurrent.ExecutionException;
+
 import static org.junit.Assert.*;
 
 /**
@@ -22,6 +24,9 @@ public class UserTest {
     private static final String login = "Login";
     private static final String password = "Password";
     private static final Integer userId = 1;
+    private static final List<Image> images = Arrays.asList(new Image(1, 2), new Image(2, 3));
+    private static final List<User> friends = Arrays.asList(new User(), new User());
+
     @Autowired
     private User user;
 
@@ -101,7 +106,6 @@ public class UserTest {
     }
 
     @Test
-    @Logged
     public void testTestConstructor() throws Exception {
         User testUser = new User(userId);
         assertNotNull(testUser);
@@ -111,13 +115,30 @@ public class UserTest {
     }
 
     @Test
-    @Logged
     public void testSetTotalFriends() throws Exception {
         Integer totalFriends = 5;
         user.setTotalFriends(totalFriends);
         Integer testTotalFriends = user.getTotalFriends();
         assertNotNull(testTotalFriends);
         assertTrue(testTotalFriends == totalFriends);
+    }
+
+//    @Test
+//    public void testSetImages() throws Exception {
+//        user.setImages(images);
+//        assertNotNull(user.getImages());
+//        assertEquals(user.getImages(), images);
+//        assertEquals(user.getImages().size(), images.size());
+//        assertEquals(user.getImages().get(0).getClass(), Image.class);
+//    }
+
+    @Test
+    public void testSetFriends() throws Exception {
+        user.setFriends(friends);
+        assertNotNull(user.getFriends());
+        assertEquals(user.getFriends().size(), friends.size());
+        assertEquals(user.getFriends().get(0).getClass(), User.class);
+
     }
 
 }

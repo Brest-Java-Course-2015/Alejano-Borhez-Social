@@ -22,7 +22,7 @@ import java.util.Date;
  */
 
 @Entity
-@Table(name = "FRIENDS")
+@Table(name = "friends")
 public class Friendship {
 //  Class variables declaration
 

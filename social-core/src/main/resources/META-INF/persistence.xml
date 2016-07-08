@@ -12,7 +12,12 @@
         <class>com.epam.brest.course2015.social.core.Friendship</class>
     </persistence-unit>
 
-    <persistence-unit name="social-message" transaction-type="RESOURCE_LOCAL">
-        <class>com.epam.brest.course2015.social.core.Friendship</class>
+    <!--<persistence-unit name="social-message" transaction-type="RESOURCE_LOCAL">
+        <class>com.epam.brest.course2015.social.core.SocialMessage</class>
+    </persistence-unit>-->
+
+    <persistence-unit name="image" transaction-type="RESOURCE_LOCAL">
+        <class>com.epam.brest.course2015.social.core.Image</class>
     </persistence-unit>
+
 </persistence>

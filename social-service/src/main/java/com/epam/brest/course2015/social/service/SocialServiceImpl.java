@@ -95,7 +95,7 @@ public class SocialServiceImpl implements SocialService {
         try {
             userDao.getUserById(id);
             userDao.deleteUser(id);
-            friendshipDao.discardAllFriendshipsOfAUser(id);
+//            friendshipDao.discardAllFriendshipsOfAUser(id);
         } catch (EmptyResultDataAccessException | NullPointerException e) {
             e.printStackTrace();
             throw new IllegalArgumentException();

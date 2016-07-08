@@ -91,14 +91,14 @@ public class UserDaoJPA implements UserDao {
     @Override
     @Logged
     public List<User> getFriends(Integer id) {
-        List<User> list = entityManagerUser
-                .createQuery(selectFriendship, User.class)
-                .setParameter("userId", id)
-                .getResultList();
+
+        List<User> list = entityManagerUser.find(User.class, id).getFriends();
+
         return list;
     }
 
     @Override
+    @Logged
     public List<User> getNoFriends(Integer id) {
         List<User> list = entityManagerUser
                 .createQuery(selectNoFriendship, User.class)

@@ -19,7 +19,7 @@ import java.util.List;
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:test-spring-persistence-friendship.xml"})
+@ContextConfiguration(locations = {"classpath:test-spring-persistence-HSQL.xml"})
 @Transactional
 public class FriendshipDaoJPATest extends TestCase {
     private static final Integer testFirstFriend = 5;

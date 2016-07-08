@@ -62,7 +62,7 @@ public class SocialMessage {
 
     @Override
     public String toString() {
-        String message = "Message is sent from: User#"
+        String message = "Image is sent from: User#"
                 + user1Id
                 + " to User#"
                 + user2Id
