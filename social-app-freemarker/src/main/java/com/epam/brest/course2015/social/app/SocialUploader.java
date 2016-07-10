@@ -1,26 +1,19 @@
 package com.epam.brest.course2015.social.app;
 
+import com.cloudinary.utils.ObjectUtils;
 import com.epam.brest.course2015.social.test.Logged;
-import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
-import org.apache.hc.client5.http.impl.sync.CloseableHttpClient;
-import org.apache.hc.core5.http.HttpEntity;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import org.springframework.web.multipart.MultipartFile;
 
-import org.apache.hc.client5.http.impl.sync.HttpClients;
-import org.apache.hc.client5.http.methods.CloseableHttpResponse;
-import org.apache.hc.client5.http.methods.HttpPost;
-import org.apache.hc.core5.http.entity.ContentType;
-import org.apache.hc.core5.http.entity.EntityUtils;
-import org.apache.hc.core5.http.entity.InputStreamEntity;
+import com.cloudinary.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Map;
 
 
 /**
@@ -30,45 +23,59 @@ import java.io.IOException;
 public class SocialUploader {
     @Value("${server.prefix}")
     private String serverPrefix;
+    @Value("${cloud.name}")
+    private String cloudName;
+    @Value("${api.key}")
+    private String apiKey;
+    @Value("${api.secret}")
+    private String apiSecret;
+    @Value("${api.url}")
+    private String apiUrl;
+    @Value("${delivery.url}")
+    private String deliveryUrl;
+//    Preparing a Cloudinary instance
+    private final Cloudinary cloudinary = new Cloudinary(
+            ObjectUtils.asMap(
+                "cloud_name", cloudName,
+                "api_key", apiKey,
+                "api_secret", apiSecret
+            )
+    );
+
 
 
     @PostMapping("/upload")
     @Logged
-    public String uploadImage (@RequestParam("file") MultipartFile file) {
-
-        CloseableHttpClient client = HttpClients.createDefault();
-
-        HttpPost httpPost = new HttpPost("/2/files/upload");
-        httpPost.addHeader("Host", "https://content.dropboxapi.com");
-        httpPost.addHeader("User-Agent", "api-explorer-client");
-        httpPost.addHeader("Authorization", "Bearer xLx86vd_jMQAAAAAAAAHsG7UhMs7vDmrff9czwnXMvdYGtDn1E1oWOXu3BpXea3b");
-        httpPost.addHeader("Content-Type", "application/octet-stream");
-
-
+    public ModelAndView uploadImage (@RequestParam("file") MultipartFile file) {
+//        Preparing file to upload
         File binaryBody = new File(file.getOriginalFilename());
-
+        ModelAndView model = new ModelAndView("user-image");
         try {
             file.transferTo(binaryBody);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create();
-        entityBuilder.addBinaryBody("image", binaryBody);
-
-        HttpEntity httpEntity = entityBuilder.build();
-        httpPost.setEntity(httpEntity);
+//        Sending an upload request
         try {
-            client.execute(httpPost);
+            Map uploadResult = cloudinary.uploader().upload(
+              file, ObjectUtils.asMap(
+                            "public_id", file.getOriginalFilename()
+                    )
+            );
+//        Recieving URL of uploaded image
+            String url = cloudinary.url().format("jpg").
+                    generate(file.getOriginalFilename());
+            model.addObject("imageURL", url);
+//        Persisting URL in a database
+//            some Implementation
+//            ...
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-        finally {
-            httpPost.reset();
-        }
+//
 
-
-        return "redirect:/users?" + file.getName();
+        return model;
     }
 
 }
