@@ -24,7 +24,7 @@ public class UserTest {
     private static final String login = "Login";
     private static final String password = "Password";
     private static final Integer userId = 1;
-    private static final List<Image> images = Arrays.asList(new Image(1, 2), new Image(2, 3));
+    private static final List<Image> images = Arrays.asList(new Image(), new Image());
     private static final List<User> friends = Arrays.asList(new User(), new User());
 
     @Autowired
@@ -123,14 +123,14 @@ public class UserTest {
         assertTrue(testTotalFriends == totalFriends);
     }
 
-//    @Test
-//    public void testSetImages() throws Exception {
-//        user.setImages(images);
-//        assertNotNull(user.getImages());
-//        assertEquals(user.getImages(), images);
-//        assertEquals(user.getImages().size(), images.size());
-//        assertEquals(user.getImages().get(0).getClass(), Image.class);
-//    }
+    @Test
+    public void testSetImages() throws Exception {
+        user.setImages(images);
+        assertNotNull(user.getImages());
+        assertEquals(user.getImages(), images);
+        assertEquals(user.getImages().size(), images.size());
+        assertEquals(user.getImages().get(0).getClass(), Image.class);
+    }
 
     @Test
     public void testSetFriends() throws Exception {

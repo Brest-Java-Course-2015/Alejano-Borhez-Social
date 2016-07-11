@@ -3,7 +3,7 @@
 <Configuration>
 
     <properties>
-        <property name="filename">
+        <property name="url">
             logs/server.log
         </property>
         <property name="sharedLogFolder">
@@ -16,11 +16,11 @@
             <Patternlayout pattern="%d{HH:mm:ss.SSS}[%t] %-5level - %msg%n"/>
         </Console>
 
-        <File name="File" filename="${filename}">
+        <File name="File" url="${url}">
             <PatternLayout pattern="%d[%t] %msg %n"/>
         </File>
 
-        <File name="SharedLogFolder" filename="${sharedLogFolder}">
+        <File name="SharedLogFolder" url="${sharedLogFolder}">
             <PatternLayout pattern="%d[%t] %msg %n"/>
         </File>
 

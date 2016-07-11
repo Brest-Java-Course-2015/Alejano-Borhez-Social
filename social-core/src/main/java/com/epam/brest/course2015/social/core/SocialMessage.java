@@ -2,6 +2,7 @@ package com.epam.brest.course2015.social.core;
 
 import com.epam.brest.course2015.social.test.Logged;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -10,6 +11,7 @@ import java.util.Date;
 /**
  * Created by alexander on 12.4.16.
  */
+@Component
 //@Entity
 //@Table(name = "MESSAGES")
 public class SocialMessage {

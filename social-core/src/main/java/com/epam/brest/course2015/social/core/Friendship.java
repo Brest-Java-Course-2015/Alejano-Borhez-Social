@@ -2,6 +2,7 @@ package com.epam.brest.course2015.social.core;
 
 import com.epam.brest.course2015.social.test.Logged;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -21,6 +22,7 @@ import java.util.Date;
  *  Class is ready to use as Entity in JPA to persist data in database
  */
 
+@Component
 @Entity
 @Table(name = "friends")
 public class Friendship {

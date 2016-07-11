@@ -149,3 +149,29 @@ VALUES(
 4,
 1
 );
+
+INSERT INTO IMAGE (
+userId,
+imageId,
+url,
+createdDate
+)
+VALUES (
+1,
+1,
+'http://res.cloudinary.com/simple-social/image/upload/1-1.jpg',
+TO_TIMESTAMP('24/10/2015 20:30:00', 'DD/MM/YYYY HH:MI:SS')
+)
+
+INSERT INTO IMAGE (
+userId,
+imageId,
+url,
+createdDate
+)
+VALUES (
+1,
+2,
+'http://res.cloudinary.com/simple-social/image/upload/1-2.jpg',
+TO_TIMESTAMP('24/10/2015 20:30:00', 'DD/MM/YYYY HH:MI:SS')
+)

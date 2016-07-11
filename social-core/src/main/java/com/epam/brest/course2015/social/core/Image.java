@@ -2,6 +2,7 @@ package com.epam.brest.course2015.social.core;
 
 import com.epam.brest.course2015.social.test.Logged;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -9,28 +10,35 @@ import java.util.Date;
 /**
  * Created by alexander_borohov on 7.7.16.
  */
+@Component
 @Entity
 @Table(name = "image")
 public class Image {
 
-    private Integer userId;
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private User user;
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer imageId;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING,
             pattern = "dd-MM-yyyy")
     @Temporal(TemporalType.DATE)
     private Date createdDate;
-    private String filename;
+
+    private String url;
+
 
     @Logged
-    public Integer getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
     @Logged
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Logged
@@ -54,31 +62,27 @@ public class Image {
     }
 
     @Logged
-    public String getFilename() {
-        return filename;
+    public String getUrl() {
+        return url;
     }
 
     @Logged
-    public void setFilename(String filename) {
-        this.filename = filename;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     @Override
     public String toString() {
-        String s = "/" +
-                    userId +
-                    "/" +
-                    imageId;
+        String s = "User(" +
+                    this.user.getUserId() +
+                    "), Image(" +
+                    this.imageId +
+                    "), Url:" +
+                    this.url;
         return s;
     }
 
     public Image() {
     }
 
-    public Image(Integer userId, Integer imageId) {
-        this.userId = userId;
-        this.imageId = imageId;
-        this.createdDate = new Date();
-
-    }
 }

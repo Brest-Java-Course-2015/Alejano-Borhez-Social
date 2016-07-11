@@ -1,7 +1,5 @@
 package com.epam.brest.course2015.social.core;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,16 +21,16 @@ public class ImageTest {
     @Autowired
     private Image image;
 
-    private static final Integer userId = 1;
+    private static final User user = new User(1);
     private static final Integer imageId = 1;
     private static final Date createdDate = new Date();
-    private static final String filename = "File Name";
+    private static final String url = "File Name";
 
     @Test
-    public void getUserId() throws Exception {
-        image.setUserId(userId);
-        assertNotNull(image.getUserId());
-        assertEquals(image.getUserId(), imageId);
+    public void getUser() throws Exception {
+        image.setUser(user);
+        assertNotNull(image.getUser());
+        assertEquals(image.getUser(), user);
     }
 
     @Test
@@ -50,10 +48,10 @@ public class ImageTest {
     }
 
     @Test
-    public void getFilename() throws Exception {
-        image.setFilename(filename);
-        assertNotNull(image.getFilename());
-        assertEquals(image.getFilename(), filename);
+    public void getUrl() throws Exception {
+        image.setUrl(url);
+        assertNotNull(image.getUrl());
+        assertEquals(image.getUrl(), url);
     }
 
 }

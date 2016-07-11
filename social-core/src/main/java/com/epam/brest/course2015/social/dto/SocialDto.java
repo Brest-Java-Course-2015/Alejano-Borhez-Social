@@ -2,6 +2,7 @@ package com.epam.brest.course2015.social.dto;
 
 import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.test.Logged;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ import java.util.List;
  *
  *
  */
+@Component
 public class SocialDto {
 //  Class variables declaration
     private List<User> users;

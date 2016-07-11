@@ -2,6 +2,7 @@ package com.epam.brest.course2015.social.core;
 
 import com.epam.brest.course2015.social.test.Logged;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import java.util.List;
  *  Class is ready to use as Entity in Dao-JPA Implementation to persist data in database
  *
  */
+@Component
 @Entity
 @Table(name = "user")
 public class User {
@@ -27,16 +29,14 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
-
     private String firstName;
     private String lastName;
     private Integer age;
     private String login;
     private String password;
 
-
-    @OneToMany(mappedBy = "userId", fetch = FetchType.EAGER)
-    private List<Image> images = new ArrayList<Image>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
+    private List<Image> images = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -49,7 +49,8 @@ public class User {
 
     @Transient
     private Integer totalFriends;
-//  Dates are formatted to be transferred via JSON
+
+    //  Dates are formatted to be transferred via JSON
     @JsonFormat(shape = JsonFormat.Shape.STRING,
                 pattern = "dd-MM-yyyy")
     @Temporal(TemporalType.DATE)
@@ -132,6 +133,7 @@ public class User {
     public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
     }
+
     @Logged
     public List<Image> getImages() {
         return images;
@@ -140,10 +142,12 @@ public class User {
     public void setImages(List<Image> images) {
         this.images = images;
     }
+
     @Logged
     public List<User> getFriends() {
         return friends;
     }
+
     @Logged
     public void setFriends(List<User> friends) {
         this.friends = friends;

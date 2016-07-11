@@ -2,6 +2,7 @@ package com.epam.brest.course2015.social.app;
 
 import com.cloudinary.utils.ObjectUtils;
 import com.epam.brest.course2015.social.test.Logged;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,12 +34,13 @@ public class SocialUploader {
     private String apiUrl;
     @Value("${delivery.url}")
     private String deliveryUrl;
+
 //    Preparing a Cloudinary instance
-    private final Cloudinary cloudinary = new Cloudinary(
+    private Cloudinary cloudinary = new Cloudinary(
             ObjectUtils.asMap(
-                "cloud_name", cloudName,
-                "api_key", apiKey,
-                "api_secret", apiSecret
+                "cloud_name", "simple-social",
+                "api_key", "543582919166178",
+                "api_secret", "ZJuERS_91Sda3qhiLog6ZQ4DRgQ"
             )
     );
 
@@ -50,21 +52,20 @@ public class SocialUploader {
 //        Preparing file to upload
         File binaryBody = new File(file.getOriginalFilename());
         ModelAndView model = new ModelAndView("user-image");
+//      Sending an upload request
         try {
             file.transferTo(binaryBody);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-//        Sending an upload request
-        try {
+            String filename = FilenameUtils.getBaseName(file.getOriginalFilename());
+            String extension = FilenameUtils.getExtension(file.getOriginalFilename());
             Map uploadResult = cloudinary.uploader().upload(
-              file, ObjectUtils.asMap(
-                            "public_id", file.getOriginalFilename()
-                    )
+              binaryBody,
+              ObjectUtils.asMap(
+                   "public_id", filename
+              )
             );
-//        Recieving URL of uploaded image
-            String url = cloudinary.url().format("jpg").
-                    generate(file.getOriginalFilename());
+//        Receiving URL of uploaded image
+            String url = cloudinary.url().format(extension).
+                    generate(filename);
             model.addObject("imageURL", url);
 //        Persisting URL in a database
 //            some Implementation
