@@ -5,7 +5,9 @@ import com.epam.brest.course2015.social.dao.UserDao;
 import com.epam.brest.course2015.social.test.Logged;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -17,6 +19,8 @@ import java.util.List;
  * Created by alexander on 25.12.15.
  */
 @Repository
+@Component
+@Transactional
 public class UserDaoJPA implements UserDao {
     @Value("${user.selectAllUsers}")
     private String selectAllUsers;
@@ -24,14 +28,8 @@ public class UserDaoJPA implements UserDao {
     private String SelectAllUsersByDate;
     @Value("${user.selectByLogin}")
     private String selectUserByLogin;
-    @Value("${friend.findFriends}")
-    private String selectFriendship;
-    @Value("${friend.findNoFriends}")
-    private String selectNoFriendship;
     @Value("${user.getCountOfUsers}")
     private String getCountOfUsers;
-    @Value("${user.getCountOfUserFriends}")
-    private String getCountOfUserFriends;
 
     @PersistenceContext
     private EntityManager entityManagerUser;
@@ -100,11 +98,13 @@ public class UserDaoJPA implements UserDao {
     @Override
     @Logged
     public List<User> getNoFriends(Integer id) {
-        List<User> list = entityManagerUser
-                .createQuery(selectNoFriendship, User.class)
-                .setParameter("userId", id)
+        List<User> list = entityManagerUser.find(User.class, id).getFriends();
+        List<User> list1 = entityManagerUser
+                .createQuery(selectAllUsers, User.class)
                 .getResultList();
-        return list;
+        list1.removeAll(list);
+        list1.remove(getUserById(id));
+        return list1;
     }
 
     @Override
@@ -160,10 +160,7 @@ public class UserDaoJPA implements UserDao {
     @Override
     @Logged
     public Integer getCountOfUserFriends(Integer id) {
-        Long count = (Long) entityManagerUser
-                .createQuery(getCountOfUserFriends)
-                .setParameter("userId", id)
-                .getSingleResult();
-        return count.intValue();
+        User user = entityManagerUser.find(User.class, id);
+        return user.getFriends().size();
     }
 }

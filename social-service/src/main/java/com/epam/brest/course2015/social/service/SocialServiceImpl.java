@@ -24,18 +24,18 @@ import java.util.List;
 @Service
 @Transactional
 public class SocialServiceImpl implements SocialService {
+    @Autowired
     private UserDao userDao;
+    @Autowired
     private FriendshipDao friendshipDao;
 
-    @Autowired
-    public void setUserDao(UserDao userDao) {
+    public SocialServiceImpl (UserDao userDao, FriendshipDao friendshipDao) {
         this.userDao = userDao;
-    }
-    @Autowired
-    public void setFriendshipDao(FriendshipDao friendshipDao) {
         this.friendshipDao = friendshipDao;
     }
 
+    public SocialServiceImpl () {};
+    
     @Value("${addUser.notNullUser}")
     private String notNullUser;
     @Value("${addUser.nullId}")

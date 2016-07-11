@@ -26,8 +26,8 @@
     </bean>
 
     <bean id="socialService" class="com.epam.brest.course2015.social.service.SocialServiceImpl">
-        <property name="userDao" ref="userDao"/>
-        <property name="friendshipDao" ref="friendshipDao"/>
+        <constructor-arg ref="userDao"/>
+        <constructor-arg ref="friendshipDao"/>
     </bean>
 
     <aop:aspectj-autoproxy/>

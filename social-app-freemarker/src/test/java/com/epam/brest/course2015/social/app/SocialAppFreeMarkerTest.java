@@ -47,7 +47,7 @@ public class SocialAppFreeMarkerTest {
         InternalResourceViewResolver viewResolver =
                 new InternalResourceViewResolver();
         viewResolver.setPrefix("/WEB-INF/view/");
-        viewResolver.setSuffix(".jsp");
+        viewResolver.setSuffix(".ftl");
 
         mockMvc = standaloneSetup(socialController)
                 .setMessageConverters(
@@ -71,7 +71,7 @@ public class SocialAppFreeMarkerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(forwardedUrl("/WEB-INF/view/users.jsp"));
+                .andExpect(forwardedUrl("/WEB-INF/view/users.ftl"));
     }
 
     @Test
@@ -84,7 +84,7 @@ public class SocialAppFreeMarkerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(forwardedUrl("/WEB-INF/view/usersbydate.jsp"))
+                .andExpect(forwardedUrl("/WEB-INF/view/usersbydate.ftl"))
                 .andExpect(view().name("usersbydate"));
     }
 
@@ -98,7 +98,7 @@ public class SocialAppFreeMarkerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(forwardedUrl("/WEB-INF/view/friends.jsp"));
+                .andExpect(forwardedUrl("/WEB-INF/view/friends.ftl"));
     }
 
     @Test
@@ -138,7 +138,7 @@ public class SocialAppFreeMarkerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(forwardedUrl("/WEB-INF/view/user.jsp"))
+                .andExpect(forwardedUrl("/WEB-INF/view/user.ftl"))
                 .andExpect(view().name("user"));
 
     }
@@ -177,7 +177,7 @@ public class SocialAppFreeMarkerTest {
                 get("/adduser")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(forwardedUrl("/WEB-INF/view/adduser.jsp"))
+                .andExpect(forwardedUrl("/WEB-INF/view/adduser.ftl"))
                 .andExpect(view().name("adduser"));
     }
 
@@ -273,7 +273,7 @@ public class SocialAppFreeMarkerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(forwardedUrl("/WEB-INF/view/nofriends.jsp"))
+                .andExpect(forwardedUrl("/WEB-INF/view/nofriends.ftl"))
                 .andExpect(view().name("nofriends"));
     }
 

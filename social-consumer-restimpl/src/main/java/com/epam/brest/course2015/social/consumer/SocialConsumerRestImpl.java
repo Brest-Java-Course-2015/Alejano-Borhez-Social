@@ -5,11 +5,13 @@ import com.epam.brest.course2015.social.dto.SocialDto;
 import com.epam.brest.course2015.social.test.Logged;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 /**
  * Created by alexander on 19.1.16.
  */
+@Component
 public class SocialConsumerRestImpl implements SocialConsumer {
     @Autowired
     private RestTemplate restTemplate;

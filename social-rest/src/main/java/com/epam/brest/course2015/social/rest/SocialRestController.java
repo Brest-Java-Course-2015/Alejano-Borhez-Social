@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -22,16 +23,13 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
+@Component
 public class SocialRestController {
 
-    private SocialService socialService;
-    private SimpMessagingTemplate socialMessaging;
-
     @Autowired
-    public SocialRestController(SocialService socialService, SimpMessagingTemplate socialMessaging) {
-        this.socialService = socialService;
-        this.socialMessaging = socialMessaging;
-    }
+    private SocialService socialService;
+    @Autowired
+    private SimpMessagingTemplate socialMessaging;
 
     @SubscribeMapping(value = "/hello")
     @Logged
@@ -41,7 +39,7 @@ public class SocialRestController {
     }
 
 
-    @RequestMapping(value = "/users",
+    /*@RequestMapping(value = "/users",
                     method = RequestMethod.GET)
     @Logged
     public List<User> getAllUsers() {
@@ -85,7 +83,7 @@ public class SocialRestController {
     public User getUserByLogin(@RequestParam(value = "login")
                                               String login) {
         return socialService.getUserByLogin(login);
-    }
+    }*/
 
     @SubscribeMapping("/addeduser")
     @RequestMapping(value = "/user",
@@ -93,16 +91,11 @@ public class SocialRestController {
     @ResponseStatus(value = HttpStatus.CREATED)
     @Logged
     public Integer addUser(@RequestBody User user) {
-        User addedUser = new User(user.getLogin(),
-                user.getPassword(),
-                user.getFirstName(),
-                user.getLastName(),
-                user.getAge());
-        Integer addedUserId = socialService.addUser(addedUser);
+        Integer addedUserId = socialService.addUser(user);
         SocialDto dto = socialService.getSocialUsersDto();
         Integer totalUsers = dto.getTotalUsers();
-        addedUser.setUserId(addedUserId);
-        socialMessaging.convertAndSend("/topic/addeduser", addedUser);
+        user.setUserId(addedUserId);
+        socialMessaging.convertAndSend("/topic/addeduser", user);
         socialMessaging.convertAndSend("/topic/totalusers", totalUsers);
         return addedUserId;
 
@@ -159,7 +152,7 @@ public class SocialRestController {
 
     }
 
-    @RequestMapping(value = "/user/friendship",
+  /*  @RequestMapping(value = "/user/friendship",
                     method = RequestMethod.GET)
     @Logged
     public boolean isAFriend(@RequestParam(value = "id1")
@@ -168,7 +161,7 @@ public class SocialRestController {
                                            Integer id2) {
         return socialService.isAFriend(new User(id1), new User(id2));
     }
-
+*/
     @RequestMapping(value = "/user/friendship",
                     method = RequestMethod.DELETE)
     @Logged

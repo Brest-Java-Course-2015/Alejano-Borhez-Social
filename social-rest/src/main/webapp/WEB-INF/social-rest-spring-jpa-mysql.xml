@@ -17,10 +17,13 @@
        http://www.springframework.org/schema/aop
        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
        http://www.springframework.org/schema/tx
-	   http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/tx/spring-tx.xsd
        ">
 
-    <context:component-scan base-package="com.epam.brest.course2015.social"/>
+    <context:component-scan base-package="com.epam.brest.course2015.social.core"/>
+    <context:component-scan base-package="com.epam.brest.course2015.social.jpa"/>
+    <context:component-scan base-package="com.epam.brest.course2015.social.service"/>
+
 
     <mvc:annotation-driven/>
 
@@ -57,8 +60,8 @@
     <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
 
     <bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-        <property name="database" value="HSQL"/>
-        <property name="databasePlatform" value="org.hibernate.dialect.HSQLDialect"/>
+        <property name="database" value="MYSQL"/>
+        <property name="databasePlatform" value="org.hibernate.dialect.MySQL5Dialect"/>
         <property name="generateDdl" value="false"/>
         <property name="showSql" value="true"/>
     </bean>
@@ -75,16 +78,6 @@
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
         <property name="dataSource" ref="dataSource"/>
-    </bean>
-
-    <!-- JPA Entities -->
-
-    <bean id="userDao" class="com.epam.brest.course2015.social.jpa.UserDaoJPA"/>
-    <bean id="friendshipDao" class="com.epam.brest.course2015.social.jpa.FriendshipDaoJPA"/>
-
-    <bean id="socialService" class="com.epam.brest.course2015.social.service.SocialServiceImpl">
-        <property name="userDao" ref="userDao"/>
-        <property name="friendshipDao" ref="friendshipDao"/>
     </bean>
 
     <!--Serializing -->

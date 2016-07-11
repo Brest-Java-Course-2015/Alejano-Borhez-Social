@@ -24,6 +24,7 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations = {"classpath:test-spring-persistence-HSQL.xml"})
 @Transactional
 public class UserDaoJPATest {
+
     public static Date getTestDate(String date) {
         try {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");

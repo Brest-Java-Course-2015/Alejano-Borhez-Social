@@ -16,11 +16,9 @@
        ">
 
     <context:component-scan base-package="com.epam.brest.course2015.social.rest"/>
-
-    <bean id="restController" class="com.epam.brest.course2015.social.rest.SocialRestController">
-        <constructor-arg ref="socialService"/>
-        <constructor-arg ref="socialMessaging"/>
-    </bean>
+    <context:component-scan base-package="com.epam.brest.course2015.social.service"/>
+    <context:component-scan base-package="com.epam.brest.course2015.social.jpa"/>
+    <context:component-scan base-package="com.epam.brest.course2015.social.core"/>
 
     <import resource="classpath*:test-spring-db.xml"/>
 
@@ -49,16 +47,6 @@
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
         <property name="dataSource" ref="dataSource"/>
-    </bean>
-
-    <!-- JPA Entities -->
-
-    <bean id="userDao" class="com.epam.brest.course2015.social.jpa.UserDaoJPA"/>
-    <bean id="friendshipDao" class="com.epam.brest.course2015.social.jpa.FriendshipDaoJPA"/>
-
-    <bean id="socialService" class="com.epam.brest.course2015.social.service.SocialServiceImpl">
-        <property name="userDao" ref="userDao"/>
-        <property name="friendshipDao" ref="friendshipDao"/>
     </bean>
 
     <bean id="socialMessaging" class="org.springframework.messaging.simp.SimpMessagingTemplate">
