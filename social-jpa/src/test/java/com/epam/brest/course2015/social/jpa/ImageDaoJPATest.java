@@ -35,7 +35,7 @@ public class ImageDaoJPATest {
 
     @Test
     public void addImage() throws Exception {
-        testImage.setUser(testUser);
+//        testImage.setUser(testUser);
         testImage.setUrl(testUrl);
         testImage.setCreatedDate(new Date());
         Integer imageId = imageDao.addImage(testImage);
@@ -48,8 +48,8 @@ public class ImageDaoJPATest {
         Image image = imageDao.getImage(1);
         assertNotNull(image);
         assertEquals(image.getClass(), Image.class);
-        assertEquals(image.getUser().getClass(), User.class);
-        assertEquals(image.getUser().getUserId().intValue(), 1);
+//        assertEquals(image.getUser().getClass(), User.class);
+//        assertEquals(image.getUser().getUserId().intValue(), 1);
     }
 
     @Test

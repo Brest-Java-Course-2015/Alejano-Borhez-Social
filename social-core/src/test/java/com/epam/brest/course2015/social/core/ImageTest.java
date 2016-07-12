@@ -26,13 +26,13 @@ public class ImageTest {
     private static final Date createdDate = new Date();
     private static final String url = "File Name";
 
-    @Test
+   /* @Test
     public void getUser() throws Exception {
         image.setUser(user);
         assertNotNull(image.getUser());
         assertEquals(image.getUser(), user);
     }
-
+*/
     @Test
     public void getImageId() throws Exception {
         image.setImageId(imageId);

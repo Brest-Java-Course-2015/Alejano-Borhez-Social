@@ -1,5 +1,6 @@
 package com.epam.brest.course2015.social.consumer;
 
+import com.epam.brest.course2015.social.core.Image;
 import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dto.SocialDto;
 import com.epam.brest.course2015.social.test.Logged;
@@ -124,6 +125,25 @@ public class SocialConsumerRestImpl implements SocialConsumer {
                         , Integer.class
                 );
         return userId;
+    }
+
+    @Override
+    @Logged
+    public Integer addImage(Integer id, String imageUrl) {
+        String url = restPrefix
+                + "upload"
+                + "?id="
+                + id
+                + "&url="
+                + imageUrl;
+        Integer imageId = restTemplate
+                .postForObject(
+                        url
+                        , null
+                        , Integer.class
+                );
+
+        return imageId;
     }
 
     @Override

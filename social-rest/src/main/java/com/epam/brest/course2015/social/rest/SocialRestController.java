@@ -1,6 +1,7 @@
 package com.epam.brest.course2015.social.rest;
 
 import com.epam.brest.course2015.social.core.Friendship;
+import com.epam.brest.course2015.social.core.Image;
 import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dto.SocialDto;
 import com.epam.brest.course2015.social.service.SocialService;
@@ -37,53 +38,6 @@ public class SocialRestController {
 //        return "Hello, " + name + "!";
         return new User("login", "paswrd", "Alex", "Borohov", 30);
     }
-
-
-    /*@RequestMapping(value = "/users",
-                    method = RequestMethod.GET)
-    @Logged
-    public List<User> getAllUsers() {
-        return socialService.getAllUsers();
-    }
-
-    @RequestMapping(value = "/friendships",
-                    method = RequestMethod.GET)
-    @Logged
-    public List<Friendship> getAllFriendships() {
-        return socialService.getAllFriendships();
-    }
-
-    @RequestMapping(value = "/user/friends",
-                    method = RequestMethod.GET)
-    @Logged
-    public List<User> getFriends(@RequestParam(value = "id")
-                                               Integer id) {
-        return socialService.getFriends(id);
-    }
-
-    @RequestMapping(value = "/user/nofriends",
-                    method = RequestMethod.GET)
-    @Logged
-    public List<User> getNoFriends(@RequestParam(value = "id")
-                                                 Integer id) {
-        return socialService.getNoFriends(id);
-    }
-
-    @RequestMapping(value = "/user",
-                    method = RequestMethod.GET)
-    @Logged
-    public User getUserById(@RequestParam(value = "id")
-                                           Integer id) {
-        return socialService.getUserById(id);
-    }
-
-    @RequestMapping(value = "/user/login",
-                    method = RequestMethod.GET)
-    @Logged
-    public User getUserByLogin(@RequestParam(value = "login")
-                                              String login) {
-        return socialService.getUserByLogin(login);
-    }*/
 
     @SubscribeMapping("/addeduser")
     @RequestMapping(value = "/user",
@@ -152,16 +106,6 @@ public class SocialRestController {
 
     }
 
-  /*  @RequestMapping(value = "/user/friendship",
-                    method = RequestMethod.GET)
-    @Logged
-    public boolean isAFriend(@RequestParam(value = "id1")
-                                           Integer id1,
-                             @RequestParam(value = "id2")
-                                           Integer id2) {
-        return socialService.isAFriend(new User(id1), new User(id2));
-    }
-*/
     @RequestMapping(value = "/user/friendship",
                     method = RequestMethod.DELETE)
     @Logged
@@ -216,6 +160,16 @@ public class SocialRestController {
         Date date2 = getDate(dateMax);
         return socialService.getSocialUsersDtoByDate(date1
                                                    , date2);
+    }
+
+    @RequestMapping(value = "/upload",
+        method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.CREATED)
+    @Logged
+    public Integer uploadImage(@RequestParam("id") Integer id,
+                               @RequestParam("url") String url) {
+
+        return socialService.addImage(id, url);
     }
 
     @Logged

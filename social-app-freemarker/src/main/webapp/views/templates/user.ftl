@@ -70,16 +70,23 @@
                 </tbody>
                 </table>
             </div>
-        </div>
-        <div class="col-md-4">
-            <img class="img-responsive" src="http://localhost:8080/images/1-1.jpg">
 
-            <form method="POST" action="upload" enctype="multipart/form-data">
-                Фото для загрузки <input type="file" name="file">
-                <input type="submit" value="Upload"> Нажмите для добавления фото
+        </div>
+
+            <div class="col-md-8">
+
+                     <#list dto.user.images as image>
+                         <img class="img-responsive" src="${image.url}" style="width: 200px" onclick="deleteImage(${image.imageId})">
+                     </#list>
+            <form method="POST" action="upload?id=${dto.user.userId}" enctype="multipart/form-data">
+                    <input
+                        Фото для загрузки <input type="file" name="file">
+                    <input type="submit" value="Upload"> Нажмите для добавления фото !
             </form>
+            </div>
 
-        </div>
+
+
     </div>
 
     <h2> <@spring.message code="user.friends" /> </h2>

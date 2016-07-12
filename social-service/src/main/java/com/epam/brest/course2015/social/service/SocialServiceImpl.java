@@ -1,8 +1,10 @@
 package com.epam.brest.course2015.social.service;
 
 import com.epam.brest.course2015.social.core.Friendship;
+import com.epam.brest.course2015.social.core.Image;
 import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dao.FriendshipDao;
+import com.epam.brest.course2015.social.dao.ImageDao;
 import com.epam.brest.course2015.social.dao.UserDao;
 import com.epam.brest.course2015.social.dto.SocialDto;
 import com.epam.brest.course2015.social.test.Logged;
@@ -28,10 +30,13 @@ public class SocialServiceImpl implements SocialService {
     private UserDao userDao;
     @Autowired
     private FriendshipDao friendshipDao;
+    @Autowired
+    private ImageDao imageDao;
 
-    public SocialServiceImpl (UserDao userDao, FriendshipDao friendshipDao) {
+    public SocialServiceImpl (UserDao userDao, FriendshipDao friendshipDao, ImageDao imageDao) {
         this.userDao = userDao;
         this.friendshipDao = friendshipDao;
+        this.imageDao = imageDao;
     }
 
     public SocialServiceImpl () {};
@@ -347,4 +352,25 @@ public class SocialServiceImpl implements SocialService {
         }
         return dto;
     }
+
+    @Override
+    @Logged
+    public Integer addImage (Integer userId, String imageUrl) {
+        Assert.notNull(userId, notNullId);
+        Assert.notNull(imageUrl, "You must provide a valid URL");
+        Image image = new Image();
+        image.setCreatedDate(new Date());
+        image.setUrl(imageUrl);
+        Integer imageId = imageDao.addImage(image);
+        Image addedImage = imageDao.getImage(imageId);
+        userDao.addImage(userId, addedImage);
+        return imageId;
+    }
+
+    @Override
+    public List<Image> getAllImagesOfAUser(Integer id) {
+        Assert.notNull(id, notNullId);
+        return imageDao.getAllImagesOfAUser(id);
+    }
+
 }

@@ -2,6 +2,7 @@ package com.epam.brest.course2015.social.rest;
 
 
 import com.epam.brest.course2015.social.core.Friendship;
+import com.epam.brest.course2015.social.core.Image;
 import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dto.SocialDto;
 import com.epam.brest.course2015.social.service.SocialService;
@@ -279,7 +280,7 @@ public class SocialRestControllerMockTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content()
-                  .string("{\"users\":null,\"totalUsers\":null,\"user\":null}"));
+                  .string("{\"users\":null,\"images\":null,\"totalUsers\":null,\"user\":null}"));
     }
 
     @Test
@@ -293,7 +294,7 @@ public class SocialRestControllerMockTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content()
-                    .string("{\"users\":null,\"totalUsers\":null,\"user\":null}"));
+                    .string("{\"users\":null,\"images\":null,\"totalUsers\":null,\"user\":null}"));
     }
 
     @Test
@@ -307,7 +308,7 @@ public class SocialRestControllerMockTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content()
-                        .string("{\"users\":null,\"totalUsers\":null,\"user\":null}"));
+                        .string("{\"users\":null,\"images\":null,\"totalUsers\":null,\"user\":null}"));
     }
 
     @Test
@@ -324,6 +325,21 @@ public class SocialRestControllerMockTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content()
-                        .string("{\"users\":null,\"totalUsers\":null,\"user\":null}"));
+                        .string("{\"users\":null,\"images\":null,\"totalUsers\":null,\"user\":null}"));
+    }
+
+    @Test
+    public void testAddImage() throws Exception {
+        expect(socialService.addImage(anyInt(), anyString())).andReturn(3);
+        replay(socialService);
+        String image = new ObjectMapper().writeValueAsString(new Image());
+        mockMvc.perform(
+                post("/upload?id=1&url=url")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(image))
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andExpect(content().string("3"));
     }
 }

@@ -15,9 +15,9 @@ import java.util.Date;
 @Table(name = "image")
 public class Image {
 
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name = "userId")
-    private User user;
+    private User user;*/
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,13 +25,13 @@ public class Image {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING,
             pattern = "dd-MM-yyyy")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
 
     private String url;
 
 
-    @Logged
+    /*@Logged
     public User getUser() {
         return user;
     }
@@ -40,7 +40,7 @@ public class Image {
     public void setUser(User user) {
         this.user = user;
     }
-
+*/
     @Logged
     public Integer getImageId() {
         return imageId;
@@ -74,7 +74,7 @@ public class Image {
     @Override
     public String toString() {
         String s = "User(" +
-                    this.user.getUserId() +
+//                    this.user.getUserId() +
                     "), Image(" +
                     this.imageId +
                     "), Url:" +

@@ -1,12 +1,14 @@
 package com.epam.brest.course2015.social.service;
 
 import com.epam.brest.course2015.social.core.Friendship;
+import com.epam.brest.course2015.social.core.Image;
 import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dto.SocialDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +29,7 @@ import static org.junit.Assert.*;
 public class SocialServiceImplTest {
     private static User testUser1 = new User("testLogin1", "testPassword1", "testFirstName1", "testLastName1", 25);
     private static User testUser2 = new User("testLogin2", "testPassword2", "testFirstName2", "testLastName2", 26);
+    private static Image testImage = new Image();
     private static String testPassword = "testPassword";
     private static String testLogin = "testLogin";
     private static String testFirstName = "testFirstName";
@@ -554,4 +557,21 @@ public class SocialServiceImplTest {
         assertEquals(dto.getUsers().get(0).getClass(), User.class);
 
     }
+
+    @Test
+    public void testAddImage() throws Exception {
+        Integer before = socialService.getAllImagesOfAUser(1).size();
+        socialService.addImage(1, testLogin);
+        Integer after = socialService.getAllImagesOfAUser(1).size();
+        assertTrue(after - before == 1);
+
+    }
+
+    @Test
+    public void testGetAllImagesOfAUser() throws Exception {
+
+    }
+
+
+
 }

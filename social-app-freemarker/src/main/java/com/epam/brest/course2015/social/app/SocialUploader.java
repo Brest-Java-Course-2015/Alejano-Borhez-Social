@@ -1,8 +1,13 @@
 package com.epam.brest.course2015.social.app;
 
 import com.cloudinary.utils.ObjectUtils;
+import com.epam.brest.course2015.social.consumer.SocialConsumer;
+import com.epam.brest.course2015.social.core.Image;
+import com.epam.brest.course2015.social.core.User;
+import com.epam.brest.course2015.social.dto.SocialDto;
 import com.epam.brest.course2015.social.test.Logged;
 import org.apache.commons.io.FilenameUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,8 +17,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.cloudinary.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.jws.soap.SOAPBinding;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Map;
 
 
@@ -35,6 +42,9 @@ public class SocialUploader {
     @Value("${delivery.url}")
     private String deliveryUrl;
 
+    @Autowired
+    SocialConsumer socialConsumer;
+
 //    Preparing a Cloudinary instance
     private Cloudinary cloudinary = new Cloudinary(
             ObjectUtils.asMap(
@@ -48,35 +58,32 @@ public class SocialUploader {
 
     @PostMapping("/upload")
     @Logged
-    public ModelAndView uploadImage (@RequestParam("file") MultipartFile file) {
-//        Preparing file to upload
-        File binaryBody = new File(file.getOriginalFilename());
-        ModelAndView model = new ModelAndView("user-image");
-//      Sending an upload request
+    public String uploadImage (@RequestParam("file") MultipartFile file,
+                               @RequestParam("id") Integer id) {
         try {
+//      Preparing file to upload
+            File binaryBody = new File(file.getOriginalFilename());
             file.transferTo(binaryBody);
             String filename = FilenameUtils.getBaseName(file.getOriginalFilename());
             String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+//      Sending an upload request
             Map uploadResult = cloudinary.uploader().upload(
               binaryBody,
               ObjectUtils.asMap(
                    "public_id", filename
               )
             );
-//        Receiving URL of uploaded image
+//      Receiving URL of uploaded image
             String url = cloudinary.url().format(extension).
                     generate(filename);
-            model.addObject("imageURL", url);
-//        Persisting URL in a database
-//            some Implementation
-//            ...
+//      Persisting URL in a database
+            socialConsumer.addImage(id, url);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 //
-
-        return model;
+        return "redirect:/user?id=" + id;
     }
 
 }

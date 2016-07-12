@@ -1,5 +1,6 @@
 package com.epam.brest.course2015.social.dto;
 
+import com.epam.brest.course2015.social.core.Image;
 import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.test.Logged;
 import org.springframework.stereotype.Component;
@@ -27,7 +28,10 @@ import java.util.List;
 public class SocialDto {
 //  Class variables declaration
     private List<User> users;
-//    private List<SocialMessage> messages;
+
+
+
+    private List<Image> images;
     private Integer totalUsers;
     private User user;
 //  Getters and setters for class variables
@@ -68,5 +72,12 @@ public class SocialDto {
     }
 
     public SocialDto () { }
-
+    @Logged
+    public void setImages(List<Image> images) {
+        this.images = images;
+    }
+    @Logged
+    public List<Image> getImages() {
+        return images;
+    }
 }

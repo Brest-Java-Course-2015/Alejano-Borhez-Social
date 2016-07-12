@@ -1,5 +1,6 @@
 package com.epam.brest.course2015.social.jpa;
 
+import com.epam.brest.course2015.social.core.Image;
 import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dao.UserDao;
 import com.epam.brest.course2015.social.test.Logged;
@@ -71,6 +72,13 @@ public class UserDaoJPA implements UserDao {
     public void changeLastName(Integer id, String lastName) {
         User user = entityManagerUser.find(User.class, id);
         user.setLastName(lastName);
+        entityManagerUser.merge(user);
+    }
+
+    @Override
+    public void addImage(Integer id, Image image) {
+        User user = entityManagerUser.find(User.class, id);
+        user.getImages().add(image);
         entityManagerUser.merge(user);
     }
 

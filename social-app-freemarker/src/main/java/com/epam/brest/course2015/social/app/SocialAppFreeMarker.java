@@ -46,7 +46,9 @@ public class SocialAppFreeMarker {
     @Logged
     public ModelAndView getAllUsers() {
         SocialDto dto = socialConsumer.getAllUsers();
-        return new ModelAndView("users", "dto", dto);
+        ModelAndView model = new ModelAndView("users", "dto", dto);
+        model.addObject("mapping", "users");
+        return model;
     }
 
     @RequestMapping("/usersbydate")

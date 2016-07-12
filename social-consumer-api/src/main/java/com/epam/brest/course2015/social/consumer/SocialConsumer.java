@@ -1,5 +1,6 @@
 package com.epam.brest.course2015.social.consumer;
 
+import com.epam.brest.course2015.social.core.Image;
 import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dto.SocialDto;
 
@@ -14,6 +15,7 @@ public interface SocialConsumer {
     SocialDto getAllFriends(Integer id);
     SocialDto getAllNoFriendsOfAUser(Integer id);
     Integer addUserSubmit(User user);
+    Integer addImage(Integer userId, String imageUrl);
     void deleteUser(Integer id);
     void addFriendship(Integer id1, Integer id2);
     void deleteFriend(Integer id1, Integer id2);
@@ -21,4 +23,5 @@ public interface SocialConsumer {
     void changeLogin(Integer id, String login);
     void changeFirstName(Integer id, String firstName);
     void changeLastName(Integer id, String lastName);
+
 }

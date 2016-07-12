@@ -1,6 +1,8 @@
 package com.epam.brest.course2015.social.jpa;
 
+import com.epam.brest.course2015.social.core.Image;
 import com.epam.brest.course2015.social.core.User;
+import com.epam.brest.course2015.social.dao.ImageDao;
 import com.epam.brest.course2015.social.dao.UserDao;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,6 +46,8 @@ public class UserDaoJPATest {
 
     @Autowired
     UserDao userDao;
+    @Autowired
+    ImageDao imageDao;
 
     @Test
     public void testGetUserById() throws Exception {
@@ -153,8 +157,24 @@ public class UserDaoJPATest {
 
     @Test
     public void testGetCountOfUserFriends() throws Exception {
-        Integer count = userDao.getCountOfUserFriends(1);
+        Integer count = userDao.getCountOfUserFriends(testId);
         assertNotNull(count);
         assertTrue(count > 0);
+    }
+
+    @Test
+    public void testAddImage() throws Exception {
+        Integer imageCountBefore = userDao.getUserById(testId).getImages().size();
+        Image image = new Image();
+        image.setCreatedDate(new Date());
+        image.setUrl("url");
+        Integer imageId = imageDao.addImage(image);
+        image = imageDao.getImage(imageId);
+        userDao.addImage(testId, image);
+        Integer imageCountAfter = userDao.getUserById(testId).getImages().size();
+        assertTrue(imageCountBefore < imageCountAfter);
+        assertEquals(userDao.getUserById(testId).getImages().get(2), image);
+        assertEquals(userDao.getUserById(testId).getImages().get(2).getUrl(), "url");
+
     }
 }

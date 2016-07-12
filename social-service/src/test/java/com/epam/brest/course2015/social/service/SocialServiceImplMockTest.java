@@ -3,6 +3,7 @@ package com.epam.brest.course2015.social.service;
 import com.epam.brest.course2015.social.core.Friendship;
 import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dao.FriendshipDao;
+import com.epam.brest.course2015.social.dao.ImageDao;
 import com.epam.brest.course2015.social.dao.UserDao;
 import org.junit.After;
 import org.junit.Test;
@@ -33,9 +34,10 @@ public class SocialServiceImplMockTest {
 
     @Autowired
     private UserDao userMockDao;
-
     @Autowired
     private FriendshipDao friendshipMockDao;
+    @Autowired
+    private ImageDao imageMockDao;
 
     @After
     public void clean() {

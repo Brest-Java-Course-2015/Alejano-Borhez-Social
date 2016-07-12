@@ -1,5 +1,6 @@
 package com.epam.brest.course2015.social.dao;
 
+import com.epam.brest.course2015.social.core.Image;
 import com.epam.brest.course2015.social.core.User;
 
 import java.util.Date;
@@ -14,6 +15,7 @@ public interface UserDao {
     void changeLogin(Integer id, String login);
     void changeFirstName(Integer id, String firstName);
     void changeLastName(Integer id, String lastName);
+    void addImage(Integer id, Image image);
     void deleteUser(Integer id);
     List<User> getFriends(Integer id);
     List<User> getNoFriends(Integer id);

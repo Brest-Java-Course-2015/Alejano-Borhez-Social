@@ -1,6 +1,7 @@
 package com.epam.brest.course2015.social.service;
 
 import com.epam.brest.course2015.social.core.Friendship;
+import com.epam.brest.course2015.social.core.Image;
 import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dto.SocialDto;
 
@@ -12,6 +13,7 @@ import java.util.List;
  */
 public interface SocialService {
     Integer addUser(User user);
+    Integer addImage(Integer userId, String imageUrl);
     void deleteUser(Integer id);
     void changePassword(Integer id, String password);
     void changeLogin(Integer id, String login);
@@ -32,4 +34,5 @@ public interface SocialService {
     SocialDto getSocialFriendsDto(Integer id);
     SocialDto getSocialNoFriendsDto(Integer id);
     SocialDto getSocialUsersDtoByDate(Date dateMin, Date dateMax);
+    List<Image> getAllImagesOfAUser(Integer id);
 }

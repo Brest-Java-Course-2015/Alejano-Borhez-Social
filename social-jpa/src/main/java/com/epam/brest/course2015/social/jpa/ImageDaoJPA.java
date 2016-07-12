@@ -55,9 +55,8 @@ public class ImageDaoJPA implements ImageDao {
     public List<Image> getAllImagesOfAUser(Integer userId) {
         /*List<Image> list = entityManager
                 .createQuery(selectImages, Image.class)
-                .setParameter("userId", entityManager.find(User.class, userId))
-                .getResultList();
-        */
+                .setParameter("userId", userId)
+                .getResultList();*/
         List<Image> list = entityManager
                 .find(
                       User.class,

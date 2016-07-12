@@ -35,8 +35,12 @@ public class User {
     private String login;
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
-    private List<Image> images = new ArrayList<>();
+    @OneToMany(
+              fetch = FetchType.EAGER,
+              cascade = CascadeType.REMOVE,
+              orphanRemoval = true
+    )
+    private List<Image> images;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -45,7 +49,7 @@ public class User {
         joinColumns = {@JoinColumn(name = "friend1Id", referencedColumnName = "userId", nullable = false)},
         inverseJoinColumns = {@JoinColumn(name = "friend2Id", referencedColumnName = "userId", nullable = false)}
     )
-    private List<User> friends = new ArrayList<>();
+    private List<User> friends;
 
     @Transient
     private Integer totalFriends;
@@ -53,11 +57,11 @@ public class User {
     //  Dates are formatted to be transferred via JSON
     @JsonFormat(shape = JsonFormat.Shape.STRING,
                 pattern = "dd-MM-yyyy")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING,
                 pattern = "dd-MM-yyyy")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
 
 //  Getters and setters for class variables

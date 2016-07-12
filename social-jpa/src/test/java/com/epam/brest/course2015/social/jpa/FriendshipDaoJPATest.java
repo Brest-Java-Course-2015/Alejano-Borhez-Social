@@ -62,7 +62,7 @@ public class FriendshipDaoJPATest extends TestCase {
         assertFalse(friendshipDao.isAFriend(new User(2), new User(1)));
     }
 
-//    @Test
+    @Test
     public void testGetAllFriendships () throws Exception {
         List<Friendship> friendshipsList = friendshipDao.getAllFriendships();
         assertNotNull(friendshipsList);

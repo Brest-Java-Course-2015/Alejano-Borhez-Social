@@ -1,5 +1,6 @@
 package com.epam.brest.course2015.social.dto;
 
+import com.epam.brest.course2015.social.core.Image;
 import com.epam.brest.course2015.social.core.SocialMessage;
 import com.epam.brest.course2015.social.core.User;
 import junit.framework.TestCase;
@@ -10,6 +11,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -63,4 +66,24 @@ public class SocialDtoTest extends TestCase {
         assertEquals(dto.getMessages().size(), 1);
     }*/
 
+    @Test
+    public void testGetImages() throws Exception {
+        Image image1 = new Image();
+        image1.setUrl("url1");
+        image1.setCreatedDate(new Date());
+        image1.setImageId(1);
+        Image image2 = new Image();
+        image2.setUrl("url2");
+        image2.setCreatedDate(new Date());
+        image2.setImageId(2);
+
+        List<Image> imageList = new ArrayList<>();
+        imageList.add(image1);
+        imageList.add(image2);
+
+        dto.setImages(imageList);
+        assertNotNull(dto.getImages());
+        assertNotNull(dto.getImages().get(0));
+        assertEquals(dto.getImages().get(0).getClass(), Image.class);
+    }
 }

@@ -25,6 +25,9 @@ public class FriendshipDaoJPA implements FriendshipDao {
     @PersistenceContext
     EntityManager entityManager;
 
+    @Value("${friends.getAllFriendships}")
+    private String getAllFriendship;
+
     @Override
     @Logged
     public void addFriendship(User friend1, User friend2) {
@@ -61,7 +64,7 @@ public class FriendshipDaoJPA implements FriendshipDao {
     @Override
     @Logged
     public List<Friendship> getAllFriendships() {
-        return Arrays.asList();
+        return entityManager.createQuery(getAllFriendship, Friendship.class).getResultList();
     }
 
     @Override
