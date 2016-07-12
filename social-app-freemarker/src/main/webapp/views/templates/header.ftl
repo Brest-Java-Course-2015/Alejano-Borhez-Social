@@ -9,7 +9,18 @@
     <meta name="description" content="Alexander Borohov's Simple Social Network">
     <meta name="author" content="Alexander Borohov">
 
-    <link type="text/css" rel="stylesheet" href="<@spring.url "/resources/css/bootstrap.min.css"/>">
+    <!-- <link type="text/css" rel="stylesheet" href="<@spring.url "/resources/css/bootstrap/bootstrap.min.css"/>"> -->
+    <link type="text/css" rel="stylesheet" href="<@spring.url "/resources/css/vk/aes_light.css"/>">
+    <link type="text/css" rel="stylesheet" href="<@spring.url "/resources/css/vk/common.css"/>">
+    <link type="text/css" rel="stylesheet" href="<@spring.url "/resources/css/vk/feed.css"/>">
+    <link type="text/css" rel="stylesheet" href="<@spring.url "/resources/css/vk/notifier.css"/>">
+    <link type="text/css" rel="stylesheet" href="<@spring.url "/resources/css/vk/pads.css"/>">
+    <link type="text/css" rel="stylesheet" href="<@spring.url "/resources/css/vk/page.css"/>">
+    <link type="text/css" rel="stylesheet" href="<@spring.url "/resources/css/vk/photos.css"/>">
+    <link type="text/css" rel="stylesheet" href="<@spring.url "/resources/css/vk/profile.css"/>">
+    <link type="text/css" rel="stylesheet" href="<@spring.url "/resources/css/vk/tooltips.css"/>">
+    <link type="text/css" rel="stylesheet" href="<@spring.url "/resources/css/vk/videocat.css"/>">
+
 
     <!--[if lt IE 9]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>

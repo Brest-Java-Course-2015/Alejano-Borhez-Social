@@ -177,4 +177,13 @@ public class SocialAppFreeMarker {
         return model;
     }
 
+    @RequestMapping("/vk")
+    @Logged
+    public ModelAndView getVKStyle(@RequestParam("id") Integer id) {
+        SocialDto dto = socialConsumer.getUser(id);
+        ModelAndView model = new ModelAndView("vk", "dto", dto);
+        model.addObject("mapping", "vk");
+        return model;
+
+    }
 }
