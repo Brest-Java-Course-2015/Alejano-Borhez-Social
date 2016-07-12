@@ -102,6 +102,10 @@ function gotoadduser() {
     window.location="adduser";
 }
 
+function gotoaddfriend(id) {
+    window.location="nofriends?id=" + id;
+}
+
 function changeLogin() {
     console.log('changeLogin');
     var newLogin = prompt("Введите новый логин", '');

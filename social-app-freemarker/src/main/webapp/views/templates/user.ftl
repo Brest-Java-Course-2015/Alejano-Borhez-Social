@@ -93,7 +93,7 @@
 
     <#include "/table.ftl"/>
 
-    <#include "/gotoadduserbutton.ftl"/>
+    <#include "/addfriendbutton.ftl"/>
 
 </body>
 

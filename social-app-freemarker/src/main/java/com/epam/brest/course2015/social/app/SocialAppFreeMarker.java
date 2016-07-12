@@ -171,9 +171,10 @@ public class SocialAppFreeMarker {
     @Logged
     public ModelAndView getAllNoFriendsOfAUser(@RequestParam("id")
                                                        Integer id) {
-
         SocialDto dto = socialConsumer.getAllNoFriendsOfAUser(id);
-        return new ModelAndView("nofriends", "dto", dto);
+        ModelAndView model = new ModelAndView("nofriends", "dto", dto);
+        model.addObject("mapping", "nofriends");
+        return model;
     }
 
 }

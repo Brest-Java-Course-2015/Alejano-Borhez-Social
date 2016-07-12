@@ -2,6 +2,7 @@ package com.epam.brest.course2015.social.core;
 
 import com.epam.brest.course2015.social.test.Logged;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -46,9 +47,10 @@ public class User {
     @JoinTable(
         name = "friends",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"friend1Id", "friend2Id"})},
-        joinColumns = {@JoinColumn(name = "friend1Id", referencedColumnName = "userId", nullable = false)},
-        inverseJoinColumns = {@JoinColumn(name = "friend2Id", referencedColumnName = "userId", nullable = false)}
+        joinColumns = {@JoinColumn(name = "friend1Id", referencedColumnName = "userId", nullable = false)}
+      , inverseJoinColumns = {@JoinColumn(name = "friend2Id", referencedColumnName = "userId", nullable = false)}
     )
+    @JsonIgnore
     private List<User> friends;
 
     @Transient

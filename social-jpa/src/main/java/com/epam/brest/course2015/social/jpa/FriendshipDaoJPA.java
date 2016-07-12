@@ -31,13 +31,15 @@ public class FriendshipDaoJPA implements FriendshipDao {
     @Override
     @Logged
     public void addFriendship(User friend1, User friend2) {
-        User user1 = entityManager.find(User.class, friend1.getUserId());
-        User user2 = entityManager.find(User.class, friend2.getUserId());
+        if (!isAFriend(friend1, friend2)) {
+            User user1 = entityManager.find(User.class, friend1.getUserId());
+            User user2 = entityManager.find(User.class, friend2.getUserId());
 
-        user1.getFriends().add(user2);
-        user2.getFriends().add(user1);
-        entityManager.merge(user1);
-        entityManager.merge(user2);
+            user1.getFriends().add(user2);
+            user2.getFriends().add(user1);
+            entityManager.merge(user1);
+            entityManager.merge(user2);
+        }
     }
 
     @Override

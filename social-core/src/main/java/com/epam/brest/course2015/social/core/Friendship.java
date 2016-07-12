@@ -23,12 +23,11 @@ import java.util.Date;
  */
 
 @Component
-@Entity
-@Table(name = "friends")
+//@Entity
+//@Table(name = "friends")
 public class Friendship {
 //  Class variables declaration
 
-    @Id
     private Integer friend1Id;
     private Integer friend2Id;
 //  Dates are formatted to be transferred via JSON
