@@ -5,6 +5,7 @@ import com.epam.brest.course2015.social.core.Image;
 import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dto.SocialDto;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Date;
 import java.util.List;
 
@@ -15,10 +16,12 @@ public interface SocialService {
     Integer addUser(User user);
     Integer addImage(Integer userId, String imageUrl);
     void deleteUser(Integer id);
+    void deleteImage(Integer userId, Integer imageId);
     void changePassword(Integer id, String password);
     void changeLogin(Integer id, String login);
     void changeFirstName(Integer id, String firstName);
     void changeLastName(Integer id, String lastName);
+    void renameImage(Integer id, String name);
     User getUserById(Integer id);
     User getUserByLogin(String login);
     List<User> getAllUsers();
@@ -35,4 +38,5 @@ public interface SocialService {
     SocialDto getSocialNoFriendsDto(Integer id);
     SocialDto getSocialUsersDtoByDate(Date dateMin, Date dateMax);
     List<Image> getAllImagesOfAUser(Integer id);
+
 }

@@ -10,8 +10,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cloudinary.*;
@@ -28,6 +27,7 @@ import java.util.Map;
  * Created by alexander_borohov on 7.7.16.
  */
 @Controller
+@RequestMapping("/gallery")
 public class SocialUploader {
     @Value("${server.prefix}")
     private String serverPrefix;
@@ -86,4 +86,18 @@ public class SocialUploader {
         return "redirect:/user?id=" + id;
     }
 
+    @DeleteMapping("/delete")
+    @Logged
+    public void deleteImage (@RequestParam("userId") Integer userId,
+                               @RequestParam("imageId") Integer imageId) {
+        socialConsumer.deleteImage(userId, imageId);
+
+    }
+
+    @PutMapping("/rename")
+    @Logged
+    public void renameImage (@RequestParam("id") Integer id,
+                             @RequestParam("name") String name) {
+        socialConsumer.renameImage(id, name);
+    }
 }

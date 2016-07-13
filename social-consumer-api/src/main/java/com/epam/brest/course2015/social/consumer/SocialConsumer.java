@@ -17,11 +17,13 @@ public interface SocialConsumer {
     Integer addUserSubmit(User user);
     Integer addImage(Integer userId, String imageUrl);
     void deleteUser(Integer id);
+    void deleteImage(Integer userId, Integer imageId);
     void addFriendship(Integer id1, Integer id2);
     void deleteFriend(Integer id1, Integer id2);
     void changePassword(Integer id, String password);
     void changeLogin(Integer id, String login);
     void changeFirstName(Integer id, String firstName);
     void changeLastName(Integer id, String lastName);
+    void renameImage(Integer id, String name);
 
 }

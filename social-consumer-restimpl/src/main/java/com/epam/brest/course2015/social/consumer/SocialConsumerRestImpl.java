@@ -131,7 +131,8 @@ public class SocialConsumerRestImpl implements SocialConsumer {
     @Logged
     public Integer addImage(Integer id, String imageUrl) {
         String url = restPrefix
-                + "upload"
+                + "/image"
+                + "/upload"
                 + "?id="
                 + id
                 + "&url="
@@ -153,6 +154,19 @@ public class SocialConsumerRestImpl implements SocialConsumer {
                 + "user"
                 + "?id="
                 + id;
+
+        restTemplate.delete(url);
+    }
+
+    @Override
+    public void deleteImage(Integer userId, Integer imageId) {
+        String url = restPrefix
+                + "/image"
+                + "/delete"
+                + "?userId="
+                + userId
+                + "&imageId="
+                + imageId;
 
         restTemplate.delete(url);
     }
@@ -206,6 +220,17 @@ public class SocialConsumerRestImpl implements SocialConsumer {
                 + "&lastname="
                 + lastName;
 
+        restTemplate.put(url, null);
+    }
+
+    @Override
+    public void renameImage(Integer id, String name) {
+        String url = restPrefix
+                + "image/rename"
+                + "?id="
+                + id
+                + "&name="
+                + name;
         restTemplate.put(url, null);
     }
 

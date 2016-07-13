@@ -7,6 +7,7 @@ import com.epam.brest.course2015.social.dto.SocialDto;
 import com.epam.brest.course2015.social.service.SocialService;
 import com.epam.brest.course2015.social.test.Logged;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
@@ -25,6 +26,7 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @Component
+@Qualifier(value = "user")
 public class SocialRestController {
 
     @Autowired
@@ -162,15 +164,7 @@ public class SocialRestController {
                                                    , date2);
     }
 
-    @RequestMapping(value = "/upload",
-        method = RequestMethod.POST)
-    @ResponseStatus(value = HttpStatus.CREATED)
-    @Logged
-    public Integer uploadImage(@RequestParam("id") Integer id,
-                               @RequestParam("url") String url) {
 
-        return socialService.addImage(id, url);
-    }
 
     @Logged
     private static Date getDate(String date) {

@@ -78,7 +78,7 @@
                      <#list dto.user.images as image>
                          <img class="img-responsive" src="${image.url}" style="width: 200px" onclick="deleteImage(${image.imageId})">
                      </#list>
-            <form method="POST" action="upload?id=${dto.user.userId}" enctype="multipart/form-data">
+                         <form method="POST" action="gallery/upload?id=${dto.user.userId}" enctype="multipart/form-data">
                     <input
                         Фото для загрузки <input type="file" name="file">
                     <input type="submit" value="Upload"> Нажмите для добавления фото !

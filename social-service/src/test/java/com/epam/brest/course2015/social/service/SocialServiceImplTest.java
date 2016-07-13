@@ -568,6 +568,15 @@ public class SocialServiceImplTest {
     }
 
     @Test
+    public void testDeleteImage() throws Exception {
+        Integer before = socialService.getAllImagesOfAUser(1).size();
+        socialService.deleteImage(1, 1);
+        Integer after = socialService.getAllImagesOfAUser(1).size();
+        assertTrue(after - before == -1);
+
+    }
+
+    @Test
     public void testGetAllImagesOfAUser() throws Exception {
 
     }

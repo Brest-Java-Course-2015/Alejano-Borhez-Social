@@ -41,9 +41,10 @@ public class ImageDaoJPA implements ImageDao {
     }
 
     @Override
-    public void renameImage(Image image, String filename) {
-        Image newImage = entityManager.find(Image.class, image.getImageId());
+    public void renameImage(Integer id, String filename) {
+        Image newImage = entityManager.find(Image.class, id);
         newImage.setUrl(filename);
+        entityManager.merge(newImage);
     }
 
     @Override

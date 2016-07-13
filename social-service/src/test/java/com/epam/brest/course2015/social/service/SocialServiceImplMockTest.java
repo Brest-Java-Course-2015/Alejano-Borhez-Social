@@ -1,6 +1,7 @@
 package com.epam.brest.course2015.social.service;
 
 import com.epam.brest.course2015.social.core.Friendship;
+import com.epam.brest.course2015.social.core.Image;
 import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dao.FriendshipDao;
 import com.epam.brest.course2015.social.dao.ImageDao;
@@ -43,6 +44,7 @@ public class SocialServiceImplMockTest {
     public void clean() {
         reset(userMockDao);
         reset(friendshipMockDao);
+        reset(imageMockDao);
     }
 
     @Test
@@ -188,6 +190,14 @@ public class SocialServiceImplMockTest {
         socialService.discardAllFriendshipsOfAUser(1);
     }
 
+    @Test
+    public void testDeleteImage() throws Exception {
+        userMockDao.deleteImage(anyInt(), anyObject(Image.class));
+        expectLastCall();
+        replay(userMockDao);
+        socialService.deleteImage(1, 1);
+
+    }
 
 
 }

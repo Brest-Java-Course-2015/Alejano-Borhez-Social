@@ -19,6 +19,26 @@ if (confirm("Вы уверены, что хотите удалить польз�
 
 }
 
+function deleteImage(imageId)
+{
+    if (confirm("Вы уверены, что хотите удалить фото №" + imageId + " из галереи пользователя № " + id + "?"))
+        {
+        console.log('deleteImage #' + imageId + ', ' + id);
+        var url = "gallery/delete" +  "?userId=" + id + "&imageId=" + imageId;
+        $.ajax({
+            type: 'DELETE',
+            url: url,
+            success: function (data, textStatus, jqXHR) {
+                        alert('Image deleted successfully');
+                        location.reload();
+                    },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('deleteImage error: ' + textStatus + userId + ': ' + url);
+            }
+        })
+        }
+}
+
 function deleteFriend(userId)
 {
     if (confirm("Вы уверены, что хотите убрать пользователя № " + userId + " из друзей пользователя № " + id + "?"))

@@ -108,6 +108,22 @@ public class SocialServiceImpl implements SocialService {
     }
 
     @Override
+    public void deleteImage(Integer userId, Integer imageId) {
+        Assert.notNull(userId, notNullId);
+        Assert.isTrue(userId > 0, correctId);
+        Assert.notNull(imageId, notNullId);
+        Assert.isTrue(imageId > 0, correctId);
+        try {
+            Image image = imageDao.getImage(imageId);
+            userDao.deleteImage(userId, image);
+
+        } catch (NullPointerException | EmptyResultDataAccessException e) {
+            e.printStackTrace();
+            throw new IllegalArgumentException();
+        }
+    }
+
+    @Override
     @Logged
     public void changePassword(Integer id, String password) {
         Assert.notNull(id, notNullId);
@@ -165,6 +181,21 @@ public class SocialServiceImpl implements SocialService {
             e.printStackTrace();
             throw new IllegalArgumentException();
         }
+    }
+
+    @Override
+    public void renameImage(Integer id, String name) {
+        Assert.notNull(id, notNullId);
+        Assert.notNull(name, notNullLogin);
+        Assert.isTrue(id > 0, correctId);
+
+        try {
+            imageDao.renameImage(id, name);
+        } catch (EmptyResultDataAccessException | NullPointerException e) {
+            e.printStackTrace();
+            throw new IllegalArgumentException();
+        }
+
     }
 
     @Override

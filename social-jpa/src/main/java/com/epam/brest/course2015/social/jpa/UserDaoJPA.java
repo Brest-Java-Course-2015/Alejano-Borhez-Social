@@ -83,6 +83,13 @@ public class UserDaoJPA implements UserDao {
     }
 
     @Override
+    public void deleteImage(Integer id, Image image) {
+        User user = entityManagerUser.find(User.class, id);
+        user.getImages().remove(image);
+        entityManagerUser.merge(user);
+    }
+
+    @Override
     @Logged
     public void deleteUser(Integer id) {
         try {

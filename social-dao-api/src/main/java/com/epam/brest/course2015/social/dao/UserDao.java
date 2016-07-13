@@ -15,8 +15,9 @@ public interface UserDao {
     void changeLogin(Integer id, String login);
     void changeFirstName(Integer id, String firstName);
     void changeLastName(Integer id, String lastName);
-    void addImage(Integer id, Image image);
+    void addImage(Integer userId, Image image);
     void deleteUser(Integer id);
+    void deleteImage(Integer userId, Image image);
     List<User> getFriends(Integer id);
     List<User> getNoFriends(Integer id);
     List<User> getAllUsers();

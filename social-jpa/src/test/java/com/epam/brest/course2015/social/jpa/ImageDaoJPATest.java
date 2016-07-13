@@ -63,11 +63,10 @@ public class ImageDaoJPATest {
 
     @Test
     public void testRenameImage() throws Exception {
-        Image image = imageDao.getImage(testImageId);
         String url = "new";
-        imageDao.renameImage(image, url);
+        imageDao.renameImage(testImageId, url);
 
-        image = imageDao.getImage(testImageId);
+        Image image = imageDao.getImage(testImageId);
         String newUrl = image.getUrl();
         assertEquals(newUrl, url);
     }

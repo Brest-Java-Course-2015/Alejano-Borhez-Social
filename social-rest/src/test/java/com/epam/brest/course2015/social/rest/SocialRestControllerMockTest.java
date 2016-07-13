@@ -328,18 +328,5 @@ public class SocialRestControllerMockTest {
                         .string("{\"users\":null,\"images\":null,\"totalUsers\":null,\"user\":null}"));
     }
 
-    @Test
-    public void testAddImage() throws Exception {
-        expect(socialService.addImage(anyInt(), anyString())).andReturn(3);
-        replay(socialService);
-        String image = new ObjectMapper().writeValueAsString(new Image());
-        mockMvc.perform(
-                post("/upload?id=1&url=url")
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(image))
-                .andDo(print())
-                .andExpect(status().isCreated())
-                .andExpect(content().string("3"));
-    }
+
 }
