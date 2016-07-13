@@ -32,4 +32,5 @@
     <script type="text/javascript" src="<@spring.url "/resources/js/stomp.js"/>"></script>
 
 
+
 </head>

@@ -1,23 +1,20 @@
 package com.epam.brest.course2015.social.rest;
 
-import com.epam.brest.course2015.social.core.Friendship;
-import com.epam.brest.course2015.social.core.Image;
 import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dto.SocialDto;
 import com.epam.brest.course2015.social.service.SocialService;
 import com.epam.brest.course2015.social.test.Logged;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by alexander on 9.11.15.
@@ -26,7 +23,7 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @Component
-@Qualifier(value = "user")
+@Transactional//(noRollbackFor = Exception.class)
 public class SocialRestController {
 
     @Autowired

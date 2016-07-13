@@ -24,7 +24,6 @@ import java.util.List;
  * Created by alexander on 6.11.15.
  */
 @Service
-@Transactional
 public class SocialServiceImpl implements SocialService {
     @Autowired
     private UserDao userDao;
@@ -87,7 +86,9 @@ public class SocialServiceImpl implements SocialService {
                     + user.getLogin()
                     + " already exists");
             return null;
-        } catch (EmptyResultDataAccessException | org.hibernate.HibernateException ex) {
+        } catch (EmptyResultDataAccessException
+               | org.hibernate.HibernateException
+               | javax.persistence.NoResultException ex) {
             return userDao.addUser(user);
         }
     }

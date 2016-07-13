@@ -19,7 +19,7 @@ if (confirm("Вы уверены, что хотите удалить польз�
 
 }
 
-function deleteImage(imageId)
+function deleteImage(id, imageId)
 {
     if (confirm("Вы уверены, что хотите удалить фото №" + imageId + " из галереи пользователя № " + id + "?"))
         {
@@ -129,7 +129,7 @@ function gotoaddfriend(id) {
 function changeLogin() {
     console.log('changeLogin');
     var newLogin = prompt("Введите новый логин", '');
-    if (newLogin != "") {
+    if (newLogin != 'null' || newLogin != "") {
         var url = "user/login?id=" + id + "&login=" + newLogin;
     $.ajax({
         type: 'GET',
@@ -153,7 +153,7 @@ function changeLogin() {
 function changePassword() {
     console.log('changePassword');
     var newPassword = prompt("Введите новый пароль", '');
-    if (newPassword != '') {
+    if (newPassword != null) {
         var url = "user/password?id=" + id + "&password=" + newPassword;
     $.ajax({
         type: 'GET',
@@ -177,7 +177,7 @@ function changeFirstName() {
     console.log('changeFirstName');
     var newName = prompt("Введите новое имя", '');
     var url = "user/firstname?id=" + id + "&firstname=" + newName;
-    if (newName != "") {
+    if (newName != '') {
     $.ajax({
         type: 'GET',
         url: url,
@@ -201,7 +201,7 @@ function changeLastName() {
     console.log('changeLastName');
     var newName = prompt("Введите новую фамилию", '');
     var url = "user/lastname?id=" + id + "&lastname=" + newName;
-    if (newName != "") {
+    if (newName != '') {
     $.ajax({
         type: 'GET',
         url: url,

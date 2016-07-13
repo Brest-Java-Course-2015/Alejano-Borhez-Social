@@ -7,7 +7,7 @@
 
         <#include "sidebar.ftl"/>
 
-        <#include "pagebody.ftl"/>
+        <#include "pagebody_profile.ftl"/>
 
       </div>
     </div>

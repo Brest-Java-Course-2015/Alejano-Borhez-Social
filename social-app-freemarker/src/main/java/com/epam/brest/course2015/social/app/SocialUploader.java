@@ -86,11 +86,12 @@ public class SocialUploader {
         return "redirect:/user?id=" + id;
     }
 
-    @DeleteMapping("/delete")
+    @RequestMapping("/delete")
     @Logged
-    public void deleteImage (@RequestParam("userId") Integer userId,
+    public String deleteImage (@RequestParam("userId") Integer userId,
                                @RequestParam("imageId") Integer imageId) {
         socialConsumer.deleteImage(userId, imageId);
+        return "redirect:/user?id=" + userId;
 
     }
 

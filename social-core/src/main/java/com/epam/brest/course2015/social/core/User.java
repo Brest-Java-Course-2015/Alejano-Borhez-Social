@@ -43,7 +43,8 @@ public class User {
     )
     private List<Image> images;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,
+                cascade = CascadeType.MERGE)
     @JoinTable(
         name = "friends",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"friend1Id", "friend2Id"})},

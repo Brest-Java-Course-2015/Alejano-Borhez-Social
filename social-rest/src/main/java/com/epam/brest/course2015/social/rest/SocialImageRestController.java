@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -18,6 +19,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 @CrossOrigin
 @Component
 @RequestMapping("/image")
+@Transactional//(noRollbackFor = Exception.class)
 public class SocialImageRestController {
 
     @Autowired

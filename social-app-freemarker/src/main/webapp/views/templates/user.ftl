@@ -76,7 +76,7 @@
             <div class="col-md-8">
 
                      <#list dto.user.images as image>
-                         <img class="img-responsive" src="${image.url}" style="width: 200px" onclick="deleteImage(${image.imageId})">
+                         <img class="img-responsive" src="${image.url}" style="width: 200px" onclick="deleteImage(${dto.user.userId}, ${image.imageId})">
                      </#list>
                          <form method="POST" action="gallery/upload?id=${dto.user.userId}" enctype="multipart/form-data">
                     <input
@@ -98,8 +98,6 @@
 </body>
 
 <#include "/footer.ftl"/>
-
-    <script type="text/javascript" src="<@spring.url "/resources/js/websocket.js"/>"></script>
 
 
 </html>

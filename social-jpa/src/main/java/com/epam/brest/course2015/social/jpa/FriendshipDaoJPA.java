@@ -18,8 +18,8 @@ import java.util.List;
  * Created by alexander on 13.1.16.
  */
 @Repository
-@Transactional
 @Component
+@Transactional
 public class FriendshipDaoJPA implements FriendshipDao {
 
     @PersistenceContext
@@ -31,7 +31,6 @@ public class FriendshipDaoJPA implements FriendshipDao {
     @Override
     @Logged
     public void addFriendship(User friend1, User friend2) {
-        if (!isAFriend(friend1, friend2)) {
             User user1 = entityManager.find(User.class, friend1.getUserId());
             User user2 = entityManager.find(User.class, friend2.getUserId());
 
@@ -39,7 +38,6 @@ public class FriendshipDaoJPA implements FriendshipDao {
             user2.getFriends().add(user1);
             entityManager.merge(user1);
             entityManager.merge(user2);
-        }
     }
 
     @Override
@@ -47,7 +45,7 @@ public class FriendshipDaoJPA implements FriendshipDao {
     public boolean isAFriend(User user1, User user2) {
         User user11 = entityManager.find(User.class, user1.getUserId());
         User user21 = entityManager.find(User.class, user2.getUserId());
-        return user11.getFriends().contains(user21) || user21.getFriends().contains(user11);
+        return user11.getFriends().contains(user21) && user21.getFriends().contains(user11);
     }
 
 
@@ -59,6 +57,7 @@ public class FriendshipDaoJPA implements FriendshipDao {
 
         user1.getFriends().remove(user2);
         user2.getFriends().remove(user1);
+
         entityManager.merge(user1);
         entityManager.merge(user2);
     }

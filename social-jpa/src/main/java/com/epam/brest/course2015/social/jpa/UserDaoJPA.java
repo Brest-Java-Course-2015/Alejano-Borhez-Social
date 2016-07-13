@@ -21,7 +21,6 @@ import java.util.List;
  */
 @Repository
 @Component
-@Transactional
 public class UserDaoJPA implements UserDao {
     @Value("${user.selectAllUsers}")
     private String selectAllUsers;
@@ -38,6 +37,8 @@ public class UserDaoJPA implements UserDao {
     @Override
     @Logged
     public Integer addUser(User user) {
+        user.setCreatedDate(new Date());
+        user.setUpdatedDate(new Date());
         entityManagerUser.persist(user);
         user = entityManagerUser.merge(user);
         return user.getUserId();
@@ -48,6 +49,7 @@ public class UserDaoJPA implements UserDao {
     public void changePassword(Integer id, String password) {
         User user = entityManagerUser.find(User.class, id);
         user.setPassword(password);
+        user.setUpdatedDate(new Date());
         entityManagerUser.merge(user);
     }
 
@@ -56,6 +58,7 @@ public class UserDaoJPA implements UserDao {
     public void changeLogin(Integer id, String login) {
         User user = entityManagerUser.find(User.class, id);
         user.setLogin(login);
+        user.setUpdatedDate(new Date());
         entityManagerUser.merge(user);
     }
 
@@ -64,6 +67,7 @@ public class UserDaoJPA implements UserDao {
     public void changeFirstName(Integer id, String firstName) {
         User user = entityManagerUser.find(User.class, id);
         user.setFirstName(firstName);
+        user.setUpdatedDate(new Date());
         entityManagerUser.merge(user);
     }
 
@@ -72,6 +76,7 @@ public class UserDaoJPA implements UserDao {
     public void changeLastName(Integer id, String lastName) {
         User user = entityManagerUser.find(User.class, id);
         user.setLastName(lastName);
+        user.setUpdatedDate(new Date());
         entityManagerUser.merge(user);
     }
 
@@ -79,6 +84,7 @@ public class UserDaoJPA implements UserDao {
     public void addImage(Integer id, Image image) {
         User user = entityManagerUser.find(User.class, id);
         user.getImages().add(image);
+        user.setUpdatedDate(new Date());
         entityManagerUser.merge(user);
     }
 
@@ -86,6 +92,7 @@ public class UserDaoJPA implements UserDao {
     public void deleteImage(Integer id, Image image) {
         User user = entityManagerUser.find(User.class, id);
         user.getImages().remove(image);
+        user.setUpdatedDate(new Date());
         entityManagerUser.merge(user);
     }
 
@@ -175,7 +182,12 @@ public class UserDaoJPA implements UserDao {
     @Override
     @Logged
     public Integer getCountOfUserFriends(Integer id) {
-        User user = entityManagerUser.find(User.class, id);
-        return user.getFriends().size();
+        try {
+            User user = entityManagerUser.find(User.class, id);
+            return user.getFriends().size();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 }
