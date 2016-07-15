@@ -168,6 +168,8 @@ public class UserDaoJPATest {
         Image image = new Image();
         image.setCreatedDate(new Date());
         image.setUrl("url");
+        image.setUrl50("url50");
+        image.setUrl81("url81");
         Integer imageId = imageDao.addImage(image);
         image = imageDao.getImage(imageId);
         userDao.addImage(testId, image);

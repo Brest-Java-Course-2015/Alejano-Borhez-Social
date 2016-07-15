@@ -23,7 +23,6 @@ import java.util.Date;
 @CrossOrigin
 @RestController
 @Component
-@Transactional//(noRollbackFor = Exception.class)
 public class SocialRestController {
 
     @Autowired
@@ -45,11 +44,11 @@ public class SocialRestController {
     @Logged
     public Integer addUser(@RequestBody User user) {
         Integer addedUserId = socialService.addUser(user);
-        SocialDto dto = socialService.getSocialUsersDto();
+        /*SocialDto dto = socialService.getSocialUsersDto();
         Integer totalUsers = dto.getTotalUsers();
         user.setUserId(addedUserId);
         socialMessaging.convertAndSend("/topic/addeduser", user);
-        socialMessaging.convertAndSend("/topic/totalusers", totalUsers);
+        socialMessaging.convertAndSend("/topic/totalusers", totalUsers);*/
         return addedUserId;
 
     }
@@ -101,7 +100,6 @@ public class SocialRestController {
                                          Integer id) {
 
         socialService.deleteUser(id);
-        socialService.discardAllFriendshipsOfAUser(id);
 
     }
 

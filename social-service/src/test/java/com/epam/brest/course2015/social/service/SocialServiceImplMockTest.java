@@ -70,11 +70,7 @@ public class SocialServiceImplMockTest {
 
     @Test
     public void testDeleteUser() throws Exception {
-        testMockUser1.setUserId(5);
-        expect(userMockDao.getUserById(testMockUser1.getUserId()))
-                .andReturn(testMockUser1);
-        userMockDao.deleteUser(testMockUser1.getUserId());
-        expectLastCall();
+        userMockDao.deleteUser(anyInt());
         replay(userMockDao);
         socialService.deleteUser(testMockUser1.getUserId());
 
@@ -192,9 +188,14 @@ public class SocialServiceImplMockTest {
 
     @Test
     public void testDeleteImage() throws Exception {
+        expect(imageMockDao.getImage(anyInt())).andReturn(new Image());
         userMockDao.deleteImage(anyInt(), anyObject(Image.class));
         expectLastCall();
+        imageMockDao.deleteImage(anyInt());
+        expectLastCall();
+        replay(imageMockDao);
         replay(userMockDao);
+
         socialService.deleteImage(1, 1);
 
     }

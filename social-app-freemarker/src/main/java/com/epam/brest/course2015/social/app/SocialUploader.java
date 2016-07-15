@@ -6,6 +6,7 @@ import com.epam.brest.course2015.social.core.Image;
 import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dto.SocialDto;
 import com.epam.brest.course2015.social.test.Logged;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.jws.soap.SOAPBinding;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 
@@ -67,23 +69,36 @@ public class SocialUploader {
             String filename = FilenameUtils.getBaseName(file.getOriginalFilename());
             String extension = FilenameUtils.getExtension(file.getOriginalFilename());
 //      Sending an upload request
+            Transformation transformation =
+                new Transformation().width(200).crop("fill").gravity("face");
+
             Map uploadResult = cloudinary.uploader().upload(
               binaryBody,
               ObjectUtils.asMap(
+                   "eager", Arrays.asList(transformation),
                    "public_id", filename
               )
             );
 //      Receiving URL of uploaded image
-            String url = cloudinary.url().format(extension).
+
+            Transformation transformation50 =
+                    new Transformation().height(50).crop("fill");
+            Transformation transformation81 =
+                    new Transformation().height(81).crop("fill");
+            String url = cloudinary.url().format(extension).transformation(transformation).
+                    generate(filename);
+            String url50 = cloudinary.url().format(extension).transformation(transformation50).
+                    generate(filename);
+            String url81 = cloudinary.url().format(extension).transformation(transformation81).
                     generate(filename);
 //      Persisting URL in a database
-            socialConsumer.addImage(id, url);
+            socialConsumer.addImage(id, url, url50, url81);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 //
-        return "redirect:/user?id=" + id;
+        return "redirect:/photo?id=" + id;
     }
 
     @RequestMapping("/delete")
@@ -101,4 +116,17 @@ public class SocialUploader {
                              @RequestParam("name") String name) {
         socialConsumer.renameImage(id, name);
     }
+
+    @RequestMapping("/cloudAPI")
+    @Logged
+    @ResponseBody
+    public String cloudinaryAPI() {
+
+        return "{ cloud_name: '" +
+                cloudName +
+                "', api_key: '" +
+                apiKey +
+                "'}";
+    }
+
 }

@@ -15,7 +15,7 @@ public interface SocialConsumer {
     SocialDto getAllFriends(Integer id);
     SocialDto getAllNoFriendsOfAUser(Integer id);
     Integer addUserSubmit(User user);
-    Integer addImage(Integer userId, String imageUrl);
+    Integer addImage(Integer userId, String url, String url50, String url81);
     void deleteUser(Integer id);
     void deleteImage(Integer userId, Integer imageId);
     void addFriendship(Integer id1, Integer id2);

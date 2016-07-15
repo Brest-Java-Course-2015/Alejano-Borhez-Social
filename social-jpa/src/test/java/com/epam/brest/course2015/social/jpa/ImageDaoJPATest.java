@@ -37,6 +37,8 @@ public class ImageDaoJPATest {
     public void addImage() throws Exception {
 //        testImage.setUser(testUser);
         testImage.setUrl(testUrl);
+        testImage.setUrl50(testUrl);
+        testImage.setUrl81(testUrl);
         testImage.setCreatedDate(new Date());
         Integer imageId = imageDao.addImage(testImage);
         assertNotNull(imageId);
@@ -77,7 +79,9 @@ public class ImageDaoJPATest {
         assertNotNull(list);
         assertEquals(list.size(), 2);
         assertEquals(list.get(0).getClass(), Image.class);
+//        imageDao.deleteAllImages(testUserId);
+//        List<Image> list1 = imageDao.getAllImagesOfAUser(testUserId);
+//        assertTrue(list1.isEmpty());
     }
-
 
 }

@@ -5,21 +5,17 @@ import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dao.FriendshipDao;
 import com.epam.brest.course2015.social.test.Logged;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by alexander on 13.1.16.
  */
 @Repository
-@Component
-@Transactional
 public class FriendshipDaoJPA implements FriendshipDao {
 
     @PersistenceContext
@@ -27,6 +23,8 @@ public class FriendshipDaoJPA implements FriendshipDao {
 
     @Value("${friends.getAllFriendships}")
     private String getAllFriendship;
+    @Value("${friends.deleteAllFriendships}")
+    private String deleteAllFriendships;
 
     @Override
     @Logged
@@ -71,6 +69,6 @@ public class FriendshipDaoJPA implements FriendshipDao {
     @Override
     @Logged
     public void discardAllFriendshipsOfAUser(Integer userId) {
-
+//        entityManager.createQuery(deleteAllFriendships).setParameter("userId", userId);
     }
 }

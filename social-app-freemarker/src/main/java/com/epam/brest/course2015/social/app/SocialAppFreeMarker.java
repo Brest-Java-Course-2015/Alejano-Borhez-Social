@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.persistence.criteria.CriteriaBuilder;
+
 /**
  * Created by alexander_borohov on 27.6.16.
  */
@@ -103,6 +105,17 @@ public class SocialAppFreeMarker {
 
         ModelAndView model = new ModelAndView("user", "dto", dto);
         model.addObject("mapping", "usertab");
+        return model;
+    }
+
+    @RequestMapping("/photo")
+    @Logged
+    public ModelAndView getPhoto(@RequestParam("id")
+                                 Integer id) {
+        SocialDto dto = socialConsumer.getUser(id);
+
+        ModelAndView model = new ModelAndView("photo", "dto", dto);
+        model.addObject("mapping", "phototab");
         return model;
     }
 

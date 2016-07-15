@@ -1,5 +1,5 @@
 <div class="table-responsive">
-    <table class="table table-striped" style="width:80%">
+    <table class="table-hover table-striped" style="width:80%">
         <thead>
         <tr>
             <th>Имя</th>
@@ -11,7 +11,7 @@
         </thead>
         <tbody id="userList">
             <#list dto.users as user>
-                <tr>
+                <tr class="bg-info">
                     <td><a href="user?id=${user.userId}">${user.firstName}</a></td>
                     <td><a href="user?id=${user.userId}">${user.lastName}</a></td>
                     <td>${user.age}</td>

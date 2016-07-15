@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface SocialService {
     Integer addUser(User user);
-    Integer addImage(Integer userId, String imageUrl);
+    Integer addImage(Integer userId, String url, String url50, String url81);
     void deleteUser(Integer id);
     void deleteImage(Integer userId, Integer imageId);
     void changePassword(Integer id, String password);

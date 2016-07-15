@@ -129,17 +129,22 @@ public class SocialConsumerRestImpl implements SocialConsumer {
 
     @Override
     @Logged
-    public Integer addImage(Integer id, String imageUrl) {
-        String url = restPrefix
+    public Integer addImage(Integer id, String url, String url50, String url81) {
+        String restUrl = restPrefix
                 + "/image"
                 + "/upload"
                 + "?id="
                 + id
                 + "&url="
-                + imageUrl;
+                + url
+                + "&url50="
+                + url50
+                + "&url81="
+                + url81;
+
         Integer imageId = restTemplate
                 .postForObject(
-                        url
+                        restUrl
                         , null
                         , Integer.class
                 );

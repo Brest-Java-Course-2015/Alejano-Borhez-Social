@@ -24,7 +24,10 @@
                             </div>
                             <div id="page_avatar">
                                 <a id="profile_photo_link">
-                                    <img src="${(dto.user.images[0].url)!"images/Matt-Damon-as-Jason-Bourne.jpg"}">
+                                    <script>
+                                        $.cloudinary.config({ cloud_name: 'simple-social', api_key: '543582919166178'});
+                                        $("#profile_photo_link").append($.cloudinary.image('${(dto.user.images[0].url)!"url"}', { width: 200, crop: 'fill' }));
+                                    </script>
                                 </a>
                             </div>
 
@@ -35,9 +38,10 @@
                               <span class="owner_photo_bubble_action_in">Изменить миниатюру</span>
                             </div></div>
                               </div>
+                              </div>
 
                         <div id="profile_actions">
-                            <a id="profile_edit_act" href="edit">Редактировать страницу</a>
+                            <a id="profile_edit_act" href="user?id=${dto.user.userId}">Редактировать страницу</a>
                         </div>
 
                         <div class="profile_top_sep"></div>
@@ -73,91 +77,14 @@
                                 </a>
 
                         <div class="module_body clear_fix">
-                          <#if dto.users??>
-                          <#assign size = dto.users?size>
-                            <#if size < 4 >
-                            <div class="people_row">
-                               <#list dto.users[0..(size-1)] as user>
-                                <div class="fl_l people_cell">
-                                    <a class="ava" href="user?id=${user.userId}">
-                                        <img src="${(user.images[0].url)!"nourl"}" width="50" height="50">
-                                    </a>
-                                    <div class="name_field">
-                                        <a href="user?id=${user.userId}">
-                                            ${user.firstName}<br>
-                                            <small>${user.lastName}</small>
-                                        </a>
-                                    </div>
-                                </div>
-                               </#list>
-                            </div>
-                            <#elseif size<7 >
-                            <div class="people_row">
-                               <#list dto.users[0..2] as user>
-                                <div class="fl_l people_cell">
-                                    <a class="ava" href="user?id=${user.userId}">
-                                        <img src="${(user.images[0].url)!"nourl"}" width="50" height="50">
-                                    </a>
-                                    <div class="name_field">
-                                        <a href="user?id=${user.userId}">
-                                            ${user.firstName}<br>
-                                            <small>${user.lastName}</small>
-                                        </a>
-                                    </div>
-                                </div>
-                               </#list>
-                               <#list dto.users[3..(size-1)] as user>
-                                   <div class="fl_l people_cell">
-                                       <a class="ava" href="user?id=${user.userId}">
-                                           <img src="${(user.images[0].url)!"nourl"}" width="50" height="50">
-                                       </a>
-                                       <div class="name_field">
-                                           <a href="user?id=${user.userId}">
-                                               ${user.firstName}<br>
-                                               <small>${user.lastName}</small>
-                                           </a>
-                                       </div>
-                                   </div>
-                               </#list>
-                               <#else>
-                               <#list dto.users[0..2] as user>
-                               <div class="fl_l people_cell">
-                                   <a class="ava" href="user?id=${user.userId}">
-                                       <img src="${(user.images[0].url)!"nourl"}" width="50" height="50">
-                                   </a>
-                                   <div class="name_field">
-                                       <a href="user?id=${user.userId}">
-                                           ${user.firstName}<br>
-                                           <small>${user.lastName}</small>
-                                       </a>
-                                   </div>
-                               </div>
-                              </#list>
-                              <#list dto.users[3..5] as user>
-                                  <div class="fl_l people_cell">
-                                      <a class="ava" href="user?id=${user.userId}">
-                                          <img src="${(user.images[0].url)!"nourl"}" width="50" height="50">
-                                      </a>
-                                      <div class="name_field">
-                                          <a href="user?id=${user.userId}">
-                                              ${user.firstName}<br>
-                                              <small>${user.lastName}</small>
-                                          </a>
-                                      </div>
-                                  </div>
-                              </#list>
 
-                            </#if>
-                            </div>
-                          <#else>
-                            У вас пока нет друзей
-                          </#if>
+                          <#include "friendslist.ftl"/>
 
 
                         </div>
                     </div>
                 </div>
-                </div>
+                    </div>
                         <div class="wide_column fl_r" id="profile_wide">
                             <div id="profile_info">
                         <h4 class="simple page_top clear_fix ta_r">
@@ -201,11 +128,7 @@
 
                                 <div id="profile_photos" class="clear_fix">
                                     <div class="page_post_sized_thumbs clear_fix profile_sized_photos" style="width: 397px; height: 81px;">
-                                        <#list dto.user.images as image>
-                                            <a href="photo?id=${dto.user.userId}" style="width: 81px; height: 81px;" class="page_post_thumb_wrap  page_post_thumb_last_row fl_l">
-                                                <img src="${image.url}" style="margin-left: 0px;" class="page_post_thumb_sized_photo" height="81" width="81">
-                                            </a>
-                                        </#list>
+                                        <#include "photo_grid.ftl"/>
                                     </div>
                                 </div>
                             </div>

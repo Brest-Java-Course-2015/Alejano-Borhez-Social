@@ -148,8 +148,8 @@ public class SocialRestControllerMockTest {
     public void testAddUser() throws Exception {
         expect(socialService.addUser(anyObject(User.class)))
         .andReturn(5);
-        expect(socialService.getSocialUsersDto())
-        .andReturn(new SocialDto());
+//        expect(socialService.getSocialUsersDto())
+//        .andReturn(new SocialDto());
         replay(socialService);
         String user = new ObjectMapper().writeValueAsString(new User());
         mockMvc.perform(
@@ -217,7 +217,7 @@ public class SocialRestControllerMockTest {
     @Test
     public void testDeleteUser() throws Exception {
         socialService.deleteUser(1);
-        socialService.discardAllFriendshipsOfAUser(1);
+//        socialService.discardAllFriendshipsOfAUser(1);
         expectLastCall();
         replay(socialService);
         mockMvc.perform(

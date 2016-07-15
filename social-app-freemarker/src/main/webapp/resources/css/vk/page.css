@@ -5259,7 +5259,7 @@ b.wall_mob_onl {
   width: 180px;
 }
 .owner_photo_bubble_action_in {
-  background: url(/images/edit_photo_icons_white.gif) no-repeat 0 -3px;
+  background: url(images/edit_photo_icons_white.gif) no-repeat 0 -3px;
   -webkit-transition: all 100ms ease-out;
   -moz-transition: all 100ms ease-out;
   -o-transition: all 100ms ease-out;

@@ -29,18 +29,35 @@ public class Image {
     private Date createdDate;
 
     private String url;
+    private String url50;
+    private String url81;
 
+    public String getUrl50() {
+        return url50;
+    }
+
+    public void setUrl50(String url50) {
+        this.url50 = url50;
+    }
+
+    public String getUrl81() {
+        return url81;
+    }
+
+    public void setUrl81(String url81) {
+        this.url81 = url81;
+    }
 
     /*@Logged
-    public User getUser() {
-        return user;
-    }
+        public User getUser() {
+            return user;
+        }
 
-    @Logged
-    public void setUser(User user) {
-        this.user = user;
-    }
-*/
+        @Logged
+        public void setUser(User user) {
+            this.user = user;
+        }
+    */
     @Logged
     public Integer getImageId() {
         return imageId;

@@ -561,7 +561,7 @@ public class SocialServiceImplTest {
     @Test
     public void testAddImage() throws Exception {
         Integer before = socialService.getAllImagesOfAUser(1).size();
-        socialService.addImage(1, testLogin);
+        socialService.addImage(1, testLogin, testFirstName, testLastName);
         Integer after = socialService.getAllImagesOfAUser(1).size();
         assertTrue(after - before == 1);
 

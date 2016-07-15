@@ -19,7 +19,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 @CrossOrigin
 @Component
 @RequestMapping("/image")
-@Transactional//(noRollbackFor = Exception.class)
 public class SocialImageRestController {
 
     @Autowired
@@ -30,9 +29,11 @@ public class SocialImageRestController {
     @ResponseStatus(value = HttpStatus.CREATED)
     @Logged
     public Integer uploadImage(@RequestParam("id") Integer id,
-                               @RequestParam("url") String url) {
+                               @RequestParam("url") String url,
+                               @RequestParam("url50") String url50,
+                               @RequestParam("url81") String url81) {
 
-        return socialService.addImage(id, url);
+        return socialService.addImage(id, url, url50, url81);
     }
 
     @RequestMapping(value = "/delete",

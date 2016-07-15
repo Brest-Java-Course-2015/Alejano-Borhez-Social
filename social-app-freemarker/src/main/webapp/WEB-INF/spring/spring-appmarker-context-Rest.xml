@@ -19,11 +19,20 @@
 
     <mvc:annotation-driven/>
 
-    <mvc:resources mapping="/resources/**" location="/resources/" />
+    <!-- For using VK.COM theme -->
+    <!--<mvc:resources mapping="/resources/**" location="/resources/" />
     <mvc:resources mapping="/resources/css/bootstrap/**" location="/resources/css/bootstrap/" />
     <mvc:resources mapping="/resources/css/vk/**" location="/resources/css/vk/"/>
     <mvc:resources mapping="/resources/js/**" location="/resources/js/" />
     <mvc:resources mapping="/images/**" location="/views/images/"/>
+    -->
+
+    <!-- For using Bootstrap Janux Theme -->
+    <mvc:resources mapping="/css/**" location="/resources/bootstrap_metro/janux/css/"/>
+    <mvc:resources mapping="/js/**" location="/resources/bootstrap_metro/janux/js/"/>
+    <mvc:resources mapping="/resources/js/**" location="/resources/js/"/>
+    <mvc:resources mapping="/font/**" location="/resources/bootstrap_metro/janux/font/"/>
+    <mvc:resources mapping="/img/**" location="/resources/bootstrap_metro/janux/img/"/>
 
     <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
         <property name="basename" value="classpath:messages"/>
@@ -49,7 +58,7 @@
                 <prop key="default_encoding">UTF-8</prop>
             </props>
         </property>
-        <property name="templateLoaderPath" value="/views/templates/"/>
+        <property name="templateLoaderPath" value="/views/clear_design/"/>
     </bean>
     <!-- Freemarker view resolver -->
     <bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">

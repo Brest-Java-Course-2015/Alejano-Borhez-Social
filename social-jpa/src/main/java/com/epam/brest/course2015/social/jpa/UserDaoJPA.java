@@ -6,7 +6,6 @@ import com.epam.brest.course2015.social.dao.UserDao;
 import com.epam.brest.course2015.social.test.Logged;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +19,6 @@ import java.util.List;
  * Created by alexander on 25.12.15.
  */
 @Repository
-@Component
 public class UserDaoJPA implements UserDao {
     @Value("${user.selectAllUsers}")
     private String selectAllUsers;
@@ -32,75 +30,83 @@ public class UserDaoJPA implements UserDao {
     private String getCountOfUsers;
 
     @PersistenceContext
-    private EntityManager entityManagerUser;
+    private EntityManager entityManager;
 
     @Override
     @Logged
     public Integer addUser(User user) {
         user.setCreatedDate(new Date());
         user.setUpdatedDate(new Date());
-        entityManagerUser.persist(user);
-        user = entityManagerUser.merge(user);
+        entityManager.persist(user);
+        user = entityManager.merge(user);
         return user.getUserId();
     }
 
     @Override
     @Logged
     public void changePassword(Integer id, String password) {
-        User user = entityManagerUser.find(User.class, id);
+        User user = entityManager.find(User.class, id);
         user.setPassword(password);
         user.setUpdatedDate(new Date());
-        entityManagerUser.merge(user);
+        entityManager.merge(user);
     }
 
     @Override
     @Logged
     public void changeLogin(Integer id, String login) {
-        User user = entityManagerUser.find(User.class, id);
+        User user = entityManager.find(User.class, id);
         user.setLogin(login);
         user.setUpdatedDate(new Date());
-        entityManagerUser.merge(user);
+        entityManager.merge(user);
     }
 
     @Override
     @Logged
     public void changeFirstName(Integer id, String firstName) {
-        User user = entityManagerUser.find(User.class, id);
+        User user = entityManager.find(User.class, id);
         user.setFirstName(firstName);
         user.setUpdatedDate(new Date());
-        entityManagerUser.merge(user);
+        entityManager.merge(user);
     }
 
     @Override
     @Logged
     public void changeLastName(Integer id, String lastName) {
-        User user = entityManagerUser.find(User.class, id);
+        User user = entityManager.find(User.class, id);
         user.setLastName(lastName);
         user.setUpdatedDate(new Date());
-        entityManagerUser.merge(user);
+        entityManager.merge(user);
     }
 
     @Override
     public void addImage(Integer id, Image image) {
-        User user = entityManagerUser.find(User.class, id);
+        User user = entityManager.find(User.class, id);
         user.getImages().add(image);
         user.setUpdatedDate(new Date());
-        entityManagerUser.merge(user);
+        entityManager.merge(user);
     }
 
     @Override
     public void deleteImage(Integer id, Image image) {
-        User user = entityManagerUser.find(User.class, id);
+        User user = entityManager.find(User.class, id);
         user.getImages().remove(image);
         user.setUpdatedDate(new Date());
-        entityManagerUser.merge(user);
+        entityManager.merge(user);
     }
 
     @Override
     @Logged
     public void deleteUser(Integer id) {
         try {
-            entityManagerUser.remove(getUserById(id));
+            User deletedUser = entityManager.find(User.class, id);
+            List<User> list = deletedUser.getFriends();
+            for (User user: list) {
+                user.getFriends().remove(deletedUser);
+            }
+            for (User user: list) {
+                entityManager.merge(user);
+            }
+            entityManager.remove(deletedUser);
         }
         catch (IllegalArgumentException e) {
             e.printStackTrace();
@@ -112,7 +118,7 @@ public class UserDaoJPA implements UserDao {
     @Logged
     public List<User> getFriends(Integer id) {
 
-        List<User> list = entityManagerUser.find(User.class, id).getFriends();
+        List<User> list = entityManager.find(User.class, id).getFriends();
 
         return list;
     }
@@ -120,8 +126,8 @@ public class UserDaoJPA implements UserDao {
     @Override
     @Logged
     public List<User> getNoFriends(Integer id) {
-        List<User> list = entityManagerUser.find(User.class, id).getFriends();
-        List<User> list1 = entityManagerUser
+        List<User> list = entityManager.find(User.class, id).getFriends();
+        List<User> list1 = entityManager
                 .createQuery(selectAllUsers, User.class)
                 .getResultList();
         list1.removeAll(list);
@@ -132,7 +138,7 @@ public class UserDaoJPA implements UserDao {
     @Override
     @Logged
     public List<User> getAllUsers() {
-        List<User> list = entityManagerUser
+        List<User> list = entityManager
                 .createQuery(selectAllUsers, User.class)
                 .getResultList();
         return list;
@@ -141,7 +147,7 @@ public class UserDaoJPA implements UserDao {
     @Override
     @Logged
     public List<User> getAllUsers(Date dateMin, Date dateMax) {
-        List<User> list = entityManagerUser
+        List<User> list = entityManager
                 .createQuery(SelectAllUsersByDate, User.class)
                 .setParameter("dateMin", dateMin)
                 .setParameter("dateMax", dateMax)
@@ -152,14 +158,14 @@ public class UserDaoJPA implements UserDao {
     @Override
     @Logged
     public User getUserById(Integer id) {
-        return entityManagerUser.find(User.class, id);
+        return entityManager.find(User.class, id);
     }
 
     @Override
     @Logged
     public User getUserByLogin(String login) {
         try {
-            User user = entityManagerUser
+            User user = entityManager
                     .createQuery(selectUserByLogin, User.class)
                     .setParameter("login", login)
                     .getSingleResult();
@@ -173,7 +179,7 @@ public class UserDaoJPA implements UserDao {
     @Override
     @Logged
     public Integer getCountOfUsers() {
-        Long count = (Long) entityManagerUser
+        Long count = (Long) entityManager
                 .createQuery(getCountOfUsers)
                 .getSingleResult();
         return count.intValue();
@@ -183,7 +189,7 @@ public class UserDaoJPA implements UserDao {
     @Logged
     public Integer getCountOfUserFriends(Integer id) {
         try {
-            User user = entityManagerUser.find(User.class, id);
+            User user = entityManager.find(User.class, id);
             return user.getFriends().size();
         } catch (NullPointerException e) {
             e.printStackTrace();

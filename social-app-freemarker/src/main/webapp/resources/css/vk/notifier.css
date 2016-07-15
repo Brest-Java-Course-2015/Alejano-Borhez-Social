@@ -56,7 +56,7 @@ div.notifier_baloon_title {
 }
 .notifier_close {
   display: block;
-  background: url("/images/notifier_close.gif") no-repeat scroll 0 0 transparent;
+  background: url("images/notifier_close.gif") no-repeat scroll 0 0 transparent;
   opacity: 0.6;
   filter: alpha(opacity=60);
   width: 7px;
@@ -1414,7 +1414,7 @@ a.fc_msg_att_lnk:hover .fc_msg_att_text {
   width: 13px;
   height: 13px;
   margin: 0px 25px;
-  background: #000000 url(/images/notifier_close.gif) no-repeat center center;
+  background: #000000 url(images/notifier_close.gif) no-repeat center center;
   opacity: 0;
   filter: alpha(opacity=0);
   -webkit-border-radius: 2px;

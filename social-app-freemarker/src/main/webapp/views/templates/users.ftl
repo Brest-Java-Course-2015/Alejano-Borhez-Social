@@ -6,15 +6,31 @@
 
 <body>
 
-<h1> <@spring.message code="users.list"/> </h1>
+    <div class="container-fluid">
 
-    <#include "/datepicker.ftl"/>
+        <h1> <@spring.message code="users.list"/> </h1>
 
-    <#include "/table.ftl"/>
+            <div class="row"/>
+                <div class="col-xs-2">
+                    <ul>
+                        <li> <@spring.message code="users.all"/> </li>
+                        <li> Все фотографии </li>
+                    </ul>
+                </div>
 
-    <#include "/gotoadduserbutton.ftl"/>
+                <div class="col-xs-3">
+                    <#include "/datepicker.ftl"/>
+                    <#include "/table.ftl"/>
+                    <#include "/gotoadduserbutton.ftl"/>
+                </div>
 
+                <div class="col-xs-7">
 
+                </div>
+
+            </div>
+
+    </div>
 </body>
 
 <#include "/footer.ftl"/>

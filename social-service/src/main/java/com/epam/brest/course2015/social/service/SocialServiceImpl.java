@@ -24,6 +24,7 @@ import java.util.List;
  * Created by alexander on 6.11.15.
  */
 @Service
+@Transactional
 public class SocialServiceImpl implements SocialService {
     @Autowired
     private UserDao userDao;
@@ -99,9 +100,7 @@ public class SocialServiceImpl implements SocialService {
         Assert.notNull(id, notNullId);
         Assert.isTrue(id > 0, correctId);
         try {
-            userDao.getUserById(id);
             userDao.deleteUser(id);
-//            friendshipDao.discardAllFriendshipsOfAUser(id);
         } catch (EmptyResultDataAccessException | NullPointerException e) {
             e.printStackTrace();
             throw new IllegalArgumentException();
@@ -117,6 +116,7 @@ public class SocialServiceImpl implements SocialService {
         try {
             Image image = imageDao.getImage(imageId);
             userDao.deleteImage(userId, image);
+            imageDao.deleteImage(imageId);
 
         } catch (NullPointerException | EmptyResultDataAccessException e) {
             e.printStackTrace();
@@ -387,12 +387,14 @@ public class SocialServiceImpl implements SocialService {
 
     @Override
     @Logged
-    public Integer addImage (Integer userId, String imageUrl) {
+    public Integer addImage (Integer userId, String url, String url50, String url81) {
         Assert.notNull(userId, notNullId);
-        Assert.notNull(imageUrl, "You must provide a valid URL");
+        Assert.notNull(url, "You must provide a valid URL");
         Image image = new Image();
         image.setCreatedDate(new Date());
-        image.setUrl(imageUrl);
+        image.setUrl(url);
+        image.setUrl50(url50);
+        image.setUrl81(url81);
         Integer imageId = imageDao.addImage(image);
         Image addedImage = imageDao.getImage(imageId);
         userDao.addImage(userId, addedImage);

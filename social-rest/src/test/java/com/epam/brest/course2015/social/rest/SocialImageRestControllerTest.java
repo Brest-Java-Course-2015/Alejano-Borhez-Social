@@ -59,11 +59,11 @@ public class SocialImageRestControllerTest {
 
     @Test
     public void testAddImage() throws Exception {
-        expect(socialService.addImage(anyInt(), anyString())).andReturn(3);
+        expect(socialService.addImage(anyInt(), anyString(), anyString(), anyString())).andReturn(3);
         replay(socialService);
         String image = new ObjectMapper().writeValueAsString(new Image());
         mockMvc.perform(
-                post("/image/upload?id=1&url=url")
+                post("/image/upload?id=1&url=url&url50=url50&url81=url81")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(image))

@@ -10,6 +10,13 @@
 **/build
 **/.gradle
 **/logs
+**/bootstrap_metro/janux/*.html
+**/bootstrap_metro/janux/*.md
+**/bootstrap_metro/janux/img/gallery/
+
+
+*.zip
+
 
 # Package Files #
 *.jar
