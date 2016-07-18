@@ -34,8 +34,6 @@ public class FriendshipDaoJPA implements FriendshipDao {
 
             user1.getFriends().add(user2);
             user2.getFriends().add(user1);
-            entityManager.merge(user1);
-            entityManager.merge(user2);
     }
 
     @Override
@@ -56,8 +54,6 @@ public class FriendshipDaoJPA implements FriendshipDao {
         user1.getFriends().remove(user2);
         user2.getFriends().remove(user1);
 
-        entityManager.merge(user1);
-        entityManager.merge(user2);
     }
 
     @Override
@@ -69,6 +65,6 @@ public class FriendshipDaoJPA implements FriendshipDao {
     @Override
     @Logged
     public void discardAllFriendshipsOfAUser(Integer userId) {
-//        entityManager.createQuery(deleteAllFriendships).setParameter("userId", userId);
+    
     }
 }

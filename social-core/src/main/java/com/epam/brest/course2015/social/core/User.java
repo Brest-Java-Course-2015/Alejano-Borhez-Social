@@ -43,13 +43,11 @@ public class User {
     )
     private List<Image> images;
 
-    @ManyToMany(fetch = FetchType.EAGER,
-                cascade = CascadeType.MERGE)
+    @OneToMany
     @JoinTable(
         name = "friends",
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"friend1Id", "friend2Id"})},
-        joinColumns = {@JoinColumn(name = "friend1Id", referencedColumnName = "userId", nullable = false)}
-      , inverseJoinColumns = {@JoinColumn(name = "friend2Id", referencedColumnName = "userId", nullable = false)}
+        joinColumns = @JoinColumn(name = "friend1Id")
+      , inverseJoinColumns = @JoinColumn(name = "friend2Id")
     )
     @JsonIgnore
     private List<User> friends;
