@@ -38,7 +38,6 @@ public class UserDaoJPA implements UserDao {
         user.setCreatedDate(new Date());
         user.setUpdatedDate(new Date());
         entityManager.persist(user);
-        user = entityManager.merge(user);
         return user.getUserId();
     }
 
@@ -48,7 +47,6 @@ public class UserDaoJPA implements UserDao {
         User user = entityManager.find(User.class, id);
         user.setPassword(password);
         user.setUpdatedDate(new Date());
-        entityManager.merge(user);
     }
 
     @Override
@@ -57,7 +55,6 @@ public class UserDaoJPA implements UserDao {
         User user = entityManager.find(User.class, id);
         user.setLogin(login);
         user.setUpdatedDate(new Date());
-        entityManager.merge(user);
     }
 
     @Override
@@ -66,7 +63,6 @@ public class UserDaoJPA implements UserDao {
         User user = entityManager.find(User.class, id);
         user.setFirstName(firstName);
         user.setUpdatedDate(new Date());
-        entityManager.merge(user);
     }
 
     @Override
@@ -75,7 +71,6 @@ public class UserDaoJPA implements UserDao {
         User user = entityManager.find(User.class, id);
         user.setLastName(lastName);
         user.setUpdatedDate(new Date());
-        entityManager.merge(user);
     }
 
     @Override
@@ -83,7 +78,6 @@ public class UserDaoJPA implements UserDao {
         User user = entityManager.find(User.class, id);
         user.getImages().add(image);
         user.setUpdatedDate(new Date());
-        entityManager.merge(user);
     }
 
     @Override
@@ -91,7 +85,6 @@ public class UserDaoJPA implements UserDao {
         User user = entityManager.find(User.class, id);
         user.getImages().remove(image);
         user.setUpdatedDate(new Date());
-        entityManager.merge(user);
     }
 
     @Override
