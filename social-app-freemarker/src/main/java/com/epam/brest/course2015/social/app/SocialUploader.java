@@ -79,6 +79,8 @@ public class SocialUploader {
                    "public_id", filename
               )
             );
+
+            binaryBody.delete();
 //      Receiving URL of uploaded image
 
             Transformation transformation50 =

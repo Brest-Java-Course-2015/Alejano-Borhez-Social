@@ -84,16 +84,6 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
-    <!-- JPA Entities -->
-
-    <bean id="userDao" class="com.epam.brest.course2015.social.jpa.UserDaoJPA"/>
-    <bean id="friendshipDao" class="com.epam.brest.course2015.social.jpa.FriendshipDaoJPA"/>
-
-    <bean id="socialService" class="com.epam.brest.course2015.social.service.SocialServiceImpl">
-        <property name="userDao" ref="userDao"/>
-        <property name="friendshipDao" ref="friendshipDao"/>
-    </bean>
-
     <!--Serializing -->
 
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">

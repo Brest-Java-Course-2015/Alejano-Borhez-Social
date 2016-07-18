@@ -7,13 +7,9 @@ import com.epam.brest.course2015.social.test.Logged;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.persistence.criteria.CriteriaBuilder;
 
 /**
  * Created by alexander_borohov on 27.6.16.
@@ -35,8 +31,10 @@ public class SocialAppFreeMarker {
 
     @RequestMapping("/hello")
     @Logged
-    public ModelAndView sayHello() {
-        return new ModelAndView("hello", "hello", socialConsumer.hello());
+    public ModelAndView sayHello(@RequestHeader("user-agent") String userAgent ) {
+        ModelAndView model = new ModelAndView("hello", "hello", socialConsumer.hello());
+        model.addObject("header", userAgent);
+        return model;
     }
 
     @RequestMapping("/")
@@ -75,6 +73,12 @@ public class SocialAppFreeMarker {
         ModelAndView model = new ModelAndView("friends", "dto", dto);
         model.addObject("mapping", "friends");
         return model;
+    }
+
+    @RequestMapping("/messages")
+    @Logged
+    public ModelAndView getMessages(@RequestParam("id") Integer id) {
+        return new ModelAndView("messages");
     }
 
     @RequestMapping("/user/friendship/del")
@@ -121,7 +125,7 @@ public class SocialAppFreeMarker {
 
     @RequestMapping("/addusersubmit")
     @Logged
-    public String addUserSubmit(@RequestBody User user) {
+    public String addUserSubmit(@ModelAttribute("user") User user) {
         socialConsumer.addUserSubmit(user);
         return "forward:/users";
     }

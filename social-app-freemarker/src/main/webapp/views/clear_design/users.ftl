@@ -17,8 +17,19 @@
 <!-- start: Content -->
     <div id="content" class="span6">
             <h1> <@spring.message code="users.all"/>: </h1>
+        <div class="row-fluid sortable">
 
-            <#include "build_modules/content.ftl"/>
+        <div class="span3" id="friends_list">
+            <ul class="dashboard-list">
+                <#include "/app_modules/user_cell.ftl"/>
+                <h2> <@spring.message code="users.total"/>: ${dto.totalUsers} </h2>
+            </ul>
+
+            <button type="button" class="btn btn-default" onclick="gotoadduser()"> <@spring.message code="user.create"/> </button>
+
+        </div>
+
+        </div>
     </div>
 
 <!-- end: Content -->

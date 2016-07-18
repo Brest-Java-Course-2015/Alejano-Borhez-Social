@@ -74,6 +74,19 @@
         <property name="maxUploadSize" value="1073741824"/>
     </bean>
 
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <ref bean="jsonConverter"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+        <property name="supportedMediaTypes" value="application/json" />
+        <property name="prettyPrint" value="true" />
+    </bean>
+
     <bean id="jackson2JsonObjectMapper" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
 
     <aop:aspectj-autoproxy/>
