@@ -171,11 +171,11 @@ public class UserDaoJPATest {
         image.setUrl50("url50");
         image.setUrl81("url81");
         Integer imageId = imageDao.addImage(image);
-        image = imageDao.getImage(imageId);
+        Image imageNew = imageDao.getImage(imageId);
         userDao.addImage(testId, image);
         Integer imageCountAfter = userDao.getUserById(testId).getImages().size();
         assertTrue(imageCountBefore < imageCountAfter);
-        assertEquals(userDao.getUserById(testId).getImages().get(2), image);
+        assertEquals(userDao.getUserById(testId).getImages().get(2), imageNew);
         assertEquals(userDao.getUserById(testId).getImages().get(2).getUrl(), "url");
 
     }

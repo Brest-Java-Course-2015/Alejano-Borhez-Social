@@ -10,6 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 
 /**
  * Created by alexander_borohov on 27.6.16.
@@ -25,21 +29,97 @@ public class SocialAppFreeMarker {
 
     @RequestMapping("/restAPI")
     @ResponseBody
+    @Logged
     public String restPrefix() {
         return restPrefix + "websocket/endpoint";
     }
 
+    @RequestMapping("/hello2")
+    @Logged
+    public ModelAndView sayHelloAgain(HttpServletRequest request,
+                                      HttpServletResponse response) {
+        HttpSession session = request.getSession();
+
+        String title = "Welcome Back to my website";
+        Integer visitCount = new Integer(0);
+        String visitCountKey = new String("visitCount");
+        String userIDKey = new String("userID");
+        String userID = new String("ABCD");
+
+        // Check if this is new comer on your web page.
+        if (session.isNew()){
+            title = "Welcome to my website";
+            session.setAttribute(userIDKey, userID);
+        } else {
+            visitCount = (Integer)session.getAttribute(visitCountKey);
+            visitCount = visitCount + 1;
+            userID = (String)session.getAttribute(userIDKey);
+        }
+        session.setAttribute(visitCountKey,  visitCount);
+        ModelAndView model = new ModelAndView("hello", "hello", socialConsumer.hello());
+
+        model.addObject("header", title + ", " + userID + "! This is your visit #" + visitCount);
+
+        return model;
+
+    }
+
     @RequestMapping("/hello")
     @Logged
-    public ModelAndView sayHello(@RequestHeader("user-agent") String userAgent ) {
+    public ModelAndView sayHello(HttpServletRequest request,
+                                 HttpServletResponse response) {
+        HttpSession session = request.getSession();
+
+        String title = "Welcome Back to my website";
+        Integer visitCount = new Integer(0);
+        String visitCountKey = new String("visitCount");
+        String userIDKey = new String("userID");
+        String userID = new String("ABCD");
+
+        // Check if this is new comer on your web page.
+        if (session.isNew()){
+            title = "Welcome to my website";
+            session.setAttribute(userIDKey, userID);
+        } else {
+            visitCount = (Integer)session.getAttribute(visitCountKey);
+            visitCount = visitCount + 1;
+            userID = (String)session.getAttribute(userIDKey);
+        }
+        session.setAttribute(visitCountKey,  visitCount);
         ModelAndView model = new ModelAndView("hello", "hello", socialConsumer.hello());
-        model.addObject("header", userAgent);
+
+        model.addObject("header", title + ", " + userID + "! This is your visit #" + visitCount);
+
         return model;
     }
 
     @RequestMapping("/")
+    @Logged
     public String init() {
-        return "redirect:users";
+        return "redirect:login";
+    }
+
+    @RequestMapping("/login")
+    @Logged
+    public ModelAndView login() {
+        return new ModelAndView("login");
+    }
+
+    @RequestMapping(value = "/users", method = RequestMethod.POST)
+    @Logged
+    public ModelAndView loginApprove(@ModelAttribute("user") User user) {
+        User userFromDB = socialConsumer.getUser(user.getLogin());
+        if (user.getLogin().equals(userFromDB.getLogin()) &&
+            user.getPassword().equals(userFromDB.getPassword())) {
+            SocialDto dto = socialConsumer.getAllUsers();
+            ModelAndView model = new ModelAndView("users", "dto", dto);
+            model.addObject("mapping", "users");
+            return model;
+        }
+        else {
+
+            return new ModelAndView("login");
+        }
     }
 
     @RequestMapping("/users")
@@ -127,7 +207,7 @@ public class SocialAppFreeMarker {
     @Logged
     public String addUserSubmit(@ModelAttribute("user") User user) {
         socialConsumer.addUserSubmit(user);
-        return "forward:/users";
+        return "redirect:/users";
     }
 
     @RequestMapping("/adduser")

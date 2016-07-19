@@ -15,10 +15,6 @@ import java.util.Date;
 @Table(name = "image")
 public class Image {
 
-    /*@ManyToOne
-    @JoinColumn(name = "userId")
-    private User user;*/
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer imageId;
@@ -48,16 +44,6 @@ public class Image {
         this.url81 = url81;
     }
 
-    /*@Logged
-        public User getUser() {
-            return user;
-        }
-
-        @Logged
-        public void setUser(User user) {
-            this.user = user;
-        }
-    */
     @Logged
     public Integer getImageId() {
         return imageId;

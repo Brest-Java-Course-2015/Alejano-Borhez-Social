@@ -62,17 +62,17 @@ public class SocialAppFreeMarkerTest {
         reset(socialController);
     }
 
-    @Test
-    public void testGetAllUsers() throws Exception {
-        expect(socialController.getAllUsers()).andReturn(new ModelAndView("users", "dto", new SocialDto()));
-        replay(socialController);
-        mockMvc.perform(
-                get("/users")
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(forwardedUrl("/WEB-INF/view/users.ftl"));
-    }
+//    @Test
+//    public void testGetAllUsers() throws Exception {
+//        expect(socialController.getAllUsers()).andReturn(new ModelAndView("users", "dto", new SocialDto()));
+//        replay(socialController);
+//        mockMvc.perform(
+//                get("/users")
+//                        .accept(MediaType.APPLICATION_JSON))
+//                .andDo(print())
+//                .andExpect(status().isOk())
+//                .andExpect(forwardedUrl("/WEB-INF/view/users.ftl"));
+//    }
 
     @Test
     public void testGetAllUsersByDate() throws Exception {

@@ -16,7 +16,7 @@
             <#include "build_modules/menu.ftl"/>
 <!-- start: Content -->
     <div id="content" class="span6">
-            <h1> <@spring.message code = "user.friends"/> <small> ${dto.user.firstName} ${dto.user.lastName} </small> <span class="badge">${dto.totalUsers}</span> </h1>
+            <h1> <@spring.message code = "user.addfriends"/> <small> ${dto.user.firstName} ${dto.user.lastName} </small> <span class="badge"> ${dto.totalUsers} </span> </h1>
         <div class = "row-fluid">
 
             <#include "app_modules/friend_cell.ftl"/>

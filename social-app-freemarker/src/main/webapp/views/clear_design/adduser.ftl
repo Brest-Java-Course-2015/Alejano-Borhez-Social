@@ -22,22 +22,6 @@
 
         <div class = "row-fluid">
 
-       <!--  <form id="userForm">
-                <label>Login:</label>
-                <input type="text" id="login" name="login" required="true">
-                <label>Password:</label>
-                <input type="password" id="password" name="password" required="true">
-                <label>FirstName:</label>
-                <input type="text" id="firstName" name="firstName" required="true">
-                <label>LastName:</label>
-                <input type="text" id="lastName" name="lastName" required="true">
-                <label>Age:</label>
-                <input type="number" id="age" name="age" required="true">
-            <br>
-            <button type="submit" class="btn btn-default" onclick="addUser()"> Add user </button>
-
-        </form> -->
-
         <form class="form" name="user" id="userForm" role="form" method="post" action="addusersubmit">
              <div class="form-group">
                  <label>Login:</label>

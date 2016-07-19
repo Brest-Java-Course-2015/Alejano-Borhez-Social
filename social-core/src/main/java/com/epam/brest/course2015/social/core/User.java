@@ -186,7 +186,7 @@ public class User {
         this.createdDate = new Date();
         this.updatedDate = new Date();
         this.totalFriends = 0;
-        this.images = new ArrayList<Image>();
+        this.images = new ArrayList<>();
     }
 
     /**
@@ -202,6 +202,11 @@ public class User {
      */
     public User(Integer userId) {
         this.userId = userId;
+    }
+
+    public User(String login, String password) {
+        this.login = login;
+        this.password = password;
     }
 
     @Override

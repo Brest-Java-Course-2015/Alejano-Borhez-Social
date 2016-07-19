@@ -159,7 +159,12 @@ public class SocialRestController {
                                                    , date2);
     }
 
+    @RequestMapping("/user")
+    @Logged
+    public User getUserByLogin(@RequestParam("login") String login) {
 
+        return socialService.getUserByLogin(login);
+    }
 
     @Logged
     private static Date getDate(String date) {

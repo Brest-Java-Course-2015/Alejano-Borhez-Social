@@ -17,7 +17,7 @@
 <!-- start: Content -->
     <div id="content" class="span6">
             <h1>Страница пользователя <small> ${dto.user.firstName} ${dto.user.lastName} </small></h1>
-        <div class = "row-fluid">
+        <div class = "row-fluid well" style="padding-right:5px;">
             <div class="span2" ontablet="span6" ondesktop="span3">
                     <!-- User's avatar -->
                     <img class="grayscale" src="${(dto.user.images[0].url)!"nourl"}"></img>
@@ -29,11 +29,12 @@
             </div>
 
         </div>
+
         <div class="row-fluid sortable">
 
             <#include "build_modules/content.ftl"/>
 
-            <div class="span6" id="user_gallery">
+            <div class="span6 well" id="user_gallery">
                         <ul class="dashboard-list">
                             <h2> Галерея пользователя:</h2>
                                 <#list dto.user.images as image>

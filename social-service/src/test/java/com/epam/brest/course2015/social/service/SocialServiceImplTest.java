@@ -7,8 +7,8 @@ import com.epam.brest.course2015.social.dto.SocialDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -131,7 +131,7 @@ public class SocialServiceImplTest {
         socialService.deleteUser(-2);
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = InvalidDataAccessApiUsageException.class)
     public void testDeleteOfNonExistingUser() throws Exception {
         socialService.deleteUser(7);
     }

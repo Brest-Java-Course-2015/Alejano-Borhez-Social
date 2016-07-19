@@ -10,6 +10,7 @@ import com.epam.brest.course2015.social.dto.SocialDto;
 public interface SocialConsumer {
     String hello();
     SocialDto getUser(Integer id);
+    User getUser(String login);
     SocialDto getAllUsers();
     SocialDto getAllUsersByDate(String dateMin, String dateMax);
     SocialDto getAllFriends(Integer id);

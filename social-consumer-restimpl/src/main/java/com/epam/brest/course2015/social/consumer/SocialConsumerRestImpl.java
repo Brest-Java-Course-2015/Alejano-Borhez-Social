@@ -113,6 +113,17 @@ public class SocialConsumerRestImpl implements SocialConsumer {
     }
 
     @Override
+    public User getUser(String login) {
+        String url = restPrefix
+                + "user"
+                + "?login="
+                + login;
+        User user = restTemplate.getForEntity(url, User.class).getBody();
+
+        return user;
+    }
+
+    @Override
     @Logged
     public Integer addUserSubmit(User user) {
         String url = restPrefix

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -59,12 +60,12 @@ public class FriendshipDaoJPA implements FriendshipDao {
     @Override
     @Logged
     public List<Friendship> getAllFriendships() {
-        return entityManager.createQuery(getAllFriendship, Friendship.class).getResultList();
+        return null;
     }
 
     @Override
     @Logged
     public void discardAllFriendshipsOfAUser(Integer userId) {
-    
+
     }
 }
