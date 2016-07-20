@@ -4,15 +4,22 @@ import com.epam.brest.course2015.social.consumer.SocialConsumer;
 import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dto.SocialDto;
 import com.epam.brest.course2015.social.test.Logged;
+import org.apache.http.Header;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -23,6 +30,7 @@ public class SocialAppFreeMarker {
 
     @Value("${rest.prefix}")
     private String restPrefix;
+
 
     @Autowired
     private SocialConsumer socialConsumer;
@@ -36,29 +44,11 @@ public class SocialAppFreeMarker {
 
     @RequestMapping("/hello2")
     @Logged
-    public ModelAndView sayHelloAgain(HttpServletRequest request,
-                                      HttpServletResponse response) {
-        HttpSession session = request.getSession();
+    public ModelAndView sayHelloAgain(HttpServletRequest req,
+                                      HttpServletResponse resp) {
 
-        String title = "Welcome Back to my website";
-        Integer visitCount = new Integer(0);
-        String visitCountKey = new String("visitCount");
-        String userIDKey = new String("userID");
-        String userID = new String("ABCD");
-
-        // Check if this is new comer on your web page.
-        if (session.isNew()){
-            title = "Welcome to my website";
-            session.setAttribute(userIDKey, userID);
-        } else {
-            visitCount = (Integer)session.getAttribute(visitCountKey);
-            visitCount = visitCount + 1;
-            userID = (String)session.getAttribute(userIDKey);
-        }
-        session.setAttribute(visitCountKey,  visitCount);
         ModelAndView model = new ModelAndView("hello", "hello", socialConsumer.hello());
 
-        model.addObject("header", title + ", " + userID + "! This is your visit #" + visitCount);
 
         return model;
 
@@ -66,58 +56,81 @@ public class SocialAppFreeMarker {
 
     @RequestMapping("/hello")
     @Logged
-    public ModelAndView sayHello(HttpServletRequest request,
-                                 HttpServletResponse response) {
-        HttpSession session = request.getSession();
-
-        String title = "Welcome Back to my website";
-        Integer visitCount = new Integer(0);
-        String visitCountKey = new String("visitCount");
-        String userIDKey = new String("userID");
-        String userID = new String("ABCD");
-
-        // Check if this is new comer on your web page.
-        if (session.isNew()){
-            title = "Welcome to my website";
-            session.setAttribute(userIDKey, userID);
-        } else {
-            visitCount = (Integer)session.getAttribute(visitCountKey);
-            visitCount = visitCount + 1;
-            userID = (String)session.getAttribute(userIDKey);
-        }
-        session.setAttribute(visitCountKey,  visitCount);
+    public ModelAndView sayHello(HttpServletRequest req,
+                                 HttpServletResponse resp) throws IOException {
         ModelAndView model = new ModelAndView("hello", "hello", socialConsumer.hello());
 
-        model.addObject("header", title + ", " + userID + "! This is your visit #" + visitCount);
+        Cookie[] cookies = req.getCookies();
 
+        try {
+            String uid = "";
+            for (Cookie cookie : cookies) {
+                if ("uid".equals(cookie.getName())) {
+                    model.addObject("uid", cookie.getValue().toString());
+                    uid = cookie.getValue();
+                }
+
+
+            }
+
+            if (!uid.isEmpty()) {
+                model.addObject("dto", socialConsumer.getUser(Integer.parseInt(uid)));
+            }
+
+        } catch (NullPointerException e) {
+
+            resp.sendRedirect("login");
+            return model;
+        }
         return model;
     }
 
     @RequestMapping("/")
     @Logged
-    public String init() {
-        return "redirect:login";
+    public String init(HttpServletRequest req,
+                       HttpServletResponse resp) {
+        String userId = "";
+
+
+        if (userId.length() > 0) {
+            return "forward:/user?id=" + userId;
+        } else {
+            return "redirect:/login";
+        }
+
+
+
     }
 
     @RequestMapping("/login")
     @Logged
     public ModelAndView login() {
+
+
+
         return new ModelAndView("login");
     }
 
-    @RequestMapping(value = "/users", method = RequestMethod.POST)
+    @RequestMapping(value = "/loginapprove", method = RequestMethod.POST)
     @Logged
-    public ModelAndView loginApprove(@ModelAttribute("user") User user) {
+    public ModelAndView loginApprove(HttpServletResponse resp,
+                                     HttpServletRequest req,
+                                     @ModelAttribute("user") User user) throws IOException {
+
         User userFromDB = socialConsumer.getUser(user.getLogin());
-        if (user.getLogin().equals(userFromDB.getLogin()) &&
+
+        if (userFromDB != null && user.getLogin().equals(userFromDB.getLogin()) &&
             user.getPassword().equals(userFromDB.getPassword())) {
             SocialDto dto = socialConsumer.getAllUsers();
-            ModelAndView model = new ModelAndView("users", "dto", dto);
-            model.addObject("mapping", "users");
+            ModelAndView model = new ModelAndView("hello", "dto", dto);
+            Cookie cookie = new Cookie("uid", userFromDB.getUserId().toString());
+            cookie.setMaxAge(60*60*24);
+            resp.addCookie(cookie);
+            resp.sendRedirect("hello");
             return model;
         }
         else {
-
+            resp.sendRedirect("login");
             return new ModelAndView("login");
         }
     }

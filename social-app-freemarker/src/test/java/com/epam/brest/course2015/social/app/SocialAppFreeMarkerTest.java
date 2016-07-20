@@ -74,6 +74,11 @@ public class SocialAppFreeMarkerTest {
 //                .andExpect(forwardedUrl("/WEB-INF/view/users.ftl"));
 //    }
 
+    /*@Test
+    public void testInit() {
+
+    }*/
+
     @Test
     public void testGetAllUsersByDate() throws Exception {
         expect(socialController.getAllUsersByDate("2015-10-01", "2015-11-01"))

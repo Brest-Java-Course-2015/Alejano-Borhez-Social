@@ -23,18 +23,18 @@
 						<a href="#"><i class="halflings-icon cog"></i></a>
 					</div>
 					<h2>Login to your account</h2>
-					<form class="form-horizontal" name="user" action="users" method="post">
+					<form class="form-horizontal" name="user" action="loginapprove" method="post">
 						<fieldset>
 							
 							<div class="input-prepend" title="Login">
 								<span class="add-on"><i class="halflings-icon user"></i></span>
-								<input class="input-large span10" name="login" id="login" type="text" placeholder="type login"/>
+								<input class="input-large span10" name="login" id="login" type="text" placeholder="type login" required="true"/>
 							</div>
 							<div class="clearfix"></div>
 
 							<div class="input-prepend" title="Password">
 								<span class="add-on"><i class="halflings-icon lock"></i></span>
-								<input class="input-large span10" name="password" id="password" type="password" placeholder="type password"/>
+								<input class="input-large span10" name="password" id="password" type="password" placeholder="type password" required="true"/>
 							</div>
 							<div class="clearfix"></div>
 							

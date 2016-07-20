@@ -90,21 +90,7 @@ public class UserDaoJPA implements UserDao {
     @Override
     @Logged
     public void deleteUser(Integer id) {
-        /*try {
-            User deletedUser = entityManager.find(User.class, id);
-            List<User> list = deletedUser.getFriends();
-            for (User user: list) {
-                user.getFriends().remove(deletedUser);
-            }
-            for (User user: list) {
-                entityManager.merge(user);
-            }*/
             entityManager.remove(entityManager.find(User.class, id));
-        /*}
-        catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            throw new EmptyResultDataAccessException(id);
-        }*/
     }
 
     @Override
@@ -156,7 +142,7 @@ public class UserDaoJPA implements UserDao {
 
     @Override
     @Logged
-    public User getUserByLogin(String login) {
+    public User getUserByLogin(String login) throws EmptyResultDataAccessException {
         try {
             User user = entityManager
                     .createQuery(selectUserByLogin, User.class)

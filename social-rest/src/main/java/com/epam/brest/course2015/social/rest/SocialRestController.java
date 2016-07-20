@@ -163,7 +163,14 @@ public class SocialRestController {
     @Logged
     public User getUserByLogin(@RequestParam("login") String login) {
 
-        return socialService.getUserByLogin(login);
+        try {
+            User user = socialService.getUserByLogin(login);
+            return user;
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
     @Logged
