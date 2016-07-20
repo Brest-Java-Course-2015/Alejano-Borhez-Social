@@ -6,18 +6,13 @@ apply plugin: 'java'
 repositories {
     mavenCentral()
 }
-
 String springVersion = '4.3.0.RELEASE'
 
 List test = ["org.springframework:spring-test:" + springVersion,
              "junit:junit:4.12",
              "org.easymock:easymock:3.4"]
 
-
 dependencies {
-    compile project(':social-test'),
-    'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final',
-    'org.apache.commons:commons-lang3:3.0'
-
+    compile project(':social-service-api')
     testCompile test
 }

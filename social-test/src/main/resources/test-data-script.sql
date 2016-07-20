@@ -151,7 +151,6 @@ VALUES(
 );
 
 INSERT INTO IMAGE (
---userId,
 imageId,
 url,
 url50,
@@ -159,16 +158,14 @@ url81,
 createdDate
 )
 VALUES (
---1,
 1,
 'http://res.cloudinary.com/simple-social/image/upload/1-1.jpg',
 'http://res.cloudinary.com/simple-social/image/upload/1-1.jpg',
 'http://res.cloudinary.com/simple-social/image/upload/1-1.jpg',
 TO_TIMESTAMP('24/10/2015 20:30:00', 'DD/MM/YYYY HH:MI:SS')
-)
+);
 
 INSERT INTO IMAGE (
---userId,
 imageId,
 url,
 url50,
@@ -176,13 +173,12 @@ url81,
 createdDate
 )
 VALUES (
---1,
 2,
 'http://res.cloudinary.com/simple-social/image/upload/1-2.jpg',
 'http://res.cloudinary.com/simple-social/image/upload/1-2.jpg',
 'http://res.cloudinary.com/simple-social/image/upload/1-2.jpg',
 TO_TIMESTAMP('24/10/2015 20:30:00', 'DD/MM/YYYY HH:MI:SS')
-)
+);
 
 INSERT INTO USER_IMAGE (
 images_imageId,
@@ -191,7 +187,7 @@ User_userId
 VALUES (
 1,
 1
-)
+);
 
 INSERT INTO USER_IMAGE (
 images_imageId,
@@ -200,4 +196,15 @@ User_userId
 VALUES (
 2,
 1
+);
+
+INSERT INTO TOKEN (
+userId,
+token,
+expires
 )
+VALUES (
+2,
+'testToken2',
+TO_TIMESTAMP('20/08/2016 23:59:59', 'DD/MM/YYYY HH:MI:SS')
+);

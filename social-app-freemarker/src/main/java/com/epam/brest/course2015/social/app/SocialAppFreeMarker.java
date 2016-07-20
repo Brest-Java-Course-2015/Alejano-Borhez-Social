@@ -30,6 +30,8 @@ public class SocialAppFreeMarker {
 
     @Value("${rest.prefix}")
     private String restPrefix;
+    @Value("${security.uid}")
+    private String uid;
 
 
     @Autowired
@@ -58,27 +60,29 @@ public class SocialAppFreeMarker {
     @Logged
     public ModelAndView sayHello(HttpServletRequest req,
                                  HttpServletResponse resp) throws IOException {
+
         ModelAndView model = new ModelAndView("hello", "hello", socialConsumer.hello());
 
         Cookie[] cookies = req.getCookies();
 
-        try {
-            String uid = "";
+        if (cookies != null) {
+            String userId = "";
+
             for (Cookie cookie : cookies) {
-                if ("uid".equals(cookie.getName())) {
-                    model.addObject("uid", cookie.getValue().toString());
-                    uid = cookie.getValue();
+                if (uid.equals(cookie.getName())) {
+                    model.addObject(uid, cookie.getValue());
+                    userId = cookie.getValue();
                 }
-
-
             }
 
             if (!uid.isEmpty()) {
-                model.addObject("dto", socialConsumer.getUser(Integer.parseInt(uid)));
+                model.addObject("dto", socialConsumer.getUser(Integer.parseInt(userId)));
+            } else {
+                resp.sendRedirect("login");
+                return model;
             }
 
-        } catch (NullPointerException e) {
-
+        } else {
             resp.sendRedirect("login");
             return model;
         }

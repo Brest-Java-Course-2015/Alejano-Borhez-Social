@@ -9,3 +9,5 @@ include 'social-core',
         'social-consumer-api',
         'social-consumer-restimpl',
         'social-app-freemarker'
+include 'social-security'
+
