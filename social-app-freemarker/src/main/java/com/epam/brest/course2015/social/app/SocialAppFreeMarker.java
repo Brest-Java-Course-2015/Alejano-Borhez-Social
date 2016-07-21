@@ -160,7 +160,7 @@ public class SocialAppFreeMarker {
 
             SocialDto dto = socialConsumer.getAllUsers();
             ModelAndView model = new ModelAndView("hello", "dto", dto);
-            resp.sendRedirect("hello");
+            resp.sendRedirect("user");
             return model;
         }
         else {
