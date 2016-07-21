@@ -4,6 +4,7 @@ import com.epam.brest.course2015.social.consumer.SocialConsumer;
 import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dto.SocialDto;
 import com.epam.brest.course2015.social.test.Logged;
+import freemarker.ext.servlet.ServletContextHashModel;
 import org.apache.http.Header;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +13,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.ServletContextPropertyUtils;
+import org.springframework.web.util.WebUtils;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -94,21 +98,17 @@ public class SocialAppFreeMarker {
     @Logged
     public ModelAndView getUser(HttpServletRequest req,
                                 HttpServletResponse resp) throws IOException {
-        Cookie[] cookies = req.getCookies();
-        ModelAndView mav = new ModelAndView("user");
 
-        if (cookies != null) {
-            for (Cookie cookie: cookies) {
-                mav.addObject("cookie", uid);
-                if ((uid.toString()).equals(cookie.getName().toString())) {
-                    String token = cookie.getValue().toString();
-                    SocialDto dto = socialConsumer.getUserDto(token);
-                    mav.addObject("dto", dto);
-                    mav.addObject("header", cookie.getValue());
-                    mav.addObject("mapping", "usertab");
-                    return mav;
-                }
-            }
+        ModelAndView mav = new ModelAndView("user");
+        Cookie cookie = WebUtils.getCookie(req, uid);
+        if (cookie != null) {
+            mav.addObject("cookie", uid);
+            String token = cookie.getValue();
+            SocialDto dto = socialConsumer.getUserDto(token);
+            mav.addObject("dto", dto);
+            mav.addObject("header", cookie.getValue());
+            mav.addObject("mapping", "usertab");
+            return mav;
         }
 
         resp.sendRedirect("login");
