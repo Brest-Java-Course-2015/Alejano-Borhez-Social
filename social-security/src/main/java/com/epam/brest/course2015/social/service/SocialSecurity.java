@@ -7,7 +7,7 @@ import java.io.UnsupportedEncodingException;
  */
 public interface SocialSecurity {
 
-    String generateSecurityToken(String login, Integer userId);
+    String generateSecurityToken(Integer userId);
     Integer getUserId(String token);
 
 }

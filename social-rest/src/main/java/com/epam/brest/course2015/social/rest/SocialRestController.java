@@ -2,6 +2,7 @@ package com.epam.brest.course2015.social.rest;
 
 import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dto.SocialDto;
+import com.epam.brest.course2015.social.service.SocialSecurity;
 import com.epam.brest.course2015.social.service.SocialService;
 import com.epam.brest.course2015.social.test.Logged;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -29,6 +29,8 @@ public class SocialRestController {
     private SocialService socialService;
     @Autowired
     private SimpMessagingTemplate socialMessaging;
+    @Autowired
+    private SocialSecurity socialSecurity;
 
     @SubscribeMapping(value = "/hello")
     @Logged
@@ -51,6 +53,21 @@ public class SocialRestController {
         socialMessaging.convertAndSend("/topic/totalusers", totalUsers);*/
         return addedUserId;
 
+    }
+
+    @RequestMapping("/token")
+    @Logged
+    public String getToken(@RequestParam("login") String login) {
+
+        User user = socialService.getUserByLogin(login);
+        if (user != null) {
+            Integer userId = user.getUserId();
+
+            return socialSecurity.generateSecurityToken(userId);
+
+        } else {
+            return null;
+        }
     }
 
     @RequestMapping(value = "/user/password",

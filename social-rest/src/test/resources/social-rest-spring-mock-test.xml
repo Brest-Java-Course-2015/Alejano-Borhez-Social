@@ -20,6 +20,10 @@
         <constructor-arg value="org.springframework.messaging.simp.SimpMessagingTemplate"/>
     </bean>
 
+    <bean id="socialSecurity" class="org.easymock.EasyMock" factory-method="createMock">
+        <constructor-arg value="com.epam.brest.course2015.social.service.SocialSecurity"/>
+    </bean>
+
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
         <property name="messageConverters">
             <list>

@@ -1,10 +1,9 @@
 package com.epam.brest.course2015.social.rest;
 
 
-import com.epam.brest.course2015.social.core.Friendship;
-import com.epam.brest.course2015.social.core.Image;
 import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dto.SocialDto;
+import com.epam.brest.course2015.social.service.SocialSecurity;
 import com.epam.brest.course2015.social.service.SocialService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
@@ -22,7 +21,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 
 import static org.easymock.EasyMock.*;
@@ -41,7 +39,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 @ContextConfiguration(locations = {"classpath:social-rest-spring-mock-test.xml"})
 public class SocialRestControllerMockTest {
     @Resource
-    SocialRestController socialRestController;
+    private SocialRestController socialRestController;
 
     private static Date getDate(String date) {
         try {
@@ -56,10 +54,13 @@ public class SocialRestControllerMockTest {
     private MockMvc mockMvc;
 
     @Autowired
-    SocialService socialService;
+    private SocialService socialService;
 
     @Autowired
-    SimpMessagingTemplate socialMessaging;
+    private SocialSecurity socialSecurity;
+
+    @Autowired
+    private SimpMessagingTemplate socialMessaging;
 
     @Before
     public void setUp() {
@@ -71,86 +72,34 @@ public class SocialRestControllerMockTest {
     public void tearDown() {
         verify(socialService);
         reset(socialService);
+        verify(socialSecurity);
+        reset(socialSecurity);
     }
 
-//    @Test
-    public void testGetAllUsers() throws Exception {
-        expect(socialService
-                .getAllUsers())
-                .andReturn(Arrays.<User>asList(new User(3)));
+    @Test
+    public void testAddToken() throws Exception {
+        expect(socialService.getUserByLogin("login")).andReturn(new User());
         replay(socialService);
+        expect(socialSecurity.generateSecurityToken(anyInt()))
+                .andReturn("token");
+        replay(socialSecurity);
         mockMvc.perform(
-                get("/users")
-                .accept(MediaType.APPLICATION_JSON))
+                get("/token?login=login")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk());
-    }
+                .andExpect(status().isOk())
+                .andExpect(content().string("\"token\""));
 
-//    @Test
-    public void testGetAllFriendships() throws Exception {
-        expect(socialService
-                .getAllFriendships())
-                .andReturn(Arrays.<Friendship>asList(new Friendship(1, 2)));
-        replay(socialService);
-        mockMvc.perform(
-                get("/friendships")
-                .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk());
-
-    }
-
-//    @Test
-    public void testGetUserById() throws Exception {
-        expect(socialService.getUserById(1)).andReturn(new User(1));
-        replay(socialService);
-        mockMvc.perform(
-                get("/user?id=1")
-                .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk());
-    }
-
-//    @Test
-    public void testGetUserByLogin() throws Exception {
-        expect(socialService.getUserByLogin("login")).andReturn(new User(1));
-        replay(socialService);
-        mockMvc.perform(
-                get("/user/login?login=login")
-                .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk());
-    }
-
-//    @Test
-    public void testGetUserFriends() throws Exception {
-        expect(socialService.getFriends(1)).andReturn(Arrays.<User>asList(new User(2), new User(3)));
-        replay(socialService);
-        mockMvc.perform(
-                get("/user/friends?id=1")
-                .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk());
-    }
-
-//    @Test
-    public void testGetUserNoFriends() throws Exception {
-        expect(socialService.getNoFriends(1)).andReturn(Arrays.<User>asList(new User(2), new User(3)));
-        replay(socialService);
-        mockMvc.perform(
-                get("/user/nofriends?id=1")
-                .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk());
     }
 
     @Test
     public void testAddUser() throws Exception {
         expect(socialService.addUser(anyObject(User.class)))
         .andReturn(5);
-//        expect(socialService.getSocialUsersDto())
-//        .andReturn(new SocialDto());
         replay(socialService);
+        replay(socialSecurity);
+
         String user = new ObjectMapper().writeValueAsString(new User());
         mockMvc.perform(
                 post("/user")
@@ -167,6 +116,7 @@ public class SocialRestControllerMockTest {
         socialService.changePassword(1, "password");
         expectLastCall();
         replay(socialService);
+        replay(socialSecurity);
         mockMvc.perform(
                 put("/user/password?id=1&password=password")
                 .accept(MediaType.APPLICATION_JSON))
@@ -180,6 +130,7 @@ public class SocialRestControllerMockTest {
         socialService.changeLogin(1, "login");
         expectLastCall();
         replay(socialService);
+        replay(socialSecurity);
         mockMvc.perform(
                 put("/user/login/?id=1&login=login")
                 .accept(MediaType.APPLICATION_JSON))
@@ -193,6 +144,7 @@ public class SocialRestControllerMockTest {
         socialService.changeFirstName(1, "firstname");
         expectLastCall();
         replay(socialService);
+        replay(socialSecurity);
         mockMvc.perform(
                 put("/user/firstname/?id=1&firstname=firstname")
                         .accept(MediaType.APPLICATION_JSON))
@@ -206,6 +158,7 @@ public class SocialRestControllerMockTest {
         socialService.changeLastName(1, "lastname");
         expectLastCall();
         replay(socialService);
+        replay(socialSecurity);
         mockMvc.perform(
                 put("/user/lastname/?id=1&lastname=lastname")
                         .accept(MediaType.APPLICATION_JSON))
@@ -217,9 +170,9 @@ public class SocialRestControllerMockTest {
     @Test
     public void testDeleteUser() throws Exception {
         socialService.deleteUser(1);
-//        socialService.discardAllFriendshipsOfAUser(1);
         expectLastCall();
         replay(socialService);
+        replay(socialSecurity);
         mockMvc.perform(
                 delete("/user?id=1")
                 .accept(MediaType.APPLICATION_JSON))
@@ -233,6 +186,7 @@ public class SocialRestControllerMockTest {
         socialService.discardFriendship(anyObject(User.class), anyObject(User.class));
         expectLastCall();
         replay(socialService);
+        replay(socialSecurity);
         mockMvc.perform(
                 delete("/user/friendship?id1=1&id2=2")
                 .accept(MediaType.APPLICATION_JSON))
@@ -247,6 +201,7 @@ public class SocialRestControllerMockTest {
                 anyObject(User.class));
         expectLastCall();
         replay(socialService);
+        replay(socialSecurity);
         mockMvc.perform(
                 post("/user/friendship?id1=1&id2=2")
                 .accept(MediaType.APPLICATION_JSON))
@@ -255,25 +210,12 @@ public class SocialRestControllerMockTest {
                 .andExpect(content().string(""));
     }
 
-//    @Test
-    public void testIsAFriend() throws Exception {
-        expect(socialService.isAFriend(anyObject(User.class),
-                anyObject(User.class)))
-                .andReturn(true);
-        replay(socialService);
-        mockMvc.perform(
-                get("/user/friendship?id1=1&id2=2")
-                .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().string("true"));
-    }
-
     @Test
     public void testGetUserDto() throws Exception {
         expect(socialService.getSocialUsersDto())
                 .andReturn(new SocialDto());
         replay(socialService);
+        replay(socialSecurity);
         mockMvc.perform(
                 get("/userdto")
                 .accept(MediaType.APPLICATION_JSON))
@@ -288,6 +230,7 @@ public class SocialRestControllerMockTest {
         expect(socialService.getSocialFriendsDto(1))
                 .andReturn(new SocialDto());
         replay(socialService);
+        replay(socialSecurity);
         mockMvc.perform(
                 get("/friendsdto?id=1")
                 .accept(MediaType.APPLICATION_JSON))
@@ -302,6 +245,7 @@ public class SocialRestControllerMockTest {
         expect(socialService.getSocialNoFriendsDto(1))
                 .andReturn(new SocialDto());
         replay(socialService);
+        replay(socialSecurity);
         mockMvc.perform(
                 get("/nofriendsdto?id=1")
                         .accept(MediaType.APPLICATION_JSON))
@@ -319,6 +263,7 @@ public class SocialRestControllerMockTest {
                 date2))
                 .andReturn(new SocialDto());
         replay(socialService);
+        replay(socialSecurity);
         mockMvc.perform(
                 get("/userdtobydate?datemin=2015-10-01&datemax=2015-11-01")
                         .accept(MediaType.APPLICATION_JSON))

@@ -17,6 +17,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -76,7 +77,7 @@ public class SocialAppFreeMarker {
             }
 
             if (!uid.isEmpty()) {
-                model.addObject("dto", socialConsumer.getUser(Integer.parseInt(userId)));
+                model.addObject("dto", socialConsumer.getAllUsers());
             } else {
                 resp.sendRedirect("login");
                 return model;
@@ -95,14 +96,29 @@ public class SocialAppFreeMarker {
                        HttpServletResponse resp) {
         String userId = "";
 
+        Cookie[] cookies = req.getCookies();
 
-        if (userId.length() > 0) {
-            return "forward:/user?id=" + userId;
+        if (cookies != null) {
+            String token = "";
+            for (Cookie cookie: cookies) {
+                if (
+                    new Date(cookie.getMaxAge()).after(new Date())
+                    && cookie.getName() == uid
+                    )
+                {
+                    token = cookie.getValue();
+                }
+            }
+
+            if (!token.isEmpty()) {
+                return "forward:/user?id=" + userId;
+            } else {
+                return "redirect:/login";
+            }
+
         } else {
             return "redirect:/login";
         }
-
-
 
     }
 
@@ -121,15 +137,25 @@ public class SocialAppFreeMarker {
                                      HttpServletRequest req,
                                      @ModelAttribute("user") User user) throws IOException {
 
+// Checking for a user from DataBase
+
         User userFromDB = socialConsumer.getUser(user.getLogin());
 
         if (userFromDB != null && user.getLogin().equals(userFromDB.getLogin()) &&
             user.getPassword().equals(userFromDB.getPassword())) {
-            SocialDto dto = socialConsumer.getAllUsers();
-            ModelAndView model = new ModelAndView("hello", "dto", dto);
-            Cookie cookie = new Cookie("uid", userFromDB.getUserId().toString());
+
+// Creating a token
+            String token = socialConsumer.getToken(user.getLogin());
+// Setting a Cookie
+
+            Cookie cookie = new Cookie("uid", token);
             cookie.setMaxAge(60*60*24);
             resp.addCookie(cookie);
+
+// Proceed to Hello page
+
+            SocialDto dto = socialConsumer.getAllUsers();
+            ModelAndView model = new ModelAndView("hello", "dto", dto);
             resp.sendRedirect("hello");
             return model;
         }
@@ -200,24 +226,49 @@ public class SocialAppFreeMarker {
 
     @RequestMapping("/user")
     @Logged
-    public ModelAndView getUser(@RequestParam("id")
-                                        Integer id) {
-        SocialDto dto = socialConsumer.getUser(id);
+    public ModelAndView getUser(HttpServletRequest req,
+                                HttpServletResponse resp) throws IOException {
 
-        ModelAndView model = new ModelAndView("user", "dto", dto);
-        model.addObject("mapping", "usertab");
-        return model;
+        Cookie[] cookies = req.getCookies();
+
+        if (cookies != null) {
+            String token = "";
+            for (Cookie cookie: cookies) {
+                if (
+                        new Date(cookie.getMaxAge()).after(new Date())
+                                && cookie.getName() == uid
+                        )
+                {
+                    token = cookie.getValue();
+                }
+            }
+
+            if (!token.isEmpty()) {
+                SocialDto dto = socialConsumer.getUserDto(token);
+                ModelAndView model = new ModelAndView("user", "dto", dto);
+                model.addObject("mapping", "usertab");
+                return model;
+            } else {
+                resp.sendRedirect("login");
+                return null;
+            }
+
+        } else {
+            resp.sendRedirect("login");
+            return null;
+        }
     }
 
     @RequestMapping("/photo")
     @Logged
     public ModelAndView getPhoto(@RequestParam("id")
                                  Integer id) {
-        SocialDto dto = socialConsumer.getUser(id);
-
-        ModelAndView model = new ModelAndView("photo", "dto", dto);
-        model.addObject("mapping", "phototab");
-        return model;
+//        SocialDto dto = socialConsumer.getUser(id);
+//
+//        ModelAndView model = new ModelAndView("photo", "dto", dto);
+//        model.addObject("mapping", "phototab");
+//        return model;
+        return null;
     }
 
     @RequestMapping("/addusersubmit")
@@ -291,7 +342,7 @@ public class SocialAppFreeMarker {
         return model;
     }
 
-    @RequestMapping("/vk")
+   /* @RequestMapping("/vk")
     @Logged
     public ModelAndView getVKStyle(@RequestParam("id") Integer id) {
         SocialDto dto = socialConsumer.getUser(id);
@@ -299,5 +350,5 @@ public class SocialAppFreeMarker {
         model.addObject("mapping", "vk");
         return model;
 
-    }
+    }*/
 }

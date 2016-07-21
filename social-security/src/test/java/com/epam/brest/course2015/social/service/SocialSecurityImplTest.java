@@ -1,15 +1,11 @@
 package com.epam.brest.course2015.social.service;
 
-import com.epam.brest.course2015.social.dao.SecurityDao;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import java.util.Base64;
 
 import static org.junit.Assert.*;
 
@@ -23,13 +19,12 @@ public class SocialSecurityImplTest {
     @Autowired
     private SocialSecurity socialSecurity;
 
-    private static final String TEST_LOGIN = "testLogin";
     private static final Integer TEST_USER_ID = 1;
     private static final String TEST_TOKEN = "testToken2";
 
     @Test
     public void generateSecurityToken() throws Exception {
-        String token = socialSecurity.generateSecurityToken(TEST_LOGIN, TEST_USER_ID);
+        String token = socialSecurity.generateSecurityToken(TEST_USER_ID);
         Integer userId = socialSecurity.getUserId(token);
         assertNotNull(userId);
     }
@@ -41,10 +36,10 @@ public class SocialSecurityImplTest {
         assertTrue(userId == 2);
     }
 
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void getUserIdIncorrectToken() throws Exception {
+
         Integer userId = socialSecurity.getUserId("token");
-        assertNull(userId);
 
     }
 

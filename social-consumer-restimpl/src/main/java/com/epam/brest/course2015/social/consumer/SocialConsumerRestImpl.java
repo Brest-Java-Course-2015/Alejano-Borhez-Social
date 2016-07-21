@@ -96,19 +96,27 @@ public class SocialConsumerRestImpl implements SocialConsumer {
     }
 
     @Override
-    @Logged
-    public SocialDto getUser(Integer id) {
+    public String getToken(String login) {
         String url = restPrefix
-                + "friendsdto"
-                + "?id="
-                + id;
+                + "token"
+                + "?login="
+                + login;
+        return restTemplate.getForEntity(url, String.class).getBody();
+    }
+
+    @Override
+    @Logged
+    public SocialDto getUserDto(String token) {
+        String url = restPrefix
+                + "friendsdto";
 
         SocialDto dto =
                 restTemplate
-                        .getForEntity(
-                                url
-                                , SocialDto.class)
-                        .getBody();
+                        .postForObject(
+                                url,
+                                token,
+                                SocialDto.class
+                        );
         return dto;
     }
 
