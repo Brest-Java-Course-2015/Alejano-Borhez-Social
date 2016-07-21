@@ -227,12 +227,15 @@ public class SocialRestControllerMockTest {
 
     @Test
     public void testGetFriendsDto() throws Exception {
+        expect(socialSecurity.getUserId(anyString())).andReturn(1);
         expect(socialService.getSocialFriendsDto(1))
                 .andReturn(new SocialDto());
         replay(socialService);
         replay(socialSecurity);
         mockMvc.perform(
-                get("/friendsdto?id=1")
+                post("/friendsdto")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("\"token\"")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())

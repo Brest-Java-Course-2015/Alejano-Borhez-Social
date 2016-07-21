@@ -16,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import static org.easymock.EasyMock.*;
 import static org.easymock.EasyMock.expect;
@@ -135,12 +137,18 @@ public class SocialAppFreeMarkerTest {
 
     @Test
     public void testGetUser() throws Exception {
-        expect(socialController.getUser(2))
-                .andReturn(new ModelAndView("user", "dto", new SocialDto()));
+        expect(
+                socialController
+                .getUser(anyObject(HttpServletRequest.class)
+                       , anyObject(HttpServletResponse.class)
+                        )
+              )
+        .andReturn(new ModelAndView("user", "dto", new SocialDto()));
+
         replay(socialController);
         mockMvc.perform(
-                get("/user?id=2")
-                        .accept(MediaType.APPLICATION_JSON))
+                    get("/user")
+                    .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(forwardedUrl("/WEB-INF/view/user.ftl"))

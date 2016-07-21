@@ -148,10 +148,12 @@ public class SocialRestController {
     }
 
     @RequestMapping(value = "/friendsdto",
-                    method = RequestMethod.GET)
+                    method = RequestMethod.POST)
     @Logged
-    public SocialDto getFriendsDto(@RequestParam(value = "id")
-                                                 Integer id) {
+    public SocialDto getFriendsDto(@RequestBody String token) {
+
+        Integer id = socialSecurity.getUserId(token);
+
         return socialService.getSocialFriendsDto(id);
     }
 

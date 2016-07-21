@@ -90,35 +90,39 @@ public class SocialAppFreeMarker {
         return model;
     }
 
+    @RequestMapping("/user")
+    @Logged
+    public ModelAndView getUser(HttpServletRequest req,
+                                HttpServletResponse resp) throws IOException {
+        Cookie[] cookies = req.getCookies();
+        ModelAndView mav = new ModelAndView("user");
+
+        if (cookies != null) {
+            for (Cookie cookie: cookies) {
+                mav.addObject("cookie", uid);
+                if ((uid.toString()).equals(cookie.getName().toString())) {
+                    String token = cookie.getValue().toString();
+                    SocialDto dto = socialConsumer.getUserDto(token);
+                    mav.addObject("dto", dto);
+                    mav.addObject("header", cookie.getValue());
+                    mav.addObject("mapping", "usertab");
+                    return mav;
+                }
+            }
+        }
+
+        resp.sendRedirect("login");
+        return mav;
+    }
+
+
     @RequestMapping("/")
     @Logged
     public String init(HttpServletRequest req,
                        HttpServletResponse resp) {
-        String userId = "";
 
-        Cookie[] cookies = req.getCookies();
-
-        if (cookies != null) {
-            String token = "";
-            for (Cookie cookie: cookies) {
-                if (
-                    new Date(cookie.getMaxAge()).after(new Date())
-                    && cookie.getName() == uid
-                    )
-                {
-                    token = cookie.getValue();
-                }
-            }
-
-            if (!token.isEmpty()) {
-                return "forward:/user?id=" + userId;
-            } else {
-                return "redirect:/login";
-            }
-
-        } else {
             return "redirect:/login";
-        }
+
 
     }
 
@@ -224,40 +228,7 @@ public class SocialAppFreeMarker {
         return "forward:/nofriends?id=" + id1;
     }
 
-    @RequestMapping("/user")
-    @Logged
-    public ModelAndView getUser(HttpServletRequest req,
-                                HttpServletResponse resp) throws IOException {
 
-        Cookie[] cookies = req.getCookies();
-
-        if (cookies != null) {
-            String token = "";
-            for (Cookie cookie: cookies) {
-                if (
-                        new Date(cookie.getMaxAge()).after(new Date())
-                                && cookie.getName() == uid
-                        )
-                {
-                    token = cookie.getValue();
-                }
-            }
-
-            if (!token.isEmpty()) {
-                SocialDto dto = socialConsumer.getUserDto(token);
-                ModelAndView model = new ModelAndView("user", "dto", dto);
-                model.addObject("mapping", "usertab");
-                return model;
-            } else {
-                resp.sendRedirect("login");
-                return null;
-            }
-
-        } else {
-            resp.sendRedirect("login");
-            return null;
-        }
-    }
 
     @RequestMapping("/photo")
     @Logged
