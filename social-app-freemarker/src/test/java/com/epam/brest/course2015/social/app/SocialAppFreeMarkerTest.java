@@ -16,13 +16,12 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import static org.easymock.EasyMock.*;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
-import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -64,50 +63,6 @@ public class SocialAppFreeMarkerTest {
         reset(socialController);
     }
 
-//    @Test
-//    public void testGetAllUsers() throws Exception {
-//        expect(socialController.getAllUsers()).andReturn(new ModelAndView("users", "dto", new SocialDto()));
-//        replay(socialController);
-//        mockMvc.perform(
-//                get("/users")
-//                        .accept(MediaType.APPLICATION_JSON))
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(forwardedUrl("/WEB-INF/view/users.ftl"));
-//    }
-
-    /*@Test
-    public void testInit() {
-
-    }*/
-
-    @Test
-    public void testGetAllUsersByDate() throws Exception {
-        expect(socialController.getAllUsersByDate("2015-10-01", "2015-11-01"))
-                .andReturn(new ModelAndView("usersbydate", "dto", new SocialDto()));
-        replay(socialController);
-        mockMvc.perform(
-                get("/usersbydate?datemin=2015-10-01&datemax=2015-11-01")
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(forwardedUrl("/WEB-INF/view/usersbydate.ftl"))
-                .andExpect(view().name("usersbydate"));
-    }
-
-    @Test
-    public void testGetAllFriends() throws Exception {
-        expect(socialController.getAllFriends(2))
-                .andReturn(new ModelAndView("friends", "dto", new SocialDto()));
-        replay(socialController);
-        mockMvc.perform(
-                get("/friends?id=2")
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(forwardedUrl("/WEB-INF/view/friends.ftl"));
-    }
-
     @Test
     public void testDeleteFriend() throws Exception {
         expect(socialController.deleteFriend(5, 6))
@@ -133,27 +88,6 @@ public class SocialAppFreeMarkerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(forwardedUrl("/nofriends?id=5"));
-    }
-
-    @Test
-    public void testGetUser() throws Exception {
-        expect(
-                socialController
-                .getUser(anyObject(HttpServletRequest.class)
-                       , anyObject(HttpServletResponse.class)
-                        )
-              )
-        .andReturn(new ModelAndView("user", "dto", new SocialDto()));
-
-        replay(socialController);
-        mockMvc.perform(
-                    get("/user")
-                    .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(forwardedUrl("/WEB-INF/view/user.ftl"))
-                .andExpect(view().name("user"));
-
     }
 
     @Test
@@ -273,23 +207,26 @@ public class SocialAppFreeMarkerTest {
                 .andExpect(forwardedUrl("/user?id=1"));
     }
 
-    @Test
-    public void testGetAllNoFriendsOfAUser() throws Exception {
-        expect(socialController.getAllNoFriendsOfAUser(4))
-                .andReturn(new ModelAndView("nofriends"
-                        , "dto"
-                        , new SocialDto()));
-        replay(socialController);
+//  Tests for newly implemented methods
 
+    @Test
+    public void testGetAllUsersByDate() throws Exception {
+        expect(socialController
+                .getAllUsersByDate(anyObject(Cookie.class)
+                        , anyObject(HttpServletResponse.class),
+                        anyString(),
+                        anyString())
+        )
+                .andReturn(new ModelAndView("usersbydate", "dto", new SocialDto()));
+        replay(socialController);
         mockMvc.perform(
-                get("/nofriends?id=4")
-                        .accept(MediaType.APPLICATION_JSON))
+                get("/usersbydate?datemin=2015-10-01&datemax=2015-11-01")
+                .accept(MediaType.APPLICATION_JSON)
+                )
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(forwardedUrl("/WEB-INF/view/nofriends.ftl"))
-                .andExpect(view().name("nofriends"));
+                .andExpect(forwardedUrl("/WEB-INF/view/usersbydate.ftl"))
+                .andExpect(view().name("usersbydate"));
     }
-
-
 
 }

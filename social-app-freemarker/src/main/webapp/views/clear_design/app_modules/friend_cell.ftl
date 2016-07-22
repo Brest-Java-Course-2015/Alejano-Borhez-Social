@@ -1,12 +1,12 @@
 <#list dto.users as user>
-<div class="row well" id="friend_cell_${user.userId}" style="margin-left: 5px;">
+<div class="row well" id="friend_cell_${user.login}" style="margin-left: 5px;">
     <div class="span2" ontablet="span6" ondesktop="span3">
         <!-- Friend's avatar -->
-        <img class="grayscale" src="${(user.images[0].url)!"nourl"}"></img>
+        <img class="grayscale" src="${(user.images[0].url)!"#"}"></img>
     </div>
         <!-- Friends's credentials -->
     <div class="span3">
-        <strong>Name:</strong> <a href="user?id=${user.userId}">${user.firstName} ${user.lastName}</a><br>
+        <strong>Name:</strong> <a href="user/${user.login}">${user.firstName} ${user.lastName}</a><br>
         <strong>Since:</strong> ${user.createdDate?string('dd.MMMM')} <br>
     </div>
     <div class="span2">

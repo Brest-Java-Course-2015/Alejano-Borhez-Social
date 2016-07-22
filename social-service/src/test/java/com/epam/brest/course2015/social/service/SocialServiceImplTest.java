@@ -196,9 +196,10 @@ public class SocialServiceImplTest {
         assertEquals(testUser.getLogin(), testLogin);
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test
     public void testGetUserByIncorrectLogin() throws Exception {
-        socialService.getUserByLogin(testUser1.getLogin());
+        User user = socialService.getUserByLogin(testUser1.getLogin());
+        assertNull(user);
     }
 
     @Test (expected = IllegalArgumentException.class)

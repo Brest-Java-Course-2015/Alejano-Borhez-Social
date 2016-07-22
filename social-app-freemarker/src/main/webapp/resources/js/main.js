@@ -82,38 +82,6 @@ function sortUsers() {
         window.location = "usersbydate" + "?datemin=" + dateMin + "&datemax=" + dateMax;
 }
 
-function addUser() {
-    console.log('addUser');
-
-    $.ajax({
-        type: 'POST',
-        contentType: 'application/json',
-        url: "addusersubmit",
-        data: formToJSON(),
-        success: function () {
-            alert('Пользователь успешно добавлен');
-            if (confirm("Хотите добавить ещё одного пользователя?")) {
-
-            } else {
-            goHome();
-            }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            alert('addUser error: ' + textStatus + ': ' + errorThrown);
-        }
-    });
-}
-
-function formToJSON() {
-    return JSON.stringify({
-        "login": $('#login').val(),
-        "password": $('#password').val(),
-        "firstName": $('#firstName').val(),
-        "lastName": $('#lastName').val(),
-        "age": $('#age').val()
-    });
-}
-
 function goHome() {
     window.location=".";
 }

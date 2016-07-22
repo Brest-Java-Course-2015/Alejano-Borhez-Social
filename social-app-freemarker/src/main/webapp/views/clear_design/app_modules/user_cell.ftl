@@ -3,9 +3,9 @@
     <div class="row-fluid">
         <div class="span4">
             <a href="photo?id=${user.userId}">
-                <img class="avatar" alt="${user.firstName} ${user.lastName}" src="${(user.images[0].url)!"nourl"}">
+                <img class="avatar" alt="${user.firstName} ${user.lastName}" src="${(user.images[0].url)!"#"}">
             </a>
-            <strong>Name:</strong> <a href="user?id=${user.userId}">${user.firstName} ${user.lastName}</a><br>
+            <strong>Name:</strong> <a href="user/${user.login}">${user.firstName} ${user.lastName}</a><br>
             <strong>Since:</strong> ${user.createdDate?string('dd.MMMM')} <br>
             <strong>Friends:</strong> ${user.totalFriends} <br>
         </div>

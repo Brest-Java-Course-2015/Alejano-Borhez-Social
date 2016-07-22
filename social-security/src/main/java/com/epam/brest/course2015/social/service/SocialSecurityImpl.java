@@ -30,6 +30,15 @@ public class SocialSecurityImpl implements SocialSecurity {
         return addedToken;
     }
 
+    @Override
+    public String getToken(Integer userId) {
+        Assert.notNull(userId, "UserId must NOT be NULL");
+        SocialToken socialToken = securityDao.getTokenByUserId(userId);
+        return (socialToken != null)? socialToken.getToken(): null;
+    }
+
+
+    @Override
     public Integer getUserId(String token) {
         Assert.notNull(token, "You are trying to use incorrect token");
 
@@ -40,6 +49,16 @@ public class SocialSecurityImpl implements SocialSecurity {
 
         return securityDao.getUserId(securityDao.getToken(token));
 
+    }
+
+    @Override
+    public Boolean isTokenValid(String token) {
+        if (token == null) return false;
+        SocialToken socialToken = securityDao.getToken(token);
+        if (socialToken == null) return false;
+        if (socialToken.getExpires().before(new Date())) return false;
+
+        return true;
     }
 
 }

@@ -2,11 +2,7 @@ package com.epam.brest.course2015.social.app;
 
 import com.cloudinary.utils.ObjectUtils;
 import com.epam.brest.course2015.social.consumer.SocialConsumer;
-import com.epam.brest.course2015.social.core.Image;
-import com.epam.brest.course2015.social.core.User;
-import com.epam.brest.course2015.social.dto.SocialDto;
 import com.epam.brest.course2015.social.test.Logged;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,13 +11,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cloudinary.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.jws.soap.SOAPBinding;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Map;
 
 

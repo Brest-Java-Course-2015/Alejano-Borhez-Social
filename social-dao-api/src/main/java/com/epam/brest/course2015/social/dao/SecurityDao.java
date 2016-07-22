@@ -12,4 +12,5 @@ public interface SecurityDao {
     void deleteToken(SocialToken token);
     Integer getUserId(SocialToken token);
     SocialToken getToken(String token);
+    SocialToken getTokenByUserId(Integer userId);
 }

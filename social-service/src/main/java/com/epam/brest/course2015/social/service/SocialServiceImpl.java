@@ -220,7 +220,7 @@ public class SocialServiceImpl implements SocialService {
             return userDao.getUserByLogin(login);
         } catch (EmptyResultDataAccessException e) {
             e.printStackTrace();
-            throw new IllegalArgumentException();
+            return null;
         }
     }
 

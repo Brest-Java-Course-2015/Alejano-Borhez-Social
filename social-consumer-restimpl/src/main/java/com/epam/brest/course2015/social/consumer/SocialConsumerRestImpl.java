@@ -22,47 +22,22 @@ public class SocialConsumerRestImpl implements SocialConsumer {
 
     @Override
     @Logged
-    public SocialDto getAllUsers() {
-        String url = restPrefix + "userdto";
-        SocialDto dto = restTemplate
-                .getForEntity(
-                        url
-                        , SocialDto.class
-                )
-                .getBody();
-        return dto;
-    }
-
-    @Override
-    @Logged
-    public SocialDto getAllUsersByDate(String dateMin, String dateMax) {
+    public SocialDto getAllUsersByDate(String token, String dateMin, String dateMax) {
         String url = restPrefix + "/userdtobydate"
                 + "?datemin="
                 + dateMin
                 + "&datemax="
                 + dateMax;
-        SocialDto dto = restTemplate.getForEntity(
+        SocialDto dto = restTemplate.postForEntity(
                 url
+                , token
                 , SocialDto.class)
                 .getBody();
 
         return dto;
     }
 
-    @Override
-    @Logged
-    public SocialDto getAllFriends(Integer id) {
-        String url = restPrefix
-                + "/friendsdto"
-                + "?id="
-                + id;
-        SocialDto dto = restTemplate
-                .getForEntity(
-                        url
-                        , SocialDto.class)
-                .getBody();
-        return dto;
-    }
+
 
     @Override
     @Logged
@@ -88,47 +63,6 @@ public class SocialConsumerRestImpl implements SocialConsumer {
                 + id2;
 
         restTemplate.postForObject(url, null, String.class);
-    }
-
-    @Override
-    public String hello() {
-        return "Hello!";
-    }
-
-    @Override
-    public String getToken(String login) {
-        String url = restPrefix
-                + "token"
-                + "?login="
-                + login;
-        return restTemplate.getForEntity(url, String.class).getBody();
-    }
-
-    @Override
-    @Logged
-    public SocialDto getUserDto(String token) {
-        String url = restPrefix
-                + "friendsdto";
-
-        SocialDto dto =
-                restTemplate
-                        .postForObject(
-                                url,
-                                token,
-                                SocialDto.class
-                        );
-        return dto;
-    }
-
-    @Override
-    public User getUser(String login) {
-        String url = restPrefix
-                + "user"
-                + "?login="
-                + login;
-        User user = restTemplate.getForEntity(url, User.class).getBody();
-
-        return user;
     }
 
     @Override
@@ -258,16 +192,78 @@ public class SocialConsumerRestImpl implements SocialConsumer {
         restTemplate.put(url, null);
     }
 
+
+
+//    All newly implemented methods
     @Override
     @Logged
-    public SocialDto getAllNoFriendsOfAUser(Integer id) {
+    public SocialDto getAllNoFriendsOfAUser(String token) {
         String url = restPrefix
-                + "/nofriendsdto"
-                + "?id="
-                + id;
+                + "/nofriendsdto";
 
         SocialDto dto = restTemplate
-                .getForObject(url, SocialDto.class);
+                .postForEntity(url, token, SocialDto.class).getBody();
+        return dto;
+    }
+
+    @Override
+    @Logged
+    public boolean isUserInDB(User user) {
+        String url = restPrefix
+                    + "user/db";
+        return restTemplate.postForEntity(url, user, Boolean.class).getBody();
+    }
+
+    @Override
+    public String getToken(String login) {
+        String url = restPrefix
+                + "token"
+                + "?login="
+                + login;
+        return restTemplate.getForEntity(url, String.class).getBody();
+    }
+
+    @Override
+    @Logged
+    public SocialDto getUserDto(String token) {
+        String url = restPrefix
+                + "/friendsdto";
+
+        SocialDto dto =
+                restTemplate
+                        .postForObject(
+                                url,
+                                token,
+                                SocialDto.class
+                        );
+        return dto;
+    }
+
+    @Override
+    @Logged
+    public SocialDto getAllFriends(String token) {
+        String url = restPrefix
+                + "/friendsdto";
+        SocialDto dto = restTemplate
+                .postForEntity(
+                        url
+                        , token
+                        , SocialDto.class)
+                .getBody();
+        return dto;
+    }
+
+    @Override
+    @Logged
+    public SocialDto getAllUsers(String token) {
+        String url = restPrefix + "userdto";
+        SocialDto dto = restTemplate
+                .postForEntity(
+                        url
+                        , token
+                        , SocialDto.class
+                )
+                .getBody();
         return dto;
     }
 

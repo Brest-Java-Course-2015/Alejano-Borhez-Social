@@ -20,7 +20,7 @@
         <div class = "row-fluid well" style="padding-right:5px;">
             <div class="span2" ontablet="span6" ondesktop="span3">
                     <!-- User's avatar -->
-                    <img class="grayscale" src="${(dto.user.images[0].url)!"nourl"}"></img>
+                    <img class="grayscale" src="${(dto.user.images[0].url)!"#"}"></img>
             </div>
                     <!-- User's credentials -->
             <div class="span3">

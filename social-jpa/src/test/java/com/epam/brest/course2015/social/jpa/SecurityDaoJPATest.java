@@ -51,7 +51,12 @@ public class SecurityDaoJPATest {
         Integer userId = securityDao.getUserId(testSocialToken);
         assertNotNull(userId);
         assertEquals(userId, testUserId);
+    }
 
+    @Test
+    public void getTokenByUserId() throws Exception {
+        SocialToken token = securityDao.getTokenByUserId(testUserId+1);
+        assertNotNull(token);
     }
 
 }

@@ -4,27 +4,16 @@ import com.epam.brest.course2015.social.consumer.SocialConsumer;
 import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dto.SocialDto;
 import com.epam.brest.course2015.social.test.Logged;
-import freemarker.ext.servlet.ServletContextHashModel;
-import org.apache.http.Header;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.util.ServletContextPropertyUtils;
-import org.springframework.web.util.WebUtils;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
 
 
 /**
@@ -49,163 +38,12 @@ public class SocialAppFreeMarker {
         return restPrefix + "websocket/endpoint";
     }
 
-    @RequestMapping("/hello2")
-    @Logged
-    public ModelAndView sayHelloAgain(HttpServletRequest req,
-                                      HttpServletResponse resp) {
-
-        ModelAndView model = new ModelAndView("hello", "hello", socialConsumer.hello());
-
-
-        return model;
-
-    }
-
-    @RequestMapping("/hello")
-    @Logged
-    public ModelAndView sayHello(HttpServletRequest req,
-                                 HttpServletResponse resp) throws IOException {
-
-        ModelAndView model = new ModelAndView("hello", "hello", socialConsumer.hello());
-
-        Cookie[] cookies = req.getCookies();
-
-        if (cookies != null) {
-            String userId = "";
-
-            for (Cookie cookie : cookies) {
-                if (uid.equals(cookie.getName())) {
-                    model.addObject(uid, cookie.getValue());
-                    userId = cookie.getValue();
-                }
-            }
-
-            if (!uid.isEmpty()) {
-                model.addObject("dto", socialConsumer.getAllUsers());
-            } else {
-                resp.sendRedirect("login");
-                return model;
-            }
-
-        } else {
-            resp.sendRedirect("login");
-            return model;
-        }
-        return model;
-    }
-
-    @RequestMapping("/user")
-    @Logged
-    public ModelAndView getUser(HttpServletRequest req,
-                                HttpServletResponse resp) throws IOException {
-
-        ModelAndView mav = new ModelAndView("user");
-        Cookie cookie = WebUtils.getCookie(req, uid);
-        if (cookie != null) {
-            mav.addObject("cookie", uid);
-            String token = cookie.getValue();
-            SocialDto dto = socialConsumer.getUserDto(token);
-            mav.addObject("dto", dto);
-            mav.addObject("header", cookie.getValue());
-            mav.addObject("mapping", "usertab");
-            return mav;
-        }
-
-        resp.sendRedirect("login");
-        return mav;
-    }
-
 
     @RequestMapping("/")
     @Logged
-    public String init(HttpServletRequest req,
+    public String init(@CookieValue(name = "uid", required = false) Cookie cookie,
                        HttpServletResponse resp) {
-
             return "redirect:/login";
-
-
-    }
-
-    @RequestMapping("/login")
-    @Logged
-    public ModelAndView login() {
-
-
-
-        return new ModelAndView("login");
-    }
-
-    @RequestMapping(value = "/loginapprove", method = RequestMethod.POST)
-    @Logged
-    public ModelAndView loginApprove(HttpServletResponse resp,
-                                     HttpServletRequest req,
-                                     @ModelAttribute("user") User user) throws IOException {
-
-// Checking for a user from DataBase
-
-        User userFromDB = socialConsumer.getUser(user.getLogin());
-
-        if (userFromDB != null && user.getLogin().equals(userFromDB.getLogin()) &&
-            user.getPassword().equals(userFromDB.getPassword())) {
-
-// Creating a token
-            String token = socialConsumer.getToken(user.getLogin());
-// Setting a Cookie
-
-            Cookie cookie = new Cookie("uid", token);
-            cookie.setMaxAge(60*60*24);
-            resp.addCookie(cookie);
-
-// Proceed to Hello page
-
-            SocialDto dto = socialConsumer.getAllUsers();
-            ModelAndView model = new ModelAndView("hello", "dto", dto);
-            resp.sendRedirect("user");
-            return model;
-        }
-        else {
-            resp.sendRedirect("login");
-            return new ModelAndView("login");
-        }
-    }
-
-    @RequestMapping("/users")
-    @Logged
-    public ModelAndView getAllUsers() {
-        SocialDto dto = socialConsumer.getAllUsers();
-        ModelAndView model = new ModelAndView("users", "dto", dto);
-        model.addObject("mapping", "users");
-        return model;
-    }
-
-    @RequestMapping("/usersbydate")
-    @Logged
-    public ModelAndView getAllUsersByDate(@RequestParam("datemin")
-                                                  String dateMin,
-                                          @RequestParam("datemax")
-                                                  String dateMax) {
-        SocialDto dto = socialConsumer
-                .getAllUsersByDate(
-                        dateMin
-                        , dateMax
-                );
-        return new ModelAndView("usersbydate", "dto", dto);
-    }
-
-    @RequestMapping("/friends")
-    @Logged
-    public ModelAndView getAllFriends(@RequestParam("id")
-                                              Integer id) {
-        SocialDto dto = socialConsumer.getAllFriends(id);
-        ModelAndView model = new ModelAndView("friends", "dto", dto);
-        model.addObject("mapping", "friends");
-        return model;
-    }
-
-    @RequestMapping("/messages")
-    @Logged
-    public ModelAndView getMessages(@RequestParam("id") Integer id) {
-        return new ModelAndView("messages");
     }
 
     @RequestMapping("/user/friendship/del")
@@ -226,20 +64,6 @@ public class SocialAppFreeMarker {
                                         Integer id2) {
         socialConsumer.addFriendship(id1, id2);
         return "forward:/nofriends?id=" + id1;
-    }
-
-
-
-    @RequestMapping("/photo")
-    @Logged
-    public ModelAndView getPhoto(@RequestParam("id")
-                                 Integer id) {
-//        SocialDto dto = socialConsumer.getUser(id);
-//
-//        ModelAndView model = new ModelAndView("photo", "dto", dto);
-//        model.addObject("mapping", "phototab");
-//        return model;
-        return null;
     }
 
     @RequestMapping("/addusersubmit")
@@ -303,23 +127,128 @@ public class SocialAppFreeMarker {
         return "forward:/user?id=" + id;
     }
 
-    @RequestMapping("/nofriends")
+
+    @RequestMapping("/login")
     @Logged
-    public ModelAndView getAllNoFriendsOfAUser(@RequestParam("id")
-                                                       Integer id) {
-        SocialDto dto = socialConsumer.getAllNoFriendsOfAUser(id);
-        ModelAndView model = new ModelAndView("nofriends", "dto", dto);
-        model.addObject("mapping", "nofriends");
-        return model;
+    public ModelAndView login(HttpServletRequest req,
+                              HttpServletResponse resp) {
+        String referrer = req.getHeader("Referer");
+        Cookie cookie = new Cookie(uid, "");
+        cookie.setMaxAge(0);
+        resp.addCookie(cookie);
+
+        return new ModelAndView("login");
     }
 
-   /* @RequestMapping("/vk")
+    @RequestMapping(value = "/loginapprove", method = RequestMethod.POST)
     @Logged
-    public ModelAndView getVKStyle(@RequestParam("id") Integer id) {
-        SocialDto dto = socialConsumer.getUser(id);
-        ModelAndView model = new ModelAndView("vk", "dto", dto);
-        model.addObject("mapping", "vk");
-        return model;
+    public String loginApprove(HttpServletResponse resp,
+                               HttpServletRequest req,
+                               @ModelAttribute("user") User user) throws IOException {
+// Checking for a user from DataBase
+        if (socialConsumer.isUserInDB(user)) {
 
-    }*/
+// Generating or receiving existing token
+            String token = socialConsumer.getToken(user.getLogin());
+// Setting a Cookie
+            Cookie cookie = new Cookie("uid", token);
+            cookie.setMaxAge(60*60*24);
+            resp.addCookie(cookie);
+// Proceed to User page
+            return "redirect:user";
+        }
+        else {
+// Proceed to Login Page
+            return "redirect:login";
+        }
+    }
+
+    @RequestMapping("/usersbydate")
+    @Logged
+    public ModelAndView getAllUsersByDate(
+            @CookieValue(name = "uid", required = false) Cookie cookie,
+            HttpServletResponse resp,
+            @RequestParam("datemin") String dateMin,
+            @RequestParam("datemax") String dateMax) throws IOException {
+        ModelAndView mav = new ModelAndView("usersbydate");
+        if (cookie != null) {
+            String token = cookie.getValue();
+            SocialDto dto = socialConsumer
+                    .getAllUsersByDate(token, dateMin, dateMax);
+            if (dto != null) {
+                mav.addObject("dto", dto);
+                mav.addObject("mapping", "usersbydatetab");
+                return mav;
+            }
+        }
+        resp.sendRedirect("login");
+        return mav;
+    }
+
+    @RequestMapping(name = "user/{action}",
+                    method = RequestMethod.PUT)
+    @Logged
+    public void userActions(
+            @PathVariable("action") String action,
+            @RequestParam("param") String param,
+            @CookieValue(name = "uid", required = false) Cookie cookie,
+            HttpServletRequest req,
+            HttpServletResponse resp
+    ) {
+        if (cookie !=null) {
+            Integer token = 1;
+            switch (action) {
+                case "login":
+                    socialConsumer.changeLogin(token, param);
+                break;
+                case "password":
+                    socialConsumer.changePassword(token, param);
+                break;
+                case "firstname":
+                    socialConsumer.changeFirstName(token, param);
+                break;
+                case "lastname":
+                    socialConsumer.changeLastName(token, param);
+                break;
+                default: throw new IllegalArgumentException("You have chosen wrong option to do with user");
+            }
+        }
+
+    }
+
+
+    @RequestMapping("/{mapping}")
+    @Logged
+    public ModelAndView genericDto(
+            @PathVariable("mapping") String mapping,
+            @CookieValue(name = "uid", required = false) Cookie cookie,
+            HttpServletRequest req,
+            HttpServletResponse resp
+    ) throws IOException
+
+    {
+        ModelAndView mav = new ModelAndView(mapping);
+        if (cookie != null) {
+            String token = cookie.getValue();
+            SocialDto dto;
+            switch (mapping) {
+                case "users": dto = socialConsumer.getAllUsers(token);
+                    break;
+                case "friends": dto = socialConsumer.getAllFriends(token);
+                    break;
+                case "nofriends": dto = socialConsumer.getAllNoFriendsOfAUser(token);
+                    break;
+                default: dto = socialConsumer.getUserDto(token);
+            }
+            if (dto != null) {
+                mav.addObject("dto", dto);
+                mav.addObject("mapping", mapping + "tab");
+                return mav;
+            }
+        }
+        resp.sendRedirect("login");
+        return null;
+    }
+
+
 }

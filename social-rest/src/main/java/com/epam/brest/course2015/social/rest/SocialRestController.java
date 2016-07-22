@@ -32,13 +32,6 @@ public class SocialRestController {
     @Autowired
     private SocialSecurity socialSecurity;
 
-    @SubscribeMapping(value = "/hello")
-    @Logged
-    public User sayHello (String name) {
-//        return "Hello, " + name + "!";
-        return new User("login", "paswrd", "Alex", "Borohov", 30);
-    }
-
     @SubscribeMapping("/addeduser")
     @RequestMapping(value = "/user",
                     method = RequestMethod.POST)
@@ -55,21 +48,7 @@ public class SocialRestController {
 
     }
 
-    @RequestMapping("/token")
-    @Logged
-    public String getToken(@RequestParam("login") String login) {
-
-        User user = socialService.getUserByLogin(login);
-        if (user != null) {
-            Integer userId = user.getUserId();
-
-            return socialSecurity.generateSecurityToken(userId);
-
-        } else {
-            return null;
-        }
-    }
-
+// Not implemented
     @RequestMapping(value = "/user/password",
                     method = RequestMethod.PUT)
     @Logged
@@ -80,6 +59,7 @@ public class SocialRestController {
         socialService.changePassword(id, password);
     }
 
+    // Not implemented
     @RequestMapping(value = "/user/login",
                     method = RequestMethod.PUT)
     @Logged
@@ -90,6 +70,7 @@ public class SocialRestController {
         socialService.changeLogin(id, login);
     }
 
+    // Not implemented
     @RequestMapping(value = "/user/firstname",
                     method = RequestMethod.PUT)
     @Logged
@@ -100,6 +81,7 @@ public class SocialRestController {
         socialService.changeFirstName(id, firstname);
     }
 
+    // Not implemented
     @RequestMapping(value = "/user/lastname",
                     method = RequestMethod.PUT)
     @Logged
@@ -110,6 +92,7 @@ public class SocialRestController {
         socialService.changeLastName(id, lastname);
     }
 
+    // Not implemented
     @RequestMapping(value = "/user",
                     method = RequestMethod.DELETE)
     @Logged
@@ -120,6 +103,7 @@ public class SocialRestController {
 
     }
 
+    // Not implemented
     @RequestMapping(value = "/user/friendship",
                     method = RequestMethod.DELETE)
     @Logged
@@ -130,6 +114,7 @@ public class SocialRestController {
         socialService.discardFriendship(new User(id1), new User(id2));
     }
 
+    // Not implemented
     @RequestMapping(value = "/user/friendship",
                     method = RequestMethod.POST)
     @Logged
@@ -140,56 +125,100 @@ public class SocialRestController {
         socialService.addFriendship(new User(id1), new User(id2));
     }
 
-    @RequestMapping(value = "/userdto",
-                    method = RequestMethod.GET)
+    @RequestMapping(value = "/userdtobydate",
+                    method = RequestMethod.POST)
     @Logged
-    public SocialDto getUserDto() {
-        return socialService.getSocialUsersDto();
+    public SocialDto getUsersDtoByDate(
+            @RequestBody String token,
+            @RequestParam("datemin") String dateMin,
+            @RequestParam("datemax") String dateMax) {
+        if (socialSecurity.isTokenValid(token)) {
+            Date date1 = getDate(dateMin);
+            Date date2 = getDate(dateMax);
+            return socialService.getSocialUsersDtoByDate(date1
+                                                       , date2);
+        }
+        return null;
+    }
+
+    @RequestMapping(value = "/userdto",
+            method = RequestMethod.POST)
+    @Logged
+    public SocialDto getUserDto(@RequestBody String token) {
+
+        if (socialSecurity.isTokenValid(token)) {
+            return socialService.getSocialUsersDto();
+        }
+
+        return null;
     }
 
     @RequestMapping(value = "/friendsdto",
-                    method = RequestMethod.POST)
+            method = RequestMethod.POST)
     @Logged
     public SocialDto getFriendsDto(@RequestBody String token) {
 
-        Integer id = socialSecurity.getUserId(token);
-
-        return socialService.getSocialFriendsDto(id);
+        if (socialSecurity.isTokenValid(token)) {
+            Integer id = socialSecurity.getUserId(token);
+            return socialService.getSocialFriendsDto(id);
+        } else {
+            return null;
+        }
     }
 
     @RequestMapping(value = "/nofriendsdto",
-                    method = RequestMethod.GET)
+            method = RequestMethod.POST)
     @Logged
-    public SocialDto getNoFriendsDto(@RequestParam(value = "id")
-                                                   Integer id) {
-        return socialService.getSocialNoFriendsDto(id);
-    }
-
-    @RequestMapping(value = "/userdtobydate",
-            method = RequestMethod.GET)
-    @Logged
-    public SocialDto getUsersDtoByDate(@RequestParam("datemin")
-                                           String dateMin,
-                                       @RequestParam("datemax")
-                                           String dateMax) {
-        Date date1 = getDate(dateMin);
-        Date date2 = getDate(dateMax);
-        return socialService.getSocialUsersDtoByDate(date1
-                                                   , date2);
-    }
-
-    @RequestMapping("/user")
-    @Logged
-    public User getUserByLogin(@RequestParam("login") String login) {
-
-        try {
-            User user = socialService.getUserByLogin(login);
-            return user;
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
+    public SocialDto getNoFriendsDto(@RequestBody String token) {
+        if (socialSecurity.isTokenValid(token)) {
+            Integer id = socialSecurity.getUserId(token);
+            return socialService.getSocialNoFriendsDto(id);
+        } else {
             return null;
         }
 
+    }
+
+    @RequestMapping(value = "/user/db",
+                    method = RequestMethod.POST)
+    @Logged
+    public boolean isUserValid(@RequestBody User user) {
+        String login = user.getLogin();
+        String password = user.getPassword();
+
+        if (login != null &&
+            password != null) {
+                User userByLogin = socialService.getUserByLogin(login);
+                if (userByLogin != null &&
+                    password.equals(userByLogin.getPassword())) {
+                    return true;
+                } else {
+                    return false;
+                }
+        } else {
+            return false;
+        }
+
+    }
+    @RequestMapping("/token")
+    @Logged
+    public String getToken(@RequestParam("login") String login) {
+
+        User user = socialService.getUserByLogin(login);
+        if (user != null) {
+            Integer userId = user.getUserId();
+            String socialToken = socialSecurity.getToken(userId);
+            if (socialToken == null) {
+                return socialSecurity.generateSecurityToken(userId);
+            } else if(socialSecurity.isTokenValid(socialToken)) {
+                return socialToken;
+            }
+            else {
+                return socialSecurity.generateSecurityToken(userId);
+            }
+        } else {
+            return null;
+        }
     }
 
     @Logged
@@ -201,5 +230,10 @@ public class SocialRestController {
             e.printStackTrace();
             return null;
         }
+    }
+    @SubscribeMapping(value = "/hello")
+    @Logged
+    public User sayHello (String name) {
+        return new User("login", "paswrd", "Alex", "Borohov", 30);
     }
 }
