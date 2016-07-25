@@ -4,6 +4,7 @@ version '1.0-SNAPSHOT'
 
 apply plugin: 'war'
 apply plugin: 'jetty'
+apply plugin: "net.saliman.cobertura"
 
 httpPort = 8081
 stopPort = 9081

@@ -89,42 +89,63 @@ public class SocialAppFreeMarker {
 
     @RequestMapping("/user/password")
     @Logged
-    public String changePassword(@RequestParam("id")
-                                         Integer id,
-                                 @RequestParam("password")
-                                         String password) {
-        socialConsumer.changePassword(id, password);
-        return "forward:/user?id=" + id;
+    public String changePassword(@CookieValue(name = "uid", required = false) Cookie cookie,
+                                 @RequestParam("password") String password) {
+        if (cookie != null) {
+            String token = cookie.getValue();
+            if (token != null) {
+                socialConsumer.changePassword(token, password);
+                return "forward:/user";
+
+            }
+        }
+        return "forward:/user";
     }
 
     @RequestMapping("/user/login")
     @Logged
-    public String changeLogin(@RequestParam("id")
-                                      Integer id,
+    public String changeLogin(@CookieValue(name = "uid", required = false) Cookie cookie,
                               @RequestParam("login")
                                       String login) {
-        socialConsumer.changeLogin(id, login);
-        return "forward:/user?id=" + id;
+        if (cookie != null) {
+            String token = cookie.getValue();
+            if (token != null) {
+                socialConsumer.changeLogin(token, login);
+                return "forward:/user";
+
+            }
+        }
+        return "forward:/user";
     }
 
     @RequestMapping(value = "/user/firstname")
+    @ResponseBody
     @Logged
-    public String changeFirstName(@RequestParam("id")
-                                          Integer id,
+    public void changeFirstName(@CookieValue(name = "uid", required = false) Cookie cookie,
                                   @RequestParam("firstname")
                                           String firstname) {
-        socialConsumer.changeFirstName(id, firstname);
-        return "forward:/user?id=" + id;
+        if (cookie != null) {
+            String token = cookie.getValue();
+            if (token != null) {
+                socialConsumer.changeFirstName(token, firstname);
+            }
+        }
     }
 
     @RequestMapping("/user/lastname")
     @Logged
-    public String changeLastName(@RequestParam("id")
-                                         Integer id,
+    public String changeLastName(@CookieValue(name = "uid", required = false) Cookie cookie,
                                  @RequestParam("lastname")
                                          String lastname) {
-        socialConsumer.changeLastName(id, lastname);
-        return "forward:/user?id=" + id;
+        if (cookie != null) {
+            String token = cookie.getValue();
+            if (token != null) {
+                socialConsumer.changeLastName(token, lastname);
+                return "forward:/user";
+
+            }
+        }
+        return "forward:/user";
     }
 
 
@@ -185,8 +206,121 @@ public class SocialAppFreeMarker {
         return mav;
     }
 
-    @RequestMapping(name = "user/{action}",
-                    method = RequestMethod.PUT)
+    @RequestMapping("users")
+    @Logged
+    public ModelAndView getAllUsersDto(@CookieValue(name = "uid", required = false) Cookie cookie,
+                                 HttpServletResponse resp) throws IOException {
+        ModelAndView mav = new ModelAndView("users");
+        if (cookie != null) {
+            String token = cookie.getValue();
+            if (token != null) {
+                SocialDto dto = socialConsumer.getAllUsers(token);
+                mav.addObject("dto", dto);
+                mav.addObject("mapping", "userstab");
+                return mav;
+            }
+
+        }
+        resp.sendRedirect("login");
+        return mav;
+    }
+
+    @RequestMapping("user")
+    @Logged
+    public ModelAndView getUserDto(@CookieValue(name = "uid", required = false) Cookie cookie,
+                                   HttpServletResponse resp) throws IOException {
+        ModelAndView mav = new ModelAndView("user");
+        if (cookie != null) {
+            String token = cookie.getValue();
+            if (token != null) {
+                SocialDto dto = socialConsumer.getUserDto(token);
+                mav.addObject("dto", dto);
+                mav.addObject("mapping", "usertab");
+                return mav;
+            }
+
+        }
+        resp.sendRedirect("login");
+        return mav;
+    }
+
+    @RequestMapping("photo")
+    @Logged
+    public ModelAndView getPhoto(@CookieValue(name = "uid", required = false) Cookie cookie,
+                                   HttpServletResponse resp) throws IOException {
+        ModelAndView mav = new ModelAndView("photo");
+        if (cookie != null) {
+            String token = cookie.getValue();
+            if (token != null) {
+                SocialDto dto = socialConsumer.getUserDto(token);
+                mav.addObject("dto", dto);
+                mav.addObject("mapping", "phototab");
+                return mav;
+            }
+
+        }
+        resp.sendRedirect("login");
+        return mav;
+    }
+
+    @RequestMapping("messages")
+    @Logged
+    public ModelAndView getMessages(@CookieValue(name = "uid", required = false) Cookie cookie,
+                                   HttpServletResponse resp) throws IOException {
+        ModelAndView mav = new ModelAndView("messages");
+        if (cookie != null) {
+            String token = cookie.getValue();
+            if (token != null) {
+                SocialDto dto = socialConsumer.getUserDto(token);
+                mav.addObject("dto", dto);
+                mav.addObject("mapping", "messagestab");
+                return mav;
+            }
+
+        }
+        resp.sendRedirect("login");
+        return mav;
+    }
+
+    @RequestMapping("friends")
+    @Logged
+    public ModelAndView getFriendsDto(@CookieValue(name = "uid", required = false) Cookie cookie,
+                                   HttpServletResponse resp) throws IOException {
+        ModelAndView mav = new ModelAndView("friends");
+        if (cookie != null) {
+            String token = cookie.getValue();
+            if (token != null) {
+                SocialDto dto = socialConsumer.getAllFriends(token);
+                mav.addObject("dto", dto);
+                mav.addObject("mapping", "friendstab");
+                return mav;
+            }
+
+        }
+        resp.sendRedirect("login");
+        return mav;
+    }
+
+    @RequestMapping("nofriends")
+    @Logged
+    public ModelAndView getNoFriendsDto(@CookieValue(name = "uid", required = false) Cookie cookie,
+                                      HttpServletResponse resp) throws IOException {
+        ModelAndView mav = new ModelAndView("nofriends");
+        if (cookie != null) {
+            String token = cookie.getValue();
+            if (token != null) {
+                SocialDto dto = socialConsumer.getAllNoFriendsOfAUser(token);
+                mav.addObject("dto", dto);
+                mav.addObject("mapping", "nofriendstab");
+                return mav;
+            }
+
+        }
+        resp.sendRedirect("login");
+        return mav;
+    }
+    /*@RequestMapping(name = "/user/{action}",
+                    method = RequestMethod.POST)
     @Logged
     public void userActions(
             @PathVariable("action") String action,
@@ -196,59 +330,28 @@ public class SocialAppFreeMarker {
             HttpServletResponse resp
     ) {
         if (cookie !=null) {
-            Integer token = 1;
-            switch (action) {
-                case "login":
-                    socialConsumer.changeLogin(token, param);
-                break;
-                case "password":
-                    socialConsumer.changePassword(token, param);
-                break;
-                case "firstname":
-                    socialConsumer.changeFirstName(token, param);
-                break;
-                case "lastname":
-                    socialConsumer.changeLastName(token, param);
-                break;
-                default: throw new IllegalArgumentException("You have chosen wrong option to do with user");
-            }
-        }
-
-    }
-
-
-    @RequestMapping("/{mapping}")
-    @Logged
-    public ModelAndView genericDto(
-            @PathVariable("mapping") String mapping,
-            @CookieValue(name = "uid", required = false) Cookie cookie,
-            HttpServletRequest req,
-            HttpServletResponse resp
-    ) throws IOException
-
-    {
-        ModelAndView mav = new ModelAndView(mapping);
-        if (cookie != null) {
             String token = cookie.getValue();
-            SocialDto dto;
-            switch (mapping) {
-                case "users": dto = socialConsumer.getAllUsers(token);
-                    break;
-                case "friends": dto = socialConsumer.getAllFriends(token);
-                    break;
-                case "nofriends": dto = socialConsumer.getAllNoFriendsOfAUser(token);
-                    break;
-                default: dto = socialConsumer.getUserDto(token);
-            }
-            if (dto != null) {
-                mav.addObject("dto", dto);
-                mav.addObject("mapping", mapping + "tab");
-                return mav;
+            if (token != null) {
+                switch (action) {
+                    case "login":
+                        socialConsumer.changeLogin(token, param);
+                        break;
+                    case "password":
+                        socialConsumer.changePassword(token, param);
+                        break;
+                    case "firstname":
+                        socialConsumer.changeFirstName(token, param);
+                        break;
+                    case "lastname":
+                        socialConsumer.changeLastName(token, param);
+                        break;
+                    default:
+                        throw new IllegalArgumentException("You have chosen wrong option to do with user");
+                }
             }
         }
-        resp.sendRedirect("login");
-        return null;
-    }
+
+    }*/
 
 
 }

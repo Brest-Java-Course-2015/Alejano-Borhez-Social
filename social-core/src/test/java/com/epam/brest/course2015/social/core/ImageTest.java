@@ -25,14 +25,9 @@ public class ImageTest {
     private static final Integer imageId = 1;
     private static final Date createdDate = new Date();
     private static final String url = "File Name";
+    private static final String url50 = "File Name 50";
+    private static final String url81 = "File Name 81";
 
-   /* @Test
-    public void getUser() throws Exception {
-        image.setUser(user);
-        assertNotNull(image.getUser());
-        assertEquals(image.getUser(), user);
-    }
-*/
     @Test
     public void getImageId() throws Exception {
         image.setImageId(imageId);
@@ -54,4 +49,17 @@ public class ImageTest {
         assertEquals(image.getUrl(), url);
     }
 
+    @Test
+    public void getUrl50() throws Exception {
+        image.setUrl50(url50);
+        assertNotNull(image.getUrl50());
+        assertEquals(image.getUrl50(), url50);
+    }
+
+    @Test
+    public void getUrl81() throws Exception {
+        image.setUrl81(url81);
+        assertNotNull(image.getUrl81());
+        assertEquals(image.getUrl81(), url81);
+    }
 }

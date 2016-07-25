@@ -17,6 +17,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.util.NestedServletException;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
@@ -38,6 +39,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:social-rest-spring-mock-test.xml"})
 public class SocialRestControllerMockTest {
+    private final Integer testUserID = 1;
 
     @Resource
     private SocialRestController socialRestController;
@@ -97,7 +99,7 @@ public class SocialRestControllerMockTest {
     }
 
     // Not implemented
-    @Test
+/*    @Test
     public void testChangePassword() throws Exception {
         socialService.changePassword(1, "password");
         expectLastCall();
@@ -154,7 +156,7 @@ public class SocialRestControllerMockTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(""));
-    }
+    }*/
 
     // Not implemented
     @Test
@@ -200,6 +202,120 @@ public class SocialRestControllerMockTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(""));
+    }
+
+    @Test
+    public void testUserActionLogin() throws Exception {
+        String token = "token";
+        String testLogin = "newlogin";
+        expect(socialSecurity.isTokenValid(token)).andReturn(true);
+        expect(socialSecurity.getUserId(token)).andReturn(testUserID);
+        socialService.changeLogin(testUserID, testLogin);
+        expectLastCall();
+        replay(socialSecurity);
+        replay(socialService);
+        mockMvc.perform(
+                post("/user/login?param=" + testLogin)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(token))
+                )
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testUserActionPassword() throws Exception {
+        String token = "token";
+        String testPassword = "newpassword";
+        expect(socialSecurity.isTokenValid(token)).andReturn(true);
+        expect(socialSecurity.getUserId(token)).andReturn(testUserID);
+        socialService.changePassword(testUserID, testPassword);
+        expectLastCall();
+        replay(socialSecurity);
+        replay(socialService);
+        mockMvc.perform(
+                post("/user/password?param=" + testPassword)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(token))
+        )
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testUserActionFirstName() throws Exception {
+        String token = "token";
+        String testFirstName = "newfirstname";
+        expect(socialSecurity.isTokenValid(token)).andReturn(true);
+        expect(socialSecurity.getUserId(token)).andReturn(testUserID);
+        socialService.changeFirstName(testUserID, testFirstName);
+        expectLastCall();
+        replay(socialSecurity);
+        replay(socialService);
+        mockMvc.perform(
+                post("/user/firstname?param=" + testFirstName)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(token))
+        )
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testUserActionLastName() throws Exception {
+        String token = "token";
+        String testLastName = "newlastname";
+        expect(socialSecurity.isTokenValid(token)).andReturn(true);
+        expect(socialSecurity.getUserId(token)).andReturn(testUserID);
+        socialService.changeLastName(testUserID, testLastName);
+        expectLastCall();
+        replay(socialSecurity);
+        replay(socialService);
+        mockMvc.perform(
+                post("/user/lastname?param=" + testLastName)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(token))
+        )
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test (expected = NestedServletException.class)
+    public void testUserActionInvalidToken() throws Exception {
+        String token = "token";
+        String testLastName = "newlastname";
+        expect(socialSecurity.isTokenValid(token)).andReturn(false);
+        replay(socialSecurity);
+        replay(socialService);
+        mockMvc.perform(
+                post("/user/lastname?param=" + testLastName)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(token))
+        )
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test (expected = NestedServletException.class)
+    public void testUserActionInvalidAction() throws Exception {
+        String token = "token";
+        String testLastName = "newlastname";
+        expect(socialSecurity.isTokenValid(token)).andReturn(true);
+        replay(socialSecurity);
+        replay(socialService);
+        mockMvc.perform(
+                post("/user/action?param=" + testLastName)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(token))
+        )
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 
     @Test

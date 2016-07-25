@@ -104,6 +104,16 @@ public class UserTest {
     }
 
     @Test
+    public void testLPConstructor() throws Exception {
+        User testUser = new User(login, password);
+        assertNotNull(testUser);
+        assertEquals(login, testUser.getLogin());
+        assertEquals(String.class, testUser.getLogin().getClass());
+        assertEquals(password, testUser.getPassword());
+        assertEquals(String.class, testUser.getPassword().getClass());
+    }
+
+    @Test
     public void testTestConstructor() throws Exception {
         User testUser = new User(userId);
         assertNotNull(testUser);

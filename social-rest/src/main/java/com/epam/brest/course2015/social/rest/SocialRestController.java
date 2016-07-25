@@ -48,18 +48,37 @@ public class SocialRestController {
 
     }
 
-// Not implemented
-    @RequestMapping(value = "/user/password",
-                    method = RequestMethod.PUT)
+    @RequestMapping(value = "/user/{action}",
+                    method = RequestMethod.POST)
     @Logged
-    public void changePassword(@RequestParam(value = "id")
-                                             Integer id,
-                               @RequestParam(value = "password")
-                                             String password) {
-        socialService.changePassword(id, password);
+    public void userActions(@PathVariable String action,
+                            @RequestBody String token,
+                            @RequestParam(value = "param")
+                                         String param) {
+        if (socialSecurity.isTokenValid(token)) {
+            Integer id = socialSecurity.getUserId(token);
+            switch (action) {
+                case "password":
+                    socialService.changePassword(id, param);
+                    break;
+                case "firstname":
+                    socialService.changeFirstName(id, param);
+                    break;
+                case "lastname":
+                    socialService.changeLastName(id, param);
+                    break;
+                case "login":
+                    socialService.changeLogin(id, param);
+                    break;
+                default: throw new IllegalArgumentException("You have chosen wrong option");
+
+            }
+        } else {
+            throw new IllegalArgumentException("Your security token is invalid");
+        }
     }
 
-    // Not implemented
+ /*   // Not implemented
     @RequestMapping(value = "/user/login",
                     method = RequestMethod.PUT)
     @Logged
@@ -90,7 +109,7 @@ public class SocialRestController {
                                @RequestParam(value = "lastname")
                                              String lastname) {
         socialService.changeLastName(id, lastname);
-    }
+    }*/
 
     // Not implemented
     @RequestMapping(value = "/user",

@@ -130,58 +130,6 @@ public class SocialConsumerRestImpl implements SocialConsumer {
     }
 
     @Override
-    @Logged
-    public void changePassword(Integer id, String password) {
-        String url = restPrefix
-                + "user/password"
-                + "?id="
-                + id
-                + "&password="
-                + password;
-
-        restTemplate.put(url, null);
-    }
-
-    @Override
-    @Logged
-    public void changeLogin(Integer id, String login) {
-        String url = restPrefix
-                + "user/login"
-                + "?id="
-                + id
-                + "&login="
-                + login;
-
-        restTemplate.put(url, null);
-    }
-
-    @Override
-    @Logged
-    public void changeFirstName(Integer id, String firstName) {
-        String url = restPrefix
-                + "user/firstname"
-                + "?id="
-                + id
-                + "&firstname="
-                + firstName;
-
-        restTemplate.put(url, null);
-    }
-
-    @Override
-    @Logged
-    public void changeLastName(Integer id, String lastName) {
-        String url = restPrefix
-                + "user/lastname"
-                + "?id="
-                + id
-                + "&lastname="
-                + lastName;
-
-        restTemplate.put(url, null);
-    }
-
-    @Override
     public void renameImage(Integer id, String name) {
         String url = restPrefix
                 + "image/rename"
@@ -195,6 +143,51 @@ public class SocialConsumerRestImpl implements SocialConsumer {
 
 
 //    All newly implemented methods
+    @Override
+    @Logged
+    public void changePassword(String token, String password) {
+        String url = restPrefix
+                + "user/password"
+                + "?param="
+                + password;
+
+        restTemplate.postForObject(url, token, Object.class);
+    }
+
+    @Override
+    @Logged
+    public void changeLogin(String token, String login) {
+        String url = restPrefix
+                + "user/login"
+                + "?param="
+                + login;
+
+        restTemplate.postForObject(url, token, Object.class);
+    }
+
+    @Override
+    @Logged
+    public void changeFirstName(String token, String firstName) {
+        String url = restPrefix
+                + "user/firstname"
+                + "?param="
+                + firstName;
+
+
+        restTemplate.postForObject(url, token, Object.class);
+    }
+
+    @Override
+    @Logged
+    public void changeLastName(String token, String lastName) {
+        String url = restPrefix
+                + "user/lastname"
+                + "?param="
+                + lastName;
+
+        restTemplate.postForObject(url, token, Object.class);
+    }
+
     @Override
     @Logged
     public SocialDto getAllNoFriendsOfAUser(String token) {

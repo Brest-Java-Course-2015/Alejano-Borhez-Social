@@ -17,17 +17,14 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import static org.easymock.EasyMock.*;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.replay;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 /**
@@ -140,74 +137,89 @@ public class SocialAppFreeMarkerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
     }
+//  Tests for newly implemented methods
 
     @Test
     public void testChangePassword() throws Exception {
-        expect(socialController.changePassword(1, "password"))
-                .andReturn("forward:/user?id=1");
+        expect(socialController.changePassword(anyObject(Cookie.class), anyString()))
+                .andReturn("forward:/user");
         replay(socialController);
 
         mockMvc.perform(
                 get("/user/password" +
-                        "?id=1&password=password")
-                        .accept(MediaType.APPLICATION_JSON))
+                        "?password=password")
+                .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(forwardedUrl("/user?id=1"));
+                .andExpect(forwardedUrl("/user"));
     }
 
     @Test
     public void testChangeLogin() throws Exception {
-        expect(socialController.changeLogin(1, "login"))
-                .andReturn("forward:/user?id=1");
+        expect(socialController.changeLogin(anyObject(Cookie.class), anyString()))
+                .andReturn("forward:/user");
         replay(socialController);
 
         mockMvc.perform(
                 get("/user/" +
                         "login" +
-                        "?id=1" +
-                        "&login=login")
+                        "?login=login")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(forwardedUrl("/user?id=1"));
+                .andExpect(forwardedUrl("/user"));
     }
 
-    @Test
+/*    @Test
     public void testChangeFirstName() throws Exception {
-        expect(socialController.changeFirstName(1, "firstname"))
-                .andReturn("forward:/user?id=1");
+        expect(socialController.changeFirstName(anyObject(Cookie.class), anyString()))
+                .andReturn("forward:/user");
         replay(socialController);
 
         mockMvc.perform(
                 get("/user/" +
                         "firstname" +
-                        "?id=1" +
-                        "&firstname=firstname")
+                        "?firstname=firstname")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(forwardedUrl("/user?id=1"));
-    }
+                .andExpect(status().isOk());
+//                .andExpect(forwardedUrl("/user"));
+    }*/
 
     @Test
     public void testChangeLastName() throws Exception {
-        expect(socialController.changeLastName(1, "lastname"))
-                .andReturn("forward:/user?id=1");
+        expect(socialController.changeLastName(anyObject(Cookie.class), anyString()))
+                .andReturn("forward:/user");
         replay(socialController);
 
         mockMvc.perform(
                 get("/user/" +
                         "lastname" +
-                        "?id=1" +
-                        "&lastname=lastname")
+                        "?lastname=lastname")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(forwardedUrl("/user?id=1"));
+                .andExpect(forwardedUrl("/user"));
     }
 
-//  Tests for newly implemented methods
+    @Test
+    public void testGetUsersDto() throws Exception {
+        ModelAndView testMav = new ModelAndView("users", "dto", new SocialDto());
+        String testMA = new ObjectMapper().writeValueAsString(testMav);
+        expect(socialController.getAllUsersDto(anyObject(Cookie.class), anyObject(HttpServletResponse.class)))
+                .andReturn(testMav);
+        replay(socialController);
+
+        mockMvc.perform(
+                get("/users")
+                .accept(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(forwardedUrl("/WEB-INF/view/users.ftl"))
+                .andExpect(view().name("users"));
+    }
+
 
     @Test
     public void testGetAllUsersByDate() throws Exception {

@@ -98,7 +98,7 @@ function changeLogin() {
     console.log('changeLogin');
     var newLogin = prompt("Введите новый логин", '');
     if (newLogin != 'null' || newLogin != "") {
-        var url = "user/login?id=" + id + "&login=" + newLogin;
+        var url = "user/login?login=" + newLogin;
     $.ajax({
         type: 'GET',
         url: url,
@@ -122,7 +122,7 @@ function changePassword() {
     console.log('changePassword');
     var newPassword = prompt("Введите новый пароль", '');
     if (newPassword != null) {
-        var url = "user/password?id=" + id + "&password=" + newPassword;
+        var url = "user/password?password=" + newPassword;
     $.ajax({
         type: 'GET',
         url: url,
@@ -144,7 +144,7 @@ function changePassword() {
 function changeFirstName() {
     console.log('changeFirstName');
     var newName = prompt("Введите новое имя", '');
-    var url = "user/firstname?id=" + id + "&firstname=" + newName;
+    var url = "user/firstname?firstname=" + newName;
     if (newName != '') {
     $.ajax({
         type: 'GET',
@@ -168,7 +168,7 @@ function changeFirstName() {
 function changeLastName() {
     console.log('changeLastName');
     var newName = prompt("Введите новую фамилию", '');
-    var url = "user/lastname?id=" + id + "&lastname=" + newName;
+    var url = "user/lastname?lastname=" + newName;
     if (newName != '') {
     $.ajax({
         type: 'GET',
