@@ -1,5 +1,5 @@
 <#switch mapping>
-    <#case "users">
+    <#case "userstab">
     <button type="button" class="btn btn-primary btn-block align-center" onclick="deleteUser(${user.userId})"><@spring.message code="user.delete"/></button>
     <button type="button" class="btn btn-default btn-block" onclick="gotoUser(${user.userId})"><@spring.message code="user.change"/></button>
     <#break>
@@ -7,11 +7,11 @@
         <button type="button" class="btn btn-primary btn-block align-center" onclick="deleteFriend(${user.userId})"><@spring.message code="friend.delete"/></button>
         <button type="button" class="btn btn-default btn-block" onclick="gotoUser(${user.userId})"><@spring.message code="user.get"/></button>
     <#break>
-    <#case "nofriends">
+    <#case "nofriendstab">
         <button type="button" class="btn btn-primary btn-block align-center" onclick="addFriend(${user.userId})"><@spring.message code="friend.add"/></button>
         <button type="button" class="btn btn-default btn-block" onclick="gotoUser(${user.userId})"><@spring.message code="user.get"/></button>
     <#break>
-    <#case "friends">
+    <#case "friendstab">
         <button type="button" class="btn btn-primary btn-block align-center" onclick="deleteFriend(${user.userId})"><@spring.message code="friend.delete"/></button>
         <button type="button" class="btn btn-default btn-block" onclick="gotoUser(${user.userId})"><@spring.message code="user.get"/></button>
     <#break>

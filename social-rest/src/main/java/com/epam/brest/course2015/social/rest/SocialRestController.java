@@ -2,6 +2,7 @@ package com.epam.brest.course2015.social.rest;
 
 import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dto.SocialDto;
+import com.epam.brest.course2015.social.service.SocialSecured;
 import com.epam.brest.course2015.social.service.SocialSecurity;
 import com.epam.brest.course2015.social.service.SocialService;
 import com.epam.brest.course2015.social.test.Logged;
@@ -51,11 +52,11 @@ public class SocialRestController {
     @RequestMapping(value = "/user/{action}",
                     method = RequestMethod.POST)
     @Logged
+    @SocialSecured
     public void userActions(@PathVariable String action,
                             @RequestBody String token,
                             @RequestParam(value = "param")
                                          String param) {
-        if (socialSecurity.isTokenValid(token)) {
             Integer id = socialSecurity.getUserId(token);
             switch (action) {
                 case "password":
@@ -71,11 +72,7 @@ public class SocialRestController {
                     socialService.changeLogin(id, param);
                     break;
                 default: throw new IllegalArgumentException("You have chosen wrong option");
-
             }
-        } else {
-            throw new IllegalArgumentException("Your security token is invalid");
-        }
     }
 
  /*   // Not implemented
@@ -147,29 +144,23 @@ public class SocialRestController {
     @RequestMapping(value = "/userdtobydate",
                     method = RequestMethod.POST)
     @Logged
+    @SocialSecured
     public SocialDto getUsersDtoByDate(
             @RequestBody String token,
             @RequestParam("datemin") String dateMin,
             @RequestParam("datemax") String dateMax) {
-        if (socialSecurity.isTokenValid(token)) {
             Date date1 = getDate(dateMin);
             Date date2 = getDate(dateMax);
             return socialService.getSocialUsersDtoByDate(date1
                                                        , date2);
-        }
-        return null;
     }
 
     @RequestMapping(value = "/userdto",
             method = RequestMethod.POST)
     @Logged
+    @SocialSecured
     public SocialDto getUserDto(@RequestBody String token) {
-
-        if (socialSecurity.isTokenValid(token)) {
             return socialService.getSocialUsersDto();
-        }
-
-        return null;
     }
 
     @RequestMapping(value = "/friendsdto",

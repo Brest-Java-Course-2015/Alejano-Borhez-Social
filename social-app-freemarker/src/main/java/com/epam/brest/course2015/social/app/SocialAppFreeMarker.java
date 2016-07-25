@@ -131,8 +131,7 @@ public class SocialAppFreeMarker {
     @ResponseBody
     @Logged
     public void changeFirstName(@CookieValue(name = "uid", required = false) Cookie cookie,
-                                  @RequestParam("firstname")
-                                          String firstname) {
+                                @RequestParam("firstname") String firstname) {
         if (cookie != null) {
             String token = cookie.getValue();
             if (token != null) {

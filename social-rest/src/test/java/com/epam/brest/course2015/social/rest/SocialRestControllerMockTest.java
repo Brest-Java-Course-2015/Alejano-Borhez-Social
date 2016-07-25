@@ -284,7 +284,7 @@ public class SocialRestControllerMockTest {
                 .andExpect(status().isOk());
     }
 
-    @Test (expected = NestedServletException.class)
+    @Test
     public void testUserActionInvalidToken() throws Exception {
         String token = "token";
         String testLastName = "newlastname";
@@ -298,7 +298,8 @@ public class SocialRestControllerMockTest {
                         .content(new ObjectMapper().writeValueAsString(token))
         )
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(content().string(""));
     }
 
     @Test (expected = NestedServletException.class)
@@ -330,7 +331,7 @@ public class SocialRestControllerMockTest {
                 post("/userdto")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("\"token\"")
+                .content("\"testToken\"")
                 )
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -522,6 +523,26 @@ public class SocialRestControllerMockTest {
                 .andExpect(status().isOk())
                 .andExpect(content()
                         .string(dto));
+    }
+
+    @Test
+    public void testGetUsersDtoByDateInvalidToken() throws Exception {
+        Date date1 = getDate("2015-10-01");
+        Date date2 = getDate("2015-11-01");
+        expect(socialSecurity.isTokenValid("token")).andReturn(false);
+        replay(socialService);
+        replay(socialSecurity);
+        String dto = new ObjectMapper().writeValueAsString(new SocialDto());
+        mockMvc.perform(
+                post("/userdtobydate?datemin=2015-10-01&datemax=2015-11-01")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("\"token\"")
+        )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content()
+                        .string(""));
     }
 
 

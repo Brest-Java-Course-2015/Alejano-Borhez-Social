@@ -18,5 +18,7 @@ List test = ["org.springframework:spring-test:" + springVersion,
 
 dependencies {
     compile project(':social-service-api')
+    compile 'org.springframework:spring-web:' + springVersion
+
     testCompile test
 }
