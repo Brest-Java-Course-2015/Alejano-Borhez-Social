@@ -13,8 +13,11 @@ apply plugin: "net.saliman.cobertura"
 apply plugin: 'java'
 apply plugin: 'checkstyle'
 
+project.checkstyle.configFile = new File("../config/checkstyle/checkstyle.xml")
+
 Integer sourceCompatibility = 1.7
 Integer targetCompatibility = 1.7
+
 
 repositories {
     mavenCentral()

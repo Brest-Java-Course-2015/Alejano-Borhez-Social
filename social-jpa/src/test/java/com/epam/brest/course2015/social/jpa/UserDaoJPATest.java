@@ -37,21 +37,21 @@ public class UserDaoJPATest {
         }
     }
 
-    public static final Integer testId = 1;
-    public static final String testLogin = "julia_borohova";
-    public static final String testPassword = "newPassword";
-    public static final String testFirstName = "FirstName";
-    public static final String testLastName = "LastName";
-    private static User testUser = new User("login", "password", "Petr", "Petrov", 30);
+    private static final Integer TEST_ID = 1;
+    private static final String TEST_LOGIN = "julia_borohova";
+    private static final String TEST_PASSWORD = "newPassword";
+    private static final String TEST_FIRST_NAME = "FirstName";
+    private static final String TEST_LAST_NAME = "LastName";
+    private static final User TEST_USER = new User("login", "password", "Petr", "Petrov", 30);
 
     @Autowired
-    UserDao userDao;
+    private UserDao userDao;
     @Autowired
-    ImageDao imageDao;
+    private ImageDao imageDao;
 
     @Test
     public void testGetUserById() throws Exception {
-        User user = userDao.getUserById(testId);
+        User user = userDao.getUserById(TEST_ID);
         assertNotNull(user);
         assertEquals(user.getFirstName(), "Alexander");
     }
@@ -59,27 +59,27 @@ public class UserDaoJPATest {
 
     @Test
     public void testDeleteUser() throws Exception {
-        User user1 = userDao.getUserById(testId);
-        userDao.deleteUser(testId);
-        User user2 = userDao.getUserById(testId);
+        User user1 = userDao.getUserById(TEST_ID);
+        assertNotNull(user1);
+        userDao.deleteUser(TEST_ID);
+        User user2 = userDao.getUserById(TEST_ID);
         assertNull(user2);
-
     }
 
     @Test
     public void testChangePassword() throws Exception {
-        User user = userDao.getUserById(testId);
+        User user = userDao.getUserById(TEST_ID);
         String passwordBefore = user.getPassword();
-        userDao.changePassword(testId, testPassword);
-        User user2 = userDao.getUserById(testId);
+        userDao.changePassword(TEST_ID, TEST_PASSWORD);
+        User user2 = userDao.getUserById(TEST_ID);
         String passwordAfter = user2.getPassword();
         assertNotEquals(passwordBefore, passwordAfter);
-        assertEquals(passwordAfter, testPassword);
+        assertEquals(passwordAfter, TEST_PASSWORD);
     }
 
     @Test
     public void testAddUser() throws Exception {
-        Integer i = userDao.addUser(testUser);
+        Integer i = userDao.addUser(TEST_USER);
         assertNotNull(i);
         assertTrue(i > 0);
         assertNotNull(userDao.getUserById(i).getCreatedDate());
@@ -123,25 +123,25 @@ public class UserDaoJPATest {
 
     @Test
     public void testChangeLogin() throws Exception {
-        userDao.changeLogin(testId, testLogin);
-        assertEquals(testLogin, userDao.getUserById(testId).getLogin());
+        userDao.changeLogin(TEST_ID, TEST_LOGIN);
+        assertEquals(TEST_LOGIN, userDao.getUserById(TEST_ID).getLogin());
     }
 
     @Test
     public void testChangeFirstName() throws Exception {
-        userDao.changeFirstName(testId, testFirstName);
-        assertEquals(testFirstName, userDao.getUserById(testId).getFirstName());
+        userDao.changeFirstName(TEST_ID, TEST_FIRST_NAME);
+        assertEquals(TEST_FIRST_NAME, userDao.getUserById(TEST_ID).getFirstName());
     }
 
     @Test
     public void testChangeLastName() throws Exception {
-        userDao.changeLastName(testId, testLastName);
-        assertEquals(testLastName, userDao.getUserById(testId).getLastName());
+        userDao.changeLastName(TEST_ID, TEST_LAST_NAME);
+        assertEquals(TEST_LAST_NAME, userDao.getUserById(TEST_ID).getLastName());
     }
 
     @Test
     public void testGetFriends() throws Exception {
-        List<User> friends = userDao.getFriends(testId);
+        List<User> friends = userDao.getFriends(TEST_ID);
         assertNotNull(friends);
         assertTrue(friends.size() == 3);
         assertEquals(User.class, friends.get(0).getClass());
@@ -149,7 +149,7 @@ public class UserDaoJPATest {
 
     @Test
     public void testGetNoFriends() throws Exception {
-        List<User> noFriends = userDao.getNoFriends(testId + 1);
+        List<User> noFriends = userDao.getNoFriends(TEST_ID + 1);
         assertNotNull(noFriends);
         assertTrue(noFriends.size() == 1);
         assertEquals(User.class, noFriends.get(0).getClass());
@@ -157,14 +157,14 @@ public class UserDaoJPATest {
 
     @Test
     public void testGetCountOfUserFriends() throws Exception {
-        Integer count = userDao.getCountOfUserFriends(testId);
+        Integer count = userDao.getCountOfUserFriends(TEST_ID);
         assertNotNull(count);
         assertTrue(count > 0);
     }
 
     @Test
     public void testAddImage() throws Exception {
-        Integer imageCountBefore = userDao.getUserById(testId).getImages().size();
+        Integer imageCountBefore = userDao.getUserById(TEST_ID).getImages().size();
         Image image = new Image();
         image.setCreatedDate(new Date());
         image.setUrl("url");
@@ -172,11 +172,11 @@ public class UserDaoJPATest {
         image.setUrl81("url81");
         Integer imageId = imageDao.addImage(image);
         Image imageNew = imageDao.getImage(imageId);
-        userDao.addImage(testId, image);
-        Integer imageCountAfter = userDao.getUserById(testId).getImages().size();
+        userDao.addImage(TEST_ID, image);
+        Integer imageCountAfter = userDao.getUserById(TEST_ID).getImages().size();
         assertTrue(imageCountBefore < imageCountAfter);
-        assertEquals(userDao.getUserById(testId).getImages().get(2), imageNew);
-        assertEquals(userDao.getUserById(testId).getImages().get(2).getUrl(), "url");
+        assertEquals(userDao.getUserById(TEST_ID).getImages().get(2), imageNew);
+        assertEquals(userDao.getUserById(TEST_ID).getImages().get(2).getUrl(), "url");
 
     }
 }

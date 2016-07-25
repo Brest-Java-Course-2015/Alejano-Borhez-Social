@@ -1,7 +1,6 @@
 package com.epam.brest.course2015.social.service;
 
 import com.epam.brest.course2015.social.core.Friendship;
-import com.epam.brest.course2015.social.core.Image;
 import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dto.SocialDto;
 import org.junit.Test;
@@ -27,13 +26,13 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations = {"classpath:spring-service-test.xml"})
 @Transactional
 public class SocialServiceImplTest {
-    private static User testUser1 = new User("testLogin1", "testPassword1", "testFirstName1", "testLastName1", 25);
-    private static User testUser2 = new User("testLogin2", "testPassword2", "testFirstName2", "testLastName2", 26);
-    private static Image testImage = new Image();
-    private static String testPassword = "testPassword";
-    private static String testLogin = "testLogin";
-    private static String testFirstName = "testFirstName";
-    private static String testLastName = "testLastName";
+    private static final User TEST_USER_1 = new User("testLogin1", "testPassword1", "testFirstName1", "testLastName1", 25);
+    private static final User TEST_USER_2 = new User("testLogin2", "testPassword2", "testFirstName2", "testLastName2", 26);
+    private static final String TEST_PASSWORD = "testPassword";
+    private static final String TEST_LOGIN = "testLogin";
+    private static final String TEST_FIRST_NAME = "testFirstName";
+    private static final String TEST_LAST_NAME = "testLastName";
+
     public static Date getTestDate(String date) {
         try {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -49,9 +48,9 @@ public class SocialServiceImplTest {
 
     @Test
     public void testAddUser() throws Exception {
-        testUser1.setUserId(null);
+        TEST_USER_1.setUserId(null);
         Integer sizeBefore = socialService.getAllUsers().size();
-        Integer newUserId = socialService.addUser(testUser1);
+        Integer newUserId = socialService.addUser(TEST_USER_1);
         Integer sizeAfter = socialService.getAllUsers().size();
         assertTrue(sizeAfter - sizeBefore == 1);
         assertNotNull(newUserId);
@@ -77,24 +76,24 @@ public class SocialServiceImplTest {
     @Test (expected = IllegalArgumentException.class)
     public void testAddUserNullPassword() throws Exception {
         User testUser = new User();
-        testUser.setLogin(testUser1.getLogin());
+        testUser.setLogin(TEST_USER_1.getLogin());
         socialService.addUser(testUser);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testAddUserNullFirstName() throws Exception {
         User testUser = new User();
-        testUser.setLogin(testUser1.getLogin());
-        testUser.setPassword(testUser1.getPassword());
+        testUser.setLogin(TEST_USER_1.getLogin());
+        testUser.setPassword(TEST_USER_1.getPassword());
         socialService.addUser(testUser);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testAddUserNullLastName() throws Exception {
         User testUser = new User();
-        testUser.setLogin(testUser1.getLogin());
-        testUser.setPassword(testUser1.getPassword());
-        testUser.setFirstName(testUser1.getFirstName());
+        testUser.setLogin(TEST_USER_1.getLogin());
+        testUser.setPassword(TEST_USER_1.getPassword());
+        testUser.setFirstName(TEST_USER_1.getFirstName());
         socialService.addUser(testUser);
     }
 
@@ -106,8 +105,8 @@ public class SocialServiceImplTest {
 
     @Test (expected = IllegalArgumentException.class)
     public void testAddUserIncorrectAge() {
-        testUser1.setAge(-2);
-        socialService.addUser(testUser1);
+        TEST_USER_1.setAge(-2);
+        socialService.addUser(TEST_USER_1);
     }
 
     @Test
@@ -138,14 +137,14 @@ public class SocialServiceImplTest {
 
     @Test
     public void testUpdateUser() throws Exception {
-        assertNotEquals(socialService.getUserById(1).getPassword(), testPassword);
-        socialService.changePassword(1, testPassword);
-        assertEquals(socialService.getUserById(1).getPassword(), testPassword);
+        assertNotEquals(socialService.getUserById(1).getPassword(), TEST_PASSWORD);
+        socialService.changePassword(1, TEST_PASSWORD);
+        assertEquals(socialService.getUserById(1).getPassword(), TEST_PASSWORD);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testUpdateNullUser() throws Exception {
-        socialService.changePassword(null, testPassword);
+        socialService.changePassword(null, TEST_PASSWORD);
     }
 
     @Test (expected = IllegalArgumentException.class)
@@ -155,12 +154,12 @@ public class SocialServiceImplTest {
 
     @Test (expected = IllegalArgumentException.class)
     public void testUdateUserWithIncorrectId() throws Exception {
-        socialService.changePassword(-1, testPassword);
+        socialService.changePassword(-1, TEST_PASSWORD);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testUpdateNonExistingUser() throws Exception {
-        socialService.changePassword(7, testPassword);
+        socialService.changePassword(7, TEST_PASSWORD);
     }
 
     @Test
@@ -189,16 +188,16 @@ public class SocialServiceImplTest {
 
     @Test
     public void testGetUserByLogin() throws Exception {
-        socialService.addUser(new User(testLogin, testPassword, testFirstName, testLastName, 29));
-        User testUser = socialService.getUserByLogin(testLogin);
+        socialService.addUser(new User(TEST_LOGIN, TEST_PASSWORD, TEST_FIRST_NAME, TEST_LAST_NAME, 29));
+        User testUser = socialService.getUserByLogin(TEST_LOGIN);
         assertNotNull(testUser);
         assertEquals(testUser.getClass(), User.class);
-        assertEquals(testUser.getLogin(), testLogin);
+        assertEquals(testUser.getLogin(), TEST_LOGIN);
     }
 
     @Test
     public void testGetUserByIncorrectLogin() throws Exception {
-        User user = socialService.getUserByLogin(testUser1.getLogin());
+        User user = socialService.getUserByLogin(TEST_USER_1.getLogin());
         assertNull(user);
     }
 
@@ -267,12 +266,12 @@ public class SocialServiceImplTest {
     }
 
     public void testAddFriendship() throws Exception {
-        testUser1.setUserId(null);
-        testUser2.setUserId(null);
-        testUser1.setUserId(socialService.addUser(testUser1));
-        testUser2.setUserId(socialService.addUser(testUser2));
+        TEST_USER_1.setUserId(null);
+        TEST_USER_2.setUserId(null);
+        TEST_USER_1.setUserId(socialService.addUser(TEST_USER_1));
+        TEST_USER_2.setUserId(socialService.addUser(TEST_USER_2));
         Integer sizeBefore = socialService.getAllFriendships().size();
-        socialService.addFriendship(testUser1, testUser2);
+        socialService.addFriendship(TEST_USER_1, TEST_USER_2);
         Integer sizeAfter = socialService.getAllFriendships().size();
         assertTrue(sizeAfter - sizeBefore == 2);
 
@@ -280,109 +279,109 @@ public class SocialServiceImplTest {
 
     @Test (expected = IllegalArgumentException.class)
     public void testAddExistingFriendship() throws Exception {
-        testUser1.setUserId(socialService.addUser(testUser1));
-        testUser2.setUserId(socialService.addUser(testUser2));
-        socialService.addFriendship(testUser1, testUser2);
-        socialService.addFriendship(testUser1, testUser2);
+        TEST_USER_1.setUserId(socialService.addUser(TEST_USER_1));
+        TEST_USER_2.setUserId(socialService.addUser(TEST_USER_2));
+        socialService.addFriendship(TEST_USER_1, TEST_USER_2);
+        socialService.addFriendship(TEST_USER_1, TEST_USER_2);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testAddFriendshipOfNullUser1() throws Exception {
-        testUser2.setUserId(socialService.addUser(testUser2));
-        socialService.addFriendship(null, testUser2);
+        TEST_USER_2.setUserId(socialService.addUser(TEST_USER_2));
+        socialService.addFriendship(null, TEST_USER_2);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testAddFriendshipOfNullUser2() throws Exception {
-        testUser1.setUserId(socialService.addUser(testUser1));
-        socialService.addFriendship(testUser1, null);
+        TEST_USER_1.setUserId(socialService.addUser(TEST_USER_1));
+        socialService.addFriendship(TEST_USER_1, null);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testAddFriendshipOfUserNullId1() throws Exception {
-        testUser2.setUserId(socialService.addUser(testUser2));
-        socialService.addFriendship(testUser1, testUser2);
+        TEST_USER_2.setUserId(socialService.addUser(TEST_USER_2));
+        socialService.addFriendship(TEST_USER_1, TEST_USER_2);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testAddFriendshipOfUserNullId2() throws Exception {
-        testUser1.setUserId(socialService.addUser(testUser1));
-        socialService.addFriendship(testUser1, testUser2);
+        TEST_USER_1.setUserId(socialService.addUser(TEST_USER_1));
+        socialService.addFriendship(TEST_USER_1, TEST_USER_2);
     }
 
     public void testIsAFriend() throws Exception {
-        testUser1.setUserId(socialService.addUser(testUser1));
-        testUser2.setUserId(socialService.addUser(testUser2));
-        assertFalse(socialService.isAFriend(testUser1, testUser2));
-        socialService.addFriendship(testUser1, testUser2);
-        assertTrue(socialService.isAFriend(testUser1, testUser2));
+        TEST_USER_1.setUserId(socialService.addUser(TEST_USER_1));
+        TEST_USER_2.setUserId(socialService.addUser(TEST_USER_2));
+        assertFalse(socialService.isAFriend(TEST_USER_1, TEST_USER_2));
+        socialService.addFriendship(TEST_USER_1, TEST_USER_2);
+        assertTrue(socialService.isAFriend(TEST_USER_1, TEST_USER_2));
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testIsAFriendNullUser1() throws Exception {
-        testUser2.setUserId(socialService.addUser(testUser2));
-        assertTrue(socialService.isAFriend(null, testUser2));
+        TEST_USER_2.setUserId(socialService.addUser(TEST_USER_2));
+        assertTrue(socialService.isAFriend(null, TEST_USER_2));
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testIsAFriendNullUser2() throws Exception {
-        testUser1.setUserId(socialService.addUser(testUser1));
-        assertTrue(socialService.isAFriend(testUser1, null));
+        TEST_USER_1.setUserId(socialService.addUser(TEST_USER_1));
+        assertTrue(socialService.isAFriend(TEST_USER_1, null));
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testIsAFriendNullIdUser1() throws Exception {
-        testUser2.setUserId(socialService.addUser(testUser2));
-        assertTrue(socialService.isAFriend(testUser1, testUser2));
+        TEST_USER_2.setUserId(socialService.addUser(TEST_USER_2));
+        assertTrue(socialService.isAFriend(TEST_USER_1, TEST_USER_2));
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testIsAFriendNullIdUser2() throws Exception {
-        testUser1.setUserId(socialService.addUser(testUser1));
-        assertTrue(socialService.isAFriend(testUser1, testUser2));
+        TEST_USER_1.setUserId(socialService.addUser(TEST_USER_1));
+        assertTrue(socialService.isAFriend(TEST_USER_1, TEST_USER_2));
     }
 
     public void testDiscardFriendship() throws Exception {
-        testUser1.setUserId(null);
-        testUser2.setUserId(null);
-        testUser1.setUserId(socialService.addUser(testUser1));
-        testUser2.setUserId(socialService.addUser(testUser2));
-        assertFalse(socialService.isAFriend(testUser1, testUser2));
-        socialService.addFriendship(testUser1, testUser2);
-        assertTrue(socialService.isAFriend(testUser1, testUser2));
-        socialService.discardFriendship(testUser1, testUser2);
-        assertFalse(socialService.isAFriend(testUser1, testUser2));
+        TEST_USER_1.setUserId(null);
+        TEST_USER_2.setUserId(null);
+        TEST_USER_1.setUserId(socialService.addUser(TEST_USER_1));
+        TEST_USER_2.setUserId(socialService.addUser(TEST_USER_2));
+        assertFalse(socialService.isAFriend(TEST_USER_1, TEST_USER_2));
+        socialService.addFriendship(TEST_USER_1, TEST_USER_2);
+        assertTrue(socialService.isAFriend(TEST_USER_1, TEST_USER_2));
+        socialService.discardFriendship(TEST_USER_1, TEST_USER_2);
+        assertFalse(socialService.isAFriend(TEST_USER_1, TEST_USER_2));
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testDiscardFriendshipNullUser1() throws Exception {
-        testUser2.setUserId(socialService.addUser(testUser2));
-        socialService.discardFriendship(null, testUser2);
+        TEST_USER_2.setUserId(socialService.addUser(TEST_USER_2));
+        socialService.discardFriendship(null, TEST_USER_2);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testDiscardFriendshipNullUser2() throws Exception {
-        testUser1.setUserId(socialService.addUser(testUser1));
-        socialService.discardFriendship(testUser1, null);
+        TEST_USER_1.setUserId(socialService.addUser(TEST_USER_1));
+        socialService.discardFriendship(TEST_USER_1, null);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testDiscardFriendshipNullIdUser1() throws Exception {
-        testUser2.setUserId(socialService.addUser(testUser2));
-        socialService.discardFriendship(testUser1, testUser2);
+        TEST_USER_2.setUserId(socialService.addUser(TEST_USER_2));
+        socialService.discardFriendship(TEST_USER_1, TEST_USER_2);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testDiscardFriendshipNullIdUser2() throws Exception {
-        testUser1.setUserId(socialService.addUser(testUser1));
-        socialService.discardFriendship(testUser1, testUser2);
+        TEST_USER_1.setUserId(socialService.addUser(TEST_USER_1));
+        socialService.discardFriendship(TEST_USER_1, TEST_USER_2);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testDiscardNonExistingFriendship() throws Exception {
-        testUser1.setUserId(socialService.addUser(testUser1));
-        testUser2.setUserId(socialService.addUser(testUser2));
-        socialService.discardFriendship(testUser1, testUser2);
+        TEST_USER_1.setUserId(socialService.addUser(TEST_USER_1));
+        TEST_USER_2.setUserId(socialService.addUser(TEST_USER_2));
+        socialService.discardFriendship(TEST_USER_1, TEST_USER_2);
     }
 
     @Test
@@ -441,68 +440,68 @@ public class SocialServiceImplTest {
 
     @Test
     public void testChangeLogin() throws Exception {
-        assertNotEquals(socialService.getUserById(1).getLogin(), testLogin);
-        socialService.changeLogin(1, testLogin);
-        assertEquals(socialService.getUserById(1).getLogin(), testLogin);
+        assertNotEquals(socialService.getUserById(1).getLogin(), TEST_LOGIN);
+        socialService.changeLogin(1, TEST_LOGIN);
+        assertEquals(socialService.getUserById(1).getLogin(), TEST_LOGIN);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testChangeLoginWithNullId() throws Exception {
-        socialService.changeLogin(null, testLogin);
+        socialService.changeLogin(null, TEST_LOGIN);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testChangeLoginWithIncorrectId() throws Exception {
-        socialService.changeLogin(-2, testLogin);
+        socialService.changeLogin(-2, TEST_LOGIN);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testChangeLoginOfNonExistingUser() throws Exception {
-        socialService.changeLogin(10, testLogin);
+        socialService.changeLogin(10, TEST_LOGIN);
     }
 
     @Test
     public void testChangeFirstName() throws Exception {
-        assertNotEquals(socialService.getUserById(1).getFirstName(), testFirstName);
-        socialService.changeFirstName(1, testFirstName);
-        assertEquals(socialService.getUserById(1).getFirstName(), testFirstName);
+        assertNotEquals(socialService.getUserById(1).getFirstName(), TEST_FIRST_NAME);
+        socialService.changeFirstName(1, TEST_FIRST_NAME);
+        assertEquals(socialService.getUserById(1).getFirstName(), TEST_FIRST_NAME);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testChangeFirstNameWithNullId() throws Exception {
-        socialService.changeFirstName(null, testFirstName);
+        socialService.changeFirstName(null, TEST_FIRST_NAME);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testChangeFirstNameWithIncorrectId() throws Exception {
-        socialService.changeFirstName(-2, testFirstName);
+        socialService.changeFirstName(-2, TEST_FIRST_NAME);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testChangeFirstNameOfNonExistingUser() throws Exception {
-        socialService.changeFirstName(10, testFirstName);
+        socialService.changeFirstName(10, TEST_FIRST_NAME);
     }
 
     @Test
     public void testChangeLastName() throws Exception {
-        assertNotEquals(socialService.getUserById(1).getLastName(), testLastName);
-        socialService.changeLastName(1, testLastName);
-        assertEquals(socialService.getUserById(1).getLastName(), testLastName);
+        assertNotEquals(socialService.getUserById(1).getLastName(), TEST_LAST_NAME);
+        socialService.changeLastName(1, TEST_LAST_NAME);
+        assertEquals(socialService.getUserById(1).getLastName(), TEST_LAST_NAME);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testChangeLastNameWithNullId() throws Exception {
-        socialService.changeLastName(null, testLastName);
+        socialService.changeLastName(null, TEST_LAST_NAME);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testChangeLastNameWithIncorrectId() throws Exception {
-        socialService.changeLastName(-2, testLastName);
+        socialService.changeLastName(-2, TEST_LAST_NAME);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testChangeLastNameOfNonExistingUser() throws Exception {
-        socialService.changeLastName(10, testLastName);
+        socialService.changeLastName(10, TEST_LAST_NAME);
     }
 
     @Test
@@ -562,7 +561,7 @@ public class SocialServiceImplTest {
     @Test
     public void testAddImage() throws Exception {
         Integer before = socialService.getAllImagesOfAUser(1).size();
-        socialService.addImage(1, testLogin, testFirstName, testLastName);
+        socialService.addImage(1, TEST_LOGIN, TEST_FIRST_NAME, TEST_LAST_NAME);
         Integer after = socialService.getAllImagesOfAUser(1).size();
         assertTrue(after - before == 1);
 

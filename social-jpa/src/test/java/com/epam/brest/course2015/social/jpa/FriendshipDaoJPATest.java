@@ -22,10 +22,10 @@ import java.util.List;
 @ContextConfiguration(locations = {"classpath:test-spring-persistence-HSQL.xml"})
 @Transactional
 public class FriendshipDaoJPATest extends TestCase {
-    private static final Integer testFirstFriend = 4;
-    private static final Integer testSecondFriend = 3;
-    private static final User testFriend1 = new User(testFirstFriend);
-    private static final User testFriend2 = new User(testSecondFriend);
+    private static final Integer TEST_FIRST_FRIEND = 4;
+    private static final Integer TEST_SECOND_FRIEND = 3;
+    private static final User TEST_FRIEND_1 = new User(TEST_FIRST_FRIEND);
+    private static final User TEST_FRIEND_2 = new User(TEST_SECOND_FRIEND);
 
     @Autowired
     private FriendshipDao friendshipDao;
@@ -33,17 +33,17 @@ public class FriendshipDaoJPATest extends TestCase {
     @Test
     public void testAddFriendship() throws Exception {
 
-        assertFalse(friendshipDao.isAFriend(testFriend1, testFriend2));
-        assertFalse(friendshipDao.isAFriend(testFriend2, testFriend1));
-        friendshipDao.addFriendship(testFriend1, testFriend2);
-        assertTrue(friendshipDao.isAFriend(testFriend1, testFriend2));
-        assertTrue(friendshipDao.isAFriend(testFriend2, testFriend1));
+        assertFalse(friendshipDao.isAFriend(TEST_FRIEND_1, TEST_FRIEND_2));
+        assertFalse(friendshipDao.isAFriend(TEST_FRIEND_2, TEST_FRIEND_1));
+        friendshipDao.addFriendship(TEST_FRIEND_1, TEST_FRIEND_2);
+        assertTrue(friendshipDao.isAFriend(TEST_FRIEND_1, TEST_FRIEND_2));
+        assertTrue(friendshipDao.isAFriend(TEST_FRIEND_2, TEST_FRIEND_1));
     }
 
     @Test
     public void testIsAFriendFalse() throws Exception {
-        assertFalse(friendshipDao.isAFriend(testFriend1, testFriend2));
-        assertFalse(friendshipDao.isAFriend(testFriend2, testFriend1));
+        assertFalse(friendshipDao.isAFriend(TEST_FRIEND_1, TEST_FRIEND_2));
+        assertFalse(friendshipDao.isAFriend(TEST_FRIEND_2, TEST_FRIEND_1));
 
     }
 

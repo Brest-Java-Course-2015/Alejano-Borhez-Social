@@ -7,6 +7,8 @@ apply plugin: 'jetty'
 apply plugin: "net.saliman.cobertura"
 apply plugin: 'checkstyle'
 
+project.checkstyle.configFile = new File("../config/checkstyle/checkstyle.xml")
+
 httpPort = 8081
 stopPort = 9081
 stopKey = "stopKey"

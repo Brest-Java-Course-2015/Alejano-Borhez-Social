@@ -46,6 +46,11 @@
 							<div class="clearfix"></div>
 					</form>
 					<hr>
+					<h3>Don't hava an account yet?</h3>
+                    <p>
+                        No problem, <a href="adduser">click here</a> to sign up!
+                    </p>
+
 					<h3>Forgot Password?</h3>
 					<p>
 						No problem, <a href="#">click here</a> to get a new password.

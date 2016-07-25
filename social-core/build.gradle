@@ -5,6 +5,8 @@ apply plugin: 'java'
 apply plugin: "net.saliman.cobertura"
 apply plugin: 'checkstyle'
 
+project.checkstyle.configFile = new File("../config/checkstyle/checkstyle.xml")
+
 repositories {
     mavenCentral()
 }

@@ -17,7 +17,6 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import static org.easymock.EasyMock.*;
@@ -96,7 +95,7 @@ public class SocialAppFreeMarkerTest {
                 , "lastName"
                 , 29
         );
-        expect(socialController.addUserSubmit(anyObject(User.class)))
+        expect(socialController.addUserSubmit(anyObject(User.class), anyObject(HttpServletResponse.class)))
                 .andReturn("forward:/users");
         replay(socialController);
         String user = new ObjectMapper().writeValueAsString(testUser);

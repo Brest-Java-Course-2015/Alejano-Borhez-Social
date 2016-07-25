@@ -4,65 +4,59 @@
 
 <#include "build_modules/head.ftl"/>
 
+<style type="text/css">
+    body { background: url(img/bg-login.jpg) !important; }
+</style>
+
 <body>
-
-
 <div class="container-fluid-full">
+<div class="row-fluid">
     <div class="row-fluid">
-            <#include "build_modules/header.ftl"/>
-    </div>
+        <div class="login-box">
+            <h2>Create your account</h2>
+            <form class="form-horizontal" name="user" action="addusersubmit" method="post">
+                <fieldset>
+                    <div class="input-prepend" title="Login">
+                        <span class="add-on"><i class="halflings-icon user"></i></span>
+                        <input class="input-large span10" name="login" id="login" type="text" placeholder="type login" required="true"/>
+                    </div>
 
-    <div class="row-fluid" style="padding-top: 44px; padding-bottom: 44px;" >
+                    <div class="clearfix"></div>
 
-    <#include "build_modules/menu.ftl"/>
+                    <div class="input-prepend" title="Password">
+                        <span class="add-on"><i class="halflings-icon lock"></i></span>
+                        <input class="input-large span10" name="password" id="password" type="password" placeholder="type password" required="true"/>
+                    </div>
 
-    <div id="content" class="span6">
+                    <div class="clearfix"></div>
 
-        <h1> <@spring.message code="user.create"/> </h1>
+                    <div class="input-prepend" title="Firstname">
+                        <span class="add-on"><i class="halflings-icon user"></i></span>
+                        <input class="input-large span10" name="firstName" id="firstName" type="text" placeholder="type firstname" required="true"/>
+                    </div>
 
-        <div class = "row-fluid">
+                    <div class="input-prepend" title="Lastname">
+                        <span class="add-on"><i class="halflings-icon user"></i></span>
+                        <input class="input-large span10" name="lastName" id="lastName" type="text" placeholder="type lastname" required="true"/>
+                    </div>
 
-        <form class="form" name="user" id="userForm" role="form" method="post" action="addusersubmit">
-             <div class="form-group">
-                 <label>Login:</label>
-                 <input type="text" id="login" name="login" required="true" class="form-control">
-             </div>
-             <div class="form-group">
-                 <label>Password:</label>
-                 <input type="password" id="password" name="password" required="true" class="form-control">
-             </div>
-             <div class="form-group">
-                 <label>FirstName:</label>
-                 <input type="text" id="firstName" name="firstName" required="true" class="form-control">
-             </div>
-             <div class="form-group">
-                 <label>LastName:</label>
-                 <input type="text" id="lastName" name="lastName" required="true" class="form-control">
-             </div>
-             <div class="form-group">
-                 <label>Age:</label>
-                 <input type="number" id="age" name="age" required="true" class="form-control">
-             </div>
+                    <div class="input-prepend" title="Age">
+                        <span class="add-on"><i class="halflings-icon user"></i></span>
+                        <input class="input-large span10" name="age" id="age" type="number" required="true"/>
+                    </div>
 
-             <button type="submit" class="btn btn-default"> Add user </button>
+                    <div class="button-login">
+                        <button type="submit" class="btn btn-primary">Create account</button>
+                    </div>
 
-         </form>
-
+                    <div class="clearfix"></div>
+            </form>
+            <hr>
         </div>
     </div>
 </div>
-
-    </div>
-
+</div>
 
 </body>
-
 <#include "build_modules/footer.ftl"/>
-
-
-
-
-
-
-
-
+</html>

@@ -68,8 +68,17 @@ public class SocialAppFreeMarker {
 
     @RequestMapping("/addusersubmit")
     @Logged
-    public String addUserSubmit(@ModelAttribute("user") User user) {
+    public String addUserSubmit(@ModelAttribute("user") User user,
+                                HttpServletResponse resp) {
+
         socialConsumer.addUserSubmit(user);
+
+        String token = socialConsumer.getToken(user.getLogin());
+// Setting a Cookie
+        Cookie cookie = new Cookie("uid", token);
+        cookie.setMaxAge(60*60*24);
+        resp.addCookie(cookie);
+
         return "redirect:/users";
     }
 
@@ -319,39 +328,5 @@ public class SocialAppFreeMarker {
         resp.sendRedirect("login");
         return mav;
     }
-    /*@RequestMapping(name = "/user/{action}",
-                    method = RequestMethod.POST)
-    @Logged
-    public void userActions(
-            @PathVariable("action") String action,
-            @RequestParam("param") String param,
-            @CookieValue(name = "uid", required = false) Cookie cookie,
-            HttpServletRequest req,
-            HttpServletResponse resp
-    ) {
-        if (cookie !=null) {
-            String token = cookie.getValue();
-            if (token != null) {
-                switch (action) {
-                    case "login":
-                        socialConsumer.changeLogin(token, param);
-                        break;
-                    case "password":
-                        socialConsumer.changePassword(token, param);
-                        break;
-                    case "firstname":
-                        socialConsumer.changeFirstName(token, param);
-                        break;
-                    case "lastname":
-                        socialConsumer.changeLastName(token, param);
-                        break;
-                    default:
-                        throw new IllegalArgumentException("You have chosen wrong option to do with user");
-                }
-            }
-        }
-
-    }*/
-
 
 }

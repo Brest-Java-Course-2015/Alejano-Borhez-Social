@@ -11,7 +11,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -21,7 +20,7 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:test-spring-core.xml"})
 public class SocialDtoTest extends TestCase {
-    private static final Integer totalUsers = 5;
+    private static final Integer TOTAL_USERS = 5;
     @Autowired
     private SocialDto dto;
     @Autowired
@@ -41,9 +40,9 @@ public class SocialDtoTest extends TestCase {
 
     @Test
     public void testGetTotalUsers() throws Exception {
-        dto.setTotalUsers(totalUsers);
+        dto.setTotalUsers(TOTAL_USERS);
         assertNotNull(dto.getTotalUsers());
-        assertTrue(dto.getTotalUsers() == totalUsers);
+        assertTrue(dto.getTotalUsers() == TOTAL_USERS);
     }
 
     @Test

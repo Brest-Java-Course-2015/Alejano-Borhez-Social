@@ -21,45 +21,45 @@ public class ImageTest {
     @Autowired
     private Image image;
 
-    private static final User user = new User(1);
-    private static final Integer imageId = 1;
-    private static final Date createdDate = new Date();
-    private static final String url = "File Name";
-    private static final String url50 = "File Name 50";
-    private static final String url81 = "File Name 81";
+    private static final User USER = new User(1);
+    private static final Integer IMAGE_ID = 1;
+    private static final Date CREATED_DATE = new Date();
+    private static final String URL = "File Name";
+    private static final String URL_50 = "File Name 50";
+    private static final String URL_81 = "File Name 81";
 
     @Test
     public void getImageId() throws Exception {
-        image.setImageId(imageId);
+        image.setImageId(IMAGE_ID);
         assertNotNull(image.getImageId());
-        assertEquals(image.getImageId(), imageId);
+        assertEquals(image.getImageId(), IMAGE_ID);
     }
 
     @Test
     public void getCreatedDate() throws Exception {
-        image.setCreatedDate(createdDate);
+        image.setCreatedDate(CREATED_DATE);
         assertNotNull(image.getCreatedDate());
-        assertEquals(image.getCreatedDate(), createdDate);
+        assertEquals(image.getCreatedDate(), CREATED_DATE);
     }
 
     @Test
     public void getUrl() throws Exception {
-        image.setUrl(url);
+        image.setUrl(URL);
         assertNotNull(image.getUrl());
-        assertEquals(image.getUrl(), url);
+        assertEquals(image.getUrl(), URL);
     }
 
     @Test
     public void getUrl50() throws Exception {
-        image.setUrl50(url50);
+        image.setUrl50(URL_50);
         assertNotNull(image.getUrl50());
-        assertEquals(image.getUrl50(), url50);
+        assertEquals(image.getUrl50(), URL_50);
     }
 
     @Test
     public void getUrl81() throws Exception {
-        image.setUrl81(url81);
+        image.setUrl81(URL_81);
         assertNotNull(image.getUrl81());
-        assertEquals(image.getUrl81(), url81);
+        assertEquals(image.getUrl81(), URL_81);
     }
 }
