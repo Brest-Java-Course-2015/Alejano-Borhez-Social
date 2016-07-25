@@ -44,5 +44,6 @@ List logging = ["org.apache.logging.log4j:log4j-api:2.1",
 
 dependencies {
     compile spring, logging, jackson
+    compile 'com.puppycrawl.tools:checkstyle:7.0'
     testCompile test
 }
