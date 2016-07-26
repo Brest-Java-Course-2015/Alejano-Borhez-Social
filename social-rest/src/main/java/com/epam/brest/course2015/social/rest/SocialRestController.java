@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -23,7 +22,6 @@ import java.util.Date;
 
 @CrossOrigin
 @RestController
-@Component
 public class SocialRestController {
 
     @Autowired
@@ -36,16 +34,16 @@ public class SocialRestController {
     @SubscribeMapping("/addeduser")
     @RequestMapping(value = "/user",
                     method = RequestMethod.POST)
-    @ResponseStatus(value = HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.CREATED)
     @Logged
-    public Integer addUser(@RequestBody User user) {
+    public boolean addUser(@RequestBody User user) {
         Integer addedUserId = socialService.addUser(user);
         /*SocialDto dto = socialService.getSocialUsersDto();
         Integer totalUsers = dto.getTotalUsers();
         user.setUserId(addedUserId);
         socialMessaging.convertAndSend("/topic/addeduser", user);
         socialMessaging.convertAndSend("/topic/totalusers", totalUsers);*/
-        return addedUserId;
+        return (addedUserId != null);
 
     }
 
@@ -75,40 +73,7 @@ public class SocialRestController {
             }
     }
 
- /*   // Not implemented
-    @RequestMapping(value = "/user/login",
-                    method = RequestMethod.PUT)
-    @Logged
-    public void changeLogin(@RequestParam(value = "id")
-                                          Integer id,
-                            @RequestParam(value = "login")
-                                          String login) {
-        socialService.changeLogin(id, login);
-    }
-
-    // Not implemented
-    @RequestMapping(value = "/user/firstname",
-                    method = RequestMethod.PUT)
-    @Logged
-    public void changeFirstName(@RequestParam(value = "id")
-                                              Integer id,
-                                @RequestParam(value = "firstname")
-                                              String firstname) {
-        socialService.changeFirstName(id, firstname);
-    }
-
-    // Not implemented
-    @RequestMapping(value = "/user/lastname",
-                    method = RequestMethod.PUT)
-    @Logged
-    public void changeLastName(@RequestParam(value = "id")
-                                             Integer id,
-                               @RequestParam(value = "lastname")
-                                             String lastname) {
-        socialService.changeLastName(id, lastname);
-    }*/
-
-    // Not implemented
+//  Not implemented
     @RequestMapping(value = "/user",
                     method = RequestMethod.DELETE)
     @Logged
@@ -119,26 +84,23 @@ public class SocialRestController {
 
     }
 
-    // Not implemented
-    @RequestMapping(value = "/user/friendship",
-                    method = RequestMethod.DELETE)
-    @Logged
-    public void discardFriendship(@RequestParam(value = "id1")
-                                                 Integer id1,
-                                   @RequestParam(value = "id2")
-                                                 Integer id2) {
-        socialService.discardFriendship(new User(id1), new User(id2));
-    }
-
-    // Not implemented
-    @RequestMapping(value = "/user/friendship",
+    @RequestMapping(value = "/friendship/{action}",
                     method = RequestMethod.POST)
     @Logged
-    public void addFriendship(@RequestParam(value = "id1")
-                                            Integer id1,
-                              @RequestParam(value = "id2")
-                                            Integer id2) {
-        socialService.addFriendship(new User(id1), new User(id2));
+    @SocialSecured
+    public void discardFriendship(@RequestBody String token,
+                                  @RequestParam(value = "id2")
+                                                 Integer id2,
+                                  @PathVariable("action") String action) {
+        Integer id1 = socialSecurity.getUserId(token);
+        switch (action) {
+            case "delete": socialService.discardFriendship(id1, id2);
+                break;
+            case "add": socialService.addFriendship(id1, id2);
+                break;
+            default: throw new IllegalArgumentException("You have chosen wrong option");
+        }
+
     }
 
     @RequestMapping(value = "/userdtobydate",
@@ -166,27 +128,19 @@ public class SocialRestController {
     @RequestMapping(value = "/friendsdto",
             method = RequestMethod.POST)
     @Logged
+    @SocialSecured
     public SocialDto getFriendsDto(@RequestBody String token) {
-
-        if (socialSecurity.isTokenValid(token)) {
             Integer id = socialSecurity.getUserId(token);
             return socialService.getSocialFriendsDto(id);
-        } else {
-            return null;
-        }
     }
 
     @RequestMapping(value = "/nofriendsdto",
             method = RequestMethod.POST)
     @Logged
+    @SocialSecured
     public SocialDto getNoFriendsDto(@RequestBody String token) {
-        if (socialSecurity.isTokenValid(token)) {
             Integer id = socialSecurity.getUserId(token);
             return socialService.getSocialNoFriendsDto(id);
-        } else {
-            return null;
-        }
-
     }
 
     @RequestMapping(value = "/user/db",
@@ -241,6 +195,7 @@ public class SocialRestController {
             return null;
         }
     }
+
     @SubscribeMapping(value = "/hello")
     @Logged
     public User sayHello (String name) {

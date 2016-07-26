@@ -49,9 +49,8 @@ public class SocialServiceImplMockTest {
     @Test
     public void testAddUser() throws Exception {
         TEST_MOCK_USER_1.setUserId(null);
-        TEST_MOCK_USER_2.setUserId(null);
         expect(userMockDao.getUserByLogin(TEST_MOCK_USER_1.getLogin()))
-                .andThrow(new EmptyResultDataAccessException(1));
+                .andReturn(null);
         expect(userMockDao.addUser(TEST_MOCK_USER_1)).andReturn(1);
         replay(userMockDao);
         Integer result = socialService.addUser(TEST_MOCK_USER_1);
@@ -132,12 +131,12 @@ public class SocialServiceImplMockTest {
     public void testAddFriendship() throws Exception {
         TEST_MOCK_USER_1.setUserId(5);
         TEST_MOCK_USER_2.setUserId(6);
-        expect(friendshipMockDao.isAFriend(TEST_MOCK_USER_1, TEST_MOCK_USER_2))
+        expect(friendshipMockDao.isAFriend(TEST_MOCK_USER_1.getUserId(), TEST_MOCK_USER_2.getUserId()))
                 .andReturn(false);
-        friendshipMockDao.addFriendship(TEST_MOCK_USER_1, TEST_MOCK_USER_2);
+        friendshipMockDao.addFriendship(TEST_MOCK_USER_1.getUserId(), TEST_MOCK_USER_2.getUserId());
         expectLastCall();
         replay(friendshipMockDao);
-        socialService.addFriendship(TEST_MOCK_USER_1, TEST_MOCK_USER_2);
+        socialService.addFriendship(TEST_MOCK_USER_1.getUserId(), TEST_MOCK_USER_2.getUserId());
 
     }
 
@@ -145,10 +144,10 @@ public class SocialServiceImplMockTest {
     public void testIsAFriend() throws Exception {
         TEST_MOCK_USER_1.setUserId(5);
         TEST_MOCK_USER_2.setUserId(6);
-        expect(friendshipMockDao.isAFriend(TEST_MOCK_USER_1, TEST_MOCK_USER_2))
+        expect(friendshipMockDao.isAFriend(TEST_MOCK_USER_1.getUserId(), TEST_MOCK_USER_2.getUserId()))
                 .andReturn(true);
         replay(friendshipMockDao);
-        boolean result = socialService.isAFriend(TEST_MOCK_USER_1, TEST_MOCK_USER_2);
+        boolean result = socialService.isAFriend(TEST_MOCK_USER_1.getUserId(), TEST_MOCK_USER_2.getUserId());
         assertTrue(result);
     }
 
@@ -156,12 +155,12 @@ public class SocialServiceImplMockTest {
     public void testDiscardFriendship() throws Exception {
         TEST_MOCK_USER_1.setUserId(5);
         TEST_MOCK_USER_2.setUserId(6);
-        expect(friendshipMockDao.isAFriend(TEST_MOCK_USER_1, TEST_MOCK_USER_2))
+        expect(friendshipMockDao.isAFriend(TEST_MOCK_USER_1.getUserId(), TEST_MOCK_USER_2.getUserId()))
                 .andReturn(true);
-        friendshipMockDao.discardFriendship(TEST_MOCK_USER_1, TEST_MOCK_USER_2);
+        friendshipMockDao.discardFriendship(TEST_MOCK_USER_1.getUserId(), TEST_MOCK_USER_2.getUserId());
         expectLastCall();
         replay(friendshipMockDao);
-        socialService.discardFriendship(TEST_MOCK_USER_1, TEST_MOCK_USER_2);
+        socialService.discardFriendship(TEST_MOCK_USER_1.getUserId(), TEST_MOCK_USER_2.getUserId());
     }
 
     @Test

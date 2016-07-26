@@ -110,9 +110,10 @@ public class UserDaoJPATest {
         assertEquals(user.getLogin(), "alejano_borhez");
     }
 
-    @Test(expected = EmptyResultDataAccessException.class)
+    @Test
     public void testGetUserByWrongLogin() throws Exception {
         User user = userDao.getUserByLogin("alejano");
+        assertNull(user);
     }
 
     @Test

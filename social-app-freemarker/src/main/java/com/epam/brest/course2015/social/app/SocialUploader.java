@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.cloudinary.*;
 
+import javax.servlet.http.Cookie;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -38,7 +39,8 @@ public class SocialUploader {
     private String deliveryUrl;
 
     @Autowired
-    SocialConsumer socialConsumer;
+    private SocialConsumer socialConsumer;
+
 
 //    Preparing a Cloudinary instance
     private Cloudinary cloudinary = new Cloudinary(
@@ -54,8 +56,10 @@ public class SocialUploader {
     @PostMapping("/upload")
     @Logged
     public String uploadImage (@RequestParam("file") MultipartFile file,
-                               @RequestParam("id") Integer id) {
-        try {
+                               @CookieValue(name = "uid", required = false) Cookie cookie)
+            throws IOException {
+        if (cookie != null) {
+        String token = cookie.getValue();
 //      Preparing file to upload
             File binaryBody = new File(file.getOriginalFilename());
             file.transferTo(binaryBody);
@@ -63,14 +67,14 @@ public class SocialUploader {
             String extension = FilenameUtils.getExtension(file.getOriginalFilename());
 //      Sending an upload request
             Transformation transformation =
-                new Transformation().width(200).crop("fill").gravity("face");
+                    new Transformation().width(200).crop("fill").gravity("face");
 
             Map uploadResult = cloudinary.uploader().upload(
-              binaryBody,
-              ObjectUtils.asMap(
-                   "eager", Arrays.asList(transformation),
-                   "public_id", filename
-              )
+                    binaryBody,
+                    ObjectUtils.asMap(
+                            "eager", Arrays.asList(transformation),
+                            "public_id", filename
+                    )
             );
 
             binaryBody.delete();
@@ -87,29 +91,33 @@ public class SocialUploader {
             String url81 = cloudinary.url().format(extension).transformation(transformation81).
                     generate(filename);
 //      Persisting URL in a database
-            socialConsumer.addImage(id, url, url50, url81);
+            socialConsumer.addImage(token, url, url50, url81);
 
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 //
-        return "redirect:/photo?id=" + id;
+        return "redirect:/photo";
     }
 
     @RequestMapping("/delete")
     @Logged
-    public String deleteImage (@RequestParam("userId") Integer userId,
+    public String deleteImage (@CookieValue(name = "uid", required = false) Cookie cookie,
                                @RequestParam("imageId") Integer imageId) {
-        socialConsumer.deleteImage(userId, imageId);
-        return "redirect:/user?id=" + userId;
+        if (cookie != null) {
+            String token = cookie.getValue();
+            socialConsumer.deleteImage(token, imageId);
+        }
+        return "redirect:/user";
 
     }
 
     @PutMapping("/rename")
     @Logged
-    public void renameImage (@RequestParam("id") Integer id,
+    public void renameImage (@CookieValue(name = "uid", required = false) Cookie cookie,
                              @RequestParam("name") String name) {
-        socialConsumer.renameImage(id, name);
+        if (cookie != null) {
+            String token = cookie.getValue();
+            socialConsumer.renameImage(token, name);
+        }
     }
 
     @RequestMapping("/cloudAPI")

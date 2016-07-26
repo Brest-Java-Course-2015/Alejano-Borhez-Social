@@ -17,6 +17,10 @@
         <constructor-arg value="com.epam.brest.course2015.social.service.SocialService"/>
     </bean>
 
+    <bean id="socialSecurity" class="org.easymock.EasyMock" factory-method="createMock">
+        <constructor-arg value="com.epam.brest.course2015.social.service.SocialSecurity"/>
+    </bean>
+
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
         <property name="messageConverters">
             <list>
@@ -32,7 +36,8 @@
 
     <aop:aspectj-autoproxy/>
 
-    <bean id="socialLogger" class="com.epam.brest.course2015.social.test.SocialLogger"/>
+    <bean class="com.epam.brest.course2015.social.test.SocialLogger"/>
+    <bean class="com.epam.brest.course2015.social.service.SocialSecurityInterceptor"/>
 
     <bean id="socialRestController" class="com.epam.brest.course2015.social.rest.SocialImageRestController"/>
 

@@ -32,6 +32,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:freemarker-test.xml"})
 public class SocialAppFreeMarkerTest {
+    private static final String TEST_TOKEN = "token";
 
     @Resource
     private SocialAppFreeMarker socialController;
@@ -61,29 +62,29 @@ public class SocialAppFreeMarkerTest {
 
     @Test
     public void testDeleteFriend() throws Exception {
-        expect(socialController.deleteFriend(5, 6))
-                .andReturn("forward:/friends?id=5");
+        expect(socialController.deleteFriend(anyObject(Cookie.class), anyInt()))
+                .andReturn("forward:/friends");
         replay(socialController);
         mockMvc.perform(
-                get("/user/friendship/del?id1=5&id2=6")
+                get("/user/friendship/del?id2=6")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(forwardedUrl("/friends?id=5"));
+                .andExpect(forwardedUrl("/friends"));
 
     }
 
     @Test
     public void testAddFriend() throws Exception {
-        expect(socialController.addFriendship(5, 6))
-                .andReturn("forward:/nofriends?id=5");
+        expect(socialController.addFriendship(anyObject(Cookie.class), anyInt()))
+                .andReturn("forward:/nofriends");
         replay(socialController);
         mockMvc.perform(
-                get("/user/friendship/add?id1=5&id2=6")
+                get("/user/friendship/add?id2=6")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(forwardedUrl("/nofriends?id=5"));
+                .andExpect(forwardedUrl("/nofriends"));
     }
 
     @Test

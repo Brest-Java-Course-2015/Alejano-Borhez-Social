@@ -18,15 +18,14 @@ public interface SocialConsumer {
     void changeLogin(String token, String login);
     void changeFirstName(String token, String firstName);
     void changeLastName(String token, String lastName);
+    boolean addUserSubmit(User user);
+    void addFriendship(String token, Integer id2);
+    void deleteFriend(String token, Integer id2);
+    Integer addImage(String token, String url, String url50, String url81);
+    void deleteImage(String token, Integer imageId);
+    void renameImage(String token, String name);
+    boolean isUserInDB(User user);
 
 //    Not implemented
-    Integer addUserSubmit(User user);
-    Integer addImage(Integer userId, String url, String url50, String url81);
     void deleteUser(Integer id);
-    void deleteImage(Integer userId, Integer imageId);
-    void addFriendship(Integer id1, Integer id2);
-    void deleteFriend(Integer id1, Integer id2);
-
-    void renameImage(Integer id, String name);
-    boolean isUserInDB(User user);
 }

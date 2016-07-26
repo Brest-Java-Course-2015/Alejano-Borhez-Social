@@ -29,9 +29,9 @@ public class FriendshipDaoJPA implements FriendshipDao {
 
     @Override
     @Logged
-    public void addFriendship(User friend1, User friend2) {
-            User user1 = entityManager.find(User.class, friend1.getUserId());
-            User user2 = entityManager.find(User.class, friend2.getUserId());
+    public void addFriendship(Integer id1, Integer id2) {
+            User user1 = entityManager.find(User.class, id1);
+            User user2 = entityManager.find(User.class, id2);
 
             user1.getFriends().add(user2);
             user2.getFriends().add(user1);
@@ -39,18 +39,18 @@ public class FriendshipDaoJPA implements FriendshipDao {
 
     @Override
     @Logged
-    public boolean isAFriend(User user1, User user2) {
-        User user11 = entityManager.find(User.class, user1.getUserId());
-        User user21 = entityManager.find(User.class, user2.getUserId());
+    public boolean isAFriend(Integer id1, Integer id2) {
+        User user11 = entityManager.find(User.class, id1);
+        User user21 = entityManager.find(User.class, id2);
         return user11.getFriends().contains(user21) && user21.getFriends().contains(user11);
     }
 
 
     @Override
     @Logged
-    public void discardFriendship(User enemy1, User enemy2) {
-        User user1 = entityManager.find(User.class, enemy1.getUserId());
-        User user2 = entityManager.find(User.class, enemy2.getUserId());
+    public void discardFriendship(Integer id1, Integer id2) {
+        User user1 = entityManager.find(User.class, id1);
+        User user2 = entityManager.find(User.class, id2);
 
         user1.getFriends().remove(user2);
         user2.getFriends().remove(user1);

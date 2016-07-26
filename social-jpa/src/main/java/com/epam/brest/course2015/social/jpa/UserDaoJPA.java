@@ -151,7 +151,7 @@ public class UserDaoJPA implements UserDao {
             return user;
         } catch (NoResultException e) {
             e.printStackTrace();
-            throw new EmptyResultDataAccessException(login, 1);
+            return null;
         }
     }
 

@@ -1,5 +1,8 @@
 package com.epam.brest.course2015.social.rest;
 
+import com.epam.brest.course2015.social.core.Image;
+import com.epam.brest.course2015.social.service.SocialSecured;
+import com.epam.brest.course2015.social.service.SocialSecurity;
 import com.epam.brest.course2015.social.service.SocialService;
 import com.epam.brest.course2015.social.test.Logged;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,41 +20,47 @@ import javax.persistence.criteria.CriteriaBuilder;
 
 @RestController
 @CrossOrigin
-@Component
 @RequestMapping("/image")
 public class SocialImageRestController {
 
     @Autowired
     private SocialService socialService;
 
+    @Autowired
+    private SocialSecurity socialSecurity;
+
     @RequestMapping(value = "/upload",
             method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     @Logged
-    public Integer uploadImage(@RequestParam("id") Integer id,
+    @SocialSecured
+    public Integer uploadImage(@RequestBody String token,
                                @RequestParam("url") String url,
                                @RequestParam("url50") String url50,
                                @RequestParam("url81") String url81) {
-
+        Integer id = socialSecurity.getUserId(token);
         return socialService.addImage(id, url, url50, url81);
     }
 
     @RequestMapping(value = "/delete",
-            method = RequestMethod.DELETE)
+            method = RequestMethod.POST)
     @ResponseStatus(code = HttpStatus.OK)
     @Logged
-    public void deleteImage(@RequestParam("userId") Integer userId,
+    @SocialSecured
+    public void deleteImage(@RequestBody String token,
                             @RequestParam("imageId") Integer imageId) {
+        Integer userId = socialSecurity.getUserId(token);
         socialService.deleteImage(userId, imageId);
-
     }
 
     @RequestMapping(value = "/rename",
-            method = RequestMethod.PUT)
+            method = RequestMethod.POST)
     @ResponseStatus(code = HttpStatus.OK)
     @Logged
-    public void renameImage(@RequestParam("id") Integer id,
+    @SocialSecured
+    public void renameImage(@RequestBody String token,
                             @RequestParam("name") String name) {
+        Integer id = socialSecurity.getUserId(token);
         socialService.renameImage(id, name);
     }
 

@@ -43,8 +43,8 @@ function deleteFriend(userId)
 {
     if (confirm("Вы уверены, что хотите убрать пользователя № " + userId + " из друзей пользователя № " + id + "?"))
     {
-    console.log('deleteFriendship' + id + ', ' + userId);
-    var url = "user/friendship/del" +  "?id1=" + id + "&id2=" + userId;
+    console.log('deleteFriendship, ' + userId);
+    var url = "user/friendship/del" +  "?id2=" + userId;
     $.ajax({
         type: 'GET',
         url: url,
@@ -61,17 +61,17 @@ function deleteFriend(userId)
 
 function addFriend(userId)
 {
-    var url = "user/friendship/add" +  "?id1=" + id + "&id2=" + userId;
-    console.log('addFriendship' + id + ', ' + userId);
+    var url = "user/friendship/add" + "?id2=" + userId;
+    console.log('addFriendship, ' + userId);
     $.ajax({
-        type: 'POST',
+        type: 'GET',
         url: url,
         success: function (data, textStatus, jqXHR) {
                     alert('Friendship added successfully');
                     location.reload();
                 },
         error: function (jqXHR, textStatus, errorThrown) {
-            alert('addFriend error: ' + textStatus + ':' + url);
+            alert('addFriend error: ' + textStatus + userId + ':' + url);
         }
     })
 }
@@ -91,7 +91,7 @@ function gotoadduser() {
 }
 
 function gotoaddfriend(id) {
-    window.location="nofriends?id=" + id;
+    window.location="nofriends";
 }
 
 function changeLogin() {

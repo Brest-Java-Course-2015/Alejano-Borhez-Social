@@ -1,6 +1,7 @@
 package com.epam.brest.course2015.social.rest;
 
 import com.epam.brest.course2015.social.core.Image;
+import com.epam.brest.course2015.social.service.SocialSecurity;
 import com.epam.brest.course2015.social.service.SocialService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
@@ -42,6 +43,8 @@ public class SocialImageRestControllerTest {
 
     @Autowired
     private SocialService socialService;
+    @Autowired
+    private SocialSecurity socialSecurity;
 
     private MockMvc mockMvc;
 
@@ -55,18 +58,24 @@ public class SocialImageRestControllerTest {
     public void tearDown() throws Exception {
         verify(socialService);
         reset(socialService);
+        verify(socialSecurity);
+        reset(socialSecurity);
     }
 
     @Test
     public void testAddImage() throws Exception {
+        expect(socialSecurity.isTokenValid(anyString())).andReturn(true);
+        expect(socialSecurity.getUserId(anyString())).andReturn(2);
         expect(socialService.addImage(anyInt(), anyString(), anyString(), anyString())).andReturn(3);
         replay(socialService);
-        String image = new ObjectMapper().writeValueAsString(new Image());
+        replay(socialSecurity);
+        String token = new ObjectMapper().writeValueAsString("token");
         mockMvc.perform(
-                post("/image/upload?id=1&url=url&url50=url50&url81=url81")
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(image))
+                post("/image/upload?url=url&url50=url50&url81=url81")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(token)
+                )
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(content().string("3"));
@@ -74,29 +83,38 @@ public class SocialImageRestControllerTest {
 
     @Test
     public void testDeleteImage() throws Exception {
+        expect(socialSecurity.isTokenValid(anyString())).andReturn(true);
+        expect(socialSecurity.getUserId(anyString())).andReturn(2);
         socialService.deleteImage(anyInt(), anyInt());
         expectLastCall();
         replay(socialService);
+        replay(socialSecurity);
+        String token = new ObjectMapper().writeValueAsString("token");
         mockMvc.perform(
-                delete("/image/delete?userId=1&imageId=1")
+                post("/image/delete?imageId=1")
                 .accept(MediaType.APPLICATION_JSON)
-        )
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(token)
+                )
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(""));
-
-
     }
 
     @Test
     public void testRenameImage() throws Exception {
-        socialService.renameImage(anyInt(), anyString());
+        expect(socialSecurity.isTokenValid(anyString())).andReturn(true);
+        expect(socialSecurity.getUserId(anyString())).andReturn(2);
+        socialService.renameImage(2, "rename");
         expectLastCall();
         replay(socialService);
+        replay(socialSecurity);
+        String token = new ObjectMapper().writeValueAsString("token");
         mockMvc.perform(
-                put("/image/rename?id=1&name=rename")
+                post("/image/rename?name=rename")
                 .accept(MediaType.APPLICATION_JSON)
-
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(token)
         )
                 .andDo(print())
                 .andExpect(status().isOk())

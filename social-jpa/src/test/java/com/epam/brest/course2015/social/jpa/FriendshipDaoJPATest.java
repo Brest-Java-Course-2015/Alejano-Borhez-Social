@@ -1,7 +1,6 @@
 package com.epam.brest.course2015.social.jpa;
 
 import com.epam.brest.course2015.social.core.Friendship;
-import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.dao.FriendshipDao;
 import junit.framework.TestCase;
 import org.junit.Test;
@@ -22,10 +21,10 @@ import java.util.List;
 @ContextConfiguration(locations = {"classpath:test-spring-persistence-HSQL.xml"})
 @Transactional
 public class FriendshipDaoJPATest extends TestCase {
-    private static final Integer TEST_FIRST_FRIEND = 4;
-    private static final Integer TEST_SECOND_FRIEND = 3;
-    private static final User TEST_FRIEND_1 = new User(TEST_FIRST_FRIEND);
-    private static final User TEST_FRIEND_2 = new User(TEST_SECOND_FRIEND);
+    private static final Integer TEST_FRIEND_1 = 1;
+    private static final Integer TEST_FRIEND_2 = 2;
+    private static final Integer TEST_FRIEND_3 = 3;
+    private static final Integer TEST_FRIEND_4 = 4;
 
     @Autowired
     private FriendshipDao friendshipDao;
@@ -33,33 +32,33 @@ public class FriendshipDaoJPATest extends TestCase {
     @Test
     public void testAddFriendship() throws Exception {
 
-        assertFalse(friendshipDao.isAFriend(TEST_FRIEND_1, TEST_FRIEND_2));
-        assertFalse(friendshipDao.isAFriend(TEST_FRIEND_2, TEST_FRIEND_1));
-        friendshipDao.addFriendship(TEST_FRIEND_1, TEST_FRIEND_2);
-        assertTrue(friendshipDao.isAFriend(TEST_FRIEND_1, TEST_FRIEND_2));
-        assertTrue(friendshipDao.isAFriend(TEST_FRIEND_2, TEST_FRIEND_1));
+        assertFalse(friendshipDao.isAFriend(TEST_FRIEND_3, TEST_FRIEND_4));
+        assertFalse(friendshipDao.isAFriend(TEST_FRIEND_4, TEST_FRIEND_3));
+        friendshipDao.addFriendship(TEST_FRIEND_3, TEST_FRIEND_4);
+        assertTrue(friendshipDao.isAFriend(TEST_FRIEND_3, TEST_FRIEND_4));
+        assertTrue(friendshipDao.isAFriend(TEST_FRIEND_4, TEST_FRIEND_3));
     }
 
     @Test
     public void testIsAFriendFalse() throws Exception {
-        assertFalse(friendshipDao.isAFriend(TEST_FRIEND_1, TEST_FRIEND_2));
-        assertFalse(friendshipDao.isAFriend(TEST_FRIEND_2, TEST_FRIEND_1));
+        assertFalse(friendshipDao.isAFriend(TEST_FRIEND_3, TEST_FRIEND_4));
+        assertFalse(friendshipDao.isAFriend(TEST_FRIEND_4, TEST_FRIEND_3));
 
     }
 
     @Test
     public void testIsAFriendTrue() throws Exception {
-        assertTrue(friendshipDao.isAFriend(new User(1), new User(2)));
-        assertTrue(friendshipDao.isAFriend(new User(2), new User(1)));
+        assertTrue(friendshipDao.isAFriend(TEST_FRIEND_1, TEST_FRIEND_2));
+        assertTrue(friendshipDao.isAFriend(TEST_FRIEND_2, TEST_FRIEND_1));
     }
 
     @Test
     public void testDiscardFriendship() throws Exception {
-        assertTrue(friendshipDao.isAFriend(new User(1), new User(2)));
-        assertTrue(friendshipDao.isAFriend(new User(2), new User(1)));
-        friendshipDao.discardFriendship(new User(1), new User(2));
-        assertFalse(friendshipDao.isAFriend(new User(1), new User(2)));
-        assertFalse(friendshipDao.isAFriend(new User(2), new User(1)));
+        assertTrue(friendshipDao.isAFriend(TEST_FRIEND_1, TEST_FRIEND_2));
+        assertTrue(friendshipDao.isAFriend(TEST_FRIEND_2, TEST_FRIEND_1));
+        friendshipDao.discardFriendship(TEST_FRIEND_1, TEST_FRIEND_2);
+        assertFalse(friendshipDao.isAFriend(TEST_FRIEND_1, TEST_FRIEND_2));
+        assertFalse(friendshipDao.isAFriend(TEST_FRIEND_2, TEST_FRIEND_1));
     }
 
 //    @Test
@@ -74,12 +73,12 @@ public class FriendshipDaoJPATest extends TestCase {
 
 //    @Test
     public void testDiscardAllFriendshipsOfAUser() throws Exception {
-        assertTrue(friendshipDao.isAFriend(new User(1), new User(2)));
-        assertTrue(friendshipDao.isAFriend(new User(1), new User(3)));
-        assertTrue(friendshipDao.isAFriend(new User(1), new User(4)));
+        assertTrue(friendshipDao.isAFriend(TEST_FRIEND_1, TEST_FRIEND_2));
+        assertTrue(friendshipDao.isAFriend(TEST_FRIEND_1, TEST_FRIEND_3));
+        assertTrue(friendshipDao.isAFriend(TEST_FRIEND_1, TEST_FRIEND_4));
         friendshipDao.discardAllFriendshipsOfAUser(1);
-        assertFalse(friendshipDao.isAFriend(new User(1), new User(2)));
-        assertFalse(friendshipDao.isAFriend(new User(1), new User(3)));
-        assertFalse(friendshipDao.isAFriend(new User(1), new User(4)));
+        assertFalse(friendshipDao.isAFriend(TEST_FRIEND_1, TEST_FRIEND_2));
+        assertFalse(friendshipDao.isAFriend(TEST_FRIEND_1, TEST_FRIEND_3));
+        assertFalse(friendshipDao.isAFriend(TEST_FRIEND_1, TEST_FRIEND_4));
     }
 }

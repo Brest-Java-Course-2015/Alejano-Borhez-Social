@@ -48,22 +48,30 @@ public class SocialAppFreeMarker {
 
     @RequestMapping("/user/friendship/del")
     @Logged
-    public String deleteFriend(@RequestParam("id1")
-                                       Integer id1,
-                               @RequestParam("id2")
-                                       Integer id2) {
-        socialConsumer.deleteFriend(id1, id2);
-        return "forward:/friends?id=" + id1;
+    public String deleteFriend(@CookieValue(name = "uid", required = false) Cookie cookie,
+                               @RequestParam("id2") Integer id2) {
+        if (cookie != null) {
+            String token = cookie.getValue();
+            if (token != null) {
+                socialConsumer.deleteFriend(token, id2);
+                return "forward:/user";
+            }
+        }
+        return "forward:/friends";
     }
 
-    @RequestMapping("user/friendship/add")
+    @RequestMapping("/user/friendship/add")
     @Logged
-    public String addFriendship(@RequestParam("id1")
-                                        Integer id1,
-                                @RequestParam("id2")
-                                        Integer id2) {
-        socialConsumer.addFriendship(id1, id2);
-        return "forward:/nofriends?id=" + id1;
+    public String addFriendship(@CookieValue(name = "uid", required = false) Cookie cookie,
+                                @RequestParam("id2") Integer id2) {
+        if (cookie != null) {
+            String token = cookie.getValue();
+            if (token != null) {
+                socialConsumer.addFriendship(token, id2);
+                return "forward:/user";
+            }
+        }
+        return "forward:/nofriends";
     }
 
     @RequestMapping("/addusersubmit")
@@ -105,7 +113,6 @@ public class SocialAppFreeMarker {
             if (token != null) {
                 socialConsumer.changePassword(token, password);
                 return "forward:/user";
-
             }
         }
         return "forward:/user";

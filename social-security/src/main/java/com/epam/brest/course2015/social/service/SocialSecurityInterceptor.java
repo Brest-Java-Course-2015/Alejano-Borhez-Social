@@ -40,10 +40,10 @@ public class SocialSecurityInterceptor {
         Object[] argz = joinPoint.getArgs();
         String token = getToken(argz, joinPoint);
         if (token != null && socialSecurity.isTokenValid(token)) {
-            LOGGER.info("Token is valid {}", token);
+            LOGGER.info("Token is valid: {}", token);
             return joinPoint.proceed();
         }
-        LOGGER.info("Token is invalid {}", token);
+        LOGGER.info("Token is invalid: {}", token);
 
         return null;
     }
@@ -60,7 +60,6 @@ public class SocialSecurityInterceptor {
                     return (String ) argz[i];
                 }
             }
-
         }
         return null;
     }

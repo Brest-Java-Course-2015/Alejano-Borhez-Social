@@ -6,8 +6,14 @@ import com.epam.brest.course2015.social.dto.SocialDto;
 import com.epam.brest.course2015.social.test.Logged;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by alexander on 19.1.16.
@@ -20,6 +26,71 @@ public class SocialConsumerRestImpl implements SocialConsumer {
     @Value("${rest.prefix}")
     private String restPrefix;
 
+    @Override
+    @Logged
+    public Integer addImage(String token, String url, String url50, String url81) {
+        String restUrl = restPrefix + "/image/upload" +
+                "?url="
+                + url
+                + "&url50="
+                + url50
+                + "&url81="
+                + url81;
+
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.set("Accept", "application/json");
+//        HttpEntity entity = new HttpEntity(headers);
+//        Map<String, String> params = new HashMap<>();
+//        params.put("url", url);
+//        params.put("url50", url50);
+//        params.put("url81", url81);
+
+//        Integer imageId = restTemplate.exchange(restUrl, HttpMethod.POST, entity, Integer.class, params).getBody();
+
+        Integer imageId = restTemplate
+                .postForObject(
+                        restUrl
+                        , token
+                        , Integer.class
+//                        , params
+                );
+        return imageId;
+    }
+
+    @Override
+    @Logged
+    public void deleteUser(Integer id) {
+        String url = restPrefix
+                + "user"
+                + "?id="
+                + id;
+
+        restTemplate.delete(url);
+    }
+
+    @Override
+    public void deleteImage(String token, Integer imageId) {
+        String url = restPrefix
+                + "/image"
+                + "/delete"
+                + "?imageId="
+                + imageId;
+
+        restTemplate.postForObject(url, token, Object.class);
+    }
+
+    @Override
+    public void renameImage(String token, String name) {
+        String url = restPrefix
+                + "image/rename"
+                + "?name="
+                + name;
+        restTemplate.postForObject(url, token, Object.class);
+    }
+
+
+
+//    All newly implemented methods
     @Override
     @Logged
     public SocialDto getAllUsersByDate(String token, String dateMin, String dateMax) {
@@ -37,112 +108,42 @@ public class SocialConsumerRestImpl implements SocialConsumer {
         return dto;
     }
 
-
-
     @Override
     @Logged
-    public void deleteFriend(Integer id1, Integer id2) {
+    public void deleteFriend(String token, Integer id2) {
         String url = restPrefix
-                + "/user/friendship"
-                + "?id1="
-                + id1
-                + "&id2="
+                + "friendship/delete"
+                + "?id2="
                 + id2;
 
-        restTemplate.delete(url);
+        restTemplate.postForObject(url, token, Boolean.class);
     }
 
     @Override
     @Logged
-    public void addFriendship(Integer id1, Integer id2) {
+    public void addFriendship(String token, Integer id2) {
         String url = restPrefix
-                + "user/friendship"
-                + "?id1="
-                + id1
-                + "&id2="
+                + "friendship/add"
+                + "?id2="
                 + id2;
 
-        restTemplate.postForObject(url, null, String.class);
+        restTemplate.postForObject(url, token, String.class);
     }
 
     @Override
     @Logged
-    public Integer addUserSubmit(User user) {
+    public boolean addUserSubmit(User user) {
         String url = restPrefix
                 + "user";
 
-        Integer userId = restTemplate
+        return restTemplate
                 .postForObject(
                         url
                         , user
-                        , Integer.class
+                        , boolean.class
                 );
-        return userId;
     }
 
-    @Override
-    @Logged
-    public Integer addImage(Integer id, String url, String url50, String url81) {
-        String restUrl = restPrefix
-                + "/image"
-                + "/upload"
-                + "?id="
-                + id
-                + "&url="
-                + url
-                + "&url50="
-                + url50
-                + "&url81="
-                + url81;
-
-        Integer imageId = restTemplate
-                .postForObject(
-                        restUrl
-                        , null
-                        , Integer.class
-                );
-
-        return imageId;
-    }
-
-    @Override
-    @Logged
-    public void deleteUser(Integer id) {
-        String url = restPrefix
-                + "user"
-                + "?id="
-                + id;
-
-        restTemplate.delete(url);
-    }
-
-    @Override
-    public void deleteImage(Integer userId, Integer imageId) {
-        String url = restPrefix
-                + "/image"
-                + "/delete"
-                + "?userId="
-                + userId
-                + "&imageId="
-                + imageId;
-
-        restTemplate.delete(url);
-    }
-
-    @Override
-    public void renameImage(Integer id, String name) {
-        String url = restPrefix
-                + "image/rename"
-                + "?id="
-                + id
-                + "&name="
-                + name;
-        restTemplate.put(url, null);
-    }
-
-
-
-//    All newly implemented methods
     @Override
     @Logged
     public void changePassword(String token, String password) {

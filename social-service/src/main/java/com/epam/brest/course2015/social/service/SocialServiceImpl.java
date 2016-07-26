@@ -81,16 +81,10 @@ public class SocialServiceImpl implements SocialService {
         Assert.hasText(user.getLastName(), notNullLastName);
         Assert.notNull(user.getAge(), notNullAge);
         Assert.isTrue(user.getAge() > 0, positiveAge);
-        try {
-            Assert.isNull(userDao.getUserByLogin(user.getLogin()),
-                    "User with login: "
-                    + user.getLogin()
-                    + " already exists");
-            return null;
-        } catch (EmptyResultDataAccessException
-               | org.hibernate.HibernateException
-               | javax.persistence.NoResultException ex) {
+        if (userDao.getUserByLogin(user.getLogin()) == null) {
             return userDao.addUser(user);
+        } else {
+            return null;
         }
     }
 
@@ -270,36 +264,30 @@ public class SocialServiceImpl implements SocialService {
 
     @Override
     @Logged
-    public void addFriendship(User user1, User user2) {
-        Assert.notNull(user1, notNullUser + " user1");
-        Assert.notNull(user2, notNullUser + " user2");
-        Assert.notNull(user1.getUserId(), notNullId + " user1");
-        Assert.notNull(user2.getUserId(), notNullId + " user2");
-        Assert.isTrue(!friendshipDao.isAFriend(user1, user2),
+    public void addFriendship(Integer id1, Integer id2) {
+        Assert.notNull(id1, notNullId + " user1");
+        Assert.notNull(id2, notNullId + " user2");
+        Assert.isTrue(!friendshipDao.isAFriend(id1, id2),
                 "Friendship already exists");
-        friendshipDao.addFriendship(user1, user2);
+        friendshipDao.addFriendship(id1, id2);
     }
 
     @Override
     @Logged
-    public boolean isAFriend(User user1, User user2) {
-        Assert.notNull(user1, notNullUser + " user1");
-        Assert.notNull(user2, notNullUser + " user2");
-        Assert.notNull(user1.getUserId(), notNullId + " user1");
-        Assert.notNull(user2.getUserId(), notNullId + " user2");
-        return friendshipDao.isAFriend(user1, user2);
+    public boolean isAFriend(Integer id1, Integer id2) {
+        Assert.notNull(id1, notNullId + " user1");
+        Assert.notNull(id2, notNullId + " user2");
+        return friendshipDao.isAFriend(id1, id2);
     }
 
     @Override
     @Logged
-    public void discardFriendship(User enemy1, User enemy2) {
-        Assert.notNull(enemy1, notNullUser + " user1");
-        Assert.notNull(enemy2, notNullUser + " user2");
-        Assert.notNull(enemy1.getUserId(), notNullId + " user1");
-        Assert.notNull(enemy2.getUserId(), notNullId + " user2");
-        Assert.isTrue(friendshipDao.isAFriend(enemy1, enemy2),
+    public void discardFriendship(Integer id1, Integer id2) {
+        Assert.notNull(id1, notNullId + " user1");
+        Assert.notNull(id2, notNullId + " user2");
+        Assert.isTrue(friendshipDao.isAFriend(id1, id2),
                 "Friendship does not exist");
-        friendshipDao.discardFriendship(enemy1, enemy2);
+        friendshipDao.discardFriendship(id1, id2);
     }
 
     @Override
