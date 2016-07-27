@@ -14,7 +14,7 @@
     <div class="row-fluid">
         <div class="login-box">
             <h2>Create your account</h2>
-            <form class="form-horizontal" name="user" action="addusersubmit" method="post">
+            <form class="form-horizontal" name="user" action="admin/addusersubmit" method="post">
                 <fieldset>
                     <div class="input-prepend" title="Login">
                         <span class="add-on"><i class="halflings-icon user"></i></span>
@@ -38,6 +38,11 @@
                     <div class="input-prepend" title="Lastname">
                         <span class="add-on"><i class="halflings-icon user"></i></span>
                         <input class="input-large span10" name="lastName" id="lastName" type="text" placeholder="type lastname" required="true"/>
+                    </div>
+
+                    <div class="input-prepend" title="Lastname">
+                        <span class="add-on"><i class="halflings-icon envelope"></i></span>
+                        <input class="input-large span10" name="email" id="email" type="email" placeholder="type email" required="true"/>
                     </div>
 
                     <div class="input-prepend" title="Age">

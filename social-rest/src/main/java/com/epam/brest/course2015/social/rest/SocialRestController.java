@@ -199,6 +199,6 @@ public class SocialRestController {
     @SubscribeMapping(value = "/hello")
     @Logged
     public User sayHello (String name) {
-        return new User("login", "paswrd", "Alex", "Borohov", 30);
+        return new User("login", "paswrd", "Alex", "Borohov", 30, "login@email.com");
     }
 }

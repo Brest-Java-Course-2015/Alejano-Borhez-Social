@@ -24,6 +24,7 @@ List test = ["org.springframework:spring-test:" + springVersion,
 
 dependencies {
     compile project(':social-consumer-restimpl')
+    compile project(':social-mail')
     compile 'org.springframework:spring-webmvc:' + springVersion,
             'org.springframework:spring-web:' + springVersion,
             'org.springframework:spring-messaging:' + springVersion,

@@ -2,7 +2,7 @@ group 'Alejano-Borhez-Social'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
-apply plugin: "net.saliman.cobertura"
+apply plugin: 'net.saliman.cobertura'
 apply plugin: 'checkstyle'
 
 project.checkstyle.configFile = new File("../config/checkstyle/checkstyle.xml")
@@ -17,15 +17,12 @@ List test = ["org.springframework:spring-test:" + springVersion,
              "junit:junit:4.12",
              "org.easymock:easymock:3.4"]
 
-
 dependencies {
-    compile project(':social-dao-api'),
-            'org.hsqldb:hsqldb:2.3.3',
-            'org.springframework.data:spring-data-jpa:1.10.2.RELEASE',
-            'org.hibernate:hibernate-entitymanager:5.0.2.Final',
-            'mysql:mysql-connector-java:5.1.38',
-            'javax.el:javax.el-api:2.2.4',
-            'org.glassfish.web:javax.el:2.2.4'
-
+    compile project(':social-consumer-restimpl')
+    compile 'org.springframework:spring-context-support:' + springVersion,
+            'javax.mail:javax.mail-api:1.5.2',
+            'com.sun.mail:javax.mail:1.5.5',
+            'org.freemarker:freemarker:2.3.24-incubating',
+            'commons-io:commons-io:2.4'
     testCompile test
 }

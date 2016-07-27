@@ -26,8 +26,8 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring-service-mock-test.xml"})
 public class SocialServiceImplMockTest {
-    private static final User TEST_MOCK_USER_1 = new User("testLogin1", "testPassword1", "testFirstName1", "testLastName1", 25);
-    private static final User TEST_MOCK_USER_2 = new User("testLogin2", "testPassword2", "testFirstName2", "testLastName2", 26);
+    private static final User TEST_MOCK_USER_1 = new User("testLogin1", "testPassword1", "testFirstName1", "testLastName1", 25, "test1@mail.com");
+    private static final User TEST_MOCK_USER_2 = new User("testLogin2", "testPassword2", "testFirstName2", "testLastName2", 26, "test2@mail.com");
 
     @Autowired
     private SocialService socialService;

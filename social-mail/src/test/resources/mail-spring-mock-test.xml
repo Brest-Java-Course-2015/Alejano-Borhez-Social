@@ -1,0 +1,28 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       ">
+
+    <bean id="mailSender" class="com.epam.brest.course2015.social.mail.MockMailSender"/>
+    <bean id="message" class="org.springframework.mail.SimpleMailMessage">
+        <property name="from" value="noreply@social.com"/>
+    </bean>
+
+    <bean id="socialMail" class="com.epam.brest.course2015.social.mail.SocialMailImpl">
+        <property name="mailSender" ref="mailSender"/>
+    </bean>
+
+    <bean id="freemarkerMailConfig" class="freemarker.template.Configuration">
+        <property name="directoryForTemplateLoading" value="classpath:templates"/>
+    </bean>
+
+    <aop:aspectj-autoproxy/>
+    <bean class="com.epam.brest.course2015.social.test.SocialLogger"/>
+</beans>

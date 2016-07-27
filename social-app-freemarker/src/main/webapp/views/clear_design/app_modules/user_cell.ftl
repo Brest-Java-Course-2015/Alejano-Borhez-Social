@@ -1,7 +1,7 @@
 <#list dto.users as user>
 <li>
     <div class="row-fluid">
-        <div class="span4">
+        <div class="span5">
             <a href="photo?id=${user.userId}">
                 <img class="avatar" alt="${user.firstName} ${user.lastName}" src="${(user.images[0].url)!"#"}">
             </a>

@@ -26,14 +26,15 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations = {"classpath:spring-service-test.xml"})
 @Transactional
 public class SocialServiceImplTest {
-    private static final User TEST_USER_1 = new User("testLogin1", "testPassword1", "testFirstName1", "testLastName1", 25);
-    private static final User TEST_USER_2 = new User("testLogin2", "testPassword2", "testFirstName2", "testLastName2", 26);
+    private static final User TEST_USER_1 = new User("testLogin1", "testPassword1", "testFirstName1", "testLastName1", 25, "test1@mail.com");
+    private static final User TEST_USER_2 = new User("testLogin2", "testPassword2", "testFirstName2", "testLastName2", 26, "test2@mail.com");
     private static final Integer TEST_ID_1 = 1;
     private static final Integer TEST_ID_2 = 2;
     private static final String TEST_PASSWORD = "testPassword";
     private static final String TEST_LOGIN = "testLogin";
     private static final String TEST_FIRST_NAME = "testFirstName";
     private static final String TEST_LAST_NAME = "testLastName";
+    private static final String TEST_EMAIL = "test@email.com";
 
     public static Date getTestDate(String date) {
         try {
@@ -106,7 +107,8 @@ public class SocialServiceImplTest {
                                   testUser.getPassword(),
                                   testUser.getFirstName(),
                                   testUser.getLastName(),
-                                  testUser.getAge());
+                                  testUser.getAge(),
+                                  testUser.getEmail());
         assertNull(socialService.addUser(testUser1));
     }
 
@@ -118,13 +120,10 @@ public class SocialServiceImplTest {
 
     @Test
     public void testDeleteUser() throws Exception {
-//        Integer sizeFriendsBefore = socialService.getAllFriendships().size();
         Integer sizeBefore = socialService.getAllUsers().size();
         socialService.deleteUser(1);
         Integer sizeAfter = socialService.getAllUsers().size();
         assertTrue(sizeBefore - sizeAfter == 1);
-//        Integer sizeFriendsAfter = socialService.getAllFriendships().size();
-//        assertTrue(sizeFriendsBefore - sizeFriendsAfter > 0);
     }
 
     @Test (expected = IllegalArgumentException.class)
@@ -195,7 +194,7 @@ public class SocialServiceImplTest {
 
     @Test
     public void testGetUserByLogin() throws Exception {
-        socialService.addUser(new User(TEST_LOGIN, TEST_PASSWORD, TEST_FIRST_NAME, TEST_LAST_NAME, 29));
+        socialService.addUser(new User(TEST_LOGIN, TEST_PASSWORD, TEST_FIRST_NAME, TEST_LAST_NAME, 29, TEST_EMAIL));
         User testUser = socialService.getUserByLogin(TEST_LOGIN);
         assertNotNull(testUser);
         assertEquals(testUser.getClass(), User.class);

@@ -29,10 +29,10 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 /**
  * Created by alexander_borohov on 27.6.16.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:freemarker-test.xml"})
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration(locations = {"classpath:freemarker-test.xml"})
 public class SocialAppFreeMarkerTest {
-    private static final String TEST_TOKEN = "token";
+    /*private static final String TEST_TOKEN = "token";
 
     @Resource
     private SocialAppFreeMarker socialController;
@@ -85,30 +85,6 @@ public class SocialAppFreeMarkerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(forwardedUrl("/nofriends"));
-    }
-
-    @Test
-    public void testAddUserSubmit() throws Exception {
-        User testUser = new User(
-                "login"
-                , "password"
-                , "firstName"
-                , "lastName"
-                , 29
-        );
-        expect(socialController.addUserSubmit(anyObject(User.class), anyObject(HttpServletResponse.class)))
-                .andReturn("forward:/users");
-        replay(socialController);
-        String user = new ObjectMapper().writeValueAsString(testUser);
-        mockMvc.perform(
-                post("/addusersubmit")
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(user))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(forwardedUrl("/users"));
-
     }
 
     @Test
@@ -170,7 +146,7 @@ public class SocialAppFreeMarkerTest {
                 .andExpect(forwardedUrl("/user"));
     }
 
-/*    @Test
+*//*    @Test
     public void testChangeFirstName() throws Exception {
         expect(socialController.changeFirstName(anyObject(Cookie.class), anyString()))
                 .andReturn("forward:/user");
@@ -184,7 +160,7 @@ public class SocialAppFreeMarkerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
 //                .andExpect(forwardedUrl("/user"));
-    }*/
+    }*//*
 
     @Test
     public void testChangeLastName() throws Exception {
@@ -239,6 +215,6 @@ public class SocialAppFreeMarkerTest {
                 .andExpect(status().isOk())
                 .andExpect(forwardedUrl("/WEB-INF/view/usersbydate.ftl"))
                 .andExpect(view().name("usersbydate"));
-    }
+    }*/
 
 }

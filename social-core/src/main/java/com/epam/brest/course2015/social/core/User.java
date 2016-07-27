@@ -3,6 +3,7 @@ package com.epam.brest.course2015.social.core;
 import com.epam.brest.course2015.social.test.Logged;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.validator.constraints.Email;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -35,6 +36,8 @@ public class User {
     private Integer age;
     private String login;
     private String password;
+    @Email
+    private String email;
 
     @OneToMany(
               fetch = FetchType.EAGER,
@@ -158,6 +161,16 @@ public class User {
         this.friends = friends;
     }
 
+    @Logged
+    public String getEmail() {
+        return email;
+    }
+
+    @Logged
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     /**
      * Basic constructor for {@link User} object.
      * It is usually used for basic operations within Dao processes.
@@ -177,12 +190,15 @@ public class User {
                 String password,
                 String firstName,
                 String lastName,
-                Integer age) {
+                Integer age,
+                String email) {
         this.password = password;
+
         this.login = login;
         this.age = age;
         this.lastName = lastName;
         this.firstName = firstName;
+        this.email = email;
         this.createdDate = new Date();
         this.updatedDate = new Date();
         this.totalFriends = 0;
@@ -211,21 +227,6 @@ public class User {
 
     @Override
     public String toString() {
-        String user = "Id: "
-            + userId
-            + "; login: "
-            + login
-            + "; firstname: "
-            + firstName
-            + "; lastname: "
-            + lastName
-            + "; age: "
-            + age
-            + "; createdDate: "
-            + createdDate
-            + "; updatedDate: "
-            + updatedDate;
-
-        return user;
+        return firstName + lastName;
     }
 }

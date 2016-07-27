@@ -21,6 +21,7 @@ public class UserTest {
     private static final Integer AGE = 38;
     private static final String LOGIN = "Login";
     private static final String PASSWORD = "Password";
+    private static final String EMAIL = "FirstName_LastName@email.com";
     private static final Integer USER_ID = 1;
     private static final List<Image> IMAGE_LIST = Arrays.asList(new Image(), new Image());
     private static final List<User> USER_LIST = Arrays.asList(new User(), new User());
@@ -64,6 +65,18 @@ public class UserTest {
     }
 
     @Test
+    public void testGetEmail() throws Exception {
+        user.setEmail(EMAIL);
+        assertEquals(EMAIL, user.getEmail());
+    }
+
+    @Test
+    public void testInvalidEmail() throws Exception {
+        user.setEmail("email");
+        assertEquals(user.getEmail(), "email");
+    }
+
+    @Test
     public void testGetUserId() throws Exception {
         user.setUserId(USER_ID);
         assertNotNull(user.getUserId());
@@ -86,18 +99,13 @@ public class UserTest {
 
     @Test
     public void testBaseConstructor() throws Exception {
-        User testUser = new User(LOGIN, PASSWORD, FIRST_NAME, LAST_NAME, AGE);
-        assertNotNull(testUser);
+        User testUser = new User(LOGIN, PASSWORD, FIRST_NAME, LAST_NAME, AGE, EMAIL);
         assertEquals(LOGIN, testUser.getLogin());
-        assertEquals(String.class, testUser.getLogin().getClass());
         assertEquals(PASSWORD, testUser.getPassword());
-        assertEquals(String.class, testUser.getPassword().getClass());
         assertEquals(FIRST_NAME, testUser.getFirstName());
-        assertEquals(String.class, testUser.getFirstName().getClass());
         assertEquals(LAST_NAME, testUser.getLastName());
-        assertEquals(String.class, testUser.getLastName().getClass());
         assertEquals(AGE, testUser.getAge());
-        assertEquals(Integer.class, testUser.getAge().getClass());
+        assertEquals(EMAIL, testUser.getEmail());
         assertNull(testUser.getUserId());
         assertEquals(Date.class, testUser.getCreatedDate().getClass());
         assertEquals(Date.class, testUser.getUpdatedDate().getClass());

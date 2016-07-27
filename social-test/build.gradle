@@ -17,5 +17,6 @@ List test = ["org.springframework:spring-test:" + springVersion,
 
 dependencies {
     compile project(':')
+
     testCompile test
 }

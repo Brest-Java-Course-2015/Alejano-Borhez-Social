@@ -5,12 +5,8 @@
 <#include "build_modules/head.ftl"/>
 
         <style type="text/css">
-			body { background: url(img/bg-login.jpg) !important; }
+             body { background: url(<@spring.url "/img/bg-login.jpg"/>) !important; }
 		</style>
-
-
-
-
 
 <body>
 		<div class="container-fluid-full">
@@ -40,21 +36,23 @@
 							
 			<!--			<label class="remember" for="remember"><input type="checkbox" id="remember" />Remember me</label> -->
 
-							<div class="button-login">	
+							<div class="button-login">
+								<a class="btn btn-default" href="adduser">Sign Up</a>
+
 								<button type="submit" class="btn btn-primary">Login</button>
 							</div>
 							<div class="clearfix"></div>
 					</form>
 					<hr>
-					<h3>Don't hava an account yet?</h3>
-                    <p>
-                        No problem, <a href="adduser">click here</a> to sign up!
-                    </p>
 
 					<h3>Forgot Password?</h3>
 					<p>
 						No problem, <a href="#">click here</a> to get a new password.
-					</p>	
+					</p>
+
+                    <h2> You will be redirected in <span id="timeLeft">10</span> seconds </h2>
+
+
 				</div><!--/span-->
 			</div><!--/row-->
 			
@@ -62,6 +60,7 @@
 	</div><!--/.fluid-container-->
 	
 		</div><!--/fluid-row-->
+
 
 </body>
 

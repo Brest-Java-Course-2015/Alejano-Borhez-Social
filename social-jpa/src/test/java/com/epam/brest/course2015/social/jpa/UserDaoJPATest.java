@@ -42,7 +42,8 @@ public class UserDaoJPATest {
     private static final String TEST_PASSWORD = "newPassword";
     private static final String TEST_FIRST_NAME = "FirstName";
     private static final String TEST_LAST_NAME = "LastName";
-    private static final User TEST_USER = new User("login", "password", "Petr", "Petrov", 30);
+    private static final String TEST_EMAIL = "julia_borohova@email.com";
+    private static final User TEST_USER = new User("login", "password", "Petr", "Petrov", 30, "login@email.com");
 
     @Autowired
     private UserDao userDao;

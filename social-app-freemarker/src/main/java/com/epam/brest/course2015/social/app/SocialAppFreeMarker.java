@@ -22,6 +22,14 @@ import java.io.IOException;
 @Controller
 public class SocialAppFreeMarker {
 
+    private static void setReferer(HttpServletResponse resp, HttpServletRequest req) {
+        Cookie referer = new Cookie("Referer", req.getRequestURL().toString());
+        referer.setMaxAge(60*60*4);
+        resp.addCookie(referer);
+    }
+
+
+
     @Value("${rest.prefix}")
     private String restPrefix;
     @Value("${security.uid}")
@@ -42,8 +50,9 @@ public class SocialAppFreeMarker {
     @RequestMapping("/")
     @Logged
     public String init(@CookieValue(name = "uid", required = false) Cookie cookie,
-                       HttpServletResponse resp) {
-            return "redirect:/login";
+                       HttpServletResponse resp, HttpServletRequest req) {
+        setReferer(resp, req);
+        return "redirect:/login";
     }
 
     @RequestMapping("/user/friendship/del")
@@ -72,22 +81,6 @@ public class SocialAppFreeMarker {
             }
         }
         return "forward:/nofriends";
-    }
-
-    @RequestMapping("/addusersubmit")
-    @Logged
-    public String addUserSubmit(@ModelAttribute("user") User user,
-                                HttpServletResponse resp) {
-
-        socialConsumer.addUserSubmit(user);
-
-        String token = socialConsumer.getToken(user.getLogin());
-// Setting a Cookie
-        Cookie cookie = new Cookie("uid", token);
-        cookie.setMaxAge(60*60*24);
-        resp.addCookie(cookie);
-
-        return "redirect:/users";
     }
 
     @RequestMapping("/adduser")
@@ -168,11 +161,9 @@ public class SocialAppFreeMarker {
     @Logged
     public ModelAndView login(HttpServletRequest req,
                               HttpServletResponse resp) {
-        String referrer = req.getHeader("Referer");
         Cookie cookie = new Cookie(uid, "");
         cookie.setMaxAge(0);
         resp.addCookie(cookie);
-
         return new ModelAndView("login");
     }
 
@@ -180,7 +171,8 @@ public class SocialAppFreeMarker {
     @Logged
     public String loginApprove(HttpServletResponse resp,
                                HttpServletRequest req,
-                               @ModelAttribute("user") User user) throws IOException {
+                               @ModelAttribute("user") User user,
+                               @CookieValue(name = "Referer", required = false) String referer) throws IOException {
 // Checking for a user from DataBase
         if (socialConsumer.isUserInDB(user)) {
 
@@ -191,11 +183,12 @@ public class SocialAppFreeMarker {
             cookie.setMaxAge(60*60*24);
             resp.addCookie(cookie);
 // Proceed to User page
-            return "redirect:user";
+
+            return (referer != null)? "redirect:" + referer: "redirect:user";
         }
         else {
 // Proceed to Login Page
-            return "redirect:login";
+            return "redirect:/login";
         }
     }
 
@@ -203,6 +196,7 @@ public class SocialAppFreeMarker {
     @Logged
     public ModelAndView getAllUsersByDate(
             @CookieValue(name = "uid", required = false) Cookie cookie,
+            HttpServletRequest req,
             HttpServletResponse resp,
             @RequestParam("datemin") String dateMin,
             @RequestParam("datemax") String dateMax) throws IOException {
@@ -217,6 +211,7 @@ public class SocialAppFreeMarker {
                 return mav;
             }
         }
+        setReferer(resp, req);
         resp.sendRedirect("login");
         return mav;
     }
@@ -224,7 +219,9 @@ public class SocialAppFreeMarker {
     @RequestMapping("users")
     @Logged
     public ModelAndView getAllUsersDto(@CookieValue(name = "uid", required = false) Cookie cookie,
-                                 HttpServletResponse resp) throws IOException {
+                                       HttpServletRequest req,
+                                       HttpServletResponse resp
+                                       ) throws IOException {
         ModelAndView mav = new ModelAndView("users");
         if (cookie != null) {
             String token = cookie.getValue();
@@ -236,6 +233,7 @@ public class SocialAppFreeMarker {
             }
 
         }
+        setReferer(resp, req);
         resp.sendRedirect("login");
         return mav;
     }
@@ -243,6 +241,7 @@ public class SocialAppFreeMarker {
     @RequestMapping("user")
     @Logged
     public ModelAndView getUserDto(@CookieValue(name = "uid", required = false) Cookie cookie,
+                                   HttpServletRequest req,
                                    HttpServletResponse resp) throws IOException {
         ModelAndView mav = new ModelAndView("user");
         if (cookie != null) {
@@ -255,6 +254,7 @@ public class SocialAppFreeMarker {
             }
 
         }
+        setReferer(resp, req);
         resp.sendRedirect("login");
         return mav;
     }
@@ -262,6 +262,7 @@ public class SocialAppFreeMarker {
     @RequestMapping("photo")
     @Logged
     public ModelAndView getPhoto(@CookieValue(name = "uid", required = false) Cookie cookie,
+                                   HttpServletRequest req,
                                    HttpServletResponse resp) throws IOException {
         ModelAndView mav = new ModelAndView("photo");
         if (cookie != null) {
@@ -274,6 +275,7 @@ public class SocialAppFreeMarker {
             }
 
         }
+        setReferer(resp, req);
         resp.sendRedirect("login");
         return mav;
     }
@@ -281,6 +283,7 @@ public class SocialAppFreeMarker {
     @RequestMapping("messages")
     @Logged
     public ModelAndView getMessages(@CookieValue(name = "uid", required = false) Cookie cookie,
+                                    HttpServletRequest req,
                                    HttpServletResponse resp) throws IOException {
         ModelAndView mav = new ModelAndView("messages");
         if (cookie != null) {
@@ -293,6 +296,7 @@ public class SocialAppFreeMarker {
             }
 
         }
+        setReferer(resp, req);
         resp.sendRedirect("login");
         return mav;
     }
@@ -300,7 +304,8 @@ public class SocialAppFreeMarker {
     @RequestMapping("friends")
     @Logged
     public ModelAndView getFriendsDto(@CookieValue(name = "uid", required = false) Cookie cookie,
-                                   HttpServletResponse resp) throws IOException {
+                                      HttpServletRequest req,
+                                      HttpServletResponse resp) throws IOException {
         ModelAndView mav = new ModelAndView("friends");
         if (cookie != null) {
             String token = cookie.getValue();
@@ -312,6 +317,7 @@ public class SocialAppFreeMarker {
             }
 
         }
+        setReferer(resp, req);
         resp.sendRedirect("login");
         return mav;
     }
@@ -319,6 +325,7 @@ public class SocialAppFreeMarker {
     @RequestMapping("nofriends")
     @Logged
     public ModelAndView getNoFriendsDto(@CookieValue(name = "uid", required = false) Cookie cookie,
+                                      HttpServletRequest req,
                                       HttpServletResponse resp) throws IOException {
         ModelAndView mav = new ModelAndView("nofriends");
         if (cookie != null) {
@@ -331,6 +338,7 @@ public class SocialAppFreeMarker {
             }
 
         }
+        setReferer(resp, req);
         resp.sendRedirect("login");
         return mav;
     }

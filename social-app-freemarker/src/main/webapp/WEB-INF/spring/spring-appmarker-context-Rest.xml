@@ -13,32 +13,27 @@
        http://www.springframework.org/schema/aop
        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
+    <!-- Application components -->
     <context:component-scan base-package="com.epam.brest.course2015.social.app"/>
     <context:component-scan base-package="com.epam.brest.course2015.social.consumer"/>
     <context:component-scan base-package="com.epam.brest.course2015.social.test"/>
 
     <mvc:annotation-driven/>
 
-    <!-- For using VK.COM theme -->
-    <!--<mvc:resources mapping="/resources/**" location="/resources/" />
-    <mvc:resources mapping="/resources/css/bootstrap/**" location="/resources/css/bootstrap/" />
-    <mvc:resources mapping="/resources/css/vk/**" location="/resources/css/vk/"/>
-    <mvc:resources mapping="/resources/js/**" location="/resources/js/" />
-    <mvc:resources mapping="/images/**" location="/views/images/"/>
-    -->
-
-    <!-- For using Bootstrap Janux Theme -->
+    <!-- HTML static resources -->
     <mvc:resources mapping="/css/**" location="/resources/bootstrap_metro/janux/css/"/>
     <mvc:resources mapping="/js/**" location="/resources/bootstrap_metro/janux/js/"/>
     <mvc:resources mapping="/resources/js/**" location="/resources/js/"/>
     <mvc:resources mapping="/font/**" location="/resources/bootstrap_metro/janux/font/"/>
     <mvc:resources mapping="/img/**" location="/resources/bootstrap_metro/janux/img/"/>
 
+    <!-- Spring message source for <@spring.message code=""> taglib -->
     <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
         <property name="basename" value="classpath:messages"/>
         <property name="defaultEncoding" value="UTF-8"/>
     </bean>
 
+    <!-- Property locations -->
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
             <list>
@@ -60,6 +55,7 @@
         </property>
         <property name="templateLoaderPath" value="/views/clear_design/"/>
     </bean>
+
     <!-- Freemarker view resolver -->
     <bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
         <property name="cache" value="true"/>
@@ -68,12 +64,12 @@
         <property name="contentType" value="text/html;charset=UTF-8"/>
     </bean>
 
-    <!--File uploader MessageConverter-->
-
+    <!--File uploader MessageConverter -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="maxUploadSize" value="1073741824"/>
     </bean>
 
+    <!-- Spring servlet Mapping Adapter -->
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
         <property name="messageConverters">
             <list>
@@ -82,17 +78,47 @@
         </property>
     </bean>
 
+    <!-- Spring servlet message converters -->
     <bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
         <property name="supportedMediaTypes" value="application/json" />
         <property name="prettyPrint" value="true" />
     </bean>
 
+    <!-- Object mapper -->
     <bean id="jackson2JsonObjectMapper" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
 
     <aop:aspectj-autoproxy/>
 
-    <bean id="socialLogger" class="com.epam.brest.course2015.social.test.SocialLogger"/>
-
+    <!-- Social Logger implementation -->
+    <bean class="com.epam.brest.course2015.social.test.SocialLogger"/>
     <bean id="restTemplate" class="org.springframework.web.client.RestTemplate"/>
+
+    <!-- Social Mail implementation -->
+    <bean class="com.epam.brest.course2015.social.mail.SocialMailImpl">
+        <property name="mailSender" ref="socialMailSender"/>
+        <property name="message" ref="socialMailMessage"/>
+    </bean>
+    <bean id="socialMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.gmail.com"/>
+        <property name="port" value="587"/>
+        <property name="username" value="alexander.borohov17@gmail.com"/>
+        <property name="password" value="alejano123"/>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="socialMailMessage" class="org.springframework.mail.SimpleMailMessage">
+        <property name="from" value="noreply@social.com"/>
+    </bean>
+
+    <bean id="freemarkerMailConfig" class="freemarker.template.Configuration">
+        <property name="directoryForTemplateLoading" value="templates"/>
+    </bean>
+
+    <!-- Social Mail implementation -->
+
 
 </beans>
