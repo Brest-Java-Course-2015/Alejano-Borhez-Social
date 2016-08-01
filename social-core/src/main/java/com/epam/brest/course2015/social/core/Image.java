@@ -28,18 +28,22 @@ public class Image {
     private String url50;
     private String url81;
 
+    @Logged
     public String getUrl50() {
         return url50;
     }
 
+    @Logged
     public void setUrl50(String url50) {
         this.url50 = url50;
     }
 
+    @Logged
     public String getUrl81() {
         return url81;
     }
 
+    @Logged
     public void setUrl81(String url81) {
         this.url81 = url81;
     }

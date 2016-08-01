@@ -12,8 +12,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by alexander on 19.1.16.
@@ -22,15 +20,7 @@ import java.util.Map;
 public class SocialConsumerRestImpl implements SocialConsumer {
     @Autowired
     private RestTemplate restTemplate;
-    @Value("${rest.scheme}")
-    private String restScheme;
-    @Value("${rest.host}")
-    private String restHost;
-    @Value("${rest.port}")
-    private Integer restPort;
     @Value("${rest.prefix}")
-    private String restPrefix1;
-    @Value("${rest.prefix1}")
     private String restPrefix;
 
 
@@ -42,11 +32,8 @@ public class SocialConsumerRestImpl implements SocialConsumer {
         params.set("url50", url50);
         params.set("url81", url81);
 
-        UriComponents uriComponents = UriComponentsBuilder.newInstance()
-                .scheme(restScheme)
-                .port(restPort)
-                .host(restHost)
-                .path(restPrefix1)
+        UriComponents uriComponents = UriComponentsBuilder
+                .fromHttpUrl(restPrefix)
                 .path("/image/upload")
                 .queryParams(params)
                 .build();
@@ -60,43 +47,60 @@ public class SocialConsumerRestImpl implements SocialConsumer {
     @Override
     @Logged
     public void deleteUser(Integer id) {
-        String url = restPrefix
-                + "user"
-                + "?id="
-                + id;
+        UriComponents uriComponents = UriComponentsBuilder
+                .fromHttpUrl(restPrefix)
+                .path("user")
+                .queryParam("id", id)
+                .build();
+
+        String url = uriComponents.toUriString();
 
         restTemplate.delete(url);
     }
 
     @Override
+    @Logged
     public void deleteImage(String token, Integer imageId) {
-        String url = restPrefix
-                + "/image"
-                + "/delete"
-                + "?imageId="
-                + imageId;
+        UriComponents uriComponents = UriComponentsBuilder
+                .fromHttpUrl(restPrefix)
+                .path("image/delete")
+                .queryParam("userId", imageId)
+                .build();
 
-        restTemplate.postForObject(url, token, Object.class);
+        String url = uriComponents.toUriString();
+
+        restTemplate.postForLocation(url, token);
     }
 
     @Override
+    @Logged
     public void renameImage(String token, String name) {
-        String url = restPrefix
-                + "image/rename"
-                + "?name="
-                + name;
-        restTemplate.postForObject(url, token, Object.class);
+        UriComponents uriComponents = UriComponentsBuilder
+                .fromHttpUrl(restPrefix)
+                .path("image/rename")
+                .queryParam("name", name)
+                .build();
+
+        String url = uriComponents.toUriString();
+
+        restTemplate.postForLocation(url, token);
     }
 
 //    All newly implemented methods
     @Override
     @Logged
     public SocialDto getAllUsersByDate(String token, String dateMin, String dateMax) {
-        String url = restPrefix + "/userdtobydate"
-                + "?datemin="
-                + dateMin
-                + "&datemax="
-                + dateMax;
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.set("datemin", dateMin);
+        params.set("datemax", dateMax);
+
+        UriComponents uriComponents = UriComponentsBuilder
+                .fromHttpUrl(restPrefix)
+                .path("userdtobydate")
+                .queryParams(params)
+                .build();
+
+        String url = uriComponents.toUriString();
 
         return restTemplate.postForObject(url, token, SocialDto.class);
     }
@@ -104,30 +108,40 @@ public class SocialConsumerRestImpl implements SocialConsumer {
     @Override
     @Logged
     public void deleteFriend(String token, Integer id2) {
-        String url = restPrefix
-                + "friendship/delete"
-                + "?id2="
-                + id2;
+        UriComponents uriComponents = UriComponentsBuilder
+                .fromHttpUrl(restPrefix)
+                .path("friendship/{action}")
+                .queryParam("id2", id2)
+                .buildAndExpand("delete");
 
-        restTemplate.postForObject(url, token, Boolean.class);
+        String url = uriComponents.toUriString();
+
+        restTemplate.postForLocation(url, token);
     }
 
     @Override
     @Logged
     public void addFriendship(String token, Integer id2) {
-        String url = restPrefix
-                + "friendship/add"
-                + "?id2="
-                + id2;
+        UriComponents uriComponents = UriComponentsBuilder
+                .fromHttpUrl(restPrefix)
+                .path("friendship/{action}")
+                .queryParam("id2", id2)
+                .buildAndExpand("add");
 
-        restTemplate.postForObject(url, token, String.class);
+        String url = uriComponents.toUriString();
+
+        restTemplate.postForLocation(url, token);
     }
 
     @Override
     @Logged
     public boolean addUserSubmit(User user) {
-        String url = restPrefix
-                + "user";
+        UriComponents uriComponents = UriComponentsBuilder
+                .fromHttpUrl(restPrefix)
+                .path("user")
+                .build();
+
+        String url = uriComponents.toUriString();
 
         return restTemplate
                 .postForObject(url, user, Boolean.class);
@@ -136,10 +150,14 @@ public class SocialConsumerRestImpl implements SocialConsumer {
     @Override
     @Logged
     public void changePassword(String token, String password) {
-        String url = restPrefix
-                + "user/password"
-                + "?param="
-                + password;
+        UriComponents uriComponents = UriComponentsBuilder
+                .fromHttpUrl(restPrefix)
+                .path("user")
+                .path("{action}")
+                .queryParam("param", password)
+                .buildAndExpand("password");
+
+        String url = uriComponents.toUriString();
 
         restTemplate.postForObject(url, token, Object.class);
     }

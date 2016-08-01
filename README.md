@@ -6,10 +6,12 @@ Web-application has a user-friendly web-interface.
 1. Before running this project you should check for system requirements:
 * Java RE 7 or later ()
 * Gradle 2.14 or later ()
+
 2. Clone this project and run
 ```sh
 $ gradle build
 ```
+
 3. Running rest-service: 
  Choose an option what database to use: in-memory HSQL, or MySQL.
 * To alter options - uncomment/comment required row in web.xml.
@@ -20,10 +22,12 @@ $ gradle build
 $ cd social-rest
 $ gradle jettyRun
 ```
+
 4. Running web-application:
 To run we-app run following command
 ```sh
 $ cd social-app-freemarker
 $ gradle jettyRun
 ```
+
 5. Application would be available at [http://localhost:8082/social-app-freemarker/](http://localhost:8082/social-app-freemarker/) 

@@ -16,6 +16,7 @@
                 <value>classpath:database.properties</value>
                 <value>classpath:app-jpa.properties</value>
                 <value>classpath*:app-service.properties</value>
+                <value>classpath:test-data.properties</value>
             </list>
         </property>
     </bean>

@@ -35,7 +35,7 @@ public class SocialConsumerTestContext {
     }
 
     @Bean
-    PropertyPlaceholderConfigurer propertyPlaceholderConfigurer() {
+    static PropertyPlaceholderConfigurer propertyPlaceholderConfigurer() {
         PropertyPlaceholderConfigurer conf = new PropertyPlaceholderConfigurer();
         conf.setIgnoreResourceNotFound(true);
         conf.setLocations(new ClassPathResource("social-app.properties"));

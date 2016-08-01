@@ -3,6 +3,7 @@ package com.epam.brest.course2015.social.core;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -16,13 +17,21 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:test-spring-core.xml"})
 public class UserTest {
-    private static final String FIRST_NAME = "FirstName";
-    private static final String LAST_NAME = "LastName";
-    private static final Integer AGE = 38;
-    private static final String LOGIN = "Login";
-    private static final String PASSWORD = "Password";
-    private static final String EMAIL = "FirstName_LastName@email.com";
-    private static final Integer USER_ID = 1;
+    @Value("${test.firstName}")
+    private String firstName;
+    @Value("${test.lastName}")
+    private String lastName;
+    @Value("${test.age}")
+    private Integer age;
+    @Value("${test.login}")
+    private String login;
+    @Value("${test.password}")
+    private String password;
+    @Value("${test.email}")
+    private String email;
+    @Value("${test.userId1}")
+    private Integer userId;
+
     private static final List<Image> IMAGE_LIST = Arrays.asList(new Image(), new Image());
     private static final List<User> USER_LIST = Arrays.asList(new User(), new User());
 
@@ -31,43 +40,43 @@ public class UserTest {
 
     @Test
     public void testGetFirstName() throws Exception {
-        user.setFirstName(FIRST_NAME);
+        user.setFirstName(firstName);
         assertNotNull(user.getFirstName());
-        assertEquals(FIRST_NAME, user.getFirstName());
+        assertEquals(firstName, user.getFirstName());
     }
 
     @Test
     public void testGetLastName() throws Exception {
-        user.setLastName(LAST_NAME);
+        user.setLastName(lastName);
         assertNotNull(user.getLastName());
-        assertEquals(LAST_NAME, user.getLastName());
+        assertEquals(lastName, user.getLastName());
     }
 
     @Test
     public void testGetAge() throws Exception {
-        user.setAge(AGE);
+        user.setAge(age);
         assertNotNull(user.getAge());
-        assertEquals(AGE, user.getAge());
+        assertEquals(age, user.getAge());
     }
 
     @Test
     public void testGetLogin() throws Exception {
-        user.setLogin(LOGIN);
+        user.setLogin(login);
         assertNotNull(user.getLogin());
-        assertEquals(LOGIN, user.getLogin());
+        assertEquals(login, user.getLogin());
     }
 
     @Test
     public void testGetPassword() throws Exception {
-        user.setPassword(PASSWORD);
+        user.setPassword(password);
         assertNotNull(user.getPassword());
-        assertEquals(PASSWORD, user.getPassword());
+        assertEquals(password, user.getPassword());
     }
 
     @Test
     public void testGetEmail() throws Exception {
-        user.setEmail(EMAIL);
-        assertEquals(EMAIL, user.getEmail());
+        user.setEmail(email);
+        assertEquals(email, user.getEmail());
     }
 
     @Test
@@ -78,9 +87,9 @@ public class UserTest {
 
     @Test
     public void testGetUserId() throws Exception {
-        user.setUserId(USER_ID);
+        user.setUserId(userId);
         assertNotNull(user.getUserId());
-        assertEquals(USER_ID, user.getUserId());
+        assertEquals(userId, user.getUserId());
     }
 
     @Test
@@ -99,13 +108,13 @@ public class UserTest {
 
     @Test
     public void testBaseConstructor() throws Exception {
-        User testUser = new User(LOGIN, PASSWORD, FIRST_NAME, LAST_NAME, AGE, EMAIL);
-        assertEquals(LOGIN, testUser.getLogin());
-        assertEquals(PASSWORD, testUser.getPassword());
-        assertEquals(FIRST_NAME, testUser.getFirstName());
-        assertEquals(LAST_NAME, testUser.getLastName());
-        assertEquals(AGE, testUser.getAge());
-        assertEquals(EMAIL, testUser.getEmail());
+        User testUser = new User(login, password, firstName, lastName, age, email);
+        assertEquals(login, testUser.getLogin());
+        assertEquals(password, testUser.getPassword());
+        assertEquals(firstName, testUser.getFirstName());
+        assertEquals(lastName, testUser.getLastName());
+        assertEquals(age, testUser.getAge());
+        assertEquals(email, testUser.getEmail());
         assertNull(testUser.getUserId());
         assertEquals(Date.class, testUser.getCreatedDate().getClass());
         assertEquals(Date.class, testUser.getUpdatedDate().getClass());
@@ -113,20 +122,20 @@ public class UserTest {
 
     @Test
     public void testLPConstructor() throws Exception {
-        User testUser = new User(LOGIN, PASSWORD);
+        User testUser = new User(login, password);
         assertNotNull(testUser);
-        assertEquals(LOGIN, testUser.getLogin());
+        assertEquals(login, testUser.getLogin());
         assertEquals(String.class, testUser.getLogin().getClass());
-        assertEquals(PASSWORD, testUser.getPassword());
+        assertEquals(password, testUser.getPassword());
         assertEquals(String.class, testUser.getPassword().getClass());
     }
 
     @Test
     public void testTestConstructor() throws Exception {
-        User testUser = new User(USER_ID);
+        User testUser = new User(userId);
         assertNotNull(testUser);
         assertNotNull(testUser.getUserId());
-        assertEquals(testUser.getUserId(), USER_ID);
+        assertEquals(testUser.getUserId(), userId);
         assertEquals(testUser.getUserId().getClass(), Integer.class);
     }
 
