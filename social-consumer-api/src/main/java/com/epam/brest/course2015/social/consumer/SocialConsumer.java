@@ -25,6 +25,7 @@ public interface SocialConsumer {
     void deleteImage(String token, Integer imageId);
     void renameImage(String token, String name);
     boolean isUserInDB(User user);
+    boolean isTokenValid(String token);
 
 //    Not implemented
     void deleteUser(Integer id);

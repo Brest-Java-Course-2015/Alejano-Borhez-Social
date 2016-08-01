@@ -96,6 +96,43 @@ public class SocialRestControllerMockTest {
     }
 
     @Test
+    public void testIsTokenValidTrue() throws Exception {
+        expect(socialSecurity.isTokenValid(TEST_TOKEN)).andReturn(true);
+        replay(socialSecurity);
+        replay(socialService);
+
+        String token = new ObjectMapper().writeValueAsString(TEST_TOKEN);
+
+        mockMvc.perform(
+                post("/token/validate")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(token)
+                )
+                .andDo(print())
+                .andExpect(content().string("true"));
+    }
+
+    @Test
+    public void testIsTokenValidFalse() throws Exception {
+        expect(socialSecurity.isTokenValid(TEST_TOKEN)).andReturn(false);
+        replay(socialSecurity);
+        replay(socialService);
+
+        String token = new ObjectMapper().writeValueAsString(TEST_TOKEN);
+
+        mockMvc.perform(
+                post("/token/validate")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(token)
+        )
+                .andDo(print())
+                .andExpect(content().string("false"));
+    }
+
+
+    @Test
     public void testAddUser() throws Exception {
         expect(socialService.addUser(anyObject(User.class)))
         .andReturn(5);

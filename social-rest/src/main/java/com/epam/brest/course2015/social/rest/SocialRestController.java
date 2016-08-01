@@ -196,6 +196,12 @@ public class SocialRestController {
         }
     }
 
+    @RequestMapping("token/validate")
+    @Logged
+    public boolean isTokenValid(@RequestBody String token) {
+        return socialSecurity.isTokenValid(token);
+    }
+
     @SubscribeMapping(value = "/hello")
     @Logged
     public User sayHello (String name) {

@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import java.util.Map;
 
 /**
  * Created by alexander_borohov on 13.7.16.
@@ -35,11 +36,11 @@ public class SocialImageRestController {
     @Logged
     @SocialSecured
     public Integer uploadImage(@RequestBody String token,
-                               @RequestParam("url") String url,
-                               @RequestParam("url50") String url50,
-                               @RequestParam("url81") String url81) {
+                               @RequestParam Map<String, String> params) {
+
+
         Integer id = socialSecurity.getUserId(token);
-        return socialService.addImage(id, url, url50, url81);
+        return socialService.addImage(id, params.get("url"), params.get("url50"), params.get("url81"));
     }
 
     @RequestMapping(value = "/delete",

@@ -5,6 +5,7 @@ INSERT INTO USER (
     age,
     login,
     password,
+    email,
     createdDate,
     updatedDate)
 VALUES (
@@ -14,6 +15,7 @@ VALUES (
     29,
     'alejano_borhez',
     '123456',
+    'alejano_borhez@social.by',
     TO_TIMESTAMP('01/10/2015 20:30:00', 'DD/MM/YYYY HH:MI:SS'),
     CURRENT_TIMESTAMP
 );
@@ -25,6 +27,7 @@ INSERT INTO USER (
     age,
     login,
     password,
+    email,
     createdDate,
     updatedDate)
 VALUES (
@@ -34,6 +37,7 @@ VALUES (
 26,
 'julia_borohova',
 '123456',
+'julia_borohova@social.by',
 TO_TIMESTAMP('05/10/2015 20:30:00', 'DD/MM/YYYY HH:MI:SS'),
 CURRENT_TIMESTAMP
 );
@@ -45,6 +49,7 @@ lastName,
 age,
 login,
 password,
+email,
 createdDate,
 updatedDate)
 VALUES (
@@ -54,28 +59,31 @@ VALUES (
 2,
 'darya_borohova',
 '123456',
+'darya_borohova@social.by',
 TO_TIMESTAMP('15/10/2015 20:30:00', 'DD/MM/YYYY HH:MI:SS'),
 CURRENT_TIMESTAMP
 );
 
 INSERT INTO USER (
-    userId,
-    firstName,
-    lastName,
-    age,
-    login,
-    password,
-    createdDate,
-    updatedDate)
+userId,
+firstName,
+lastName,
+age,
+login,
+password,
+email,
+createdDate,
+updatedDate)
 VALUES (
-    4,
-    'Ivan',
-    'Ivanov',
-    25,
-    'ivan',
-    '123456',
-    TO_TIMESTAMP('24/10/2015 20:30:00', 'DD/MM/YYYY HH:MI:SS'),
-    CURRENT_TIMESTAMP
+4,
+'Ivan',
+'Ivanov',
+25,
+'ivan',
+'123456',
+'ivan@social.by',
+TO_TIMESTAMP('24/10/2015 20:30:00', 'DD/MM/YYYY HH:MI:SS'),
+CURRENT_TIMESTAMP
 );
 
 INSERT INTO FRIENDS (
@@ -151,7 +159,6 @@ VALUES(
 );
 
 INSERT INTO IMAGE (
---userId,
 imageId,
 url,
 url50,
@@ -159,16 +166,14 @@ url81,
 createdDate
 )
 VALUES (
---1,
 1,
 'http://res.cloudinary.com/simple-social/image/upload/1-1.jpg',
 'http://res.cloudinary.com/simple-social/image/upload/1-1.jpg',
 'http://res.cloudinary.com/simple-social/image/upload/1-1.jpg',
 TO_TIMESTAMP('24/10/2015 20:30:00', 'DD/MM/YYYY HH:MI:SS')
-)
+);
 
 INSERT INTO IMAGE (
---userId,
 imageId,
 url,
 url50,
@@ -176,13 +181,12 @@ url81,
 createdDate
 )
 VALUES (
---1,
 2,
 'http://res.cloudinary.com/simple-social/image/upload/1-2.jpg',
 'http://res.cloudinary.com/simple-social/image/upload/1-2.jpg',
 'http://res.cloudinary.com/simple-social/image/upload/1-2.jpg',
 TO_TIMESTAMP('24/10/2015 20:30:00', 'DD/MM/YYYY HH:MI:SS')
-)
+);
 
 INSERT INTO USER_IMAGE (
 images_imageId,
@@ -191,7 +195,7 @@ User_userId
 VALUES (
 1,
 1
-)
+);
 
 INSERT INTO USER_IMAGE (
 images_imageId,
@@ -200,4 +204,15 @@ User_userId
 VALUES (
 2,
 1
+);
+
+INSERT INTO TOKEN (
+userId,
+token,
+expires
 )
+VALUES (
+2,
+'testToken2',
+TO_TIMESTAMP('20/08/2016 23:59:59', 'DD/MM/YYYY HH:MI:SS')
+);
