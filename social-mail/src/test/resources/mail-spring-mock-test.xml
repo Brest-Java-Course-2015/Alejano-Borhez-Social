@@ -11,6 +11,59 @@
        ">
 
     <bean id="mailSender" class="com.epam.brest.course2015.social.mail.MockMailSender"/>
+
+    <bean id="helper" class="org.springframework.mail.javamail.MimeMessageHelper">
+        <constructor-arg ref="mimeMessage"/>
+    </bean>
+
+    <bean id="mimeMessage" class="javax.mail.internet.MimeMessage">
+        <constructor-arg type="javax.mail.Session" ref="session"/>
+    </bean>
+
+    <bean id="session" class="javax.mail.Session" factory-method="getInstance">
+        <constructor-arg ref="properties"/>
+        <constructor-arg ref="auth"/>
+    </bean>
+
+    <bean id="properties.load" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetObject" ref="properties"/>
+        <property name="targetMethod" value="putAll"/>
+        <property name="arguments">
+            <props>
+                <prop key="mail.smtp.host">smtp.gmail.com</prop>
+                <prop key="mail.smtp.port">587</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+            </props>
+        </property>
+    </bean>
+
+
+    <bean id="properties" class="java.util.Properties"/>
+
+    <bean id="auth" class="javax.mail.Authenticator">
+        <lookup-method name="getPasswordAuthentication" bean="authentication"/>
+    </bean>
+
+    <bean id="authentication" class="javax.mail.PasswordAuthentication">
+        <constructor-arg value="alexander.borohov17@gmail.com"/>
+        <constructor-arg value="alejano123"/>
+    </bean>
+
+
+<!--    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.gmail.com"/>
+        <property name="port" value="587"/>
+        <property name="username" value="alexander.borohov17@gmail.com"/>
+        <property name="password" value="alejano123"/>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+            </props>
+        </property>
+    </bean>-->
+
     <bean id="message" class="org.springframework.mail.SimpleMailMessage">
         <property name="from" value="noreply@social.com"/>
     </bean>

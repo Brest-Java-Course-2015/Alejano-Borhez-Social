@@ -1,5 +1,5 @@
 <head>
-    <#import "/spring.ftl" as spring/>
+    <#import "spring.ftl" as spring/>
     <!-- start: Meta -->
     	<meta charset="utf-8">
     	<title> <@spring.message code="users.list"/> - ${(pageInfo.mapping)!""} - enhanced with Janux theme </title>

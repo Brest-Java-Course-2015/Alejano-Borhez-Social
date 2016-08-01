@@ -50,9 +50,6 @@
 						No problem, <a href="#">click here</a> to get a new password.
 					</p>
 
-                    <h2> You will be redirected in <span id="timeLeft">10</span> seconds </h2>
-
-
 				</div><!--/span-->
 			</div><!--/row-->
 			

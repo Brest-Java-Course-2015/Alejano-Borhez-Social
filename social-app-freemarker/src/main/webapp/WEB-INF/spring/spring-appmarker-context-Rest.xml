@@ -96,7 +96,6 @@
     <!-- Social Mail implementation -->
     <bean class="com.epam.brest.course2015.social.mail.SocialMailImpl">
         <property name="mailSender" ref="socialMailSender"/>
-        <property name="message" ref="socialMailMessage"/>
     </bean>
     <bean id="socialMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="smtp.gmail.com"/>
@@ -110,9 +109,8 @@
             </props>
         </property>
     </bean>
-    <bean id="socialMailMessage" class="org.springframework.mail.SimpleMailMessage">
-        <property name="from" value="noreply@social.com"/>
-    </bean>
+
+
 
     <bean id="freemarkerMailConfig" class="freemarker.template.Configuration">
         <property name="directoryForTemplateLoading" value="templates"/>

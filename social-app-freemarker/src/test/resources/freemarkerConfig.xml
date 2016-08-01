@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+        ">
+    <bean id="freemarkerConfig"
+          class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="freemarkerSettings">
+            <props>
+                <prop key="incompatible_improvements">2.3.24</prop>
+                <prop key="template_exception_handler">rethrow</prop>
+                <prop key="default_encoding">UTF-8</prop>
+            </props>
+        </property>
+        <property name="templateLoaderPath" value="/views/clear_design/"/>
+    </bean>
+
+</beans>

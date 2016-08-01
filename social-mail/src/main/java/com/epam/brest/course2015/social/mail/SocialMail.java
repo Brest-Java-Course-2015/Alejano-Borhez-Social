@@ -10,6 +10,6 @@ import java.io.File;
 public interface SocialMail {
 
     void sendApprovalEmail(String path, String token, User user);
-    void sendPasswordRecoveryEmail(String path, String token, String to);
-    void sendEmailWithAttachment(String path, File attach, String to);
+    void sendPasswordRecoveryEmail(String path, String token, User user);
+    void sendEmailWithAttachment(String path, File attach, User user);
 }

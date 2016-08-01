@@ -51,6 +51,13 @@ public class SocialAppFreeMarker {
     @Logged
     public String init(@CookieValue(name = "uid", required = false) Cookie cookie,
                        HttpServletResponse resp, HttpServletRequest req) {
+        if (cookie != null) {
+            String token = cookie.getValue();
+            if (token != null) {
+                return "redirect:/user";
+            }
+        }
+
         setReferer(resp, req);
         return "redirect:/login";
     }

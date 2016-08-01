@@ -7,8 +7,10 @@ import com.epam.brest.course2015.social.test.Logged;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.Cookie;
@@ -21,25 +23,29 @@ import java.io.IOException;
  */
 @Controller
 @RequestMapping("admin")
+@ControllerAdvice
 public class SocialUserAdministrator {
-
-    @Value("${rest.prefix}")
-    private String restPrefix;
 
     @Autowired
     private SocialConsumer socialConsumer;
-
     @Autowired
     private SocialMail socialMail;
 
-    @RequestMapping
-    public ModelAndView recoverPassword() {
+    @RequestMapping("recover")
+    public ModelAndView recoverPassword(@RequestParam("token") String token) {
         ModelAndView mav = new ModelAndView("recovery");
 
         return mav;
     }
 
-    @RequestMapping("/addusersubmit")
+    @RequestMapping("approve")
+    public ModelAndView approveRegistration(@RequestParam("token") String token) {
+        ModelAndView mav = new ModelAndView("approve");
+
+        return mav;
+    }
+
+    @RequestMapping("addusersubmit")
     @Logged
     public ModelAndView addUserSubmit(@ModelAttribute("user") User user,
                                       HttpServletRequest req,
@@ -54,12 +60,11 @@ public class SocialUserAdministrator {
             resp.addCookie(cookie);
             mav.addObject("email", user.getEmail());
 // Sending an E-mail with account verification details
-//          to be implemented:
-            socialMail.sendApprovalEmail(req.getContextPath(), token, user);
-
-
+            String path = req.getRequestURL().toString().replace(req.getServletPath(), "");
+            socialMail.sendApprovalEmail(path, token, user);
             return mav;
         }
+
         resp.sendRedirect("../login");
         return null;
     }

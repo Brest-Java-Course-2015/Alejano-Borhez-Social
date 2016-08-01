@@ -1,6 +1,7 @@
 package com.epam.brest.course2015.social.mail;
 
 import com.epam.brest.course2015.social.test.Logged;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
@@ -15,6 +16,8 @@ import java.io.InputStream;
  * Created by alexander_borohov on 27.7.16.
  */
 public class MockMailSender implements JavaMailSender {
+    @Autowired
+    private MimeMessage mimeMessage;
 
     @Override
     @Logged
@@ -31,7 +34,7 @@ public class MockMailSender implements JavaMailSender {
     @Override
     @Logged
     public MimeMessage createMimeMessage() {
-        return null;
+        return this.mimeMessage;
     }
 
     @Override

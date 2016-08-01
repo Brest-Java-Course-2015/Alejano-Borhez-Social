@@ -8,9 +8,12 @@ import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -24,39 +27,51 @@ import java.util.Map;
 public class SocialMailImpl implements SocialMail {
 
     @Autowired
-    private MailSender mailSender;
-    @Autowired
-    private SimpleMailMessage message;
+    private JavaMailSender mailSender;
     @Autowired
     private Configuration freemarkerMailConfig;
 
-    public void setMailSender(MailSender mailSender) {
+    public void setMailSender(JavaMailSender mailSender) {
         this.mailSender = mailSender;
-    }
-
-    public void setMessage(SimpleMailMessage message) {
-        this.message = message;
     }
 
     @Logged
     public void sendApprovalEmail(String path, String token, User user) {
 
-        message.setTo(user.getEmail());
-        message.setSubject("Simple Social Network - registration");
-        String text = prepareText("approve", path, token, user);
+        try {
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
 
-        message.setText(text);
-        mailSender.send(message);
+            helper.setTo(user.getEmail());
+            helper.setSubject("Simple Social Network - registration");
+            String text = prepareText("approve", path, token, user);
+            helper.setText(text, true);
+            mailSender.send(mimeMessage);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Logged
-    public void sendPasswordRecoveryEmail(String path, String token, String to) {
-        message.setTo(to);
-        message.setSubject("Simple Social Network - password recovery");
-        message.setText(path + "/admin/recovery?token=" + token);
+    public void sendPasswordRecoveryEmail(String path, String token, User user) {
+        try {
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
+
+
+            helper.setTo(user.getEmail());
+            helper.setSubject("Simple Social Network - password recovery");
+            String text = prepareText("recover", path, token, user);
+            helper.setText(text, true);
+            mailSender.send(mimeMessage);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+
     }
 
-    public void sendEmailWithAttachment(String path, File attach, String to) {
+    public void sendEmailWithAttachment(String path, File attach, User user) {
 
     }
 

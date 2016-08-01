@@ -1,7 +1,3 @@
-<#ftl output_format="HTML">
-
-<!doctype html>
-
 <html>
     <head>
         <!-- Latest compiled and minified CSS -->
@@ -20,9 +16,8 @@
                <h1> Hello ${user.firstName!""}! </h1>
            </div>
            <div class="row-fluid">
-               Thank you for registering at <strong>Simple Social Network.</strong><br>
-               Your account is created and must be activated before you can use it.<br>
-               To activate the account select the following link or copy-paste it in your browser:<br>
+               You are attempting to recover your password at <strong>Simple Social Network.</strong><br>
+               To reset a password select the following link or copy-paste it in your browser:<br>
                <strong><a href="${path!""}/admin/${action!""}?token=${token!""}">Click here</a></strong>
            </div>
        </div>

@@ -19,7 +19,7 @@
                Thank you for registering at <strong>Simple Social Network.</strong><br>
                Your account is created and must be activated before you can use it.<br>
                To activate the account select the following link or copy-paste it in your browser:<br>
-               <strong><a href="${path!""}/${action!""}?token=${token!""}">Click here</a></strong>
+               <strong><a href="${path!""}/admin/${action!""}?token=${token!""}">Click here</a></strong>
            </div>
        </div>
     </body>
