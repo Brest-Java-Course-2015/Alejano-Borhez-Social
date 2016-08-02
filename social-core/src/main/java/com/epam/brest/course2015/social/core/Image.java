@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * Created by alexander_borohov on 7.7.16.
@@ -78,18 +79,31 @@ public class Image {
         this.url = url;
     }
 
-    @Override
-    public String toString() {
-        String s = "User(" +
-//                    this.user.getUserId() +
-                    "), Image(" +
-                    this.imageId +
-                    "), Url:" +
-                    this.url;
-        return s;
-    }
-
     public Image() {
     }
 
+    @Override
+    public String toString() {
+        return "Image{" +
+                "imageId=" + imageId +
+                ", url='" + url.substring(0,10) + '\'' +
+                ", url50='" + url50.substring(0,10) + '\'' +
+                ", url81='" + url81.substring(0,10) + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Image image = (Image) o;
+        return Objects.equals(getUrl(), image.getUrl()) &&
+                Objects.equals(getUrl50(), image.getUrl50()) &&
+                Objects.equals(getUrl81(), image.getUrl81());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUrl(), getUrl50(), getUrl81());
+    }
 }

@@ -3,6 +3,7 @@ package com.epam.brest.course2015.social.core;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -16,18 +17,21 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:test-spring-core.xml"})
 public class SocialTokenTest {
-    private static final String TEST_TOKEN = "TEST_TOKEN";
+    @Value("${test.token}")
+    private String testToken;
+    @Value("${test.userId1}")
+    private Integer testUserId;
+
     private static final Date TEST_DATE = new Date();
-    private static final Integer TEST_USER_ID = 1;
 
     @Autowired
     private SocialToken token;
 
     @Test
     public void getToken() throws Exception {
-        token.setToken(TEST_TOKEN);
+        token.setToken(testToken);
         assertNotNull(token.getToken());
-        assertEquals(token.getToken(), TEST_TOKEN);
+        assertEquals(token.getToken(), testToken);
     }
 
     @Test
@@ -39,19 +43,19 @@ public class SocialTokenTest {
 
     @Test
     public void getUserId() throws Exception {
-        token.setUserId(TEST_USER_ID);
+        token.setUserId(testUserId);
         assertNotNull(token.getUserId());
-        assertEquals(token.getUserId(), TEST_USER_ID);
+        assertEquals(token.getUserId(), testUserId);
     }
 
     @Test
     public void testConstructor() throws Exception {
-        SocialToken socialToken = new SocialToken(TEST_USER_ID, TEST_TOKEN);
+        SocialToken socialToken = new SocialToken(testUserId, testToken);
         assertNotNull(socialToken.getUserId());
         assertNotNull(socialToken.getToken());
         assertNotNull(socialToken.getExpires());
-        assertEquals(socialToken.getToken(), TEST_TOKEN);
-        assertEquals(socialToken.getUserId(), TEST_USER_ID);
+        assertEquals(socialToken.getToken(), testToken);
+        assertEquals(socialToken.getUserId(), testUserId);
         assertTrue(socialToken.getExpires().after(TEST_DATE));
 
     }

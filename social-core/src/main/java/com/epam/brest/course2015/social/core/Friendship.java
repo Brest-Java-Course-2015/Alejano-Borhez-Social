@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * Created by alexander on 26.10.15.
@@ -82,12 +83,23 @@ public class Friendship {
 
     @Override
     public String toString() {
-        String friendship = "friends: id1: "
-                + friend1Id
-                + ", id2: "
-                + friend2Id
-                + ", createdDate: "
-                + createdDate;
-        return friendship;
+        return "Friendship{" +
+                "friend1Id=" + friend1Id +
+                ", friend2Id=" + friend2Id +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Friendship that = (Friendship) o;
+        return Objects.equals(getFriend1Id(), that.getFriend1Id()) &&
+                Objects.equals(getFriend2Id(), that.getFriend2Id());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getFriend1Id(), getFriend2Id());
     }
 }

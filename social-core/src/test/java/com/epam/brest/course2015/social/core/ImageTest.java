@@ -3,6 +3,7 @@ package com.epam.brest.course2015.social.core;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -17,22 +18,26 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:test-spring-core.xml"})
 public class ImageTest {
-
     @Autowired
     private Image image;
 
     private static final User USER = new User(1);
-    private static final Integer IMAGE_ID = 1;
     private static final Date CREATED_DATE = new Date();
-    private static final String URL = "File Name";
-    private static final String URL_50 = "File Name 50";
-    private static final String URL_81 = "File Name 81";
+
+    @Value("${test.url}")
+    private String url;
+    @Value("${test.url50}")
+    private String url50;
+    @Value("${test.url81}")
+    private String url81;
+    @Value("${test.imageId1}")
+    private Integer imageId;
 
     @Test
     public void getImageId() throws Exception {
-        image.setImageId(IMAGE_ID);
+        image.setImageId(imageId);
         assertNotNull(image.getImageId());
-        assertEquals(image.getImageId(), IMAGE_ID);
+        assertEquals(image.getImageId(), imageId);
     }
 
     @Test
@@ -44,22 +49,22 @@ public class ImageTest {
 
     @Test
     public void getUrl() throws Exception {
-        image.setUrl(URL);
+        image.setUrl(url);
         assertNotNull(image.getUrl());
-        assertEquals(image.getUrl(), URL);
+        assertEquals(image.getUrl(), url);
     }
 
     @Test
     public void getUrl50() throws Exception {
-        image.setUrl50(URL_50);
+        image.setUrl50(url50);
         assertNotNull(image.getUrl50());
-        assertEquals(image.getUrl50(), URL_50);
+        assertEquals(image.getUrl50(), url50);
     }
 
     @Test
     public void getUrl81() throws Exception {
-        image.setUrl81(URL_81);
+        image.setUrl81(url81);
         assertNotNull(image.getUrl81());
-        assertEquals(image.getUrl81(), URL_81);
+        assertEquals(image.getUrl81(), url81);
     }
 }

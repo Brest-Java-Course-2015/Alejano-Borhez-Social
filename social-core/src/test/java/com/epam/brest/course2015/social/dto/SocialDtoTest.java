@@ -7,6 +7,7 @@ import junit.framework.TestCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -20,7 +21,25 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:test-spring-core.xml"})
 public class SocialDtoTest extends TestCase {
-    private static final Integer TOTAL_USERS = 5;
+    @Value("${test.totalUsers}")
+    private Integer totalUsers;
+    @Value("${test.url}")
+    private String url;
+    @Value("${test.url50}")
+    private String url50;
+    @Value("${test.url81}")
+    private String url81;
+    @Value("${test.imageId1}")
+    private Integer imageId;
+    @Value("${test.url1}")
+    private String url1;
+    @Value("${test.url501}")
+    private String url501;
+    @Value("${test.url811}")
+    private String url811;
+    @Value("${test.imageId2}")
+    private Integer imageId1;
+
     @Autowired
     private SocialDto dto;
     @Autowired
@@ -40,9 +59,9 @@ public class SocialDtoTest extends TestCase {
 
     @Test
     public void testGetTotalUsers() throws Exception {
-        dto.setTotalUsers(TOTAL_USERS);
+        dto.setTotalUsers(totalUsers);
         assertNotNull(dto.getTotalUsers());
-        assertTrue(dto.getTotalUsers() == TOTAL_USERS);
+        assertTrue(dto.getTotalUsers() == totalUsers);
     }
 
     @Test
@@ -52,29 +71,20 @@ public class SocialDtoTest extends TestCase {
         assertEquals(dto.getUser().getClass(), user.getClass());
     }
 
-  /*  @Test
-    public void testGetMessages() throws Exception {
-        List<SocialMessage> list = new ArrayList<>();
-        message.setUser1Id(1);
-        message.setUser2Id(2);
-        message.setMessage("Hello!");
-        list.add(message);
-        dto.setMessages(list);
-        assertNotNull(dto.getMessages());
-        assertEquals(dto.getMessages().get(0).getClass(), message.getClass());
-        assertEquals(dto.getMessages().size(), 1);
-    }*/
-
     @Test
     public void testGetImages() throws Exception {
         Image image1 = new Image();
-        image1.setUrl("url1");
+        image1.setUrl(url);
+        image1.setUrl50(url50);
+        image1.setUrl81(url81);
         image1.setCreatedDate(new Date());
-        image1.setImageId(1);
+        image1.setImageId(imageId);
         Image image2 = new Image();
-        image2.setUrl("url2");
+        image2.setUrl(url1);
+        image2.setUrl50(url501);
+        image2.setUrl81(url811);
         image2.setCreatedDate(new Date());
-        image2.setImageId(2);
+        image2.setImageId(imageId1);
 
         List<Image> imageList = new ArrayList<>();
         imageList.add(image1);
@@ -84,5 +94,12 @@ public class SocialDtoTest extends TestCase {
         assertNotNull(dto.getImages());
         assertNotNull(dto.getImages().get(0));
         assertEquals(dto.getImages().get(0).getClass(), Image.class);
+        assertEquals(dto.getImages().get(0).getUrl(), image1.getUrl());
+        assertEquals(dto.getImages().get(0).getUrl50(), image1.getUrl50());
+        assertEquals(dto.getImages().get(0).getUrl81(), image1.getUrl81());
+        assertEquals(dto.getImages().get(1).getUrl(), image2.getUrl());
+        assertEquals(dto.getImages().get(1).getUrl50(), image2.getUrl50());
+        assertEquals(dto.getImages().get(1).getUrl81(), image2.getUrl81());
+
     }
 }

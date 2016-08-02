@@ -6,6 +6,7 @@ import com.epam.brest.course2015.social.test.Logged;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by alexander on 14.11.15.
@@ -79,5 +80,29 @@ public class SocialDto {
     @Logged
     public List<Image> getImages() {
         return images;
+    }
+
+    @Override
+    public String toString() {
+        return "SocialDto{" +
+                "users=" + users.size() +
+                ", images=" + images.size() +
+                ", totalUsers=" + totalUsers +
+                ", user=" + user +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SocialDto dto = (SocialDto) o;
+        return Objects.equals(getUsers(), dto.getUsers()) &&
+                Objects.equals(getUser(), dto.getUser());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUsers(), getUser());
     }
 }
