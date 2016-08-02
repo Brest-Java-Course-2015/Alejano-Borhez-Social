@@ -209,10 +209,25 @@ VALUES (
 INSERT INTO TOKEN (
 userId,
 token,
-expires
+expires,
+role
 )
 VALUES (
 2,
-'testToken2',
-TO_TIMESTAMP('20/08/2016 23:59:59', 'DD/MM/YYYY HH:MI:SS')
+'TEST_TOKEN1',
+TO_TIMESTAMP('20/08/2017 23:59:59', 'DD/MM/YYYY HH:MI:SS'),
+'ADMIN'
+);
+
+INSERT INTO TOKEN (
+userId,
+token,
+expires,
+role
+)
+VALUES (
+3,
+'TEST_TOKEN2',
+TO_TIMESTAMP('20/08/2015 23:59:59', 'DD/MM/YYYY HH:MI:SS'),
+'USER'
 );

@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -39,8 +40,27 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:social-rest-spring-mock-test.xml"})
 public class SocialRestControllerMockTest {
-    private static final Integer TEST_USER_ID = 1;
-    private static final String TEST_TOKEN = "token";
+    @Value("${test.userId1}")
+    private Integer testUserId;
+    @Value("${test.userId2}")
+    private Integer testUserId2;
+    @Value("${test.token}")
+    private String testToken;
+    @Value("${test.role}")
+    private String testRole;
+    @Value("${test.login}")
+    private String testLogin;
+    @Value("${test.password}")
+    private String testPassword;
+    @Value("${test.firstName}")
+    private String testFirstName;
+    @Value("${test.lastName}")
+    private String testLastName;
+    @Value("${test.age}")
+    private Integer testAge;
+    @Value("${test.email}")
+    private String testEmail;
+    private User testUser;
 
     @Resource
     private SocialRestController socialRestController;
@@ -68,6 +88,7 @@ public class SocialRestControllerMockTest {
 
     @Before
     public void setUp() {
+        testUser = new User(testLogin, testPassword, testFirstName, testLastName, testAge, testEmail);
         mockMvc = standaloneSetup(socialRestController)
                 .setMessageConverters(new MappingJackson2HttpMessageConverter()).build();
     }
@@ -83,12 +104,12 @@ public class SocialRestControllerMockTest {
     // Not implemented
     @Test
     public void testDeleteUser() throws Exception {
-        socialService.deleteUser(1);
+        socialService.deleteUser(testUserId);
         expectLastCall();
         replay(socialService);
         replay(socialSecurity);
         mockMvc.perform(
-                delete("/user?id=1")
+                delete("/user?id=" + testUserId)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -97,11 +118,11 @@ public class SocialRestControllerMockTest {
 
     @Test
     public void testIsTokenValidTrue() throws Exception {
-        expect(socialSecurity.isTokenValid(TEST_TOKEN)).andReturn(true);
+        expect(socialSecurity.isTokenValid(testToken, null, null)).andReturn(true);
         replay(socialSecurity);
         replay(socialService);
 
-        String token = new ObjectMapper().writeValueAsString(TEST_TOKEN);
+        String token = new ObjectMapper().writeValueAsString(testToken);
 
         mockMvc.perform(
                 post("/token/validate")
@@ -115,11 +136,11 @@ public class SocialRestControllerMockTest {
 
     @Test
     public void testIsTokenValidFalse() throws Exception {
-        expect(socialSecurity.isTokenValid(TEST_TOKEN)).andReturn(false);
+        expect(socialSecurity.isTokenValid(testToken, null, null)).andReturn(false);
         replay(socialSecurity);
         replay(socialService);
 
-        String token = new ObjectMapper().writeValueAsString(TEST_TOKEN);
+        String token = new ObjectMapper().writeValueAsString(testToken);
 
         mockMvc.perform(
                 post("/token/validate")
@@ -134,12 +155,12 @@ public class SocialRestControllerMockTest {
 
     @Test
     public void testAddUser() throws Exception {
-        expect(socialService.addUser(anyObject(User.class)))
-        .andReturn(5);
+        expect(socialService.addUser(testUser))
+        .andReturn(testUserId);
         replay(socialService);
         replay(socialSecurity);
 
-        String user = new ObjectMapper().writeValueAsString(new User());
+        String user = new ObjectMapper().writeValueAsString(testUser);
         mockMvc.perform(
                 post("/user")
                 .accept(MediaType.APPLICATION_JSON)
@@ -152,12 +173,12 @@ public class SocialRestControllerMockTest {
 
     @Test
     public void testAddUserFail() throws Exception {
-        expect(socialService.addUser(anyObject(User.class)))
+        expect(socialService.addUser(testUser))
                 .andReturn(null);
         replay(socialService);
         replay(socialSecurity);
 
-        String user = new ObjectMapper().writeValueAsString(new User());
+        String user = new ObjectMapper().writeValueAsString(testUser);
         mockMvc.perform(
                 post("/user")
                         .accept(MediaType.APPLICATION_JSON)
@@ -170,15 +191,15 @@ public class SocialRestControllerMockTest {
 
     @Test
     public void testChangePassword() throws Exception {
-        expect(socialSecurity.isTokenValid(TEST_TOKEN)).andReturn(true);
-        expect(socialSecurity.getUserId(TEST_TOKEN)).andReturn(TEST_USER_ID);
-        socialService.changePassword(1, "password");
+        expect(socialSecurity.isTokenValid(testToken, null, null)).andReturn(true);
+        expect(socialSecurity.getUserId(testToken)).andReturn(testUserId);
+        socialService.changePassword(testUserId, testPassword);
         expectLastCall();
         replay(socialService);
         replay(socialSecurity);
-        String token = new ObjectMapper().writeValueAsString(TEST_TOKEN);
+        String token = new ObjectMapper().writeValueAsString(testToken);
         mockMvc.perform(
-                post("/user/password?param=password")
+                post("/user/password?param=" + testPassword)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(token)
@@ -190,15 +211,15 @@ public class SocialRestControllerMockTest {
 
     @Test
     public void testChangeLogin() throws Exception {
-        expect(socialSecurity.isTokenValid(TEST_TOKEN)).andReturn(true);
-        expect(socialSecurity.getUserId(TEST_TOKEN)).andReturn(TEST_USER_ID);
-        socialService.changeLogin(1, "login");
+        expect(socialSecurity.isTokenValid(testToken, null, null)).andReturn(true);
+        expect(socialSecurity.getUserId(testToken)).andReturn(testUserId);
+        socialService.changeLogin(testUserId, testLogin);
         expectLastCall();
         replay(socialService);
         replay(socialSecurity);
-        String token = new ObjectMapper().writeValueAsString(TEST_TOKEN);
+        String token = new ObjectMapper().writeValueAsString(testToken);
         mockMvc.perform(
-                post("/user/login?param=login")
+                post("/user/login?param=" + testLogin)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(token)
@@ -210,15 +231,15 @@ public class SocialRestControllerMockTest {
 
     @Test
     public void testChangeFirstName() throws Exception {
-        expect(socialSecurity.isTokenValid(TEST_TOKEN)).andReturn(true);
-        expect(socialSecurity.getUserId(TEST_TOKEN)).andReturn(TEST_USER_ID);
-        socialService.changeFirstName(1, "firstname");
+        expect(socialSecurity.isTokenValid(testToken, null, null)).andReturn(true);
+        expect(socialSecurity.getUserId(testToken)).andReturn(testUserId);
+        socialService.changeFirstName(testUserId, testFirstName);
         expectLastCall();
         replay(socialService);
         replay(socialSecurity);
-        String token = new ObjectMapper().writeValueAsString(TEST_TOKEN);
+        String token = new ObjectMapper().writeValueAsString(testToken);
         mockMvc.perform(
-                post("/user/firstname?param=firstname")
+                post("/user/firstname?param=" + testFirstName)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(token)
@@ -230,15 +251,15 @@ public class SocialRestControllerMockTest {
 
     @Test
     public void testChangeLastName() throws Exception {
-        expect(socialSecurity.isTokenValid(TEST_TOKEN)).andReturn(true);
-        expect(socialSecurity.getUserId(TEST_TOKEN)).andReturn(TEST_USER_ID);
-        socialService.changeLastName(TEST_USER_ID, "lastname");
+        expect(socialSecurity.isTokenValid(testToken, null, null)).andReturn(true);
+        expect(socialSecurity.getUserId(testToken)).andReturn(testUserId);
+        socialService.changeLastName(testUserId, testLastName);
         expectLastCall();
         replay(socialService);
         replay(socialSecurity);
-        String token = new ObjectMapper().writeValueAsString(TEST_TOKEN);
+        String token = new ObjectMapper().writeValueAsString(testToken);
         mockMvc.perform(
-                post("/user/lastname?param=lastname")
+                post("/user/lastname?param=" + testLastName)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(token))
@@ -249,15 +270,15 @@ public class SocialRestControllerMockTest {
 
     @Test
     public void testDiscardFriendship() throws Exception {
-        expect(socialSecurity.isTokenValid(TEST_TOKEN)).andReturn(true);
-        expect(socialSecurity.getUserId(TEST_TOKEN)).andReturn(TEST_USER_ID);
-        socialService.discardFriendship(TEST_USER_ID, 2);
+        expect(socialSecurity.isTokenValid(testToken, null, null)).andReturn(true);
+        expect(socialSecurity.getUserId(testToken)).andReturn(testUserId);
+        socialService.discardFriendship(testUserId, testUserId2);
         expectLastCall();
         replay(socialService);
         replay(socialSecurity);
-        String token = new ObjectMapper().writeValueAsString(TEST_TOKEN);
+        String token = new ObjectMapper().writeValueAsString(testToken);
         mockMvc.perform(
-                post("/friendship/delete?id2=2")
+                post("/friendship/delete?id2=" + testUserId2)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(token)
@@ -269,15 +290,15 @@ public class SocialRestControllerMockTest {
 
     @Test
     public void testAddFriendship() throws Exception {
-        expect(socialSecurity.isTokenValid(TEST_TOKEN)).andReturn(true);
-        expect(socialSecurity.getUserId(TEST_TOKEN)).andReturn(TEST_USER_ID);
-        socialService.addFriendship(TEST_USER_ID, 2);
+        expect(socialSecurity.isTokenValid(testToken, null, null)).andReturn(true);
+        expect(socialSecurity.getUserId(testToken)).andReturn(testUserId);
+        socialService.addFriendship(testUserId, testUserId2);
         expectLastCall();
         replay(socialService);
         replay(socialSecurity);
-        String token = new ObjectMapper().writeValueAsString(TEST_TOKEN);
+        String token = new ObjectMapper().writeValueAsString(testToken);
         mockMvc.perform(
-                post("/friendship/add?id2=2")
+                post("/friendship/add?id2=" + testUserId2)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(token)
@@ -289,11 +310,9 @@ public class SocialRestControllerMockTest {
 
     @Test
     public void testUserActionLogin() throws Exception {
-        String token = "token";
-        String testLogin = "newlogin";
-        expect(socialSecurity.isTokenValid(token)).andReturn(true);
-        expect(socialSecurity.getUserId(token)).andReturn(TEST_USER_ID);
-        socialService.changeLogin(TEST_USER_ID, testLogin);
+        expect(socialSecurity.isTokenValid(testToken, null, null)).andReturn(true);
+        expect(socialSecurity.getUserId(testToken)).andReturn(testUserId);
+        socialService.changeLogin(testUserId, testLogin);
         expectLastCall();
         replay(socialSecurity);
         replay(socialService);
@@ -301,7 +320,7 @@ public class SocialRestControllerMockTest {
                 post("/user/login?param=" + testLogin)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(new ObjectMapper().writeValueAsString(token))
+                .content(new ObjectMapper().writeValueAsString(testToken))
                 )
                 .andDo(print())
                 .andExpect(status().isOk());
@@ -309,11 +328,9 @@ public class SocialRestControllerMockTest {
 
     @Test
     public void testUserActionPassword() throws Exception {
-        String token = "token";
-        String testPassword = "newpassword";
-        expect(socialSecurity.isTokenValid(token)).andReturn(true);
-        expect(socialSecurity.getUserId(token)).andReturn(TEST_USER_ID);
-        socialService.changePassword(TEST_USER_ID, testPassword);
+        expect(socialSecurity.isTokenValid(testToken, null, null)).andReturn(true);
+        expect(socialSecurity.getUserId(testToken)).andReturn(testUserId);
+        socialService.changePassword(testUserId, testPassword);
         expectLastCall();
         replay(socialSecurity);
         replay(socialService);
@@ -321,7 +338,7 @@ public class SocialRestControllerMockTest {
                 post("/user/password?param=" + testPassword)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(token))
+                        .content(new ObjectMapper().writeValueAsString(testToken))
         )
                 .andDo(print())
                 .andExpect(status().isOk());
@@ -329,11 +346,9 @@ public class SocialRestControllerMockTest {
 
     @Test
     public void testUserActionFirstName() throws Exception {
-        String token = "token";
-        String testFirstName = "newfirstname";
-        expect(socialSecurity.isTokenValid(token)).andReturn(true);
-        expect(socialSecurity.getUserId(token)).andReturn(TEST_USER_ID);
-        socialService.changeFirstName(TEST_USER_ID, testFirstName);
+        expect(socialSecurity.isTokenValid(testToken, null, null)).andReturn(true);
+        expect(socialSecurity.getUserId(testToken)).andReturn(testUserId);
+        socialService.changeFirstName(testUserId, testFirstName);
         expectLastCall();
         replay(socialSecurity);
         replay(socialService);
@@ -341,7 +356,7 @@ public class SocialRestControllerMockTest {
                 post("/user/firstname?param=" + testFirstName)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(token))
+                        .content(new ObjectMapper().writeValueAsString(testToken))
         )
                 .andDo(print())
                 .andExpect(status().isOk());
@@ -349,11 +364,9 @@ public class SocialRestControllerMockTest {
 
     @Test
     public void testUserActionLastName() throws Exception {
-        String token = "token";
-        String testLastName = "newlastname";
-        expect(socialSecurity.isTokenValid(token)).andReturn(true);
-        expect(socialSecurity.getUserId(token)).andReturn(TEST_USER_ID);
-        socialService.changeLastName(TEST_USER_ID, testLastName);
+        expect(socialSecurity.isTokenValid(testToken, null, null)).andReturn(true);
+        expect(socialSecurity.getUserId(testToken)).andReturn(testUserId);
+        socialService.changeLastName(testUserId, testLastName);
         expectLastCall();
         replay(socialSecurity);
         replay(socialService);
@@ -361,7 +374,7 @@ public class SocialRestControllerMockTest {
                 post("/user/lastname?param=" + testLastName)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(token))
+                        .content(new ObjectMapper().writeValueAsString(testToken))
         )
                 .andDo(print())
                 .andExpect(status().isOk());
@@ -369,16 +382,14 @@ public class SocialRestControllerMockTest {
 
     @Test
     public void testUserActionInvalidToken() throws Exception {
-        String token = "token";
-        String testLastName = "newlastname";
-        expect(socialSecurity.isTokenValid(token)).andReturn(false);
+        expect(socialSecurity.isTokenValid(testToken, null, null)).andReturn(false);
         replay(socialSecurity);
         replay(socialService);
         mockMvc.perform(
                 post("/user/lastname?param=" + testLastName)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(token))
+                        .content(new ObjectMapper().writeValueAsString(testToken))
         )
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -387,16 +398,14 @@ public class SocialRestControllerMockTest {
 
     @Test (expected = NestedServletException.class)
     public void testUserActionInvalidAction() throws Exception {
-        String token = "token";
-        String testLastName = "newlastname";
-        expect(socialSecurity.isTokenValid(token)).andReturn(true);
+        expect(socialSecurity.isTokenValid(testToken, null, null)).andReturn(true);
         replay(socialSecurity);
         replay(socialService);
         mockMvc.perform(
                 post("/user/action?param=" + testLastName)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(token))
+                        .content(new ObjectMapper().writeValueAsString(testToken))
         )
                 .andDo(print())
                 .andExpect(status().isOk());
@@ -404,7 +413,7 @@ public class SocialRestControllerMockTest {
 
     @Test
     public void testGetUserDto() throws Exception {
-        expect(socialSecurity.isTokenValid(anyString())).andReturn(true);
+        expect(socialSecurity.isTokenValid(testToken, null, null)).andReturn(true);
         expect(socialService.getSocialUsersDto())
                 .andReturn(new SocialDto());
         replay(socialService);
@@ -414,7 +423,7 @@ public class SocialRestControllerMockTest {
                 post("/userdto")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("\"testToken\"")
+                .content(new ObjectMapper().writeValueAsString(testToken))
                 )
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -423,14 +432,14 @@ public class SocialRestControllerMockTest {
 
     @Test
     public void testGetUserDtoInvalidToken() throws Exception {
-        expect(socialSecurity.isTokenValid(anyString())).andReturn(false);
+        expect(socialSecurity.isTokenValid(testToken, null, null)).andReturn(false);
         replay(socialService);
         replay(socialSecurity);
         mockMvc.perform(
                 post("/userdto")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("\"token\"")
+                        .content(new ObjectMapper().writeValueAsString(testToken))
                 )
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -439,9 +448,9 @@ public class SocialRestControllerMockTest {
 
     @Test
     public void testGetFriendsDto() throws Exception {
-        expect(socialSecurity.isTokenValid(anyString())).andReturn(true);
-        expect(socialSecurity.getUserId(anyString())).andReturn(1);
-        expect(socialService.getSocialFriendsDto(1))
+        expect(socialSecurity.isTokenValid(testToken, null, null)).andReturn(true);
+        expect(socialSecurity.getUserId(testToken)).andReturn(testUserId);
+        expect(socialService.getSocialFriendsDto(testUserId))
                 .andReturn(new SocialDto());
         replay(socialService);
         replay(socialSecurity);
@@ -451,7 +460,7 @@ public class SocialRestControllerMockTest {
         mockMvc.perform(
                 post("/friendsdto")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("\"token\"")
+                .content(new ObjectMapper().writeValueAsString(testToken))
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -460,13 +469,13 @@ public class SocialRestControllerMockTest {
 
     @Test
     public void testGetFriendsDtoInvalidToken() throws Exception {
-        expect(socialSecurity.isTokenValid(anyString())).andReturn(false);
+        expect(socialSecurity.isTokenValid(testToken, null, null)).andReturn(false);
         replay(socialService);
         replay(socialSecurity);
         mockMvc.perform(
                 post("/friendsdto")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("\"token\"")
+                        .content(new ObjectMapper().writeValueAsString(testToken))
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -475,9 +484,9 @@ public class SocialRestControllerMockTest {
 
     @Test
     public void testGetNoFriendsDto() throws Exception {
-        expect(socialSecurity.isTokenValid(anyString())).andReturn(true);
-        expect(socialSecurity.getUserId(anyString())).andReturn(1);
-        expect(socialService.getSocialNoFriendsDto(1))
+        expect(socialSecurity.isTokenValid(testToken, null, null)).andReturn(true);
+        expect(socialSecurity.getUserId(testToken)).andReturn(testUserId);
+        expect(socialService.getSocialNoFriendsDto(testUserId))
                 .andReturn(new SocialDto());
         replay(socialService);
         replay(socialSecurity);
@@ -488,7 +497,7 @@ public class SocialRestControllerMockTest {
                 post("/nofriendsdto")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("\"token\"")
+                .content(new ObjectMapper().writeValueAsString(testToken))
                 )
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -497,14 +506,14 @@ public class SocialRestControllerMockTest {
 
     @Test
     public void testGetNoFriendsDtoInvalidToken() throws Exception {
-        expect(socialSecurity.isTokenValid(anyString())).andReturn(false);
+        expect(socialSecurity.isTokenValid(testToken, null, null)).andReturn(false);
         replay(socialService);
         replay(socialSecurity);
         mockMvc.perform(
                 post("/nofriendsdto")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("\"token\"")
+                        .content(new ObjectMapper().writeValueAsString(testToken))
         )
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -513,46 +522,47 @@ public class SocialRestControllerMockTest {
 
     @Test
     public void testAddTokenNew() throws Exception {
-        expect(socialService.getUserByLogin("login")).andReturn(new User());
+
+        expect(socialService.getUserByLogin(testLogin)).andReturn(new User());
         expect(socialSecurity.getToken(anyInt())).andReturn(null);
-        expect(socialSecurity.generateSecurityToken(anyInt()))
-                .andReturn("token");
+        expect(socialSecurity.generateSecurityToken(anyInt(), anyString()))
+                .andReturn(testToken);
         replay(socialSecurity);
         replay(socialService);
         mockMvc.perform(
-                get("/token?login=login")
+                get("/token?login=" + testLogin)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().string("\"token\""));
+                .andExpect(content().string(new ObjectMapper().writeValueAsString(testToken)));
 
     }
 
     @Test
     public void testAddTokenOld() throws Exception {
-        expect(socialService.getUserByLogin("login")).andReturn(new User());
-        expect(socialSecurity.getToken(anyInt())).andReturn("token");
-        expect(socialSecurity.isTokenValid("token")).andReturn(true);
+        expect(socialService.getUserByLogin(testLogin)).andReturn(new User());
+        expect(socialSecurity.getToken(anyInt())).andReturn(testToken);
+        expect(socialSecurity.isTokenValid(testToken, null, null)).andReturn(true);
         replay(socialSecurity);
         replay(socialService);
         mockMvc.perform(
-                get("/token?login=login")
+                get("/token?login=" + testLogin)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().string("\"token\""));
+                .andExpect(content().string(new ObjectMapper().writeValueAsString(testToken)));
 
     }
 
     @Test
     public void testIsUserValidTrue() throws Exception {
-        expect(socialService.getUserByLogin("login"))
-                .andReturn(new User("login", "password"));
+        expect(socialService.getUserByLogin(testLogin))
+                .andReturn(testUser);
         replay(socialService);
         replay(socialSecurity);
-        String user = new ObjectMapper().writeValueAsString(new User("login", "password"));
+        String user = new ObjectMapper().writeValueAsString(testUser);
         mockMvc.perform(
                 post("/user/db")
                 .accept(MediaType.APPLICATION_JSON)
@@ -567,11 +577,11 @@ public class SocialRestControllerMockTest {
 
     @Test
     public void testIsUserValidFalse() throws Exception {
-        expect(socialService.getUserByLogin("login"))
-                .andReturn(new User("login", "password1"));
+        expect(socialService.getUserByLogin(testLogin))
+                .andReturn(new User(testLogin, testPassword));
         replay(socialService);
         replay(socialSecurity);
-        String user = new ObjectMapper().writeValueAsString(new User("login", "password2"));
+        String user = new ObjectMapper().writeValueAsString(new User(testLogin, testPassword + testUserId2));
         mockMvc.perform(
                 post("/user/db")
                 .accept(MediaType.APPLICATION_JSON)
@@ -588,7 +598,7 @@ public class SocialRestControllerMockTest {
     public void testGetUsersDtoByDate() throws Exception {
         Date date1 = getDate("2015-10-01");
         Date date2 = getDate("2015-11-01");
-        expect(socialSecurity.isTokenValid("token")).andReturn(true);
+        expect(socialSecurity.isTokenValid(testToken, null, null)).andReturn(true);
         expect(socialService.getSocialUsersDtoByDate(
                 date1,
                 date2))
@@ -600,28 +610,27 @@ public class SocialRestControllerMockTest {
                 post("/userdtobydate?datemin=2015-10-01&datemax=2015-11-01")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("\"token\"")
+                .content(new ObjectMapper().writeValueAsString(testToken))
                 )
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content()
-                        .string(dto));
+                .andExpect(content().string(dto));
     }
 
     @Test
     public void testGetUsersDtoByDateInvalidToken() throws Exception {
         Date date1 = getDate("2015-10-01");
         Date date2 = getDate("2015-11-01");
-        expect(socialSecurity.isTokenValid("token")).andReturn(false);
+        expect(socialSecurity.isTokenValid(testToken, null, null)).andReturn(false);
         replay(socialService);
         replay(socialSecurity);
         String dto = new ObjectMapper().writeValueAsString(new SocialDto());
         mockMvc.perform(
                 post("/userdtobydate?datemin=2015-10-01&datemax=2015-11-01")
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("\"token\"")
-        )
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(testToken))
+                )
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content()

@@ -8,6 +8,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -23,7 +24,12 @@ import java.lang.reflect.Method;
 public class SocialSecurityInterceptor {
     private static final Logger LOGGER =
     LogManager.getLogger(SocialSecurityInterceptor.class.getName());
-
+    @Value("${role.admin}")
+    private static String roleAdmin;
+    @Value("${role.user}")
+    private static String roleUser;
+    @Value("${role.temp}")
+    private static String roleTemp;
 
     public SocialSecurityInterceptor() {}
 
@@ -39,7 +45,7 @@ public class SocialSecurityInterceptor {
         LOGGER.info("Intercepting a checkToken process");
         Object[] argz = joinPoint.getArgs();
         String token = getToken(argz, joinPoint);
-        if (token != null && socialSecurity.isTokenValid(token)) {
+        if (token != null && socialSecurity.isTokenValid(token, roleAdmin, roleUser)) {
             LOGGER.info("Token is valid: {}", token);
             return joinPoint.proceed();
         }

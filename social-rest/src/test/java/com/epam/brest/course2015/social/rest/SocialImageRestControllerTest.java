@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.ActiveProfiles;
@@ -38,6 +39,23 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:social-image-rest-spring-mock-test.xml"})
 public class SocialImageRestControllerTest {
+    @Value("${test.url}")
+    private String url;
+    @Value("${test.url50}")
+    private String url50;
+    @Value("${test.url81}")
+    private String url81;
+    @Value("${test.imageId1}")
+    private Integer imageId;
+    @Value("${test.userId1}")
+    private Integer testUserId;
+    @Value("${test.userId2}")
+    private Integer testUserId2;
+    @Value("${test.token}")
+    private String testToken;
+
+    private Image image = new Image();
+
     @Resource
     private SocialImageRestController socialRestController;
 
@@ -50,6 +68,10 @@ public class SocialImageRestControllerTest {
 
     @Before
     public void setUp() throws Exception {
+        image.setUrl(url);
+        image.setUrl50(url50);
+        image.setUrl81(url81);
+        image.setImageId(imageId);
         mockMvc = standaloneSetup(socialRestController)
                 .setMessageConverters(new MappingJackson2HttpMessageConverter()).build();
     }
@@ -64,34 +86,37 @@ public class SocialImageRestControllerTest {
 
     @Test
     public void testAddImage() throws Exception {
-        expect(socialSecurity.isTokenValid(anyString())).andReturn(true);
-        expect(socialSecurity.getUserId(anyString())).andReturn(2);
-        expect(socialService.addImage(anyInt(), anyString(), anyString(), anyString())).andReturn(3);
+        expect(socialSecurity.isTokenValid(testToken, null, null)).andReturn(true);
+        expect(socialSecurity.getUserId(testToken)).andReturn(testUserId);
+        expect(socialService.addImage(testUserId, url, url50, url81)).andReturn(imageId);
         replay(socialService);
         replay(socialSecurity);
-        String token = new ObjectMapper().writeValueAsString("token");
+        String token = new ObjectMapper().writeValueAsString(testToken);
         mockMvc.perform(
-                post("/image/upload?url=url&url50=url50&url81=url81")
+                post("/image/upload?url=" + url +
+                        "&url50=" + url50 +
+                        "&url81=" + url81
+                        )
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(token)
                 )
                 .andDo(print())
                 .andExpect(status().isCreated())
-                .andExpect(content().string("3"));
+                .andExpect(content().string(imageId.toString()));
     }
 
     @Test
     public void testDeleteImage() throws Exception {
-        expect(socialSecurity.isTokenValid(anyString())).andReturn(true);
-        expect(socialSecurity.getUserId(anyString())).andReturn(2);
-        socialService.deleteImage(anyInt(), anyInt());
+        expect(socialSecurity.isTokenValid(testToken, null, null)).andReturn(true);
+        expect(socialSecurity.getUserId(testToken)).andReturn(testUserId);
+        socialService.deleteImage(testUserId, imageId);
         expectLastCall();
         replay(socialService);
         replay(socialSecurity);
-        String token = new ObjectMapper().writeValueAsString("token");
+        String token = new ObjectMapper().writeValueAsString(testToken);
         mockMvc.perform(
-                post("/image/delete?imageId=1")
+                post("/image/delete?imageId=" + imageId)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(token)
@@ -103,19 +128,19 @@ public class SocialImageRestControllerTest {
 
     @Test
     public void testRenameImage() throws Exception {
-        expect(socialSecurity.isTokenValid(anyString())).andReturn(true);
-        expect(socialSecurity.getUserId(anyString())).andReturn(2);
-        socialService.renameImage(2, "rename");
+        expect(socialSecurity.isTokenValid(testToken, null, null)).andReturn(true);
+        expect(socialSecurity.getUserId(testToken)).andReturn(testUserId);
+        socialService.renameImage(testUserId, url + imageId);
         expectLastCall();
         replay(socialService);
         replay(socialSecurity);
-        String token = new ObjectMapper().writeValueAsString("token");
+        String token = new ObjectMapper().writeValueAsString(testToken);
         mockMvc.perform(
-                post("/image/rename?name=rename")
+                post("/image/rename?name=" + url + imageId)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(token)
-        )
+                )
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(""));

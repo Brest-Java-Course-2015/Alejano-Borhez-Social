@@ -7,6 +7,7 @@ import com.epam.brest.course2015.social.service.SocialSecurity;
 import com.epam.brest.course2015.social.service.SocialService;
 import com.epam.brest.course2015.social.test.Logged;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
@@ -23,6 +24,12 @@ import java.util.Date;
 @CrossOrigin
 @RestController
 public class SocialRestController {
+    @Value("${role.admin}")
+    private static String roleAdmin;
+    @Value("${role.user}")
+    private static String roleUser;
+    @Value("${role.temp}")
+    private static String roleTemp;
 
     @Autowired
     private SocialService socialService;
@@ -173,12 +180,12 @@ public class SocialRestController {
             Integer userId = user.getUserId();
             String socialToken = socialSecurity.getToken(userId);
             if (socialToken == null) {
-                return socialSecurity.generateSecurityToken(userId);
-            } else if(socialSecurity.isTokenValid(socialToken)) {
+                return socialSecurity.generateSecurityToken(userId, roleTemp);
+            } else if(socialSecurity.isTokenValid(socialToken, roleUser, roleAdmin)) {
                 return socialToken;
             }
             else {
-                return socialSecurity.generateSecurityToken(userId);
+                return socialSecurity.generateSecurityToken(userId, roleUser);
             }
         } else {
             return null;
@@ -199,7 +206,7 @@ public class SocialRestController {
     @RequestMapping("token/validate")
     @Logged
     public boolean isTokenValid(@RequestBody String token) {
-        return socialSecurity.isTokenValid(token);
+        return socialSecurity.isTokenValid(token, roleUser, roleAdmin);
     }
 
     @SubscribeMapping(value = "/hello")

@@ -21,6 +21,8 @@ public class SocialTokenTest {
     private String testToken;
     @Value("${test.userId1}")
     private Integer testUserId;
+    @Value("${test.role}")
+    private String role;
 
     private static final Date TEST_DATE = new Date();
 
@@ -32,6 +34,19 @@ public class SocialTokenTest {
         token.setToken(testToken);
         assertNotNull(token.getToken());
         assertEquals(token.getToken(), testToken);
+    }
+
+    @Test
+    public void getRole() throws Exception {
+        token.setRole(role);
+        assertNotNull(token.getRole());
+        assertEquals((token.getRole()), SocialToken.Role.ADMIN);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void getRoleFail() throws Exception {
+        token.setRole(role + "abc");
+
     }
 
     @Test
@@ -50,12 +65,13 @@ public class SocialTokenTest {
 
     @Test
     public void testConstructor() throws Exception {
-        SocialToken socialToken = new SocialToken(testUserId, testToken);
+        SocialToken socialToken = new SocialToken(testUserId, testToken, role);
         assertNotNull(socialToken.getUserId());
         assertNotNull(socialToken.getToken());
         assertNotNull(socialToken.getExpires());
         assertEquals(socialToken.getToken(), testToken);
         assertEquals(socialToken.getUserId(), testUserId);
+        assertEquals(socialToken.getRole(), SocialToken.Role.valueOf(role));
         assertTrue(socialToken.getExpires().after(TEST_DATE));
 
     }

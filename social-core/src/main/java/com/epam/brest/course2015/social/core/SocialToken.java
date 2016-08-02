@@ -24,6 +24,17 @@ public class SocialToken {
                 pattern = "dd-MM-yyyy")
     @Temporal(TemporalType.TIMESTAMP)
     private Date expires;
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    @Logged
+    public Role getRole() {
+        return role;
+    }
+    @Logged
+    public void setRole(String role) {
+        this.role = Role.valueOf(Role.class, role);
+    }
 
     @Logged
     public String getToken() {
@@ -53,10 +64,33 @@ public class SocialToken {
     public SocialToken() {
     }
 
-    public SocialToken(Integer userId, String token) {
+    public SocialToken(Integer userId, String token, String role) {
         this.userId = userId;
         this.token = token;
+        this.role = Role.valueOf(Role.class, role);
         this.expires = DateUtils.addMonths(new Date(), 1);
+    }
+
+    public enum Role {
+        ADMIN ("ADMIN"),
+        USER ("USER"),
+        TEMP ("TEMP");
+
+        private final String code;
+
+        Role(String code) {
+            this.code = code;
+        }
+
+        @Override
+        public String toString() {
+            return "'" + code + '\'';
+        }
+
+        public String getCode() {
+            return code;
+        }
+
     }
 
     @Override
@@ -65,20 +99,22 @@ public class SocialToken {
         if (o == null || getClass() != o.getClass()) return false;
         SocialToken that = (SocialToken) o;
         return Objects.equals(getUserId(), that.getUserId()) &&
-                Objects.equals(getToken(), that.getToken());
+                Objects.equals(getToken(), that.getToken()) &&
+                getRole() == that.getRole();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getUserId(), getToken());
+        return Objects.hash(getUserId(), getToken(), getRole());
     }
 
     @Override
     public String toString() {
         return "SocialToken{" +
                 "userId=" + userId +
-                ", token='" + token + '\'' +
+                ", token='" + token.substring(0,10) + '\'' +
                 ", expires=" + expires +
+                ", role=" + role +
                 '}';
     }
 }

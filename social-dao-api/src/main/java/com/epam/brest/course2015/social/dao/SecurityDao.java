@@ -13,4 +13,5 @@ public interface SecurityDao {
     Integer getUserId(SocialToken token);
     SocialToken getToken(String token);
     SocialToken getTokenByUserId(Integer userId);
+
 }

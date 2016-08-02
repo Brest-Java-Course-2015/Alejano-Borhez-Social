@@ -11,6 +11,14 @@
        http://www.springframework.org/schema/aop/spring-aop.xsd
 
        ">
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath*:test-data.properties</value>
+                <value>classpath:security-roles.properties</value>
+            </list>
+        </property>
+    </bean>
 
     <bean id="socialService" class="org.easymock.EasyMock" factory-method="createMock">
         <constructor-arg value="com.epam.brest.course2015.social.service.SocialService"/>
