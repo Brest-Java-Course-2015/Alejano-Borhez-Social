@@ -25,11 +25,11 @@ public class SocialSecurityInterceptor {
     private static final Logger LOGGER =
     LogManager.getLogger(SocialSecurityInterceptor.class.getName());
     @Value("${role.admin}")
-    private static String roleAdmin;
+    private String roleAdmin;
     @Value("${role.user}")
-    private static String roleUser;
+    private String roleUser;
     @Value("${role.temp}")
-    private static String roleTemp;
+    private String roleTemp;
 
     public SocialSecurityInterceptor() {}
 
@@ -45,7 +45,7 @@ public class SocialSecurityInterceptor {
         LOGGER.info("Intercepting a checkToken process");
         Object[] argz = joinPoint.getArgs();
         String token = getToken(argz, joinPoint);
-        if (token != null && socialSecurity.isTokenValid(token, roleAdmin, roleUser)) {
+        if (token != null && socialSecurity.isTokenValid(token, roleUser, roleAdmin)) {
             LOGGER.info("Token is valid: {}", token);
             return joinPoint.proceed();
         }

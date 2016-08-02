@@ -21,7 +21,7 @@ public class SocialTokenTest {
     private String testToken;
     @Value("${test.userId1}")
     private Integer testUserId;
-    @Value("${test.role}")
+    @Value("${test.role1}")
     private String role;
 
     private static final Date TEST_DATE = new Date();

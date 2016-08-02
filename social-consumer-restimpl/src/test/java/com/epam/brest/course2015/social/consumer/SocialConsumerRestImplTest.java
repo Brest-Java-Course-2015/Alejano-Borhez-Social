@@ -12,10 +12,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
@@ -26,9 +26,17 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {SocialConsumerTestContext.class})
 public class SocialConsumerRestImplTest {
-    private static final Integer TEST_ID = 1;
-    private static final String TEST_TOKEN = "token";
-    private static final String TEST_NAME = "name";
+    @Value("${test.userId1}")
+    private Integer testId;
+    @Value("${test.token}")
+    private String testToken;
+    @Value("${test.firstName}")
+    private String testName;
+    @Value("${test.login}")
+    private String login;
+    @Value("${test.role1}")
+    private String role;
+
     private static final String TEST_DATE_MIN = "2015-10-01";
     private static final String TEST_DATE_MAX = "2015-10-02";
 
@@ -63,60 +71,60 @@ public class SocialConsumerRestImplTest {
                 + image.getUrl50()
                 + "&url81="
                 + image.getUrl81(),
-                "token", Integer.class))
-                .andReturn(TEST_ID);
+                testToken, Integer.class))
+                .andReturn(testId);
         replay(restTemplate);
-        Integer userId = socialConsumer.addImage(TEST_TOKEN, image.getUrl(), image.getUrl50(), image.getUrl81());
-        assertTrue(userId == TEST_ID);
+        Integer userId = socialConsumer.addImage(testToken, image.getUrl(), image.getUrl50(), image.getUrl81());
+        assertTrue(userId == testId);
     }
 
     @Test
     public void deleteUser() throws Exception {
-        restTemplate.delete(restPrefix + "user?id=" + TEST_ID);
+        restTemplate.delete(restPrefix + "user?id=" + testId);
         expectLastCall();
         replay(restTemplate);
-        socialConsumer.deleteUser(TEST_ID);
+        socialConsumer.deleteUser(testId);
     }
 
     @Test
     public void deleteImage() throws Exception {
-        expect(restTemplate.postForLocation(restPrefix + "image/delete?userId=" + TEST_ID, TEST_TOKEN))
+        expect(restTemplate.postForLocation(restPrefix + "image/delete?userId=" + testId, testToken))
                 .andReturn(new URI(restPrefix));
         replay(restTemplate);
-        socialConsumer.deleteImage(TEST_TOKEN, TEST_ID);
+        socialConsumer.deleteImage(testToken, testId);
     }
 
     @Test
     public void renameImage() throws Exception {
-        expect(restTemplate.postForLocation(restPrefix + "image/rename?name=" + TEST_NAME, TEST_TOKEN))
+        expect(restTemplate.postForLocation(restPrefix + "image/rename?name=" + testName, testToken))
                 .andReturn(new URI(restPrefix));
         replay(restTemplate);
-        socialConsumer.renameImage(TEST_TOKEN, TEST_NAME);
+        socialConsumer.renameImage(testToken, testName);
     }
 
     @Test
     public void deleteFriend() throws Exception {
-        expect(restTemplate.postForLocation(restPrefix + "friendship/delete?id2=" + TEST_ID, TEST_TOKEN))
+        expect(restTemplate.postForLocation(restPrefix + "friendship/delete?id2=" + testId, testToken))
                 .andReturn(new URI(restPrefix));
         replay(restTemplate);
-        socialConsumer.deleteFriend(TEST_TOKEN, TEST_ID);
+        socialConsumer.deleteFriend(testToken, testId);
     }
 
     @Test
     public void addFriendship() throws Exception {
-        expect(restTemplate.postForLocation(restPrefix + "friendship/add?id2=" + TEST_ID, TEST_TOKEN))
+        expect(restTemplate.postForLocation(restPrefix + "friendship/add?id2=" + testId, testToken))
                 .andReturn(new URI(restPrefix));
         replay(restTemplate);
-        socialConsumer.addFriendship(TEST_TOKEN, TEST_ID);
+        socialConsumer.addFriendship(testToken, testId);
     }
 
     @Test
     public void getAllUsersByDate() throws Exception {
         String url = restPrefix + "userdtobydate?datemin=" + TEST_DATE_MIN + "&datemax=" + TEST_DATE_MAX;
-        expect(restTemplate.postForObject(url, TEST_TOKEN, SocialDto.class))
+        expect(restTemplate.postForObject(url, testToken, SocialDto.class))
                 .andReturn(new SocialDto());
         replay(restTemplate);
-        Object test = socialConsumer.getAllUsersByDate(TEST_TOKEN, TEST_DATE_MIN, TEST_DATE_MAX);
+        Object test = socialConsumer.getAllUsersByDate(testToken, TEST_DATE_MIN, TEST_DATE_MAX);
         assertEquals(test.getClass(), SocialDto.class);
     }
 
@@ -145,9 +153,12 @@ public class SocialConsumerRestImplTest {
 
     }
 
-//    @Test
+    @Test
     public void isUserInDB() throws Exception {
-
+        expect(restTemplate.postForObject(restPrefix + "user/db", new User(testId), Boolean.class))
+                .andReturn(true);
+        replay(restTemplate);
+        assertTrue(socialConsumer.isUserInDB(new User(testId)));
     }
 
 //    @Test
@@ -155,9 +166,21 @@ public class SocialConsumerRestImplTest {
 
     }
 
-//    @Test
+    @Test
     public void getToken() throws Exception {
+        UriComponents uri = UriComponentsBuilder
+                .fromHttpUrl(restPrefix)
+                .path("token")
+                .queryParam("login", login)
+                .build();
 
+        String url = uri.toUriString();
+
+        expect(restTemplate.getForObject(url, String.class)).andReturn(testToken);
+        replay(restTemplate);
+
+
+        assertTrue(socialConsumer.getToken(login, role).equals(testToken));
     }
 
 //    @Test

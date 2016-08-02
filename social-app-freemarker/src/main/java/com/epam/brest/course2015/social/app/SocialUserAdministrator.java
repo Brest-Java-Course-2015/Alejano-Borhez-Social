@@ -39,9 +39,13 @@ public class SocialUserAdministrator {
     }
 
     @RequestMapping("approve")
-    public ModelAndView approveRegistration(@RequestParam("token") String token) {
-        ModelAndView mav = new ModelAndView("approve");
-
+    public ModelAndView approveRegistration(@RequestParam("token") String token,
+                                            HttpServletResponse resp) throws IOException {
+        ModelAndView mav = new ModelAndView("loginapprove");
+        if (token != null) {
+            String newToken = socialConsumer.tempTokenApprove(token);
+            mav.addObject("dto", socialConsumer.getUserDto(newToken));
+        }
         return mav;
     }
 
@@ -53,7 +57,7 @@ public class SocialUserAdministrator {
         ModelAndView mav = new ModelAndView("addusersubmit");
 
         if (socialConsumer.addUserSubmit(user)) {
-            String token = socialConsumer.getToken(user.getLogin());
+            String token = socialConsumer.getToken(user.getLogin(), "TEMP");
 // Setting a Cookie
             Cookie cookie = new Cookie("uid", token);
             cookie.setMaxAge(60 * 60 * 24);

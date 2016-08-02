@@ -8,7 +8,8 @@ import com.epam.brest.course2015.social.dto.SocialDto;
  * Created by alexander on 19.1.16.
  */
 public interface SocialConsumer {
-    String getToken(String login);
+    String getToken(String login, String role);
+    String tempTokenApprove(String token);
     SocialDto getUserDto(String token);
     SocialDto getAllFriends(String token);
     SocialDto getAllUsers(String token);

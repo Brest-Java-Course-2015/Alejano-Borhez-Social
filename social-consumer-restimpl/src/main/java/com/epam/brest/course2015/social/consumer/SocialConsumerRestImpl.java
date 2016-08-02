@@ -5,6 +5,7 @@ import com.epam.brest.course2015.social.dto.SocialDto;
 import com.epam.brest.course2015.social.test.Logged;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -152,8 +153,8 @@ public class SocialConsumerRestImpl implements SocialConsumer {
     public void changePassword(String token, String password) {
         UriComponents uriComponents = UriComponentsBuilder
                 .fromHttpUrl(restPrefix)
-                .path("user")
-                .path("{action}")
+                .pathSegment("user")
+                .pathSegment("{action}")
                 .queryParam("param", password)
                 .buildAndExpand("password");
 
@@ -165,10 +166,14 @@ public class SocialConsumerRestImpl implements SocialConsumer {
     @Override
     @Logged
     public void changeLogin(String token, String login) {
-        String url = restPrefix
-                + "user/login"
-                + "?param="
-                + login;
+        UriComponents uriComponents = UriComponentsBuilder
+                .fromHttpUrl(restPrefix)
+                .pathSegment("user")
+                .pathSegment("{action}")
+                .queryParam("param", login)
+                .buildAndExpand("login");
+
+        String url = uriComponents.toUriString();
 
         restTemplate.postForObject(url, token, Object.class);
     }
@@ -176,10 +181,14 @@ public class SocialConsumerRestImpl implements SocialConsumer {
     @Override
     @Logged
     public void changeFirstName(String token, String firstName) {
-        String url = restPrefix
-                + "user/firstname"
-                + "?param="
-                + firstName;
+        UriComponents uriComponents = UriComponentsBuilder
+                .fromHttpUrl(restPrefix)
+                .pathSegment("user")
+                .pathSegment("{action}")
+                .queryParam("param", firstName)
+                .buildAndExpand("firstname");
+
+        String url = uriComponents.toUriString();
 
         restTemplate.postForObject(url, token, Object.class);
     }
@@ -187,10 +196,14 @@ public class SocialConsumerRestImpl implements SocialConsumer {
     @Override
     @Logged
     public void changeLastName(String token, String lastName) {
-        String url = restPrefix
-                + "user/lastname"
-                + "?param="
-                + lastName;
+        UriComponents uriComponents = UriComponentsBuilder
+                .fromHttpUrl(restPrefix)
+                .pathSegment("user")
+                .pathSegment("{action}")
+                .queryParam("param", lastName)
+                .buildAndExpand("lastname");
+
+        String url = uriComponents.toUriString();
 
         restTemplate.postForObject(url, token, Object.class);
     }
@@ -198,8 +211,12 @@ public class SocialConsumerRestImpl implements SocialConsumer {
     @Override
     @Logged
     public SocialDto getAllNoFriendsOfAUser(String token) {
-        String url = restPrefix
-                + "/nofriendsdto";
+        UriComponents uriComponents = UriComponentsBuilder
+                .fromHttpUrl(restPrefix)
+                .path("nofriendsdto")
+                .build();
+
+        String url = uriComponents.toUriString();
 
         return restTemplate
                 .postForObject(url, token, SocialDto.class);
@@ -208,33 +225,67 @@ public class SocialConsumerRestImpl implements SocialConsumer {
     @Override
     @Logged
     public boolean isUserInDB(User user) {
-        String url = restPrefix
-                    + "user/db";
+        UriComponents uri = UriComponentsBuilder
+                .fromHttpUrl(restPrefix)
+                .pathSegment("user")
+                .pathSegment("db")
+                .build();
+
+        String url = uri.toUriString();
+
         return restTemplate.postForObject(url, user, Boolean.class);
     }
 
     @Override
     public boolean isTokenValid(String token) {
-        String url = restPrefix
-                + "token/validate";
+        UriComponents uri = UriComponentsBuilder
+                .fromHttpUrl(restPrefix)
+                .pathSegment("token")
+                .pathSegment("validate")
+                .build();
+
+        String url = uri.toUriString();
 
         return restTemplate.postForObject(url, token, Boolean.class);
     }
 
     @Override
-    public String getToken(String login) {
-        String url = restPrefix
-                + "token"
-                + "?login="
-                + login;
+    @Logged
+    public String getToken(String login, String role) {
+        SocialHeaderInterceptor.setRole(role);
+
+        UriComponents uri = UriComponentsBuilder
+                .fromHttpUrl(restPrefix)
+                .path("token")
+                .queryParam("login", login)
+                .build();
+
+        String url = uri.toUriString();
+
         return restTemplate.getForObject(url, String.class);
+    }
+
+    @Override
+    public String tempTokenApprove(String token) {
+        UriComponents uri = UriComponentsBuilder
+                .fromHttpUrl(restPrefix)
+                .pathSegment("token")
+                .pathSegment("temp")
+                .build();
+        String url = uri.toUriString();
+
+        return restTemplate.postForObject(url, token, String.class);
     }
 
     @Override
     @Logged
     public SocialDto getUserDto(String token) {
-        String url = restPrefix
-                + "/friendsdto";
+        UriComponents uri = UriComponentsBuilder
+                .fromHttpUrl(restPrefix)
+                .path("friendsdto")
+                .build();
+
+        String url = uri.toUriString();
 
         return restTemplate.postForObject(url, token, SocialDto.class);
     }
@@ -242,15 +293,26 @@ public class SocialConsumerRestImpl implements SocialConsumer {
     @Override
     @Logged
     public SocialDto getAllFriends(String token) {
-        String url = restPrefix
-                + "/friendsdto";
+        UriComponents uri = UriComponentsBuilder
+                .fromHttpUrl(restPrefix)
+                .path("friendsdto")
+                .build();
+
+        String url = uri.toUriString();
+
         return restTemplate.postForObject(url, token, SocialDto.class);
     }
 
     @Override
     @Logged
     public SocialDto getAllUsers(String token) {
-        String url = restPrefix + "userdto";
+        UriComponents uri = UriComponentsBuilder
+                .fromHttpUrl(restPrefix)
+                .path("userdto")
+                .build();
+
+        String url = uri.toUriString();
+
         return restTemplate.postForObject(url, token, SocialDto.class);
     }
 

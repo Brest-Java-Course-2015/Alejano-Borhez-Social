@@ -13,6 +13,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,11 +26,11 @@ import java.util.Date;
 @RestController
 public class SocialRestController {
     @Value("${role.admin}")
-    private static String roleAdmin;
+    private String roleAdmin;
     @Value("${role.user}")
-    private static String roleUser;
+    private String roleUser;
     @Value("${role.temp}")
-    private static String roleTemp;
+    private String roleTemp;
 
     @Autowired
     private SocialService socialService;
@@ -173,19 +174,21 @@ public class SocialRestController {
     }
     @RequestMapping("/token")
     @Logged
-    public String getToken(@RequestParam("login") String login) {
+    public String getToken(HttpServletRequest req,
+            @RequestParam("login") String login) {
+        String role = req.getHeader("Role");
 
         User user = socialService.getUserByLogin(login);
         if (user != null) {
             Integer userId = user.getUserId();
             String socialToken = socialSecurity.getToken(userId);
-            if (socialToken == null) {
+            if (socialToken == null || role == null) {
                 return socialSecurity.generateSecurityToken(userId, roleTemp);
-            } else if(socialSecurity.isTokenValid(socialToken, roleUser, roleAdmin)) {
+            } else if(socialSecurity.isTokenValid(socialToken, roleUser, roleAdmin, roleTemp)) {
                 return socialToken;
             }
             else {
-                return socialSecurity.generateSecurityToken(userId, roleUser);
+                return socialSecurity.generateSecurityToken(userId, role);
             }
         } else {
             return null;
@@ -203,11 +206,23 @@ public class SocialRestController {
         }
     }
 
-    @RequestMapping("token/validate")
+    @RequestMapping("/token/validate")
     @Logged
     public boolean isTokenValid(@RequestBody String token) {
         return socialSecurity.isTokenValid(token, roleUser, roleAdmin);
     }
+
+    @RequestMapping("/token/temp")
+    @Logged
+    public String tempToken(@RequestBody String token) {
+        String newToken = null;
+        if (socialSecurity.isTokenValid(token, roleTemp)) {
+            newToken = socialSecurity.generateSecurityToken(socialSecurity.getUserId(token), roleUser);
+        }
+        return newToken;
+    }
+
+
 
     @SubscribeMapping(value = "/hello")
     @Logged

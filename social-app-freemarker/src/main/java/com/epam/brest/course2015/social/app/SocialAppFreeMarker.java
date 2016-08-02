@@ -184,7 +184,7 @@ public class SocialAppFreeMarker {
         if (socialConsumer.isUserInDB(user)) {
 
 // Generating or receiving existing token
-            String token = socialConsumer.getToken(user.getLogin());
+            String token = socialConsumer.getToken(user.getLogin(), "USER");
 // Setting a Cookie
             Cookie cookie = new Cookie("uid", token);
             cookie.setMaxAge(60*60*24);

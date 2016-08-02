@@ -91,7 +91,13 @@
 
     <!-- Social Logger implementation -->
     <bean class="com.epam.brest.course2015.social.test.SocialLogger"/>
-    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate"/>
+    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+        <property name="interceptors">
+            <list>
+                <bean class="com.epam.brest.course2015.social.consumer.SocialHeaderInterceptor"/>
+            </list>
+        </property>
+    </bean>
 
     <!-- Social Mail implementation -->
     <bean class="com.epam.brest.course2015.social.mail.SocialMailImpl">

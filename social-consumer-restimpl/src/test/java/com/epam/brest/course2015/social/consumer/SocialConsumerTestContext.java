@@ -1,6 +1,7 @@
 package com.epam.brest.course2015.social.consumer;
 
 import com.epam.brest.course2015.social.core.Image;
+import com.epam.brest.course2015.social.core.User;
 import com.epam.brest.course2015.social.test.SocialLogger;
 import org.easymock.EasyMock;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
@@ -38,12 +39,18 @@ public class SocialConsumerTestContext {
     static PropertyPlaceholderConfigurer propertyPlaceholderConfigurer() {
         PropertyPlaceholderConfigurer conf = new PropertyPlaceholderConfigurer();
         conf.setIgnoreResourceNotFound(true);
-        conf.setLocations(new ClassPathResource("social-app.properties"));
+        conf.setLocations(new ClassPathResource("social-app.properties")
+                         , new ClassPathResource("test-data.properties", User.class.getClassLoader()));
         return conf;
     }
 
     @Bean
     SocialLogger socialLogger() {
         return new SocialLogger();
+    }
+
+    @Bean
+    SocialHeaderInterceptor interceptor() {
+        return new SocialHeaderInterceptor();
     }
 }

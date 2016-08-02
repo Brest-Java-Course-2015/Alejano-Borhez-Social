@@ -53,6 +53,10 @@ public class SocialImageRestControllerTest {
     private Integer testUserId2;
     @Value("${test.token}")
     private String testToken;
+    @Value("${test.role}")
+    private String testRole;
+    @Value("${test.role1}")
+    private String testRole1;
 
     private Image image = new Image();
 
@@ -86,7 +90,7 @@ public class SocialImageRestControllerTest {
 
     @Test
     public void testAddImage() throws Exception {
-        expect(socialSecurity.isTokenValid(testToken, null, null)).andReturn(true);
+        expect(socialSecurity.isTokenValid(testToken, testRole, testRole1)).andReturn(true);
         expect(socialSecurity.getUserId(testToken)).andReturn(testUserId);
         expect(socialService.addImage(testUserId, url, url50, url81)).andReturn(imageId);
         replay(socialService);
@@ -108,7 +112,7 @@ public class SocialImageRestControllerTest {
 
     @Test
     public void testDeleteImage() throws Exception {
-        expect(socialSecurity.isTokenValid(testToken, null, null)).andReturn(true);
+        expect(socialSecurity.isTokenValid(testToken, testRole, testRole1)).andReturn(true);
         expect(socialSecurity.getUserId(testToken)).andReturn(testUserId);
         socialService.deleteImage(testUserId, imageId);
         expectLastCall();
@@ -128,7 +132,7 @@ public class SocialImageRestControllerTest {
 
     @Test
     public void testRenameImage() throws Exception {
-        expect(socialSecurity.isTokenValid(testToken, null, null)).andReturn(true);
+        expect(socialSecurity.isTokenValid(testToken, testRole, testRole1)).andReturn(true);
         expect(socialSecurity.getUserId(testToken)).andReturn(testUserId);
         socialService.renameImage(testUserId, url + imageId);
         expectLastCall();

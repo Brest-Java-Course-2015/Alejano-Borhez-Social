@@ -66,7 +66,7 @@
 
 <#else>
 <div>
- Sorry, you are not logged in
+ Sorry, your
 </div>
 
 </#if>

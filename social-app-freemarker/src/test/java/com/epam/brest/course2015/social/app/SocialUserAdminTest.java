@@ -74,7 +74,7 @@ public class SocialUserAdminTest {
     @Test
     public void addUserSubmit() throws Exception {
         expect(socialConsumer.addUserSubmit(anyObject(User.class))).andReturn(true);
-        expect(socialConsumer.getToken(user.getLogin())).andReturn("token");
+        expect(socialConsumer.getToken(user.getLogin(), "TEMP")).andReturn("token");
         socialMail.sendApprovalEmail(anyString(), anyString(), anyObject(User.class));
         replay(socialConsumer);
         replay(socialMail);
