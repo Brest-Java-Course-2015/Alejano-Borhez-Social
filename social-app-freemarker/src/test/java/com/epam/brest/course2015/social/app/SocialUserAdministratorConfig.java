@@ -6,8 +6,12 @@ import com.epam.brest.course2015.social.mail.SocialMail;
 import com.epam.brest.course2015.social.test.Logged;
 import org.easymock.EasyMock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -18,8 +22,20 @@ import java.util.Map;
 /**
  * Created by alexander_borohov on 28.7.16.
  */
+@Configuration
 @ComponentScan(basePackageClasses = {SocialUserAdministrator.class})
-public class SocialUserAdministratorConfig {
+class SocialUserAdministratorConfig {
+    @Bean
+    PropertyPlaceholderConfigurer propertyPlaceholderConfigurer() {
+        PropertyPlaceholderConfigurer configurer = new PropertyPlaceholderConfigurer();
+        configurer.setLocations(new ClassPathResource("test-data.properties", User.class.getClassLoader()),
+                                new ClassPathResource("social-app.properties"),
+                                new ClassPathResource("cdn.properties"));
+        return configurer;
+    }
+
+
+
     @Bean
     @Logged
     SocialConsumer socialConsumer() {
@@ -32,26 +48,7 @@ public class SocialUserAdministratorConfig {
         return EasyMock.createMock(SocialMail.class);
     }
 
-    @Bean
-    @Logged
-    User user() {
-        return new User("testLogin", "testPassword", "Alex", "Borohov", 30, "test@mail.com");
-    }
 
-    @Bean
-    @Logged
-    MultiValueMap<String, String> userMap(@Autowired User user) {
-        Map map = new HashMap();
-            map.put("login", user.getLogin());
-            map.put("password", user.getPassword());
-            map.put("firstName", user.getFirstName());
-            map.put("lastName", user.getLastName());
-            map.put("age", user.getAge().toString());
-            map.put("email", user.getEmail());
 
-        MultiValueMap<String, String> returnedMap = new LinkedMultiValueMap<>();
-        returnedMap.setAll(map);
-        return returnedMap;
-    }
 
 }

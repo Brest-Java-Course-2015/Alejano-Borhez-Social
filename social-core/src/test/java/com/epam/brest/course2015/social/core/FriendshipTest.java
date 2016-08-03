@@ -8,6 +8,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Date;
+import java.util.Objects;
 
 import static org.junit.Assert.*;
 
@@ -56,6 +57,37 @@ public class FriendshipTest {
         assertEquals(Integer.class, testFriendship.getFriend2Id().getClass());
         assertNotNull(testFriendship.getCreatedDate());
         assertEquals(Date.class, testFriendship.getCreatedDate().getClass());
+
+    }
+
+    @Test
+    public void testEquals() throws Exception {
+        Friendship testFriendship1 = new Friendship(testFirstFriend, testSecondFriend);
+        Friendship testFriendship2 = new Friendship(testFirstFriend, testSecondFriend);
+        Friendship testFriendship3 = null;
+        Friendship testFriendship4 = testFriendship1;
+        assertFalse(testFriendship1.equals(testFriendship3));
+        assertFalse(testFriendship1.equals(new Friendship()));
+        assertFalse(testFriendship1.equals("testFriendship1"));
+        assertTrue(testFriendship1.equals(testFriendship2));
+        assertTrue(testFriendship1.equals(testFriendship4));
+        assertTrue(testFriendship2.equals(testFriendship1));
+    }
+
+    @Test
+    public void testToString() throws Exception {
+        Friendship testFriendship1 = new Friendship(testFirstFriend, testSecondFriend);
+        assertEquals(testFriendship1.toString(), "Friendship{" +
+                "friend1Id=" + testFirstFriend +
+                ", friend2Id=" + testSecondFriend +
+                '}');
+
+    }
+
+    @Test
+    public void testHashCode() throws Exception {
+        Friendship friendship = new Friendship(testFirstFriend, testSecondFriend);
+        assertEquals(friendship.hashCode(), Objects.hash(testFirstFriend, testSecondFriend));
 
     }
 }

@@ -19,21 +19,21 @@ if (confirm("Вы уверены, что хотите удалить польз�
 
 }
 
-function deleteImage(id, imageId)
+function deleteImage(imageId)
 {
-    if (confirm("Вы уверены, что хотите удалить фото №" + imageId + " из галереи пользователя № " + id + "?"))
+    if (confirm("Вы уверены, что хотите удалить фото №" + imageId + " из галереи пользователя ?"))
         {
-        console.log('deleteImage #' + imageId + ', ' + id);
-        var url = "gallery/delete" +  "?userId=" + id + "&imageId=" + imageId;
+        console.log('deleteImage #' + imageId + ', ');
+        var url = "gallery/delete" +  "?imageId=" + imageId;
         $.ajax({
-            type: 'DELETE',
+            type: 'POST',
             url: url,
             success: function (data, textStatus, jqXHR) {
                         alert('Image deleted successfully');
                         location.reload();
                     },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert('deleteImage error: ' + textStatus + userId + ': ' + url);
+                alert('deleteImage error: ' + textStatus + ': ' + url);
             }
         })
         }

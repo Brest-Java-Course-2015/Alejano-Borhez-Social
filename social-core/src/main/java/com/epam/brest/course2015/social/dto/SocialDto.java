@@ -85,8 +85,10 @@ public class SocialDto {
     @Override
     public String toString() {
         return "SocialDto{" +
-                "users=" + users.size() +
-                ", images=" + images.size() +
+                "users=" +
+                ((users != null)? users.size(): "empty") +
+                ", images=" +
+                ((images != null)? images.size(): "empty") +
                 ", totalUsers=" + totalUsers +
                 ", user=" + user +
                 '}';

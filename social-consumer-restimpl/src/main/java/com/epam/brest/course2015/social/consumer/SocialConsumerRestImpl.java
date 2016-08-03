@@ -50,7 +50,7 @@ public class SocialConsumerRestImpl implements SocialConsumer {
     public void deleteUser(Integer id) {
         UriComponents uriComponents = UriComponentsBuilder
                 .fromHttpUrl(restPrefix)
-                .path("user")
+                .path("/user")
                 .queryParam("id", id)
                 .build();
 
@@ -64,8 +64,8 @@ public class SocialConsumerRestImpl implements SocialConsumer {
     public void deleteImage(String token, Integer imageId) {
         UriComponents uriComponents = UriComponentsBuilder
                 .fromHttpUrl(restPrefix)
-                .path("image/delete")
-                .queryParam("userId", imageId)
+                .path("/image/delete")
+                .queryParam("imageId", imageId)
                 .build();
 
         String url = uriComponents.toUriString();
@@ -78,7 +78,7 @@ public class SocialConsumerRestImpl implements SocialConsumer {
     public void renameImage(String token, String name) {
         UriComponents uriComponents = UriComponentsBuilder
                 .fromHttpUrl(restPrefix)
-                .path("image/rename")
+                .path("/image/rename")
                 .queryParam("name", name)
                 .build();
 
@@ -97,7 +97,7 @@ public class SocialConsumerRestImpl implements SocialConsumer {
 
         UriComponents uriComponents = UriComponentsBuilder
                 .fromHttpUrl(restPrefix)
-                .path("userdtobydate")
+                .path("/userdtobydate")
                 .queryParams(params)
                 .build();
 
@@ -111,7 +111,7 @@ public class SocialConsumerRestImpl implements SocialConsumer {
     public void deleteFriend(String token, Integer id2) {
         UriComponents uriComponents = UriComponentsBuilder
                 .fromHttpUrl(restPrefix)
-                .path("friendship/{action}")
+                .path("/friendship/{action}")
                 .queryParam("id2", id2)
                 .buildAndExpand("delete");
 
@@ -125,7 +125,7 @@ public class SocialConsumerRestImpl implements SocialConsumer {
     public void addFriendship(String token, Integer id2) {
         UriComponents uriComponents = UriComponentsBuilder
                 .fromHttpUrl(restPrefix)
-                .path("friendship/{action}")
+                .path("/friendship/{action}")
                 .queryParam("id2", id2)
                 .buildAndExpand("add");
 
@@ -139,7 +139,7 @@ public class SocialConsumerRestImpl implements SocialConsumer {
     public boolean addUserSubmit(User user) {
         UriComponents uriComponents = UriComponentsBuilder
                 .fromHttpUrl(restPrefix)
-                .path("user")
+                .path("/user")
                 .build();
 
         String url = uriComponents.toUriString();
@@ -213,7 +213,7 @@ public class SocialConsumerRestImpl implements SocialConsumer {
     public SocialDto getAllNoFriendsOfAUser(String token) {
         UriComponents uriComponents = UriComponentsBuilder
                 .fromHttpUrl(restPrefix)
-                .path("nofriendsdto")
+                .path("/nofriendsdto")
                 .build();
 
         String url = uriComponents.toUriString();

@@ -483,6 +483,7 @@ public class SocialRestControllerMockTest {
     @Test (expected = NestedServletException.class)
     public void testUserActionInvalidAction() throws Exception {
         expect(socialSecurity.isTokenValid(testToken, testRole, testRole1)).andReturn(true);
+        expect(socialSecurity.getUserId(testToken)).andReturn(testUserId);
         replay(socialSecurity);
         replay(socialService);
         mockMvc.perform(
@@ -721,6 +722,23 @@ public class SocialRestControllerMockTest {
                 .andExpect(status().isOk())
                 .andExpect(content()
                         .string(""));
+    }
+
+    @Test
+    public void testGetUsersDtoByDateParseException() throws Exception {
+        expect(socialSecurity.isTokenValid(testToken, testRole, testRole1)).andReturn(true);
+        replay(socialService);
+        replay(socialSecurity);
+        String dto = new ObjectMapper().writeValueAsString(new SocialDto());
+        mockMvc.perform(
+                post("/userdtobydate?datemin=2015-10&datemax=2015-11")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(testToken))
+        )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string(""));
     }
 
 

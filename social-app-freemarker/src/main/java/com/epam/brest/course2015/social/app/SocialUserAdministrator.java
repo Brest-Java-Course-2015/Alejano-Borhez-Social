@@ -42,10 +42,12 @@ public class SocialUserAdministrator {
     public ModelAndView approveRegistration(@RequestParam("token") String token,
                                             HttpServletResponse resp) throws IOException {
         ModelAndView mav = new ModelAndView("loginapprove");
-        if (token != null) {
-            String newToken = socialConsumer.tempTokenApprove(token);
+
+        String newToken = socialConsumer.tempTokenApprove(token);
+        if (newToken != null) {
             mav.addObject("dto", socialConsumer.getUserDto(newToken));
         }
+
         return mav;
     }
 

@@ -88,7 +88,7 @@ public class SocialConsumerRestImplTest {
 
     @Test
     public void deleteImage() throws Exception {
-        expect(restTemplate.postForLocation(restPrefix + "image/delete?userId=" + testId, testToken))
+        expect(restTemplate.postForLocation(restPrefix + "image/delete?imageId=" + testId, testToken))
                 .andReturn(new URI(restPrefix));
         replay(restTemplate);
         socialConsumer.deleteImage(testToken, testId);

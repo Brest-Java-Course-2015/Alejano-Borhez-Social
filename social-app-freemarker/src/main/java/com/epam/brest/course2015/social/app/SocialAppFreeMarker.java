@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -28,13 +29,10 @@ public class SocialAppFreeMarker {
         resp.addCookie(referer);
     }
 
-
-
     @Value("${rest.prefix}")
     private String restPrefix;
     @Value("${security.uid}")
     private String uid;
-
 
     @Autowired
     private SocialConsumer socialConsumer;
@@ -168,6 +166,9 @@ public class SocialAppFreeMarker {
     @Logged
     public ModelAndView login(HttpServletRequest req,
                               HttpServletResponse resp) {
+        Cookie[] cookies = req.getCookies();
+        Cookie cookie1 = WebUtils.getCookie(req, "uid");
+
         Cookie cookie = new Cookie(uid, "");
         cookie.setMaxAge(0);
         resp.addCookie(cookie);

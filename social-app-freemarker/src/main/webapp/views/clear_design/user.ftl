@@ -41,7 +41,7 @@
 
                                 <#list dto.user.images as image>
                                         <div id="image-${image.imageId}" class="masonry-thumb">
-                                            <a title="Click to delete" href="#" onclick="deleteImage(${dto.user.userId}, ${image.imageId})">
+                                            <a title="Click to delete" href="#" onclick="deleteImage(${image.imageId})">
                                                 <img class="grayscale" src="${image.url}" alt="Image ${image.imageId}">
                                             </a>
                                         </div>

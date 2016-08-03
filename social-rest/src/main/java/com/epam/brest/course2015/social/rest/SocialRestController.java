@@ -62,7 +62,7 @@ public class SocialRestController {
     public void userActions(@PathVariable String action,
                             @RequestBody String token,
                             @RequestParam(value = "param")
-                                         String param) {
+                                         String param) throws IllegalArgumentException {
             Integer id = socialSecurity.getUserId(token);
             switch (action) {
                 case "password":
@@ -121,8 +121,12 @@ public class SocialRestController {
             @RequestParam("datemax") String dateMax) {
             Date date1 = getDate(dateMin);
             Date date2 = getDate(dateMax);
-            return socialService.getSocialUsersDtoByDate(date1
-                                                       , date2);
+            if (date1 != null && date2 != null) {
+                return socialService.getSocialUsersDtoByDate(date1
+                        , date2);
+            } else {
+                return null;
+            }
     }
 
     @RequestMapping(value = "/userdto",
@@ -195,17 +199,6 @@ public class SocialRestController {
         }
     }
 
-    @Logged
-    private static Date getDate(String date) {
-        try {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            return formatter.parse(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     @RequestMapping("/token/validate")
     @Logged
     public boolean isTokenValid(@RequestBody String token) {
@@ -222,11 +215,20 @@ public class SocialRestController {
         return newToken;
     }
 
-
-
     @SubscribeMapping(value = "/hello")
     @Logged
     public User sayHello (String name) {
         return new User("login", "paswrd", "Alex", "Borohov", 30, "login@email.com");
+    }
+
+    @Logged
+    private static Date getDate(String date) {
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            return formatter.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

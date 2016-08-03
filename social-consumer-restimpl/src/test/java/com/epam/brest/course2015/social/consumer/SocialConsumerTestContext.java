@@ -40,7 +40,7 @@ public class SocialConsumerTestContext {
         PropertyPlaceholderConfigurer conf = new PropertyPlaceholderConfigurer();
         conf.setIgnoreResourceNotFound(true);
         conf.setLocations(new ClassPathResource("social-app.properties")
-                         , new ClassPathResource("test-data.properties", User.class.getClassLoader()));
+                         , new ClassPathResource("test-data.properties", SocialLogger.class.getClassLoader()));
         return conf;
     }
 
